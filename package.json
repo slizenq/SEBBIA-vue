@@ -17,5 +17,8 @@
     "shallow-equal-object": "^1.1.1",
     "ts-proto": "^1.181.1",
     "vue": "latest"
+  },
+  "devDependencies": {
+    "@sidebase/nuxt-auth": "^0.8.1"
   }
 }
