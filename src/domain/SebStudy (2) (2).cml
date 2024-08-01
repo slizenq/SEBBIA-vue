@@ -190,7 +190,7 @@ BoundedContext Auth {
         ValueObject Title {
             - string title
             // Название компании
-            // от 1 до 100 символов
+            // от 1 до 100 символов, без денежных знаков, только кириллица
         }
 
         ValueObject FoundationDate {
