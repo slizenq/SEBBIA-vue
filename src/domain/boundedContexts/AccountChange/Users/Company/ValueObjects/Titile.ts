@@ -11,7 +11,7 @@ export class Title extends ValueObject<ITitle> {
 
   public static create(title: string): Title {
     const titleMoneyRegex = /[€$£¥₽₹¢₩₪฿₫₭₦₱₲₴₸₮₯₠₡₣₤]/;
-    let titleKirilitsaRegex ;
+    let titleKirilitsaRegex = /\b[a-zA-Z]+\b/;
 
     if (title.length <= 1) {
       throw new Error("Название компании слишком короткое");
@@ -19,8 +19,11 @@ export class Title extends ValueObject<ITitle> {
       throw new Error("Название компании слишком длинное");
     } else if (title.match(titleMoneyRegex)) {
       throw new Error("Название компании не должно содержать денежных знаков");
-    }
-    else {
+    } else if (title.match(titleKirilitsaRegex)) {
+      throw new Error(
+        "Название компании должно быть написано только с использованием киррилицы"
+      );
+    } else {
       return new Title({ value: title });
     }
   }
