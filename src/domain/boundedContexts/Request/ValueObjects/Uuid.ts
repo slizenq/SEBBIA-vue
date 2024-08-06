@@ -1,11 +1,11 @@
-import { ValueObject } from "./ValueObject";
+import { ValueObject } from "~/src/domain/Templates/ValueObject";
 import { v4 as uuidv4, validate as uuidValidate } from "uuid";
 
 interface IUuidProps {
     value: string;
 }
 
-class Uuid extends ValueObject<IUuidProps> {
+export class Uuid extends ValueObject<IUuidProps> {
     private constructor(props: IUuidProps) {
         super(props);
     }
@@ -22,5 +22,3 @@ class Uuid extends ValueObject<IUuidProps> {
         return new Uuid({ value: uuid });
     }
 }
-
-export { Uuid };

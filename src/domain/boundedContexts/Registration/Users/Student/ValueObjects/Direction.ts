@@ -1,10 +1,10 @@
-import { ValueObject } from "./ValueObject";
+import { ValueObject } from "~/src/domain/Templates/ValueObject";
 
 interface IDirection {
     value: string;
 }
 
-class Direction extends ValueObject<IDirection> {
+export class Direction extends ValueObject<IDirection> {
     private constructor(props: IDirection) {
         super(props);
     }
@@ -18,6 +18,3 @@ class Direction extends ValueObject<IDirection> {
         }
     }
 }
-
-export { Direction };
-//
