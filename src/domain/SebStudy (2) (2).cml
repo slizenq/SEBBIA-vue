@@ -107,7 +107,6 @@ BoundedContext Resume {
 
         Entity Resume {
             aggregateRoot 
-
             - required ResumeId resumeId
             - required FirstName firstName
             - required LastName lastName
@@ -277,6 +276,8 @@ BoundedContext Auth {
         Entity AccountCompany {
             aggregateRoot
 
+            - required Login login
+            - required Password password
             - required Title title
             - optional FoundationDate foundationDate
             - optional AboutCompany aboutCompany
@@ -453,8 +454,6 @@ BoundedContext AccountChange {
             - required Title title
             - optional FoundationDate foundationDate
             - optional AboutCompany aboutCompany
-            - required Login login
-            - required Password password
             - required TypeCompany typeCompany
             - required Location location 
             
@@ -521,5 +520,4 @@ BoundedContext SelectionRequests {
         - Status status
         - Date timestamp
     }
-
 }
