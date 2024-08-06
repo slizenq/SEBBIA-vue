@@ -1,10 +1,10 @@
-import { ValueObject } from "./ValueObject";
+import { ValueObject } from "~/src/domain/Templates/ValueObject";
 
 interface ICompanyIdProps {
     value: string;
 }
 
-class CompanyId extends ValueObject<ICompanyIdProps> {
+export class CompanyId extends ValueObject<ICompanyIdProps> {
     private constructor(props: ICompanyIdProps) {
         super(props);
     }
@@ -17,5 +17,3 @@ class CompanyId extends ValueObject<ICompanyIdProps> {
         return new CompanyId({ value: companyId });
     }
 }
-
-export { CompanyId };

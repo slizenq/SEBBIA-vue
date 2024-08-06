@@ -1,10 +1,10 @@
-import { ValueObject } from "./ValueObject";
+import { ValueObject } from "~/src/domain/Templates/ValueObject";
 
 interface IBornDate {
     value: number;
 }
 
-class BornDate extends ValueObject<IBornDate> {
+export class BornDate extends ValueObject<IBornDate> {
     private constructor(props: IBornDate) {
         super(props);
     }
@@ -22,5 +22,3 @@ class BornDate extends ValueObject<IBornDate> {
         }
     }
 }
-
-export { BornDate };

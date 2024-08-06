@@ -1,10 +1,10 @@
-import { ValueObject } from "./ValueObject";
+import { ValueObject } from "~/src/domain/Templates/ValueObject";
 
 interface IResumeIdProps {
     value: string;
 }
 
-class ResumeId extends ValueObject<IResumeIdProps> {
+export class ResumeId extends ValueObject<IResumeIdProps> {
     private constructor(props: IResumeIdProps) {
         super(props);
     }
@@ -17,5 +17,3 @@ class ResumeId extends ValueObject<IResumeIdProps> {
         return new ResumeId({ value: resumeId });
     }
 }
-
-export { ResumeId };
