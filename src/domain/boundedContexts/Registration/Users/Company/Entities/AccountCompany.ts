@@ -9,6 +9,8 @@ import type { ExpectedSkills } from "../ValueObjects/ExpectedSkills";
 import type { AboutPractice } from "../ValueObjects/AboutPracrice";
 import type { AboutProjects } from "../ValueObjects/AboutProjects";
 import type { Directions } from "../ValueObjects/Directions";
+import type { Login } from "../../../ValueObjects/Login";
+import type { Password } from "../../../ValueObjects/Password";
 
 export interface AccountCompanyProps {
   title: Title;
