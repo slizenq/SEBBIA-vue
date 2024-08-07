@@ -5,20 +5,16 @@ interface IUuidProps {
   value: string;
 }
 
-export class Uuid extends ValueObject<IUuidProps> {
+export class ReqestId extends ValueObject<IUuidProps> {
   private constructor(props: IUuidProps) {
     super(props);
   }
 
-  public static create(uuid: string): Uuid {
-    if (!uuid) {
-      uuid = uuidv4(); // Генерация нового UUID, если не предоставлен
-    }
-
-    if (!uuidValidate(uuid) && uuid) {
+  public static create(uuidValue: string): ReqestId {
+    if (!uuidValidate(uuidValue)) {
       throw new Error("Неверный формат UUID.");
     } else {
-      return new Uuid({ value: uuid });
+      return new ReqestId({ value: uuidValue });
     }
   }
 }
