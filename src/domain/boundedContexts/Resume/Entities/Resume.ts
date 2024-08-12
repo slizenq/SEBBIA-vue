@@ -10,27 +10,29 @@ import type { Education } from "../ValueObjects/Education";
 import type { AboutProject } from "../ValueObjects/AboutProject";
 import type { AboutMe } from "../ValueObjects/AboutMe";
 import type { Portfolio } from "../ValueObjects/Portfolio";
+import type { BornDate } from "../ValueObjects/BornDate";
 
 export interface ResumeProps {
   //   resumeId: ResumeId;
   firstName: FirstName;
   lastName: LastName;
   middleName?: MidleName;
-  direction: Direction;
-  photo?: Photo;
   phone: PhoneNumber;
-  skills?: Skills;
+  bornDate: BornDate;
   education: Education;
-  aboutProject?: AboutProject;
   aboutMe?: AboutMe;
+  skills?: Skills;
+  photo?: Photo;
+  direction: Direction;
+  aboutProject?: AboutProject;
   portfolio?: Portfolio;
 }
 
 export class Resume extends Entity<ResumeProps> {
   private constructor(props: ResumeProps) {
     super(props);
-    this.props.photo = props.photo;
     // this.props.resumeId = props.resumeId;
+    this.props.photo = props.photo;
     this.props.direction = props.direction;
     this.props.skills = props.skills;
     this.props.education = props.education;
@@ -40,6 +42,7 @@ export class Resume extends Entity<ResumeProps> {
     this.props.lastName = props.lastName;
     this.props.middleName = props.middleName;
     this.props.phone = props.phone;
+    this.props.bornDate = props.bornDate;
     this.props.portfolio = props.portfolio;
   }
 
@@ -53,6 +56,8 @@ export class Resume extends Entity<ResumeProps> {
     } else if (props.education === null || props.education === undefined) {
       throw new Error("Обязательное поле");
     } else if (props.direction === null || props.direction === undefined) {
+      throw new Error("Обязательное поле");
+    } else if (props.bornDate === null || props.bornDate === undefined) {
       throw new Error("Обязательное поле");
     } else {
       return new Resume(props);
