@@ -17,7 +17,12 @@
   font-size: 16px;
   text-decoration: none;
 }
-a {
+body {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+h1, p, a {
   color: #303133;
 }
 .container {
