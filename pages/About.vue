@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img src="assets\images\347091966166791.jpeg" alt="">
+        1
         <!-- <NuxtLink to="/">dadsd</NuxtLink> -->
     </div>
 </template>
