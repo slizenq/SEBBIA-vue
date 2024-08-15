@@ -14,14 +14,13 @@
 						<NuxtLink to="/about" :class="{ 'home-color': $route.path === '/about' }" class="element">Компании</NuxtLink>
 					</div>
 				</div>
-				<Auth class="right__part"/>
+				<Auth class="right__part" @open-dialog="openDialog"/>
 			</div>
     	</div>
   	</div>
 </template>
 
 <script>
-import { defineComponent } from "vue";
 import Auth from "./UI/Auth.vue";
 
 export default defineComponent({
