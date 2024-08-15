@@ -5,7 +5,6 @@
           <el-input
             v-model="input"
             :placeholder="printedText"
-            :prefix-icon="SearchIco"
           />
         </div>
         <el-button type="primary">Найти компанию</el-button>
