@@ -1,5 +1,5 @@
 <template>
-    <el-card style="width: 530px">
+    <el-card style="width: 480px">
     <template #header>
         <div class="header_box">
             <div class="header__left-part">

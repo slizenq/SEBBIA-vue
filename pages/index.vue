@@ -11,9 +11,9 @@
             <Slider/>
             <DropdownList/>
             <div class="company__list">
-                <!-- <div v-for="item in 6" :key="item"> -->
+                <div v-for="item in 6" :key="item">
                     <Card/>
-                <!-- </div> -->
+                </div>
             </div>
         </div>
     </div>
