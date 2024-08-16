@@ -64,7 +64,7 @@
 import { ElCard, ElButton } from "element-plus";
 import Tag from "./companyCreateResume/Tag.vue";
 import { TopRight } from "@element-plus/icons-vue";
-import SkillsTag from "./companyCreateResume/SkillsTag.vue";
+import SkillsTag from "./companyCreateResume/skillsTag/SkillsTag";
 </script>
 
 <style scoped>
