@@ -11,7 +11,7 @@
             <Slider/>
             <DropdownList/>
             <div class="company__list">
-                <!-- <div v-for="(post, index) in currentPost.slice(0, defaultPost)" :key="index"> -->
+                <!-- <div v-for="item in 6" :key="item"> -->
                     <Card/>
                 <!-- </div> -->
             </div>
@@ -55,6 +55,7 @@ export default {
 }
 .hero__title {
     font-size: 32px;
+    color: #409EFF;
 }
 .hero__desc {
     margin-top: 30px;

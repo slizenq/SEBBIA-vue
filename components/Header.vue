@@ -4,7 +4,7 @@
 			<div class="header__wrap">
 				<div class="left__part">
 					<img src="./../assets/images/logo.svg" alt="logo" class="left__part-logo"/>
-					<p class="left__part-name">твой эйчар</p>
+					<p class="left__part-name">Звали <span class="logo__text-color">эй</span>чара?</p>
 				</div>
 				<div class="middle__part">
 					<div :class="{ 'home-bottom': $route.path === '/' }" class="even">
@@ -31,6 +31,9 @@ export default defineComponent({
 </script>
 
 <style>
+.logo__text-color {
+	color: #409EFF;
+}
 .home-color {
 	color: #409EFF;
 }
