@@ -1,5 +1,5 @@
 <template>
-    <el-card style="width: 552px; height: 292px; outline: 1px solid red">
+    <el-card style="width: 552px; height: 292px">
         <template #header>
             <div class="header_box">
                 <div class="header__left-part">
@@ -159,7 +159,7 @@ const company = ref("Sebbia");
     padding-inline: 8px;
 }
 
-.card-info__skils{
+.card-info__skils {
     display: flex;
     flex-direction: row;
     gap: 8px;
