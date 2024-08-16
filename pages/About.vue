@@ -2,7 +2,7 @@
     <div class="container">
         <div class="BreadCrumb"><BreadCrumb/></div>
         <div class="about-search"><Search/></div>
-        <div class="DropdownList"><DropdownList/></div>
+        <div class="about-dropdownlist"><DropdownList/></div>
         <div class="company__list">
             <div v-for="item in 9" :key="item">
                 <Card/>
@@ -19,6 +19,9 @@ import Search from '~/components/UI/Search.vue';
 </script>
 
 <style>
+.about-dropdownlist {
+    margin-top: 40px;
+}
 .BreadCrumb {
     margin-top: 80px;
 }

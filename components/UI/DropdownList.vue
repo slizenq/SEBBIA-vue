@@ -1,14 +1,12 @@
 <template>
-    <div class="DropDownList">
-        <el-select-v2
-        v-model="value"
-        :options="options"
-        placeholder="Выберите город"
-        style="width: 240px; margin-right: 16px; vertical-align: middle"
-        multiple
-        clearable
-    />
-    </div>
+<el-select-v2
+    v-model="value"
+    :options="options"
+    placeholder="Выберите город"
+    style="width: 240px; margin-right: 16px; vertical-align: middle"
+    multiple
+    clearable
+/>
 </template>
 
 <script setup>
@@ -30,8 +28,5 @@ const options = cities.map((city, idx) => ({
 <style scoped>
 .el-select-v2__selected-item .custom-option {
   color: #409eff;
-}
-.DropDownList {
-  margin-top: 80px;
 }
 </style>

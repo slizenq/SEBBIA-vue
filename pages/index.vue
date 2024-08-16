@@ -15,7 +15,7 @@
             </div>
             <div class="index-search"> <Search /> </div>
             <Slider />
-            <DropdownList />
+            <div class="index-dropdownlist"> <DropdownList /> </div>
             <div class="company__list">
                 <div v-for="item in 9" :key="item">
                     <Card/>
@@ -33,6 +33,9 @@ import Card from "~/components/card/Card.vue";
 </script>
 
 <style>
+.index-dropdownlist {
+    margin-top: 80px;
+}
 .company__list {
     margin: 50px auto 0;
     display: flex;
