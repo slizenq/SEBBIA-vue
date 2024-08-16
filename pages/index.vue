@@ -13,9 +13,7 @@
                     нашей помощью!
                 </p>
             </div>
-            <div class="find__practice">
-                <Search />
-            </div>
+            <div class="index-search"> <Search /> </div>
             <Slider />
             <DropdownList />
             <div class="company__list">
@@ -42,10 +40,8 @@ import Card from "~/components/card/Card.vue";
     flex-wrap: wrap;
     gap: 30px;
 }
-.find__practice {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.index-search {
+    margin-top: 100px;
 }
 .hero {
     width: 48vw;
