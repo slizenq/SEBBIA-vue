@@ -9,19 +9,9 @@
     </el-tag>
 </template>
 
-<script>
+<script setup>
 import { ElTag } from "element-plus";
 import { ref } from "vue";
 
-export default {
-    components: {
-        ElTag,
-    },
-    setup() {
-        const items = ref([{ type: "info", label: "Айти" }]);
-        return {
-            items,
-        };
-    },
-};
+const items = ref([{ type: "info", label: "Айти" }]);
 </script>

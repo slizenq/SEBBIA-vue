@@ -32,7 +32,7 @@ body {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
-    padding-inline: clamp(10px, 4vw, 92px);
+    /* padding-inline: clamp(10px, 4vw, 92px); */
 }
 h1,
 p,
@@ -40,10 +40,7 @@ a {
     color: #303133;
 }
 .container {
-    /* outline: 1px solid red; */
     width: 90vw;
-    /* max-width: 1736px; */
     margin: 0 auto;
-    /* margin-inline: clamp(15px, 5vw, 92px); */
 }
 </style>

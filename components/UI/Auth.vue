@@ -7,26 +7,12 @@
     </el-dialog>
   </template>
   
-  <script>
+  <script setup>
   import { ElButton, ElDialog } from "element-plus";
   import { ref } from "vue";
   
-  export default {
-    components: {
-      ElButton,
-      ElDialog,
-    },
-    setup() {
-      const outerVisible = ref(false);
-  
-      const openDialog = () => {
-        outerVisible.value = true; 
-      };
-  
-      return {
-        outerVisible,
-        openDialog,
-      };
-    },
-  };
-  </script>
+const outerVisible = ref(false);
+const openDialog = () => {
+    outerVisible.value = true; 
+};
+</script>

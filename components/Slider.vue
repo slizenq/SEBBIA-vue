@@ -8,15 +8,8 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import { ElCarousel, ElCarouselItem } from 'element-plus';
-
-export default {
-    components: {
-        ElCarousel,
-        ElCarouselItem
-    }
-}
 </script>
 
 <style scoped>
