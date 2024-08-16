@@ -33,61 +33,61 @@
     </div>
 </template>
    
-   <script>
+<script>
    import { ElButton } from "element-plus";
    
-   export default {
-    components: {
-      ElButton,
+export default {
+        components: {
+        ElButton,
     },
-   };
-   </script>
+};
+</script>
    
-   <style scoped>
-   .el-button {
+<style scoped>
+.el-button {
     padding: 20px 5px;
-   }
-   .part-element-desc {
+}
+.part-element-desc {
     font-weight: 700;
     color: #303133;
-   }
-   .part-element-title {
+}
+.part-element-title {
     color: #a8abb2;
     font-weight: 500;
     padding: 7px 0 7px 0;
-   }
-   .wrap {
+}
+.wrap {
     display: flex;
     justify-content: space-between;
     align-items: center;
-   }
-   .current-page {
+}
+.current-page {
     font-weight: 700;
     padding: 7px 0 7px 0;
-   }
-   .logo-desc {
+}
+.logo-desc {
     margin-bottom: 20px;
    }
-   .footer__up {
+.footer__up {
     border-bottom: 3px solid rgba(64, 158, 255, 0.1);
-   }
-   .footer__up-left-part {
+}
+.footer__up-left-part {
     display: flex;
     padding: 60px 0 20px 0;
     gap: 40px;
-   }
-   .footer-up-security {
+}
+.footer-up-security {
     color: #409eff;
     padding: 30px 0;
-   }
-   .footer-down {
+}
+.footer-down {
     color: #409eff;
     padding: 30px 0 60px;
-   }
-   .footer {
+}
+.footer {
     margin-top: 42px;
     background-color: #d5e6f8;
     width: 100%;
-   }
-   </style>
+}
+</style>
    
