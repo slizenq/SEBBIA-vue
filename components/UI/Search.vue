@@ -26,7 +26,7 @@ const printedText = ref("Напиши место практики");
 }
 .el-input {
     max-width: 1561px;
-    width: 70vw;
+    width: 65vw;
     height: 40px;
 }
 .el-input__inner {
@@ -38,5 +38,6 @@ const printedText = ref("Напиши место практики");
     justify-content: space-around;
     gap: 20px;
     width: 90vw;
+    max-width: 1735px;
 }
 </style>
