@@ -61,7 +61,7 @@
                 <el-button type="primary" class="primary"
                     >Отправить резюме</el-button
                 >
-                <el-button type="default" :icon="TopRight" : />
+                <el-button type="default" :icon="TopRight"/>
             </div>
         </div>
     </el-card>

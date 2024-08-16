@@ -28,7 +28,7 @@
                 </p>
             </div>
             <p class="footer-down">©2024 Team Practice</p>
-        </div>
+            </div>
         </div>
     </div>
 </template>
