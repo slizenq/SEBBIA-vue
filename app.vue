@@ -1,11 +1,22 @@
 <template>
-    <div id="app">
-        <Header></Header>
-        <NuxtPage></NuxtPage>
-    </div>
+
+  <div id="app">
+    <Header></Header>
+    <NuxtPage></NuxtPage>
+    <Footer></Footer>
+  </div>
+
 </template>
 
-<script></script>
+<script>
+import Footer from './components/Footer.vue';
+
+export default {
+  components: {
+    Footer
+  }
+}
+</script>
 
 <style>
 @import url("https://unpkg.com/element-plus/dist/index.css");

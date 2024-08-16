@@ -1,4 +1,5 @@
 <template>
+
     <el-card style="width: 530px">
         <template #header>
             <div class="header_box">
@@ -12,6 +13,7 @@
                 <div>
                     <Tag />
                 </div>
+
             </div>
         </template>
 
@@ -64,8 +66,8 @@
         </div>
     </el-card>
 </template>
-
 <script>
+
 import { ElCard } from "element-plus";
 import Tag from "./companyCreateResume/Tag.vue";
 import { ElButton } from "element-plus";
@@ -79,9 +81,34 @@ export default {
         TopRight,
     },
 };
+
 </script>
 
 <style scoped>
+.call__rezume {
+    display: flex;
+    align-items: start;
+    justify-content: end;
+    gap: 10px;
+}
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px
+}
+.requirements__elem {
+    margin: 20px 0 20px 0;
+    display: flex;
+    gap: 7px;
+}
+.card__desc {
+    color: #606266;
+    font-size: 19px;
+}
+.desc__bold {
+    font-weight: 500;
+    display: block;
+}
 .header_box {
     display: flex;
     justify-content: space-between;

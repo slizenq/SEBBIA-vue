@@ -19,9 +19,12 @@
             <Slider />
             <DropdownList />
             <div class="company__list">
-                <!-- <div v-for="(post, index) in currentPost.slice(0, defaultPost)" :key="index"> -->
-                <Card />
-                <!-- </div> -->
+                <div v-for="item in 9" :key="item">
+                    <Card/>
+                </div>
+            </div>
+            <div class="button-container">
+                <button class="more">Посмотреть еще</button>
             </div>
         </div>
     </div>
@@ -45,6 +48,11 @@ export default {
 </script>
 
 <style>
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px
+}
 .company__list {
     margin: 50px auto 0;
     display: flex;
@@ -63,6 +71,7 @@ export default {
 }
 .hero__title {
     font-size: 32px;
+    color: #409EFF;
 }
 
 .hero__desc {
