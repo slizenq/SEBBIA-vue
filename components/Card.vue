@@ -110,7 +110,6 @@ import SkillsTag from "./companyCreateResume/skillsTag/SkillsTag";
 }
 .card__title {
     font-weight: 700;
-    padding: 0;
 }
 .header__left-part {
     display: flex;
@@ -119,7 +118,7 @@ import SkillsTag from "./companyCreateResume/skillsTag/SkillsTag";
 }
 
 .card-info__vacancy {
-    padding-block: 15px;
+    /* padding-block: 15px; */
 }
 
 .vacancy-title {
