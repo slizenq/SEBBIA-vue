@@ -33,14 +33,8 @@
     </div>
 </template>
    
-<script>
-   import { ElButton } from "element-plus";
-   
-export default {
-        components: {
-        ElButton,
-    },
-};
+<script setup>
+import { ElButton } from "element-plus";
 </script>
    
 <style scoped>

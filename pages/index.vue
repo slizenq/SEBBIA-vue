@@ -23,36 +23,18 @@
                     <Card/>
                 </div>
             </div>
-            <div class="button-container">
-                <button class="more">Посмотреть еще</button>
-            </div>
         </div>
     </div>
 </template>
 
-<script>
-import { ElInput } from "element-plus";
+<script setup>
 import Slider from "~/components/Slider.vue";
 import DropdownList from "~/components/UI/DropdownList.vue";
 import Search from "~/components/UI/Search.vue";
-import Card from "~/components/Card.vue";
-export default {
-    components: {
-        ElInput,
-        Search,
-        Slider,
-        DropdownList,
-        Card,
-    },
-};
+import Card from "~/components/card/Card.vue";
 </script>
 
 <style>
-.button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px
-}
 .company__list {
     margin: 50px auto 0;
     display: flex;

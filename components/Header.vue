@@ -20,14 +20,8 @@
   	</div>
 </template>
 
-<script>
+<script setup>
 import Auth from "./UI/Auth.vue";
-
-export default defineComponent({
-  components: {
-    Auth,
-  },
-});
 </script>
 
 <style>

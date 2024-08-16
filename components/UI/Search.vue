@@ -9,42 +9,29 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted } from "vue";
 import { ElInput, ElButton } from "element-plus";
 
-export default {
-    components: {
-        ElInput,
-        ElButton,
-    },
-    setup() {
-        const input = ref("");
-        const printedText = ref("");
+const input = ref("");
+const printedText = ref("");
 
-        const typeWriter = (text, index) => {
-            if (index < text.length) {
-                printedText.value += text.charAt(index);
-                index++;
-                setTimeout(() => typeWriter(text, index), 100);
-            } else {
-                setTimeout(() => {
-                    printedText.value = "";
-                    typeWriter("Напиши место практики", 0);
-                }, 1000);
-            }
-        };
-
-        onMounted(() => {
+const typeWriter = (text, index) => {
+    if (index < text.length) {
+        printedText.value += text.charAt(index);
+        index++;
+        setTimeout(() => typeWriter(text, index), 100);
+    } else {
+        setTimeout(() => {
+            printedText.value = "";
             typeWriter("Напиши место практики", 0);
-        });
-
-        return {
-            input,
-            printedText,
-        };
-    },
+        }, 1000);
+    }
 };
+
+onMounted(() => {
+    typeWriter("Напиши место практики", 0);
+});
 </script>
 
 <style scoped>

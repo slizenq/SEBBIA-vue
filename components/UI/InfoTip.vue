@@ -5,13 +5,6 @@
     </el-col>
 </template>
 
-<script>
+<script setup>
 import { ElCol, ElResult } from 'element-plus';
-
-export default {
-    components: {
-        ElCol,
-        ElResult,
-    }
-}
 </script>
