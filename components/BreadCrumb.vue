@@ -5,13 +5,6 @@
     </el-breadcrumb>
 </template>
 
-<script>
+<script setup>
 import { ElBreadcrumb, ElBreadcrumbItem } from 'element-plus';
-
-export default {
-    components: {
-        ElBreadcrumb,
-        ElBreadcrumbItem
-    }
-}
 </script>
