@@ -1,5 +1,4 @@
 <template>
-
     <el-card style="width: 530px">
         <template #header>
             <div class="header_box">
@@ -13,7 +12,6 @@
                 <div>
                     <Tag />
                 </div>
-
             </div>
         </template>
 
