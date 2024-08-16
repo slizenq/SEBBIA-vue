@@ -4,7 +4,7 @@
             <div class="header_box">
                 <div class="header__left-part">
                     <p class="card__title">{{ company }}</p>
-                    <img src="../assets/images/createResume/check.svg" alt="status" />
+                    <img src="~/assets/images/createResume/check.svg" alt="status" />
                 </div>
                 <div><Tag /></div>
             </div>
@@ -42,9 +42,9 @@
 
 <script setup>
 import { ElCard, ElButton } from "element-plus";
-// import Tag from "./components/companyCreateResume/Tag.vue";
+import Tag from "~/components/companyCreateResume/Tag.vue";
 import { TopRight } from "@element-plus/icons-vue";
-// import SkillsTag from "./components/card/SkillsTag.vue";
+import SkillsTag from "~/components/card/SkillsTag.vue";
 const company = ref('Sebbia')
 </script>
 
