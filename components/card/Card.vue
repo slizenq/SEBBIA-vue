@@ -91,7 +91,6 @@ const company = ref('Sebbia')
 }
 .card__title {
     font-weight: 700;
-    padding: 0;
 }
 .header__left-part {
     display: flex;
@@ -100,7 +99,7 @@ const company = ref('Sebbia')
 }
 
 .card-info__vacancy {
-    padding-block: 15px;
+    /* padding-block: 15px; */
 }
 
 .vacancy-title {

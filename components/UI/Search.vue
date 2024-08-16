@@ -3,6 +3,7 @@
             <div class="flex gap-4 items-center">
                 <el-input v-model="input" :placeholder="printedText" />
             </div>
+            <Filter />
             <el-button type="primary">Найти компанию</el-button>
         </div>
 </template>
@@ -10,6 +11,7 @@
 <script setup>
 import { ref } from "vue";
 import { ElInput, ElButton } from "element-plus";
+import Filter from "./Filter.vue";
 
 const input = ref("");
 const printedText = ref("Напиши место практики");
@@ -33,7 +35,7 @@ const printedText = ref("Напиши место практики");
 .wrap {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     gap: 20px;
     width: 90vw;
 }
