@@ -15,7 +15,7 @@
                     <div class="footer__up-right-part">
                         <div class="right-part-element">
                         <p class="part-element-title">Электронная почта</p>
-                        <p class="part-element-desc">yourhr@gmail.com</p>
+                        <a class="part-element-desc" href="mailto:yourhr@gmail.com">yourhr@gmail.com</a>
                     </div>
                         <div class="right-part-element">
                             <p class="part-element-title">Остались вопросы?</p>
