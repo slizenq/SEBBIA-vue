@@ -1,5 +1,4 @@
 <template>
-
     <el-card style="width: 530px">
         <template #header>
             <div class="header_box">
@@ -13,7 +12,6 @@
                 <div>
                     <Tag />
                 </div>
-
             </div>
         </template>
 
@@ -48,40 +46,25 @@
                     <span class="education-title__span">ДГТУ, РКСИ</span>
                 </p>
             </div>
-            <div class="card-info__vacancy">
-                <p class="vacancy-title">
-                    Навыки:
-                    <el-button type="primary" class="primary">CSS</el-button>
-                    <el-button type="primary" class="primary">HTML</el-button>
-                    <el-button type="primary" class="primary">Java</el-button
-                    ><el-button type="primary" class="primary">JS</el-button>
-                </p>
+            <div class="card-info__skils">
+                <span class="skils-title">Навыки:</span>
+                <div class="skils__item"><SkillsTag /></div>
             </div>
             <div class="send">
-                <el-button type="primary" class="primary"
-                    >Отправить резюме</el-button
-                >
-                <el-button type="default" :icon="TopRight"/>
+                <el-button type="primary" class="primary">
+                    Отправить резюме
+                </el-button>
+                <el-button type="default" :icon="TopRight" />
             </div>
         </div>
     </el-card>
 </template>
-<script>
 
-import { ElCard } from "element-plus";
+<script setup>
+import { ElCard, ElButton } from "element-plus";
 import Tag from "./companyCreateResume/Tag.vue";
-import { ElButton } from "element-plus";
 import { TopRight } from "@element-plus/icons-vue";
-
-export default {
-    components: {
-        ElCard,
-        ElButton,
-        Tag,
-        TopRight,
-    },
-};
-
+import SkillsTag from "./companyCreateResume/SkillsTag.vue";
 </script>
 
 <style scoped>
@@ -94,7 +77,7 @@ export default {
 .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px
+    gap: 5px;
 }
 .requirements__elem {
     margin: 20px 0 20px 0;
@@ -172,6 +155,9 @@ export default {
 }
 
 .send {
-    float: right;
+    display: flex;
+    align-items: start;
+    justify-content: end;
+    gap: 10px;
 }
 </style>
