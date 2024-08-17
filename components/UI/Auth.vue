@@ -1,104 +1,70 @@
-<!-- <template>
-    <el-button @click="openDialog" type="primary">Войти</el-button>
-    <el-dialog v-model="outerVisible" title="Тип заголовок окна" width="1200">
-        <div v-for="index in 30" :key="index">
-            <div>Содержимое модального окна</div>
-        </div>
-    </el-dialog>
-</template>
-
-<script setup>
-import { ElButton, ElDialog } from "element-plus";
-import { ref } from "vue";
-
-const outerVisible = ref(false);
-const openDialog = () => {
-    outerVisible.value = true;
-};
-</script> -->
-
 <template>
     <div>
+        <!-- Кнопка открытия диалога -->
         <el-button @click="openDialog" type="primary">Войти</el-button>
 
-        <!-- Компонент Диалогового окна -->
+        <!-- Диалоговое окно -->
         <el-dialog
             v-model="isDialogVisible"
             title="Вход"
-            width="480px"
-            size="large"
-            height="488px"
-            class="login-dialog"
+            width="380px"
             :close-on-click-modal="false"
             :close-on-press-escape="false"
+            class="login-dialog"
         >
-            <!-- Форма входа -->
             <div class="login-dialog__form">
-                <el-form :model="loginForm" class="login-dialog__form-content">
-                    <!-- Поле для ввода Email -->
-                    <el-form-item prop="email" class="login-dialog__form-item">
-                        <p class="login">Логин</p>
-                        <el-input
-                            v-model="loginForm.email"
-                            placeholder="Электронная почта"
-                            class="login-dialog__input"
-                        />
-                    </el-form-item>
+                <!-- Логин -->
+                <div class="login-dialog__form-item">
+                    <label class="login-dialog__label">Логин</label>
+                    <el-input
+                        v-model="loginForm.email"
+                        placeholder="Электронная почта"
+                        class="login-dialog__input"
+                    />
+                </div>
 
-                    <!-- Поле для ввода пароля -->
-                    <el-form-item
-                        prop="password"
-                        class="login-dialog__form-item"
+                <!-- Пароль -->
+                <div class="login-dialog__form-item">
+                    <label class="login-dialog__label">Пароль</label>
+                    <el-input
+                        v-model="loginForm.password"
+                        placeholder="Пароль"
+                        type="password"
+                        class="login-dialog__input"
+                    />
+                </div>
+
+                <!-- Запомнить пароль -->
+                <div class="login-dialog__form-item login-dialog__checkbox">
+                    <el-checkbox v-model="loginForm.rememberMe">
+                        Запомнить пароль?
+                    </el-checkbox>
+                </div>
+
+                <!-- Кнопка Войти -->
+                <div class="login-dialog__form-item login-dialog__submit">
+                    <el-button type="primary" @click="login">Войти</el-button>
+                </div>
+
+                <!-- Ссылка на регистрацию -->
+                <div class="login-dialog__register">
+                    <span>Нет аккаунта?</span>
+                    <el-button
+                        type="text"
+                        @click="register"
+                        class="login-dialog__register-link"
                     >
-                        <p class="password">Пароль</p>
-                        <el-input
-                            v-model="loginForm.password"
-                            placeholder="Пароль"
-                            type="password"
-                            show-password
-                            class="login-dialog__input"
-                        />
-                    </el-form-item>
+                        Зарегистрироваться
+                    </el-button>
+                </div>
 
-                    <!-- Чекбокс "Запомнить меня" -->
-                    <el-form-item class="login-dialog__form-item">
-                        <el-checkbox v-model="loginForm.rememberMe"
-                            >Запомнить пароль?</el-checkbox
-                        >
-                    </el-form-item>
-
-                    <!-- Кнопка входа -->
-                    <el-form-item class="login-dialog__form-item">
-                        <el-button
-                            type="primary"
-                            @click="login"
-                            class="login-dialog__submit-button"
-                            >Войти</el-button
-                        >
-                    </el-form-item>
-
-                    <!-- Ссылка на регистрацию -->
-                    <div class="login-dialog__register">
-                        <span>Нет аккаунта?</span>
-                        <el-button
-                            type="text"
-                            @click="register"
-                            class="login-dialog__register-link"
-                            >Зарегистрироваться</el-button
-                        >
-                    </div>
-
-                    <!-- Политика конфиденциальности -->
-                    <div class="login-dialog__privacy-policy">
-                        При регистрации и входе вы соглашаетесь с
-                        <el-link
-                            type="primary"
-                            href="#"
-                            class="login-dialog__link"
-                            >политикой конфиденциальности</el-link
-                        >
-                    </div>
-                </el-form>
+                <!-- Политика конфиденциальности -->
+                <div class="login-dialog__privacy-policy">
+                    При регистрации и входе вы соглашаетесь с
+                    <el-link type="primary" href="#" class="login-dialog__link">
+                        политикой конфиденциальности
+                    </el-link>
+                </div>
             </div>
         </el-dialog>
     </div>
@@ -106,15 +72,7 @@ const openDialog = () => {
 
 <script setup>
 import { ref } from "vue";
-import {
-    ElButton,
-    ElDialog,
-    ElForm,
-    ElFormItem,
-    ElInput,
-    ElCheckbox,
-    ElLink,
-} from "element-plus";
+import { ElButton, ElDialog, ElInput, ElCheckbox, ElLink } from "element-plus";
 
 const isDialogVisible = ref(false);
 
@@ -129,68 +87,79 @@ const openDialog = () => {
 };
 
 const login = () => {
-    // Реализуйте свою логику входа здесь
     console.log("Вход с данными:", loginForm.value);
     isDialogVisible.value = false;
 };
 
 const register = () => {
-    // Реализуйте логику регистрации или навигации здесь
     console.log("Переход на страницу регистрации");
 };
 </script>
 
 <style scoped>
-.el-dialog__header {
-    font-size: 24px;
-    font-weight: bold;
-}
-
+/* Общие стили для формы */
 .login-dialog__form {
     padding: 20px;
-}
-
-.login-dialog__form-content {
     display: flex;
     flex-direction: column;
+    gap: 16px;
 }
 
+/* Элементы формы (Логин и Пароль) */
 .login-dialog__form-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
+    justify-content: space-between;
 }
 
+/* Лейблы */
+.login-dialog__label {
+    width: 80px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Поля ввода */
 .login-dialog__input {
     flex-grow: 1;
+    max-width: 230px;
 }
 
-.login-dialog__submit-button {
-    display: flex;
-    height: 40px;
+/* Чекбокс */
+.login-dialog__checkbox {
+    margin-top: 8px;
+}
+
+/* Кнопка Войти */
+.login-dialog__submit {
+    justify-content: flex-start;
+}
+
+.login-dialog__submit button {
     padding: 8px 20px;
-    margin-bottom: 24px;
+    height: 40px;
 }
 
+/* Стили для ссылки на регистрацию */
 .login-dialog__register {
     text-align: center;
-    margin-top: 10px;
     font-size: 14px;
 }
 
 .login-dialog__register-link {
     margin-left: 5px;
-    font-size: 14px;
+    color: #409eff;
 }
 
+/* Политика конфиденциальности */
 .login-dialog__privacy-policy {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 16px;
     font-size: 12px;
+    color: #999;
 }
 
 .login-dialog__link {
-    margin-left: 5px;
+    color: #409eff;
 }
 </style>
