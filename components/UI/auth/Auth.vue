@@ -6,8 +6,8 @@
             v-model="isDialogVisible"
             title="Вход"
             width="480px"
-            :close-on-click-modal="false"
-            :close-on-press-escape="false"
+            :close-on-click-modal="true"
+            :close-on-press-escape="true"
             class="login-dialog"
         >
             <el-collapse v-if="!showSteps" v-model="activeNames" @change="handleChange">
@@ -37,7 +37,7 @@ import { ElButton, ElDialog, ElCollapseItem, ElCollapse } from "element-plus";
 import SignIn from "./SignIn.vue";
 import SignUp from "./SignUp.vue";
 
-const isDialogVisible = ref(true);
+const isDialogVisible = ref(false);
 const openDialog = () => {
     isDialogVisible.value = true;
 };
