@@ -25,11 +25,12 @@ const loginForm = ref({
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
 }
 
 /* Лейблы */
 .login-dialog__label {
-    width: 80px;
+    width: 70px;
     font-size: 14px;
     color: #333;
 }

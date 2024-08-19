@@ -1,10 +1,10 @@
 <!-- Пароль -->
 <template>
     <div class="login-dialog__form-item">
-        <label class="login-dialog__label">Пароль</label>
+        <label class="login-dialog__label">Подтверждение</label>
         <el-input
             v-model="loginForm.password"
-            placeholder="Пароль"
+            placeholder="Повторите пароль"
             type="password"
             class="login-dialog__input"
             :suffix-icon="Hide"
@@ -28,11 +28,13 @@ const loginForm = ref({
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
 }
 
 /* Лейблы */
 .login-dialog__label {
-    width: 80px;
+    white-space: nowrap;
+    width: 114px;
     font-size: 14px;
     color: #333;
 }
@@ -40,6 +42,6 @@ const loginForm = ref({
 /* Поля ввода */
 .login-dialog__input {
     flex-grow: 1;
-    max-width: 350px;
+    max-width: 306px;
 }
 </style>

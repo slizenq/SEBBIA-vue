@@ -1,3 +1,4 @@
+<!-- // Вход // -->
 <template>
     <div>
         <div class="login-dialog__form">
@@ -44,8 +45,8 @@
 <script setup>
 import { ref } from "vue";
 import { ElButton, ElDialog, ElInput, ElCheckbox, ElLink } from "element-plus";
-import Login from "../Login";
-import Password from "../Password";
+import Login from "./Login";
+import Password from "./Password";
 
 const isDialogVisible = ref(true);
 

@@ -1,3 +1,4 @@
+<!-- // Регистрация // -->
 <template>
     <div>
         <div class="login-dialog__form">
@@ -6,6 +7,9 @@
 
             <!-- Пароль -->
             <Password />
+
+            <!-- Повторить пароль -->
+            <ReturnPass />
 
             <!-- Запомнить пароль -->
             <div class="login-dialog__form-item login-dialog__checkbox">
@@ -44,10 +48,9 @@
 <script setup>
 import { ref } from "vue";
 import { ElButton, ElDialog, ElInput, ElCheckbox, ElLink } from "element-plus";
-import Login from "../Login";
-import Password from "../Password";
-
-const isDialogVisible = ref(true);
+import Login from "./Login";
+import Password from "./Password";
+import ReturnPass from "./ReturnPass.vue";
 
 const loginForm = ref({
     email: "",
@@ -57,7 +60,6 @@ const loginForm = ref({
 
 const login = () => {
     console.log("Вход с данными:", loginForm.value);
-    isDialogVisible.value = false;
 };
 
 const register = () => {
