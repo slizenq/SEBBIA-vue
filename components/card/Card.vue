@@ -1,15 +1,17 @@
 <template>
-    <el-card style="width: 552px; height: 292px">
+    <el-card class="card">
         <template #header>
             <div class="header_box">
                 <div class="header__left-part">
                     <p class="card__title">{{ company }}</p>
                     <img
-                        src="~/assets/images/createResume/check.svg"
+                        src="/_nuxt/assets/images/createResume/check.svg"
                         alt="status"
                     />
                 </div>
-                <div><Tag /></div>
+                <div>
+                    <Tag />
+                </div>
             </div>
         </template>
 
@@ -52,77 +54,56 @@
                 <el-button type="primary" class="primary">
                     Отправить резюме
                 </el-button>
-                <el-button type="default" :icon="TopRight" />
+                <el-button type="default" :icon="TopRight" class="link" />
             </div>
         </div>
     </el-card>
 </template>
 
 <script setup>
+import { defineProps } from "vue";
 import { ElCard, ElButton } from "element-plus";
 import Tag from "~/components/companyCreateResume/Tag.vue";
 import { TopRight } from "@element-plus/icons-vue";
 import SkillsTag from "~/components/card/SkillsTag.vue";
-const company = ref("Sebbia");
+
+// Определение пропсов
+const props = defineProps({
+    company: {
+        type: String,
+        required: true,
+    },
+});
 </script>
 
 <style scoped>
-.call__rezume {
-    display: flex;
-    align-items: start;
-    justify-content: end;
-    gap: 10px;
+* {
+    margin: 0;
+    padding: 0;
 }
 
-.el-card__header {
-    padding: 8px 20px !important;
+.link {
+    padding: 4px 16px;
 }
 
-.tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
+.primary {
+    padding: 4px 16px;
 }
-.requirements__elem {
-    margin: 20px 0 20px 0;
-    display: flex;
-    gap: 7px;
+
+.card {
+    width: 100%;
 }
-.card__desc {
-    color: #606266;
-    font-size: 19px;
-}
-.desc__bold {
-    font-weight: 500;
-    display: block;
-}
+
 .header_box {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.send {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-}
-
-.icon {
-    color: aqua;
-}
-.card__title {
-    font-weight: 700;
-}
 .header__left-part {
     display: flex;
     align-items: center;
     gap: 8px;
-}
-
-.card-info:nth-child(2n) {
-    padding-block: 15px;
 }
 
 .vacancy-title {
@@ -130,6 +111,12 @@ const company = ref("Sebbia");
     line-height: 24px;
     font-weight: 500;
     padding: 6px;
+}
+
+.card-info__education {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .education-title {
@@ -146,19 +133,6 @@ const company = ref("Sebbia");
     line-height: 22px;
 }
 
-.card-info__education {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.vacancy-title__span {
-    font-size: 14px;
-    line-height: 22px;
-    font-weight: normal;
-    padding-inline: 8px;
-}
-
 .card-info__skils {
     display: flex;
     flex-direction: row;
@@ -170,6 +144,29 @@ const company = ref("Sebbia");
     display: flex;
     align-items: start;
     justify-content: end;
-    gap: 10px;
+    /* gap: 8px; */
+}
+
+.el-card__header {
+    padding: 8px 20px !important;
+}
+
+.card__title {
+    font-size: 18px;
+}
+
+@media (max-width: 768px) {
+    .card__title {
+        font-size: 16px;
+    }
+    .vacancy-title,
+    .education-title {
+        font-size: 14px;
+    }
+
+    .education-title__span,
+    .vacancy-title__span {
+        font-size: 12px;
+    }
 }
 </style>

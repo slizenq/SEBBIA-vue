@@ -13,13 +13,11 @@
                     нашей помощью!
                 </p>
             </div>
-            <div class="index-search"> <Search /> </div>
+            <div class="index-search"><Search /></div>
             <Slider />
-            <div class="index-dropdownlist"> <DropdownList /> </div>
+            <div class="index-dropdownlist"><DropdownList /></div>
             <div class="company__list">
-                <div v-for="item in 9" :key="item">
-                    <Card/>
-                </div>
+                <CardList />
             </div>
         </div>
     </div>
@@ -29,7 +27,7 @@
 import Slider from "~/components/Slider.vue";
 import DropdownList from "~/components/UI/DropdownList.vue";
 import Search from "~/components/UI/Search.vue";
-import Card from "~/components/card/Card.vue";
+import CardList from "~/components/card/CardList.vue";
 </script>
 
 <style>
@@ -52,7 +50,7 @@ import Card from "~/components/card/Card.vue";
 }
 .hero__title {
     font-size: 32px;
-    color: #409EFF;
+    color: #409eff;
 }
 
 .hero__desc {
