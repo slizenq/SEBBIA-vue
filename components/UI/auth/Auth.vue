@@ -43,7 +43,7 @@ const openDialog = () => {
 };
 const activeNames = ref(['1']);
 const items = [
-    { name: '1', title: 'Студент', content: 'Наша компания ценит энтузиазм и стремление к профессиональному росту', isActive: true },
+    { name: '1', title: 'Студент', content: 'Наша компания ценит энтузиазм и стремление к профессиональному росту', isActive: false },
     { name: '2', title: 'Компания', content: 'Если вы хотите найти практикантов и вырастить из них специалистов', isActive: false }
 ];
 
