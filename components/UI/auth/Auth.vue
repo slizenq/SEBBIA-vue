@@ -4,7 +4,7 @@
 
         <el-dialog
             v-model="isDialogVisible"
-            title="Вход"
+            title="Зарегистрироваться, как"
             width="480px"
             :close-on-click-modal="true"
             :close-on-press-escape="true"
@@ -138,6 +138,12 @@ const nextStep = () => {
 
 ::v-deep .el-collapse-item__header {
     border: none;
+    font-size: 14px;
+    color: inherit;
+}
+
+::v-deep .el-collapse-item__header:focus {
+    color: #409eff;
 }
 
 .select {
