@@ -1,70 +1,43 @@
 <template>
     <div>
-        <!-- Диалоговое окно -->
-        <!-- <el-dialog
-            v-model="isDialogVisible"
-            title="Вход"
-            width="380px"
-            :close-on-click-modal="false"
-            :close-on-press-escape="false"
-            class="login-dialog"
-        > -->
-            <div class="login-dialog__form">
-                <!-- Логин -->
-                <Login />
-                <!-- <div class="login-dialog__form-item">
-                    <label class="login-dialog__label">Логин</label>
-                    <el-input
-                        v-model="loginForm.email"
-                        placeholder="Электронная почта"
-                        class="login-dialog__input"
-                    />
-                </div> -->
+        <div class="login-dialog__form">
+            <!-- Логин -->
+            <Login />
 
-                <!-- Пароль -->
-                <Password />
-                <!-- <div class="login-dialog__form-item">
-                    <label class="login-dialog__label">Пароль</label>
-                    <el-input
-                        v-model="loginForm.password"
-                        placeholder="Пароль"
-                        type="password"
-                        class="login-dialog__input"
-                    />
-                </div> -->
+            <!-- Пароль -->
+            <Password />
 
-                <!-- Запомнить пароль -->
-                <div class="login-dialog__form-item login-dialog__checkbox">
-                    <el-checkbox v-model="loginForm.rememberMe">
-                        Запомнить пароль?
-                    </el-checkbox>
-                </div>
-
-                <!-- Кнопка Войти -->
-                <div class="login-dialog__form-item login-dialog__submit">
-                    <el-button type="primary" @click="login">Войти</el-button>
-                </div>
-
-                <!-- Ссылка на регистрацию -->
-                <div class="login-dialog__register">
-                    <span>Нет аккаунта?</span>
-                    <el-button
-                        @click="register"
-                        class="login-dialog__register-link"
-                    >
-                        Зарегистрироваться
-                    </el-button>
-                </div>
-
-                <!-- Политика конфиденциальности -->
-                <div class="login-dialog__privacy-policy">
-                    При регистрации и входе <br />вы соглашаетесь с
-                    <a class="login-dialog__link" href=""
-                        >политикой конфиденциальности</a
-                    >
-                </div>
+            <!-- Запомнить пароль -->
+            <div class="login-dialog__form-item login-dialog__checkbox">
+                <el-checkbox v-model="loginForm.rememberMe">
+                    Запомнить пароль?
+                </el-checkbox>
             </div>
-        <!-- </el-dialog> -->
+
+            <!-- Кнопка Войти -->
+            <div class="login-dialog__form-item login-dialog__submit">
+                <el-button type="primary" @click="login">Войти</el-button>
+            </div>
+
+            <!-- Ссылка на регистрацию -->
+            <div class="login-dialog__register">
+                <span>Нет аккаунта?</span>
+                <el-button
+                    @click="register"
+                    class="login-dialog__register-link"
+                >
+                    Зарегистрироваться
+                </el-button>
+            </div>
+
+            <!-- Политика конфиденциальности -->
+            <div class="login-dialog__privacy-policy">
+                При регистрации и входе <br />вы соглашаетесь с
+                <a class="login-dialog__link" href=""
+                    >политикой конфиденциальности</a
+                >
+            </div>
+        </div>
     </div>
 </template>
 
@@ -81,7 +54,6 @@ const loginForm = ref({
     password: "",
     rememberMe: false,
 });
-
 
 const login = () => {
     console.log("Вход с данными:", loginForm.value);
@@ -100,26 +72,6 @@ const register = () => {
     display: flex;
     flex-direction: column;
     gap: 16px;
-}
-
-/* Элементы формы (Логин и Пароль) */
-.login-dialog__form-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-/* Лейблы */
-.login-dialog__label {
-    width: 80px;
-    font-size: 14px;
-    color: #333;
-}
-
-/* Поля ввода */
-.login-dialog__input {
-    flex-grow: 1;
-    max-width: 350px;
 }
 
 /* Чекбокс */

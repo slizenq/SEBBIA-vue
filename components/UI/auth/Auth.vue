@@ -41,7 +41,10 @@ const isDialogVisible = ref(false);
 const openDialog = () => {
     isDialogVisible.value = true;
 };
-const activeNames = ref(['1']);
+
+// Начальное значение пустое, так как ничего не выбрано по умолчанию
+const activeNames = ref([]);
+
 const items = [
     { name: '1', title: 'Студент', content: 'Наша компания ценит энтузиазм и стремление к профессиональному росту', isActive: false },
     { name: '2', title: 'Компания', content: 'Если вы хотите найти практикантов и вырастить из них специалистов', isActive: false }
@@ -58,13 +61,14 @@ const handleChange = (value) => {
         item.isActive = value.includes(item.name);
     });
 };
+
 const showSteps = ref(false);
 const selectedStep = ref('');
+
 const nextStep = () => {
     if (activeNames.value.length === 1) {
         const activeComponent = items.find(item => item.name === activeNames.value[0]);
         console.log('Active Component:', activeComponent);
-        
         if (activeComponent.name === '1') {
             selectedStep.value = 'signIn';
         } else if (activeComponent.name === '2') {
@@ -74,8 +78,8 @@ const nextStep = () => {
         showSteps.value = true;
     }
 };
-
 </script>
+
 
 <style scoped>
 .ss {

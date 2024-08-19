@@ -7,6 +7,7 @@
             placeholder="Пароль"
             type="password"
             class="login-dialog__input"
+            :suffix-icon="Hide"
         />
     </div>
 </template>
@@ -14,6 +15,7 @@
 <script setup>
 import { ref } from "vue";
 import { ElInput } from "element-plus";
+import { Hide } from "@element-plus/icons-vue";
 
 const loginForm = ref({
     password: "",
