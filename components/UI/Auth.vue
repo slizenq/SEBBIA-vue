@@ -14,17 +14,19 @@
         >
             <div class="login-dialog__form">
                 <!-- Логин -->
-                <div class="login-dialog__form-item">
+                <Login />
+                <!-- <div class="login-dialog__form-item">
                     <label class="login-dialog__label">Логин</label>
                     <el-input
                         v-model="loginForm.email"
                         placeholder="Электронная почта"
                         class="login-dialog__input"
                     />
-                </div>
+                </div> -->
 
                 <!-- Пароль -->
-                <div class="login-dialog__form-item">
+                <Password />
+                <!-- <div class="login-dialog__form-item">
                     <label class="login-dialog__label">Пароль</label>
                     <el-input
                         v-model="loginForm.password"
@@ -32,7 +34,7 @@
                         type="password"
                         class="login-dialog__input"
                     />
-                </div>
+                </div> -->
 
                 <!-- Запомнить пароль -->
                 <div class="login-dialog__form-item login-dialog__checkbox">
@@ -50,7 +52,6 @@
                 <div class="login-dialog__register">
                     <span>Нет аккаунта?</span>
                     <el-button
-                        type="text"
                         @click="register"
                         class="login-dialog__register-link"
                     >
@@ -60,10 +61,10 @@
 
                 <!-- Политика конфиденциальности -->
                 <div class="login-dialog__privacy-policy">
-                    При регистрации и входе вы соглашаетесь с
-                    <el-link type="primary" href="#" class="login-dialog__link">
-                        политикой конфиденциальности
-                    </el-link>
+                    При регистрации и входе <br />вы соглашаетесь с
+                    <a class="login-dialog__link" href=""
+                        >политикой конфиденциальности</a
+                    >
                 </div>
             </div>
         </el-dialog>
@@ -73,6 +74,8 @@
 <script setup>
 import { ref } from "vue";
 import { ElButton, ElDialog, ElInput, ElCheckbox, ElLink } from "element-plus";
+import Login from "./Login";
+import Password from "./Password";
 
 const isDialogVisible = ref(false);
 
@@ -142,18 +145,23 @@ const register = () => {
 
 /* Стили для ссылки на регистрацию */
 .login-dialog__register {
-    text-align: center;
+    display: flex;
     font-size: 14px;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .login-dialog__register-link {
-    margin-left: 5px;
     color: #409eff;
+    max-width: 186px;
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 500;
+    padding: 8px 20px;
 }
 
 /* Политика конфиденциальности */
 .login-dialog__privacy-policy {
-    text-align: center;
     margin-top: 16px;
     font-size: 12px;
     color: #999;
@@ -161,5 +169,6 @@ const register = () => {
 
 .login-dialog__link {
     color: #409eff;
+    font-size: 12px;
 }
 </style>

@@ -1,0 +1,43 @@
+<!-- Пароль -->
+<template>
+    <div class="login-dialog__form-item">
+        <label class="login-dialog__label">Пароль</label>
+        <el-input
+            v-model="loginForm.password"
+            placeholder="Пароль"
+            type="password"
+            class="login-dialog__input"
+        />
+    </div>
+</template>
+
+<script setup>
+import { ref } from "vue";
+import { ElInput } from "element-plus";
+
+const loginForm = ref({
+    password: "",
+});
+</script>
+
+<style scoped>
+/* Элементы формы (Логин и Пароль) */
+.login-dialog__form-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Лейблы */
+.login-dialog__label {
+    width: 80px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Поля ввода */
+.login-dialog__input {
+    flex-grow: 1;
+    max-width: 230px;
+}
+</style>
