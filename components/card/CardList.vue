@@ -1,10 +1,15 @@
 <template>
     <div class="card-list">
-        <Card v-for="(card, index) in cards" :key="index" />
+        <Card
+            v-for="(card, index) in cards"
+            :key="index"
+            :company="card.company"
+        />
     </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import Card from "./Card.vue";
 
 // Пример данных для карточек
@@ -23,11 +28,10 @@ const cards = ref([
 .card-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 16px;
+    gap: clamp(16px, 2.3vw, 40px);
     justify-content: start;
 }
 
-/* Медиа-запросы для адаптации на разных экранах */
 @media (min-width: 768px) {
     .card-list {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -40,12 +44,10 @@ const cards = ref([
     }
 }
 
-/* Максимальная ширина карточки */
 .card-list > * {
     max-width: 552px;
 }
 
-/* Если карточек в строке две, третья пустая */
 .card-list > *:nth-child(2n):last-child {
     justify-self: start;
 }

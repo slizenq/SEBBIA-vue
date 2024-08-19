@@ -54,22 +54,42 @@
                 <el-button type="primary" class="primary">
                     Отправить резюме
                 </el-button>
-                <el-button type="default" :icon="TopRight" />
+                <el-button type="default" :icon="TopRight" class="link" />
             </div>
         </div>
     </el-card>
 </template>
 
 <script setup>
+import { defineProps } from "vue";
 import { ElCard, ElButton } from "element-plus";
 import Tag from "~/components/companyCreateResume/Tag.vue";
 import { TopRight } from "@element-plus/icons-vue";
 import SkillsTag from "~/components/card/SkillsTag.vue";
 
-const company = ref("Sebbia");
+// Определение пропсов
+const props = defineProps({
+    company: {
+        type: String,
+        required: true,
+    },
+});
 </script>
 
 <style scoped>
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.link {
+    padding: 4px 16px;
+}
+
+.primary {
+    padding: 4px 16px;
+}
+
 .card {
     width: 100%;
 }
@@ -124,14 +144,13 @@ const company = ref("Sebbia");
     display: flex;
     align-items: start;
     justify-content: end;
-    gap: 10px;
+    /* gap: 8px; */
 }
 
 .el-card__header {
     padding: 8px 20px !important;
 }
 
-/* Пример адаптации содержимого карточек под разные экраны */
 .card__title {
     font-size: 18px;
 }
@@ -140,7 +159,6 @@ const company = ref("Sebbia");
     .card__title {
         font-size: 16px;
     }
-
     .vacancy-title,
     .education-title {
         font-size: 14px;
