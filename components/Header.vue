@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import Auth from "./UI/Auth.vue";
+import Auth from "./UI/auth/Auth.vue";
 </script>
 
 <style>
