@@ -1,17 +1,14 @@
 <template>
     <div>
-        <!-- Кнопка открытия диалога -->
-        <el-button @click="openDialog" type="primary">Войти</el-button>
-
         <!-- Диалоговое окно -->
-        <el-dialog
+        <!-- <el-dialog
             v-model="isDialogVisible"
             title="Вход"
             width="380px"
             :close-on-click-modal="false"
             :close-on-press-escape="false"
             class="login-dialog"
-        >
+        > -->
             <div class="login-dialog__form">
                 <!-- Логин -->
                 <Login />
@@ -67,17 +64,17 @@
                     >
                 </div>
             </div>
-        </el-dialog>
+        <!-- </el-dialog> -->
     </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { ElButton, ElDialog, ElInput, ElCheckbox, ElLink } from "element-plus";
-import Login from "./Login";
-import Password from "./Password";
+import Login from "../Login";
+import Password from "../Password";
 
-const isDialogVisible = ref(false);
+const isDialogVisible = ref(true);
 
 const loginForm = ref({
     email: "",
@@ -85,9 +82,6 @@ const loginForm = ref({
     rememberMe: false,
 });
 
-const openDialog = () => {
-    isDialogVisible.value = true;
-};
 
 const login = () => {
     console.log("Вход с данными:", loginForm.value);
@@ -125,7 +119,7 @@ const register = () => {
 /* Поля ввода */
 .login-dialog__input {
     flex-grow: 1;
-    max-width: 230px;
+    max-width: 350px;
 }
 
 /* Чекбокс */

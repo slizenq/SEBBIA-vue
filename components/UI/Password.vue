@@ -38,6 +38,6 @@ const loginForm = ref({
 /* Поля ввода */
 .login-dialog__input {
     flex-grow: 1;
-    max-width: 230px;
+    max-width: 350px;
 }
 </style>
