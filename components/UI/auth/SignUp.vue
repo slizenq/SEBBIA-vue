@@ -2,22 +2,30 @@
 <template>
     <div>
         <div class="login-dialog__form">
+            <!-- Логин -->
             <Login />
 
+            <!-- Пароль -->
             <Password />
 
+            <!-- Повторить пароль -->
             <ReturnPass />
 
+            <!-- Запомнить пароль -->
             <div class="login-dialog__form-item login-dialog__checkbox">
                 <el-checkbox v-model="loginForm.rememberMe">
                     Запомнить пароль?
                 </el-checkbox>
             </div>
 
+            <!-- Кнопка Зарегистрироваться -->
             <div class="login-dialog__form-item login-dialog__submit">
-                <el-button type="primary" @click="login">Зарегистрироваться</el-button>
+                <el-button type="primary" @click="login"
+                    >Зарегистрироваться</el-button
+                >
             </div>
 
+            <!-- Ссылка на вход -->
             <div class="login-dialog__register">
                 <span>Есть аккаунт?</span>
                 <el-button
@@ -26,14 +34,6 @@
                 >
                     Войти
                 </el-button>
-            </div>
-
-            <!-- Кнопка Войти -->
-            <div class="login-dialog__form-item login-dialog__submit">
-                <span>Есть аккаунт?</span>
-                <el-button @click="login" class="login-dialog__register-link"
-                    >Войти</el-button
-                >
             </div>
 
             <div class="login-dialog__privacy-policy">
@@ -89,6 +89,7 @@ const register = () => {
     flex-direction: column;
     gap: 12px;
     justify-content: flex-start;
+    max-width: 186px;
 }
 
 .login-dialog__submit button {
