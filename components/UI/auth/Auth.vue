@@ -96,7 +96,7 @@ const handleChange = (value) => {
 };
 const showSteps = ref(false);
 const selectedStep = ref("");
-const titleModal = ref('Зарегистрироваться, как')
+const titleModal = ref("Зарегистрироваться, как");
 const nextStep = () => {
     if (activeNames.value.length === 1) {
         const activeComponent = items.find(
@@ -104,11 +104,10 @@ const nextStep = () => {
         );
         if (activeComponent.name === "1") {
             selectedStep.value = "signIn";
-            titleModal.value = ref('Вход')
+            titleModal.value = ref("В");
         } else if (activeComponent.name === "2") {
             selectedStep.value = "signIn";
-            titleModal.value = ref('Зарегестрироваться')
-
+            titleModal.value = ref("Зарегестрироваться");
         }
         showSteps.value = true;
     }
