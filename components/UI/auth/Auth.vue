@@ -1,7 +1,6 @@
 <template>
     <div>
         <el-button @click="openDialog" type="primary">Войти</el-button>
-
         <el-dialog
             v-model="isDialogVisible"
             title="Зарегистрироваться, как"
@@ -63,6 +62,7 @@ import { ref } from "vue";
 import { ElButton, ElDialog, ElCollapseItem, ElCollapse } from "element-plus";
 import SignIn from "./SignIn.vue";
 import SignUp from "./SignUp.vue";
+const title1 = ref("");
 const isDialogVisible = ref(false);
 const openDialog = () => {
     isDialogVisible.value = true;
@@ -102,9 +102,10 @@ const nextStep = () => {
             (item) => item.name === activeNames.value[0]
         );
         if (activeComponent.name === "1") {
-            selectedStep.value = "signUp";
+            selectedStep.value = "signIn";
+            title1.value = "Вход";
         } else if (activeComponent.name === "2") {
-            selectedStep.value = "signUp";
+            selectedStep.value = "signIn";
         }
         showSteps.value = true;
     }
@@ -113,6 +114,7 @@ const resetDialog = () => {
     activeNames.value = [];
     showSteps.value = false;
     selectedStep.value = "";
+    title1.value = "Зарегистрироваться, как";
 };
 </script>
 <style scoped>
