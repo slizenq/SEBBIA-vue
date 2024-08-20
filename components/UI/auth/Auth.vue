@@ -4,7 +4,7 @@
 
         <el-dialog
             v-model="isDialogVisible"
-            title="Зарегистрироваться, как"
+            :title="titleModal"
             width="480px"
             :close-on-click-modal="true"
             :close-on-press-escape="true"
@@ -96,15 +96,19 @@ const handleChange = (value) => {
 };
 const showSteps = ref(false);
 const selectedStep = ref("");
+const titleModal = ref('Зарегистрироваться, как')
 const nextStep = () => {
     if (activeNames.value.length === 1) {
         const activeComponent = items.find(
             (item) => item.name === activeNames.value[0]
         );
         if (activeComponent.name === "1") {
-            selectedStep.value = "signUp";
+            selectedStep.value = "signIn";
+            titleModal.value = ref('Вход')
         } else if (activeComponent.name === "2") {
-            selectedStep.value = "signUp";
+            selectedStep.value = "signIn";
+            titleModal.value = ref('Зарегестрироваться')
+
         }
         showSteps.value = true;
     }
