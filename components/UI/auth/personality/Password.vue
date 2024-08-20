@@ -15,7 +15,6 @@
 <script setup>
 import { ref } from "vue";
 import { ElInput } from "element-plus";
-import { Hide } from "@element-plus/icons-vue";
 
 const loginForm = ref({
     password: "",
