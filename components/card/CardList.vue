@@ -11,8 +11,11 @@
             />
         </div>
         <!-- Если карточек нет, выводим текст "Не найдено" -->
-        <div v-else>
-            <p class="notFind">Не найдено</p>
+        <div v-if="filteredCards.length == 0">
+            <p class="notFind">
+                Упс! По вашему запросу ничего не найдено <br />
+            </p>
+            <span class="notFind-span">Попробуйте ввести другой запрос</span>
         </div>
     </div>
 </template>
