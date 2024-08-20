@@ -2,28 +2,22 @@
 <template>
     <div>
         <div class="login-dialog__form">
-            <!-- Логин -->
             <Login />
 
-            <!-- Пароль -->
             <Password />
 
-            <!-- Повторить пароль -->
             <ReturnPass />
 
-            <!-- Запомнить пароль -->
             <div class="login-dialog__form-item login-dialog__checkbox">
                 <el-checkbox v-model="loginForm.rememberMe">
                     Запомнить пароль?
                 </el-checkbox>
             </div>
 
-            <!-- Кнопка Войти -->
             <div class="login-dialog__form-item login-dialog__submit">
                 <el-button type="primary" @click="login">Войти</el-button>
             </div>
 
-            <!-- Ссылка на регистрацию -->
             <div class="login-dialog__register">
                 <span>Нет аккаунта?</span>
                 <el-button
@@ -34,7 +28,6 @@
                 </el-button>
             </div>
 
-            <!-- Политика конфиденциальности -->
             <div class="login-dialog__privacy-policy">
                 При регистрации и входе <br />вы соглашаетесь с
                 <a class="login-dialog__link" href=""
@@ -47,10 +40,10 @@
 
 <script setup>
 import { ref } from "vue";
-import { ElButton, ElDialog, ElInput, ElCheckbox, ElLink } from "element-plus";
-import Login from "./Login";
-import Password from "./Password";
-import ReturnPass from "./ReturnPass.vue";
+import { ElButton, ElCheckbox } from "element-plus";
+import Login from "./personality/Login.vue";
+import Password from "./personality/Password.vue";
+import ReturnPass from "./personality/ReturnPass.vue";
 
 const loginForm = ref({
     email: "",
