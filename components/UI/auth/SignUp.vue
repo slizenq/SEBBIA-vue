@@ -29,7 +29,7 @@
             <div class="login-dialog__register">
                 <span>Есть аккаунт?</span>
                 <el-button
-                    @click="register"
+                    @click="$emit('someEventReg')"
                     class="login-dialog__register-link"
                 >
                     Войти

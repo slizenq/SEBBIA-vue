@@ -1,59 +1,28 @@
 <template>
     <div>
         <el-button @click="openDialog" type="primary">Войти</el-button>
-
-        <el-dialog
-            v-model="isDialogVisible"
-            :title="titleModal"
-            width="480px"
-            :close-on-click-modal="true"
+        <el-dialog 
+            v-model="isDialogVisible" 
+            :title="titleModal" width="480px" 
+            :close-on-click-modal="true" 
             :close-on-press-escape="true"
-            class="login-dialog"
             @close="resetDialog"
+            class="login-dialog" 
         >
-            <el-collapse
-                v-if="!showSteps"
-                v-model="activeNames"
-                @change="handleChange"
-            >
+            <el-collapse v-if="!showSteps" v-model="activeNames" @change="handleChange">
                 <div class="select">
                     <div v-for="item in items" :key="item.name">
-                        <el-collapse-item
-                            :title="item.title"
-                            :name="item.name"
-                            :style="{
-                                border: item.isActive
-                                    ? '1px solid #409EFF'
-                                    : '1px solid #dcdfe6',
-                                borderRadius: '5px',
-                            }"
-                        >
-                            <div>
-                                <p
-                                    :style="{
-                                        fontSize: item.isActive ? '16px' : '',
-                                    }"
-                                >
-                                    {{ item.content }},
-                                </p>
-                            </div>
+                        <el-collapse-item :title="item.title" :name="item.name"
+                            :style="{ border: item.isActive ? '1px solid #409EFF' : '1px solid #dcdfe6', borderRadius: '5px' }">
+                            <div><p :style="{ fontSize: item.isActive ? '16px' : '' }">{{ item.content }}</p></div>
                         </el-collapse-item>
                     </div>
                 </div>
             </el-collapse>
-
-            <!-- Компоненты для этапов Входа и Регистрации -->
-            <SignIn v-if="showSteps && selectedStep === 'signIn'" />
-            <SignUp v-if="showSteps && selectedStep === 'signUp'" />
-
-            <!-- Кнопка "Далее" только на первом шаге выбора Студент/Компания -->
+            <SignIn v-if="showSteps && selectedStep === 'signIn'" @some-event-log="closeModalLogin" />
+            <SignUp v-if="showSteps && selectedStep === 'signUp'" @some-event-reg="closeModalReg" />
             <div v-if="!showSteps" class="ss">
-                <el-button
-                    type="primary"
-                    @click="nextStep"
-                    :disabled="activeNames.length === 0"
-                    >Далее</el-button
-                >
+                <el-button type="primary" @click="nextStep" :disabled="activeNames.length === 0" >Далее</el-button >
             </div>
         </el-dialog>
     </div>
@@ -66,24 +35,20 @@ import SignUp from "./SignUp.vue";
 const isDialogVisible = ref(false);
 const openDialog = () => {
     isDialogVisible.value = true;
+    titleModal.value = 'Зарегистрироваться, как'
 };
-// Начальное значение пустое, так как ничего не выбрано по умолчанию
+const closeModalLogin = () => {
+    selectedStep.value = "signUp";
+    titleModal.value = 'Регистрация'
+};
+const closeModalReg = () => {
+    selectedStep.value = "signIn";
+    titleModal.value = 'Вход'
+};
 const activeNames = ref([]);
 const items = [
-    {
-        name: "1",
-        title: "Студент",
-        content:
-            "Наша компания ценит энтузиазм и стремление к профессиональному росту",
-        isActive: false,
-    },
-    {
-        name: "2",
-        title: "Компания",
-        content:
-            "Если вы хотите найти практикантов и вырастить из них специалистов",
-        isActive: false,
-    },
+    { name: "1", title: "Студент", content: "Наша компания ценит энтузиазм и стремление к профессиональному росту", isActive: false },
+    { name: "2", title: "Компания", content: "Если вы хотите найти практикантов и вырастить из них специалистов", isActive: false },
 ];
 const handleChange = (value) => {
     if (value.length > 1) {
@@ -96,19 +61,15 @@ const handleChange = (value) => {
 };
 const showSteps = ref(false);
 const selectedStep = ref("");
-const titleModal = ref('Зарегистрироваться, как')
+const titleModal = ref("Зарегистрироваться, как");
 const nextStep = () => {
     if (activeNames.value.length === 1) {
         const activeComponent = items.find(
             (item) => item.name === activeNames.value[0]
         );
-        if (activeComponent.name === "1") {
+        if (activeComponent.name === "1" || activeComponent.name === "2") {
             selectedStep.value = "signIn";
-            titleModal.value = ref('Вход')
-        } else if (activeComponent.name === "2") {
-            selectedStep.value = "signIn";
-            titleModal.value = ref('Зарегестрироваться')
-
+            titleModal.value = ref("Войти");
         }
         showSteps.value = true;
     }
@@ -118,6 +79,7 @@ const resetDialog = () => {
     showSteps.value = false;
     selectedStep.value = "";
 };
+
 </script>
 <style scoped>
 .ss {

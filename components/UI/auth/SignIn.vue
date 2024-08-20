@@ -14,9 +14,10 @@
             <div class="login-dialog__register">
                 <span>Нет аккаунта?</span>
                 <el-button
-                    @click="register"
+                    @click="$emit('someEventLog')"
                     class="login-dialog__register-link"
                 >
+                
                     Зарегистрироваться
                 </el-button>
             </div>
@@ -32,7 +33,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { ElButton, ElDialog, ElInput, ElCheckbox, ElLink } from "element-plus";
+import { ElButton, ElCheckbox } from "element-plus";
 import Login from "./personality/Login.vue";
 import Password from "./personality/Password.vue";
 
@@ -43,15 +44,11 @@ const loginForm = ref({
     password: "",
     rememberMe: false,
 });
-
 const login = () => {
     console.log("Вход с данными:", loginForm.value);
     isDialogVisible.value = false;
 };
 
-const register = () => {
-    console.log("Переход на страницу регистрации");
-};
 </script>
 
 <style scoped>
