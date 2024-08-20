@@ -104,10 +104,10 @@ const nextStep = () => {
         );
         if (activeComponent.name === "1") {
             selectedStep.value = "signIn";
-            titleModal.value = ref("В");
+            titleModal.value = ref("Войти");
         } else if (activeComponent.name === "2") {
             selectedStep.value = "signIn";
-            titleModal.value = ref("Зарегестрироваться");
+            titleModal.value = ref("Войти");
         }
         showSteps.value = true;
     }
