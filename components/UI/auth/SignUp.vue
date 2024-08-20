@@ -15,16 +15,16 @@
             </div>
 
             <div class="login-dialog__form-item login-dialog__submit">
-                <el-button type="primary" @click="login">Войти</el-button>
+                <el-button type="primary" @click="login">Зарегистрироваться</el-button>
             </div>
 
             <div class="login-dialog__register">
-                <span>Нет аккаунта?</span>
+                <span>Есть аккаунт?</span>
                 <el-button
                     @click="register"
                     class="login-dialog__register-link"
                 >
-                    Зарегистрироваться
+                    Войти
                 </el-button>
             </div>
 

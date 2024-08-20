@@ -20,22 +20,17 @@ const loginForm = ref({
 </script>
 
 <style scoped>
-/* Элементы формы (Логин и Пароль) */
 .login-dialog__form-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
 }
-
-/* Лейблы */
 .login-dialog__label {
     width: 70px;
     font-size: 14px;
     color: #333;
 }
-
-/* Поля ввода */
 .login-dialog__input {
     flex-grow: 1;
     max-width: 350px;

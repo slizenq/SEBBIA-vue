@@ -4,7 +4,7 @@
 
         <el-dialog
             v-model="isDialogVisible"
-            title="Вход"
+            :title="title1"
             width="480px"
             :close-on-click-modal="true"
             :close-on-press-escape="true"
@@ -21,12 +21,12 @@
                         </el-collapse-item>
                     </div>
                 </div>
+                <div class="ss">
+                    <el-button type="primary" @click="nextStep" :disabled="activeNames.length === 0">Далее</el-button>
+                </div>
             </el-collapse>
             <SignIn v-if="showSteps && selectedStep === 'signIn'"/>
             <SignUp v-if="showSteps && selectedStep === 'signUp'"/>
-            <div class="ss">
-                <el-button type="primary" @click="nextStep" :disabled="activeNames.length === 0">Далее</el-button>
-            </div>
         </el-dialog>
     </div>
 </template>
@@ -36,12 +36,12 @@ import { ref } from "vue";
 import { ElButton, ElDialog, ElCollapseItem, ElCollapse } from "element-plus";
 import SignIn from "./SignIn.vue";
 import SignUp from "./SignUp.vue";
-
+const title1 = ref('Зарегистрироваться, как');
 const isDialogVisible = ref(false);
 const openDialog = () => {
     isDialogVisible.value = true;
 };
-const activeNames = ref(['1']);
+const activeNames = ref([]);
 const items = [
     { name: '1', title: 'Студент', content: 'Наша компания ценит энтузиазм и стремление к профессиональному росту', isActive: false },
     { name: '2', title: 'Компания', content: 'Если вы хотите найти практикантов и вырастить из них специалистов', isActive: false }
@@ -52,8 +52,6 @@ const handleChange = (value) => {
         value.shift();
     }
     activeNames.value = value;
-    console.log(value);
-
     items.forEach(item => {
         item.isActive = value.includes(item.name);
     });
@@ -63,17 +61,17 @@ const selectedStep = ref('');
 const nextStep = () => {
     if (activeNames.value.length === 1) {
         const activeComponent = items.find(item => item.name === activeNames.value[0]);
-        console.log('Active Component:', activeComponent);
-        
         if (activeComponent.name === '1') {
             selectedStep.value = 'signIn';
         } else if (activeComponent.name === '2') {
-            selectedStep.value = 'signUp';
+            selectedStep.value = 'signIn';
         }
-
+        (selectedStep.value = 'signIn') ? title1.value = 'Вход' :
+        (selectedStep.value = 'signUp') ? title1.value = 'Регистрация' : ''
         showSteps.value = true;
     }
 };
+
 
 </script>
 
