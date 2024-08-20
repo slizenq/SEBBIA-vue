@@ -45,8 +45,8 @@
 <script setup>
 import { ref } from "vue";
 import { ElButton, ElDialog, ElInput, ElCheckbox, ElLink } from "element-plus";
-import Login from "./Login";
-import Password from "./Password";
+import Login from "./personality/Login.vue";
+import Password from "./personality/Password.vue";
 
 const isDialogVisible = ref(true);
 

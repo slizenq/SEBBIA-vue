@@ -4,57 +4,30 @@
 
         <el-dialog
             v-model="isDialogVisible"
-            title="Зарегистрироваться, как"
+            :title="title1"
             width="480px"
             :close-on-click-modal="true"
             :close-on-press-escape="true"
             class="login-dialog"
             @close="resetDialog"
         >
-            <el-collapse
-                v-if="!showSteps"
-                v-model="activeNames"
-                @change="handleChange"
-            >
+            <el-collapse v-if="!showSteps" v-model="activeNames" @change="handleChange">
                 <div class="select">
                     <div v-for="item in items" :key="item.name">
-                        <el-collapse-item
-                            :title="item.title"
-                            :name="item.name"
-                            :style="{
-                                border: item.isActive
-                                    ? '1px solid #409EFF'
-                                    : '1px solid #dcdfe6',
-                                borderRadius: '5px',
-                            }"
-                        >
-                            <div>
-                                <p
-                                    :style="{
-                                        fontSize: item.isActive ? '16px' : '',
-                                    }"
-                                >
-                                    {{ item.content }},
-                                </p>
-                            </div>
+                        <el-collapse-item :title="item.title" :name="item.name" 
+                        :style="{ border: item.isActive ? '1px solid #409EFF' : '1px solid transparent', borderRadius: '5px' }">
+                        <div>
+                            <p :style="{ fontSize: item.isActive ? '16px' : '' }">{{ item.content }}</p>
+                        </div>
                         </el-collapse-item>
                     </div>
                 </div>
+                <div class="ss">
+                    <el-button type="primary" @click="nextStep" :disabled="activeNames.length === 0">Далее</el-button>
+                </div>
             </el-collapse>
-
-            <!-- Компоненты для этапов Входа и Регистрации -->
-            <SignIn v-if="showSteps && selectedStep === 'signIn'" />
-            <SignUp v-if="showSteps && selectedStep === 'signUp'" />
-
-            <!-- Кнопка "Далее" только на первом шаге выбора Студент/Компания -->
-            <div v-if="!showSteps" class="ss">
-                <el-button
-                    type="primary"
-                    @click="nextStep"
-                    :disabled="activeNames.length === 0"
-                    >Далее</el-button
-                >
-            </div>
+            <SignIn v-if="showSteps && selectedStep === 'signIn'"/>
+            <SignUp v-if="showSteps && selectedStep === 'signUp'"/>
         </el-dialog>
     </div>
 </template>
@@ -64,30 +37,15 @@ import { ref } from "vue";
 import { ElButton, ElDialog, ElCollapseItem, ElCollapse } from "element-plus";
 import SignIn from "./SignIn.vue";
 import SignUp from "./SignUp.vue";
-
+const title1 = ref('Зарегистрироваться, как');
 const isDialogVisible = ref(false);
 const openDialog = () => {
     isDialogVisible.value = true;
 };
-
-// Начальное значение пустое, так как ничего не выбрано по умолчанию
 const activeNames = ref([]);
-
 const items = [
-    {
-        name: "1",
-        title: "Студент",
-        content:
-            "Наша компания ценит энтузиазм и стремление к профессиональному росту",
-        isActive: false,
-    },
-    {
-        name: "2",
-        title: "Компания",
-        content:
-            "Если вы хотите найти практикантов и вырастить из них специалистов",
-        isActive: false,
-    },
+    { name: '1', title: 'Студент', content: 'Наша компания ценит энтузиазм и стремление к профессиональному росту', isActive: false },
+    { name: '2', title: 'Компания', content: 'Если вы хотите найти практикантов и вырастить из них специалистов', isActive: false }
 ];
 
 const handleChange = (value) => {
@@ -95,17 +53,15 @@ const handleChange = (value) => {
         value.shift();
     }
     activeNames.value = value;
-
-    items.forEach((item) => {
+    items.forEach(item => {
         item.isActive = value.includes(item.name);
     });
 };
-
 const showSteps = ref(false);
-const selectedStep = ref("");
-
+const selectedStep = ref('');
 const nextStep = () => {
     if (activeNames.value.length === 1) {
+<<<<<<< HEAD
         const activeComponent = items.find(
             (item) => item.name === activeNames.value[0]
         );
@@ -114,17 +70,29 @@ const nextStep = () => {
             selectedStep.value = "signUp";
         } else if (activeComponent.name === "2") {
             selectedStep.value = "signUp";
+=======
+        const activeComponent = items.find(item => item.name === activeNames.value[0]);
+        if (activeComponent.name === '1') {
+            selectedStep.value = 'signIn';
+        } else if (activeComponent.name === '2') {
+            selectedStep.value = 'signIn';
+>>>>>>> d3aabe7e629939b56de4d92b35994110925d20d3
         }
-
+        (selectedStep.value = 'signIn') ? title1.value = 'Вход' :
+        (selectedStep.value = 'signUp') ? title1.value = 'Регистрация' : ''
         showSteps.value = true;
     }
 };
 
+<<<<<<< HEAD
 const resetDialog = () => {
     activeNames.value = [];
     showSteps.value = false;
     selectedStep.value = "";
 };
+=======
+
+>>>>>>> d3aabe7e629939b56de4d92b35994110925d20d3
 </script>
 
 <style scoped>
@@ -138,82 +106,12 @@ const resetDialog = () => {
 }
 .el-collapse-item {
     width: 200px;
-    border: none;
+    border: 1px solid #DCDFE6;
     padding: 5px 10px;
-    font-size: 14px;
 }
-
-::v-deep .el-collapse-item__header {
-    border: none;
-    font-size: 14px;
-    color: inherit;
-}
-
-::v-deep .el-collapse-item__header:focus {
-    color: #409eff;
-}
-
 .select {
     display: flex;
     justify-content: center;
     gap: 20px;
-}
-/* Общие стили для формы */
-.login-dialog__form {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-/* Элементы формы (Логин и Пароль) */
-.login-dialog__form-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-/* Лейблы */
-.login-dialog__label {
-    width: 80px;
-    font-size: 14px;
-    color: #333;
-}
-/* Поля ввода */
-.login-dialog__input {
-    flex-grow: 1;
-    max-width: 230px;
-}
-/* Чекбокс */
-.login-dialog__checkbox {
-    margin-top: 8px;
-}
-/* Кнопка Войти */
-.login-dialog__submit {
-    justify-content: flex-start;
-}
-
-.login-dialog__submit button {
-    padding: 8px 20px;
-    height: 40px;
-}
-/* Стили для ссылки на регистрацию */
-.login-dialog__register {
-    text-align: center;
-    font-size: 14px;
-}
-
-.login-dialog__register-link {
-    margin-left: 5px;
-    color: #409eff;
-}
-/* Политика конфиденциальности */
-.login-dialog__privacy-policy {
-    text-align: center;
-    margin-top: 16px;
-    font-size: 12px;
-    color: #999;
-}
-
-.login-dialog__link {
-    color: #409eff;
 }
 </style>
