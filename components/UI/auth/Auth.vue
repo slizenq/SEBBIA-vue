@@ -9,6 +9,7 @@
             :close-on-click-modal="true"
             :close-on-press-escape="true"
             class="login-dialog"
+            @close="resetDialog"
         >
             <el-collapse
                 v-if="!showSteps"
@@ -110,13 +111,19 @@ const nextStep = () => {
         );
 
         if (activeComponent.name === "1") {
-            selectedStep.value = "signIn";
+            selectedStep.value = "signUp";
         } else if (activeComponent.name === "2") {
             selectedStep.value = "signUp";
         }
 
         showSteps.value = true;
     }
+};
+
+const resetDialog = () => {
+    activeNames.value = [];
+    showSteps.value = false;
+    selectedStep.value = "";
 };
 </script>
 

@@ -99,7 +99,7 @@ const register = () => {
 }
 
 .login-dialog__register-link {
-    color: #409eff;
+    /* color: #409eff; */
     max-width: 186px;
     font-size: 14px;
     line-height: 22px;
