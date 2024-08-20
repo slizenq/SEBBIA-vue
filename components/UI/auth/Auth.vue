@@ -1,9 +1,10 @@
 <template>
     <div>
         <el-button @click="openDialog" type="primary">Войти</el-button>
+
         <el-dialog
             v-model="isDialogVisible"
-            title="Зарегистрироваться, как"
+            :title="titleModal"
             width="480px"
             :close-on-click-modal="true"
             :close-on-press-escape="true"
@@ -62,7 +63,6 @@ import { ref } from "vue";
 import { ElButton, ElDialog, ElCollapseItem, ElCollapse } from "element-plus";
 import SignIn from "./SignIn.vue";
 import SignUp from "./SignUp.vue";
-const title1 = ref("");
 const isDialogVisible = ref(false);
 const openDialog = () => {
     isDialogVisible.value = true;
@@ -96,6 +96,7 @@ const handleChange = (value) => {
 };
 const showSteps = ref(false);
 const selectedStep = ref("");
+const titleModal = ref("Зарегистрироваться, как");
 const nextStep = () => {
     if (activeNames.value.length === 1) {
         const activeComponent = items.find(
@@ -103,9 +104,10 @@ const nextStep = () => {
         );
         if (activeComponent.name === "1") {
             selectedStep.value = "signIn";
-            title1.value = "Вход";
+            titleModal.value = ref("В");
         } else if (activeComponent.name === "2") {
             selectedStep.value = "signIn";
+            titleModal.value = ref("Зарегестрироваться");
         }
         showSteps.value = true;
     }
@@ -114,7 +116,6 @@ const resetDialog = () => {
     activeNames.value = [];
     showSteps.value = false;
     selectedStep.value = "";
-    title1.value = "Зарегистрироваться, как";
 };
 </script>
 <style scoped>
