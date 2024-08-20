@@ -6,6 +6,8 @@
                 v-for="(card, index) in filteredCards"
                 :key="index"
                 :company="card.company"
+                :vacancy="card.vacancy"
+                :education="card.education"
             />
         </div>
         <!-- Если карточек нет, выводим текст "Не найдено" -->
