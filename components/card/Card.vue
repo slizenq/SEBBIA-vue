@@ -18,7 +18,8 @@
         <div class="card-info">
             <div class="card-info__vacancy">
                 <p class="vacancy-title">
-                    Вакансия: <span class="vacancy-title__span">Фронтенд</span>
+                    Вакансия:
+                    <span class="vacancy-title__span">{{ vacancy }}</span>
                 </p>
             </div>
             <div class="card-info__education">
@@ -43,7 +44,7 @@
                 </svg>
                 <p class="education-title">
                     Учебное заведение:
-                    <span class="education-title__span">ДГТУ, РКСИ</span>
+                    <span class="education-title__span">{{ education }}</span>
                 </p>
             </div>
             <div class="card-info__skils">
@@ -70,6 +71,14 @@ import SkillsTag from "~/components/card/SkillsTag.vue";
 // Определение пропсов
 const props = defineProps({
     company: {
+        type: String,
+        required: true,
+    },
+    vacancy: {
+        type: String,
+        required: true,
+    },
+    education: {
         type: String,
         required: true,
     },
