@@ -1,21 +1,26 @@
 <template>
-        <div class="wrap">
-            <div class="flex gap-4 items-center">
-                <el-input v-model="input" :placeholder="printedText" />
-            </div>
-            <Filter />
-            <el-button type="primary">Найти компанию</el-button>
+    <div class="wrap">
+        <div class="flex gap-4 items-center">
+            <el-input
+                v-model="input"
+                :placeholder="printedText"
+                clearable
+                :prefix-icon="Search"
+            />
         </div>
+        <Filter />
+        <el-button type="primary">Найти компанию</el-button>
+    </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { ElInput, ElButton } from "element-plus";
 import Filter from "./Filter.vue";
+import { Search } from "@element-plus/icons-vue";
 
 const input = ref("");
 const printedText = ref("Напиши место практики");
-
 </script>
 
 <style scoped>
