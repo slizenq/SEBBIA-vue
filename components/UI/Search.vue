@@ -6,10 +6,12 @@
                 :placeholder="printedText"
                 clearable
                 :prefix-icon="Search"
+                @input="handleInput"
+                @keydown.enter="emitSearch"
             />
         </div>
         <Filter />
-        <el-button type="primary">Найти компанию</el-button>
+        <el-button type="primary" @click="emitSearch">Найти компанию</el-button>
     </div>
 </template>
 
@@ -21,6 +23,20 @@ import { Search } from "@element-plus/icons-vue";
 
 const input = ref("");
 const printedText = ref("Напиши место практики");
+
+const emit = defineEmits(["search-input"]);
+
+// Обработчик ввода
+const handleInput = (value) => {
+    // console.log("Input value: ", value);
+    input.value = value;
+};
+
+// Эмитим событие при нажатии на кнопку поиска или Enter
+const emitSearch = () => {
+    // console.log("Search initiated, value: ", input.value);
+    emit("search-input", input.value); // Эмитим событие с текущим значением input
+};
 </script>
 
 <style scoped>

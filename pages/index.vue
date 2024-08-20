@@ -13,11 +13,13 @@
                     нашей помощью!
                 </p>
             </div>
-            <div class="index-search"><Search /></div>
+            <div class="index-search">
+                <Search @search-input="handleSearchInput" />
+            </div>
             <Slider />
             <div class="index-dropdownlist"><DropdownList /></div>
             <div class="company__list">
-                <CardList />
+                <CardList :searchInput="searchText" />
             </div>
         </div>
     </div>
@@ -28,6 +30,12 @@ import Slider from "~/components/Slider.vue";
 import DropdownList from "~/components/UI/DropdownList.vue";
 import Search from "~/components/UI/Search.vue";
 import CardList from "~/components/card/CardList.vue";
+
+const searchText = ref("");
+
+const handleSearchInput = (input) => {
+    searchText.value = input;
+};
 </script>
 
 <style>
