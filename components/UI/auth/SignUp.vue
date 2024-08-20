@@ -28,6 +28,14 @@
                 </el-button>
             </div>
 
+            <!-- Кнопка Войти -->
+            <div class="login-dialog__form-item login-dialog__submit">
+                <span>Есть аккаунт?</span>
+                <el-button @click="login" class="login-dialog__register-link"
+                    >Войти</el-button
+                >
+            </div>
+
             <div class="login-dialog__privacy-policy">
                 При регистрации и входе <br />вы соглашаетесь с
                 <a class="login-dialog__link" href=""
@@ -76,6 +84,10 @@ const register = () => {
 
 /* Кнопка Войти */
 .login-dialog__submit {
+    display: flex;
+    font-size: 14px;
+    flex-direction: column;
+    gap: 12px;
     justify-content: flex-start;
 }
 
@@ -93,8 +105,8 @@ const register = () => {
 }
 
 .login-dialog__register-link {
-    color: #409eff;
-    max-width: 186px;
+    /* color: #409eff; */
+    max-width: 82px;
     font-size: 14px;
     line-height: 22px;
     font-weight: 500;

@@ -9,6 +9,7 @@
             :close-on-click-modal="true"
             :close-on-press-escape="true"
             class="login-dialog"
+            @close="resetDialog"
         >
             <el-collapse v-if="!showSteps" v-model="activeNames" @change="handleChange">
                 <div class="select">
@@ -60,11 +61,22 @@ const showSteps = ref(false);
 const selectedStep = ref('');
 const nextStep = () => {
     if (activeNames.value.length === 1) {
+<<<<<<< HEAD
+        const activeComponent = items.find(
+            (item) => item.name === activeNames.value[0]
+        );
+
+        if (activeComponent.name === "1") {
+            selectedStep.value = "signUp";
+        } else if (activeComponent.name === "2") {
+            selectedStep.value = "signUp";
+=======
         const activeComponent = items.find(item => item.name === activeNames.value[0]);
         if (activeComponent.name === '1') {
             selectedStep.value = 'signIn';
         } else if (activeComponent.name === '2') {
             selectedStep.value = 'signIn';
+>>>>>>> d3aabe7e629939b56de4d92b35994110925d20d3
         }
         (selectedStep.value = 'signIn') ? title1.value = 'Вход' :
         (selectedStep.value = 'signUp') ? title1.value = 'Регистрация' : ''
@@ -72,7 +84,15 @@ const nextStep = () => {
     }
 };
 
+<<<<<<< HEAD
+const resetDialog = () => {
+    activeNames.value = [];
+    showSteps.value = false;
+    selectedStep.value = "";
+};
+=======
 
+>>>>>>> d3aabe7e629939b56de4d92b35994110925d20d3
 </script>
 
 <style scoped>
