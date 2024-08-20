@@ -1,8 +1,7 @@
 <template>
     <div>
         <el-button @click="openDialog" type="primary">Войти</el-button>
-
-        <el-dialog
+        <el-dialog 
             v-model="isDialogVisible"
             :title="title1"
             width="480px"
@@ -36,11 +35,8 @@ import { ref } from "vue";
 import { ElButton, ElDialog, ElCollapseItem, ElCollapse } from "element-plus";
 import SignIn from "./SignIn.vue";
 import SignUp from "./SignUp.vue";
-const title1 = ref('Зарегистрироваться, как');
+const title1 = ref('');
 const isDialogVisible = ref(false);
-const openDialog = () => {
-    isDialogVisible.value = true;
-};
 const activeNames = ref([]);
 const items = [
     { name: '1', title: 'Студент', content: 'Наша компания ценит энтузиазм и стремление к профессиональному росту', isActive: false },
@@ -63,16 +59,21 @@ const nextStep = () => {
         const activeComponent = items.find(item => item.name === activeNames.value[0]);
         if (activeComponent.name === '1') {
             selectedStep.value = 'signIn';
+            title1.value = 'Вход'
         } else if (activeComponent.name === '2') {
-            selectedStep.value = 'signIn';
+            selectedStep.value = 'signUp';
         }
         (selectedStep.value = 'signIn') ? title1.value = 'Вход' :
         (selectedStep.value = 'signUp') ? title1.value = 'Регистрация' : ''
         showSteps.value = true;
     }
 };
-
-
+const openDialog = () => {
+    isDialogVisible.value = true;
+    selectedStep.value = ''; 
+    showSteps.value = false; 
+    title1.value = 'Зарегистрироваться, как';
+};
 </script>
 
 <style scoped>

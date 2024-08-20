@@ -1,26 +1,16 @@
-<!-- // Вход // -->
 <template>
     <div>
         <div class="login-dialog__form">
-            <!-- Логин -->
             <Login />
-
-            <!-- Пароль -->
             <Password />
-
-            <!-- Запомнить пароль -->
             <div class="login-dialog__form-item login-dialog__checkbox">
                 <el-checkbox v-model="loginForm.rememberMe">
                     Запомнить пароль?
                 </el-checkbox>
             </div>
-
-            <!-- Кнопка Войти -->
             <div class="login-dialog__form-item login-dialog__submit">
                 <el-button type="primary" @click="login">Войти</el-button>
             </div>
-
-            <!-- Ссылка на регистрацию -->
             <div class="login-dialog__register">
                 <span>Нет аккаунта?</span>
                 <el-button
@@ -30,13 +20,9 @@
                     Зарегистрироваться
                 </el-button>
             </div>
-
-            <!-- Политика конфиденциальности -->
             <div class="login-dialog__privacy-policy">
                 При регистрации и входе <br />вы соглашаетесь с
-                <a class="login-dialog__link" href=""
-                    >политикой конфиденциальности</a
-                >
+                <a class="login-dialog__link" href=""v>политикой конфиденциальности</a>
             </div>
         </div>
     </div>
