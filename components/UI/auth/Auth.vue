@@ -74,6 +74,7 @@ const closeModalReg = () => {
 const resetDialog = () => {
     activeNames.value = [];
     showSteps.value = false;
+    showModal.value = false;
     selectedStep.value = "";
 };
 const handleChange = (value) => {
