@@ -9,23 +9,51 @@
             :close-on-click-modal="true"
             :close-on-press-escape="true"
             @close="resetDialog"
-            class="login-dialog" 
+            class="login-dialog"
         >
-            <el-collapse v-if="showModal" v-model="activeNames" @change="handleChange" >
+            <el-collapse
+                v-if="showModal"
+                v-model="activeNames"
+                @change="handleChange"
+            >
                 <div class="select">
                     <div v-for="item in items" :key="item.name">
-                        <el-collapse-item :title="item.title" :name="item.name"
-                            :style="{ border: item.isActive ? '1px solid #409EFF' : '1px solid #dcdfe6', borderRadius: '5px' }">
-                            <div><p :style="{ fontSize: item.isActive ? '16px' : '' }">{{ item.content }}</p></div>
+                        <el-collapse-item
+                            :title="item.title"
+                            :name="item.name"
+                            :style="{
+                                border: item.isActive
+                                    ? '1px solid #409EFF'
+                                    : '1px solid #dcdfe6',
+                                borderRadius: '5px',
+                            }"
+                        >
+                            <div>
+                                <p
+                                    :style="{
+                                        fontSize: item.isActive ? '16px' : '',
+                                    }"
+                                >
+                                    {{ item.content }}
+                                </p>
+                            </div>
                         </el-collapse-item>
                     </div>
                 </div>
                 <div class="ss">
-                    <el-button type="primary" @click="nextStep" :disabled="activeNames.length === 0" >Далее</el-button >
+                    <el-button
+                        type="primary"
+                        @click="nextStep"
+                        :disabled="activeNames.length === 0"
+                        >Далее</el-button
+                    >
                 </div>
             </el-collapse>
-            <SignIn v-if="!showSteps" @some-event-log="closeModalLogin"/>
-            <SignUp v-if="showSteps && selectedStep === 'signUp'" @some-event-reg="closeModalReg"/>
+            <SignIn v-if="!showSteps" @some-event-log="closeModalLogin" />
+            <SignUp
+                v-if="showSteps && selectedStep === 'signUp'"
+                @some-event-reg="closeModalReg"
+            />
         </el-dialog>
     </div>
 </template>
@@ -37,15 +65,27 @@ import SignUp from "./SignUp.vue";
 const isDialogVisible = ref(false);
 const openDialog = () => {
     isDialogVisible.value = true;
-    titleModal.value = 'Вход'
+    titleModal.value = "Вход";
 };
 const activeNames = ref([]);
 const items = [
-    { name: "1", title: "Студент", content: "Наша компания ценит энтузиазм и стремление к профессиональному росту", isActive: false },
-    { name: "2", title: "Компания", content: "Если вы хотите найти практикантов и вырастить из них специалистов", isActive: false },
+    {
+        name: "1",
+        title: "Студент",
+        content:
+            "Наша компания ценит энтузиазм и стремление к профессиональному росту",
+        isActive: false,
+    },
+    {
+        name: "2",
+        title: "Компания",
+        content:
+            "Если вы хотите найти практикантов и вырастить из них специалистов",
+        isActive: false,
+    },
 ];
 const showSteps = ref(false);
-const showModal = ref(false)
+const showModal = ref(false);
 const selectedStep = ref("");
 const titleModal = ref("Зарегистрироваться, как");
 const nextStep = () => {
@@ -56,24 +96,25 @@ const nextStep = () => {
         if (activeComponent.name === "1" || activeComponent.name === "2") {
             titleModal.value = "Регистрация";
             activeComponent.value = true;
-            showModal.value = false
-            selectedStep.value = 'signUp'; 
+            showModal.value = false;
+            selectedStep.value = "signUp";
         }
     }
 };
 const closeModalLogin = () => {
     showModal.value = true;
     showSteps.value = true;
-    titleModal.value = 'Зарегистрироваться, как'
+    titleModal.value = "Зарегистрироваться, как";
 };
 const closeModalReg = () => {
-    titleModal.value = 'Вход';
+    titleModal.value = "Вход";
     showSteps.value = false;
     selectedStep.value = "";
 };
 const resetDialog = () => {
     activeNames.value = [];
     showSteps.value = false;
+    showModal.value = false;
     selectedStep.value = "";
 };
 const handleChange = (value) => {
