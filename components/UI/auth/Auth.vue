@@ -1,10 +1,12 @@
 <template>
     <div>
         <el-button @click="openDialog" type="primary">Войти</el-button>
-        <el-dialog 
-            v-model="isDialogVisible" 
-            :title="titleModal" width="480px" 
-            :close-on-click-modal="true" 
+
+        <el-dialog
+            v-model="isDialogVisible"
+            :title="titleModal"
+            width="480px"
+            :close-on-click-modal="true"
             :close-on-press-escape="true"
             @close="resetDialog"
             class="login-dialog" 
