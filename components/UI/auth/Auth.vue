@@ -11,7 +11,7 @@
             @close="resetDialog"
             class="login-dialog" 
         >
-            <el-collapse v-if="showSteps" v-model="activeNames" @change="handleChange">
+            <el-collapse v-if="showModal" v-model="activeNames" @change="handleChange" >
                 <div class="select">
                     <div v-for="item in items" :key="item.name">
                         <el-collapse-item :title="item.title" :name="item.name"
@@ -20,12 +20,12 @@
                         </el-collapse-item>
                     </div>
                 </div>
-                <div v-if="showSteps" class="ss">
+                <div class="ss">
                     <el-button type="primary" @click="nextStep" :disabled="activeNames.length === 0" >Далее</el-button >
                 </div>
             </el-collapse>
             <SignIn v-if="!showSteps" @some-event-log="closeModalLogin"/>
-            <SignUp v-if="showSteps && selectedStep === 'signUp'" @some-event-reg="closeModalReg" />
+            <SignUp v-if="showSteps && selectedStep === 'signUp'" @some-event-reg="closeModalReg"/>
         </el-dialog>
     </div>
 </template>
@@ -44,16 +44,8 @@ const items = [
     { name: "1", title: "Студент", content: "Наша компания ценит энтузиазм и стремление к профессиональному росту", isActive: false },
     { name: "2", title: "Компания", content: "Если вы хотите найти практикантов и вырастить из них специалистов", isActive: false },
 ];
-const handleChange = (value) => {
-    if (value.length > 1) {
-        value.shift();
-    }
-    activeNames.value = value;
-    items.forEach((item) => {
-        item.isActive = value.includes(item.name);
-    });
-};
 const showSteps = ref(false);
+const showModal = ref(false)
 const selectedStep = ref("");
 const titleModal = ref("Зарегистрироваться, как");
 const nextStep = () => {
@@ -62,25 +54,36 @@ const nextStep = () => {
             (item) => item.name === activeNames.value[0]
         );
         if (activeComponent.name === "1" || activeComponent.name === "2") {
-            titleModal.value = ref("Регистрация");
-            showSteps.value = false;
+            titleModal.value = "Регистрация";
+            activeComponent.value = true;
+            showModal.value = false
+            selectedStep.value = 'signUp'; 
         }
-        showSteps.value = false;
     }
 };
 const closeModalLogin = () => {
+    showModal.value = true;
     showSteps.value = true;
     titleModal.value = 'Зарегистрироваться, как'
 };
 const closeModalReg = () => {
-    selectedStep.value = true;
-    console.log('dsd');
-    titleModal.value = 'Вход'
+    titleModal.value = 'Вход';
+    showSteps.value = false;
+    selectedStep.value = "";
 };
 const resetDialog = () => {
     activeNames.value = [];
     showSteps.value = false;
     selectedStep.value = "";
+};
+const handleChange = (value) => {
+    if (value.length > 1) {
+        value.shift();
+    }
+    activeNames.value = value;
+    items.forEach((item) => {
+        item.isActive = value.includes(item.name);
+    });
 };
 </script>
 <style scoped>
