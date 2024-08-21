@@ -1,5 +1,16 @@
 <template>
     <div>
+        <!-- Если есть введённый запрос и результаты поиска, отображаем количество вакансий и запрос -->
+        <div
+            v-if="props.searchInput && filteredCards.length > 0"
+            class="status"
+        >
+            <p class="notFind">Найдено {{ filteredCards.length }} вакансий</p>
+            <span class="notFind-span"
+                >с запросом "{{ props.searchInput }}"</span
+            >
+        </div>
+
         <!-- Проверяем, есть ли отфильтрованные карточки -->
         <div v-if="filteredCards.length > 0" class="card-list">
             <Card
@@ -10,18 +21,27 @@
                 :education="card.education"
             />
         </div>
-        <!-- Если карточек нет, выводим текст "Не найдено" -->
-        <div v-if="filteredCards.length == 0">
-            <p class="notFind">
-                Упс! По вашему запросу ничего не найдено <br />
-            </p>
+
+        <!-- Если карточек нет и запрос не пустой, выводим текст "Не найдено" и все карточки -->
+        <div v-else-if="props.searchInput" class="searchError">
+            <p class="notFind">Упс! По вашему запросу ничего не найдено</p>
             <span class="notFind-span">Попробуйте ввести другой запрос</span>
+            <p>Предлагаем вам посмотреть данные компании:</p>
+            <div class="card-list">
+                <Card
+                    v-for="(card, index) in cards"
+                    :key="index"
+                    :company="card.company"
+                    :vacancy="card.vacancy"
+                    :education="card.education"
+                />
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, computed, watch, defineProps } from "vue";
+import { ref, computed, defineProps } from "vue";
 import Card from "./Card.vue";
 
 // Определение пропсов для получения значения поиска
@@ -64,17 +84,22 @@ const filteredCards = computed(() => {
     console.log("Filtered cards: ", result); // Логируем результат фильтрации
     return result;
 });
-
-// Слушаем изменения searchInput
-watch(
-    () => props.searchInput,
-    (newVal) => {
-        console.log("Search input changed: ", newVal); // Логируем новое значение поиска
-    }
-);
 </script>
 
 <style scoped>
+.status {
+    display: flex;
+    padding-block: 24px;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.searchError {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
 .card-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
