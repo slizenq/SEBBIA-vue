@@ -1,27 +1,27 @@
 {
-  "name": "nuxt-app",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "dependencies": {
-    "@pinia/nuxt": "^0.5.2",
-    "element-plus": "^2.8.0",
-    "nuxt": "^3.12.4",
-    "pinia": "^2.2.0",
-    "shallow-equal-object": "^1.1.1",
-    "ts-proto": "^1.181.1",
-    "uuid": "^10.0.0",
-    "vue": "^3.4.38",
-    "vue-router": "^4.4.3"
-  },
-  "devDependencies": {
-    "@sidebase/nuxt-auth": "^0.8.1",
-    "@types/uuid": "^10.0.0"
-  }
+    "name": "nuxt-app",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "nuxt build",
+        "dev": "nuxt dev",
+        "generate": "nuxt generate",
+        "preview": "nuxt preview",
+        "postinstall": "nuxt prepare"
+    },
+    "dependencies": {
+        "@pinia/nuxt": "^0.5.2",
+        "element-plus": "^2.8.0",
+        "nuxt": "^3.12.4",
+        "pinia": "^2.2.0",
+        "shallow-equal-object": "^1.1.1",
+        "ts-proto": "^1.181.1",
+        "uuid": "^10.0.0",
+        "vue": "^3.4.38",
+        "vue-router": "^4.4.3"
+    },
+    "devDependencies": {
+        "@sidebase/nuxt-auth": "^0.8.1",
+        "@types/uuid": "^10.0.0"
+    }
 }
