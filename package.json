@@ -10,18 +10,28 @@
         "postinstall": "nuxt prepare"
     },
     "dependencies": {
+        "@grpc/grpc-js": "^1.11.1",
+        "@grpc/proto-loader": "^0.7.13",
         "@pinia/nuxt": "^0.5.2",
+        "axios": "^1.7.5",
+        "cloudevents-sdk": "^2.0.4",
         "element-plus": "^2.8.0",
+        "google-protobuf": "^3.21.4",
+        "grpc-web": "^1.5.0",
+        "js-base64": "^3.7.7",
         "nuxt": "^3.12.4",
         "pinia": "^2.2.0",
+        "protobufjs": "^7.4.0",
+        "rxjs": "^7.8.1",
         "shallow-equal-object": "^1.1.1",
-        "ts-proto": "^1.181.1",
+        "ts-proto": "^1.181.2",
         "uuid": "^10.0.0",
         "vue": "^3.4.38",
         "vue-router": "^4.4.3"
     },
     "devDependencies": {
         "@sidebase/nuxt-auth": "^0.8.1",
+        "@types/js-base64": "^3.0.0",
         "@types/uuid": "^10.0.0"
     }
 }
