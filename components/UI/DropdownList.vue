@@ -4,7 +4,7 @@
     :options="options"
     placeholder="Выберите город"
     style="width: 240px; margin-right: 16px; vertical-align: middle"
-    multiple
+
     clearable
 />
 </template>
