@@ -1,44 +1,57 @@
 import * as grpc from "@grpc/grpc-js";
+import * as protoLoader from "@grpc/proto-loader";
 import type { ServiceError } from "@grpc/grpc-js";
-import { CloudEvent, PublishRequest } from "./cloudevent"; // Импортируем сгенерированные типы
+import { loadSync } from "protobufjs";
+import { Buffer } from "buffer";
+
+// Загрузка и настройка .proto файла
+const PROTO_PATH = "./cloudevent.proto";
+const packageDefinition = protoLoader.loadSync(PROTO_PATH);
+const protoDescriptor = grpc.loadPackageDefinition(packageDefinition) as any;
+
+// Получаем сервис из загруженного описания
+const CloudEventService = protoDescriptor.io.cloudevents.v1.CloudEventService;
 
 // Создаем клиент для подключения к серверу gRPC
-const client = new grpc.Client(
+const client = new CloudEventService(
     "10.10.4.209:50051",
     grpc.credentials.createInsecure()
 );
 
 // Создаем CloudEvent с правильной типизацией
-const cloudEvent: CloudEvent = {
+const cloudEvent = {
     id: "unique-event-id",
     source: "/mycontext",
-    specVersion: "1.0",
+    spec_version: "1.0",
     type: "com.example.someevent",
     attributes: {
         message: {
-            ceString: "Hello World",
+            ce_string: "Hello World",
         },
     },
+    binary_data: Buffer.from([]), // Если есть бинарные данные, добавьте их здесь
 };
 
-// Функция для отправки CloudEvent на сервер через gRPC
-function sendCloudEvent(event: CloudEvent) {
-    const request: PublishRequest = { event };
+// Функция для сериализации данных в бинарный формат
+function serializeMessage(message: any) {
+    const root = loadSync(PROTO_PATH);
+    const CloudEventProto = root.lookupType("io.cloudevents.v1.CloudEvent");
+    const errMsg = CloudEventProto.verify(message);
+    if (errMsg) throw Error(errMsg);
+    return CloudEventProto.encode(CloudEventProto.create(message)).finish();
+}
 
-    client.makeUnaryRequest(
-        "/io.cloudevents.v1.CloudEventService/Publish",
-        (arg) => Buffer.from(JSON.stringify(arg)),
-        (buffer) => {},
-        request,
-        (error: ServiceError | null, _response: any) => {
-            // Игнорируем _response, так как он не используется
-            if (error) {
-                console.error("Ошибка при отправке CloudEvent:", error);
-            } else {
-                console.log("Событие отправлено успешно");
-            }
+// Функция для отправки CloudEvent на сервер через gRPC
+function sendCloudEvent(event: any) {
+    const request = serializeMessage(event);
+
+    client.Publish(request, (error: ServiceError | null, _response: Buffer) => {
+        if (error) {
+            console.error("Ошибка при отправке CloudEvent:", error);
+        } else {
+            console.log("Событие отправлено успешно");
         }
-    );
+    });
 }
 
 // Отправляем событие
