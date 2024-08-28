@@ -11,7 +11,10 @@ var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
 // Получаем сервис из загруженного описания
 var CloudEventService = protoDescriptor.io.cloudevents.v1.CloudEventService;
 // Создаем клиент для подключения к серверу gRPC
-var client = new CloudEventService("10.10.4.209:50051", grpc.credentials.createInsecure());
+var client = new CloudEventService(
+    "10.10.4.209:50051",
+    grpc.credentials.createInsecure()
+);
 // Создаем CloudEvent с правильной типизацией
 var cloudEvent = {
     id: "unique-event-id",
@@ -30,8 +33,7 @@ function serializeMessage(message) {
     var root = (0, protobufjs_1.loadSync)(PROTO_PATH);
     var CloudEventProto = root.lookupType("io.cloudevents.v1.CloudEvent");
     var errMsg = CloudEventProto.verify(message);
-    if (errMsg)
-        throw Error(errMsg);
+    if (errMsg) throw Error(errMsg);
     return CloudEventProto.encode(CloudEventProto.create(message)).finish();
 }
 // Функция для отправки CloudEvent на сервер через gRPC
@@ -40,8 +42,7 @@ function sendCloudEvent(event) {
     client.Publish(request, function (error, _response) {
         if (error) {
             console.error("Ошибка при отправке CloudEvent:", error);
-        }
-        else {
+        } else {
             console.log("Событие отправлено успешно");
         }
     });
