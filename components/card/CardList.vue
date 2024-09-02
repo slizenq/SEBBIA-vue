@@ -95,31 +95,31 @@ const cards = ref([
 ]);
 
 // Состояние для отслеживания количества отображаемых карточек
-const visibleCount = ref(9);
+const visible = ref(9);
 
 // Функция для отображения большего количества карточек
 const showMore = () => {
-    visibleCount.value += 9;
+    visible.value += 9;
 };
 
 // Фильтрация карточек на основе введённого поиска
 const filteredCards = computed(() => {
     if (!props.searchInput) {
-        return cards.value.slice(0, visibleCount.value);
+        return cards.value.slice(0, visible.value);
     }
     // Фильтрация карточек по названию компании
     const result = cards.value.filter((card: { company: string }) =>
         card.company.toLowerCase().includes(props.searchInput.toLowerCase())
     );
-    return result.slice(0, visibleCount.value);
+    return result.slice(0, visible.value);
 });
 
 // Проверка, есть ли ещё карточки для отображения
 const hasMoreCards = computed(() => {
     if (!props.searchInput) {
-        return visibleCount.value < cards.value.length;
+        return visible.value < cards.value.length;
     }
-    return visibleCount.value < filteredCards.value.length;
+    return visible.value < filteredCards.value.length;
 });
 </script>
 
