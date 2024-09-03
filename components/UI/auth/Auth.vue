@@ -11,45 +11,19 @@
             @close="resetDialog"
             class="login-dialog"
         >
-            <el-collapse
-                v-if="showModal"
-                v-model="activeNames"
-                @change="handleChange"
-            >
+            <el-collapse v-if="showModal" v-model="activeNames" @change="handleChange" >
                 <div class="select">
                     <div v-for="item in items" :key="item.name">
-                        <el-collapse-item
-                            :title="item.title"
-                            :name="item.name"
-                            :style="{
-                                border: item.isActive
-                                    ? '1px solid #409EFF'
-                                    : '1px solid #dcdfe6',
-                                borderRadius: '5px',
-                            }"
+                        <el-collapse-item :title="item.title" :name="item.name" 
+                        :style="{ border: item.isActive  ? '1px solid #409EFF' : '1px solid #dcdfe6', borderRadius: '5px', }"
                         >
-                            <div>
-                                <p
-                                    :style="{
-                                        fontSize: item.isActive ? '16px' : '',
-                                    }"
-                                >
-                                    {{ item.content }}
-                                </p>
-                            </div>
+                            <div> <p :style="{ fontSize: item.isActive ? '16px' : '', }" > {{ item.content }} </p> </div>
                         </el-collapse-item>
                     </div>
                 </div>
-                <div class="ss">
-                    <el-button
-                        type="primary"
-                        @click="nextStep"
-                        :disabled="activeNames.length === 0"
-                        >Далее</el-button
-                    >
-                </div>
+                <div class="ss"><el-button type="primary" @click="nextStep" :disabled="activeNames.length === 0" >Далее</el-button ></div>
             </el-collapse>
-            <SignIn v-if="!showSteps" @some-event-log="closeModalLogin" />
+            <SignIn v-if="!showSteps" @login-success="handleLoginSuccess" />
             <SignUp
                 v-if="showSteps && selectedStep === 'signUp'"
                 @some-event-reg="closeModalReg"
@@ -116,6 +90,9 @@ const resetDialog = () => {
     showSteps.value = false;
     showModal.value = false;
     selectedStep.value = "";
+};
+const handleLoginSuccess = () => {
+    isDialogVisible.value = false;
 };
 const handleChange = (value) => {
     if (value.length > 1) {
