@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="login-dialog__form">
-            <Login v-model:email="loginForm.email"  />
-            <Password  v-model:password="loginForm.password"/>
+            <Login v-model:email="loginForm.email" />
+            <Password v-model:password="loginForm.password" />
             <div class="login-dialog__form-item login-dialog__checkbox">
                 <el-checkbox v-model="loginForm.rememberMe">
                     Запомнить пароль?
@@ -17,7 +17,6 @@
                     @click="$emit('someEventLog')"
                     class="login-dialog__register-link"
                 >
-                
                     Зарегистрироваться
                 </el-button>
             </div>
@@ -35,8 +34,8 @@
 import { ref } from "vue";
 import { ElButton, ElCheckbox } from "element-plus";
 import Login from "./personality/Login.vue";
-import Password from "./personality/Password.vue";  
-const emit = defineEmits(['login-success']);
+import Password from "./personality/Password.vue";
+const emit = defineEmits(["login-success"]);
 
 const loginForm = ref({
     email: "",
@@ -45,20 +44,28 @@ const loginForm = ref({
 });
 const login = () => {
     console.log("Вход с данными:", loginForm.value);
-    if (loginForm.value.email === 'admin' && loginForm.value.password === 'admin') {
-        navigateTo('/account/company');
-        emit('login-success');
-    } else if (loginForm.value.email === 'viktor' && loginForm.value.password === 'viktor') {
-        navigateTo('/account/student');
-        emit('login-success');
-    } else if (loginForm.value.email === 'sasha' && loginForm.value.password === 'sasha') {
-        navigateTo('/account/student');
-        emit('login-success');
+    if (
+        loginForm.value.email === "admin" &&
+        loginForm.value.password === "admin"
+    ) {
+        navigateTo("/account/company");
+        emit("login-success");
+    } else if (
+        loginForm.value.email === "viktor" &&
+        loginForm.value.password === "viktor"
+    ) {
+        navigateTo("/account/student");
+        emit("login-success");
+    } else if (
+        loginForm.value.email === "sasha" &&
+        loginForm.value.password === "sasha"
+    ) {
+        navigateTo("/account/student");
+        emit("login-success");
     } else {
-        alert('Аккаунта не существует');
+        alert("Аккаунта не существует");
     }
 };
-
 </script>
 
 <style scoped>

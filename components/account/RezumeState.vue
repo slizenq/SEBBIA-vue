@@ -1,75 +1,175 @@
 <template>
-    <div v-if="rezumes.length === 0" class="rezume__state">
-        <p class="rezume__state-title">{{ rezumeState[0] }}</p>
-        <div class="rezume__state-void contain__margin">
-            <div class="current__state">
-                <p class="current__state-title">{{ xxx[0] }}</p>
-                <p class="current__state-desc">{{ xx[0] }}</p>
-            </div>
-        </div>
-        <div class="rezume__state-content"></div>
-        <ElButton class="rezume-btn contain__margin" plain>{{
-            sendState[0]
-        }}</ElButton>
-    </div>
-    <div v-else class="rezume__state">
-        <p class="rezume__state-title">{{ rezumeState[1] }}</p>
+    <div class="rezume__state">
+        <p class="rezume__state-title">{{ rezumeState.title }}</p>
         <div
-            v-for="rezume in rezumes"
-            :key="rezume.id"
+            v-if="!storage.rezumes.length"
             class="rezume__state-void contain__margin"
         >
             <div class="current__state">
-                <p class="current__state-title">{{ rezume.name }}</p>
-                <p class="current__state-desc">{{ rezume.status }}</p>
+                <p class="current__state-title">{{ rezumeState.empty }}</p>
+                <p class="current__state-desc">{{ rezumeState.description }}</p>
             </div>
         </div>
-        <ElButton class="rezume-btn contain__margin" plain>{{
-            sendState[1]
-        }}</ElButton>
+        <div v-else class="rezume__state">
+            <div
+                v-for="rezume in storage.rezumes"
+                :key="rezume.id"
+                class="rezume__state-void contain__margin"
+            >
+                <div class="current__state">
+                    <p
+                        class="current__state-title"
+                        :style="{ color: getStatusColor(rezume.name) }"
+                    >
+                        {{ rezume.name }}
+                    </p>
+                    <p
+                        class="current__state-desc"
+                        :style="{ color: getStatusColor(rezume.status) }"
+                    >
+                        <el-icon v-if="getStatusLabelIcon(rezume.status)">
+                            <component
+                                :is="getStatusLabelIcon(rezume.status)"
+                                height="16"
+                            />
+                        </el-icon>
+                        {{ rezume.status }}
+                    </p>
+                </div>
+                <el-button
+                    v-if="rezume.status === 'Отказано'"
+                    type="default"
+                    plain
+                    @click="removeRezume(rezume.id)"
+                    class="btn__delete"
+                    >Удалить</el-button
+                >
+                <el-button
+                    v-else
+                    type="danger"
+                    plain
+                    class="btn__cancel"
+                    @click="cancelRezume(rezume.id)"
+                    >Отменить отправку</el-button
+                >
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
 import { ElButton } from "element-plus";
-const rezumeState = ["Статус отправки резюме", "Входящие резюме"];
-const sendState = ["Найти компанию", "Посмотреть другие компания"];
-const xxx = ["Вы еще не отправляли  свое резюме", "Вы еще не получили резюме"];
-const xx = [
-    "Найдите компанию и попробуйте отправить свое резюме",
-    "Заполните информацию о компании, чтобы получить больше входящих резюме",
-];
+import { useStore } from "~/storage/storage";
+import {
+    Hide,
+    CircleCheckFilled,
+    CircleCloseFilled,
+    View,
+} from "@element-plus/icons-vue";
 
-const rezumes = [
-    { id: 1, name: "Google", status: "Не просмотрено" },
-    { id: 2, name: "Apple", status: "Одобрено" },
-    { id: 3, name: "Microsoft", status: "Просмотрено" },
-    { id: 4, name: "Facebook", status: "Отказано" },
-];
+const storage = useStore();
+
+const rezumeState = {
+    title: "Статус отправки резюме",
+    empty: "Вы еще не отправляли свое резюме",
+    description: "Найдите компанию и попробуйте отправить свое резюме",
+};
+
+function removeRezume(id) {
+    storage.rezumes = storage.rezumes.filter((rezume) => rezume.id !== id);
+}
+
+function cancelRezume(id) {
+    const rezume = storage.rezumes.find((rezume) => rezume.id === id);
+    if (rezume) {
+        rezume.status = "Отменено";
+    }
+}
+
+function getStatusColor(status) {
+    if (typeof status === "string" && status !== "") {
+        switch (status) {
+            case "Одобрено":
+                return "#67c23a"; // green
+            case "Отказано":
+                return "#f56c6c"; // red
+            case "Просмотрено":
+                return "#303133"; // black
+            case "Не просмотрено":
+                return "#909399"; // gray
+        }
+    } else {
+        return null;
+    }
+}
+
+function getStatusLabelIcon(status) {
+    switch (status) {
+        case "Одобрено":
+            return CircleCheckFilled; // green checkmark
+        case "Отказано":
+            return CircleCloseFilled; // red close
+        case "Просмотрено":
+            return View; // eye icon
+        case "Не просмотрено":
+            return Hide; // hide icon
+        default:
+            return null;
+    }
+}
 </script>
 
 <style>
+.rezume__state {
+    max-width: 552px;
+}
+
+.rezume__state-void {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-height: 74px;
+    max-width: 552px;
+    background-color: rgba(115, 118, 122, 0.06);
+    border-radius: 4px;
+    padding-inline: 16px;
+}
 .current__state-title {
     color: #409eff;
-    font-size: 18px;
     font-weight: 700;
+    font-size: 18px;
+    line-height: 28px;
+    text-align: left;
 }
 .current__state-desc {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 4px;
     color: #909399;
+    font-size: 15px;
+    line-height: 26px;
+    text-align: left;
 }
 .rezume-btn {
     width: 100%;
     height: 45px;
 }
+
+.btn__delete,
+.btn__cancel {
+    min-height: 24px;
+    max-height: 40px;
+    padding: 8px 20px;
+}
 .current__state {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    align-items: center;
     width: 100%;
     position: relative;
     height: 74px;
-    background-color: rgba(115, 118, 122, 0.06);
+
     border-radius: 5px;
     padding: 16px;
 }
