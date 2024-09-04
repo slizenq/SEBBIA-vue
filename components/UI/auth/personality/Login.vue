@@ -3,20 +3,22 @@
     <div class="login-dialog__form-item">
         <label class="login-dialog__label">Логин</label>
         <el-input
-            v-model="loginForm.email"
+            :model-value="email"
             placeholder="Электронная почта"
             class="login-dialog__input"
+            @input="$emit('update:email', $event)"
         />
     </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { ElInput } from "element-plus";
+import { toRefs } from "vue";
 
-const loginForm = ref({
-    email: "",
+const props = defineProps({
+    email: String,
 });
+const { email } = toRefs(props);
 </script>
 
 <style scoped>

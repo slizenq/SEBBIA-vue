@@ -3,22 +3,24 @@
     <div class="login-dialog__form-item">
         <label class="login-dialog__label">Пароль</label>
         <el-input
-            v-model="loginForm.password"
+            v-model="password"
             placeholder="Пароль"
             type="password"
             class="login-dialog__input"
             show-password
+            @input="$emit('update:password', $event)"
         />
     </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { toRefs } from "vue";
 import { ElInput } from "element-plus";
 
-const loginForm = ref({
-    password: "",
-});
+const props = defineProps({
+    password: String
+})
+const { password } = toRefs(props);
 </script>
 
 <style scoped>

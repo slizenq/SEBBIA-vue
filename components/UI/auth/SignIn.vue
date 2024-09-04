@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="login-dialog__form">
-            <Login />
-            <Password />
+            <Login v-model:email="loginForm.email"  />
+            <Password  v-model:password="loginForm.password"/>
             <div class="login-dialog__form-item login-dialog__checkbox">
                 <el-checkbox v-model="loginForm.rememberMe">
                     Запомнить пароль?
@@ -35,9 +35,8 @@
 import { ref } from "vue";
 import { ElButton, ElCheckbox } from "element-plus";
 import Login from "./personality/Login.vue";
-import Password from "./personality/Password.vue";
-
-const isDialogVisible = ref(true);
+import Password from "./personality/Password.vue";  
+const emit = defineEmits(['login-success']);
 
 const loginForm = ref({
     email: "",
@@ -46,7 +45,18 @@ const loginForm = ref({
 });
 const login = () => {
     console.log("Вход с данными:", loginForm.value);
-    isDialogVisible.value = false;
+    if (loginForm.value.email === 'admin' && loginForm.value.password === 'admin') {
+        navigateTo('/account/company');
+        emit('login-success');
+    } else if (loginForm.value.email === 'viktor' && loginForm.value.password === 'viktor') {
+        navigateTo('/account/student');
+        emit('login-success');
+    } else if (loginForm.value.email === 'sasha' && loginForm.value.password === 'sasha') {
+        navigateTo('/account/student');
+        emit('login-success');
+    } else {
+        alert('Аккаунта не существует');
+    }
 };
 
 </script>
