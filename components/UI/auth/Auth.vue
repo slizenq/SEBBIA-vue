@@ -23,7 +23,7 @@
                 </div>
                 <div class="ss"><el-button type="primary" @click="nextStep" :disabled="activeNames.length === 0" >Далее</el-button ></div>
             </el-collapse>
-            <SignIn v-if="!showSteps" @login-success="handleLoginSuccess" />
+            <SignIn v-if="!showSteps" @login-success="handleLoginSuccess" @some-event-log="closeModalLogin"/>
             <SignUp
                 v-if="showSteps && selectedStep === 'signUp'"
                 @some-event-reg="closeModalReg"

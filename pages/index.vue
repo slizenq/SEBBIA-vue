@@ -14,7 +14,7 @@
                 </p>
             </div>
             <div class="index-search">
-                <Search @search-input="handleSearchInput" />
+                <Search @search-input="handleSearchInput"/>
             </div>
             <Slider />
             <div class="index-dropdownlist"><DropdownList /></div>
@@ -32,7 +32,6 @@ import Search from "~/components/UI/Search.vue";
 import CardList from "~/components/card/CardList.vue";
 
 const searchText = ref("");
-
 const handleSearchInput = (input) => {
     searchText.value = input;
 };

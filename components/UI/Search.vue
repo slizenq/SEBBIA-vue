@@ -11,7 +11,7 @@
             />
         </div>
         <Filter />
-        <el-button type="primary" @click="emitSearch">Найти компанию</el-button>
+        <el-button type="primary" @click="emitSearch" class="paddNone">Найти компанию</el-button>
     </div>
 </template>
 
@@ -34,8 +34,8 @@ const handleInput = (value) => {
 
 // Эмитим событие при нажатии на кнопку поиска или Enter
 const emitSearch = () => {
-    // console.log("Search initiated, value: ", input.value);
-    emit("search-input", input.value); // Эмитим событие с текущим значением input
+    emit("search-input", input.value);
+    navigateTo('./about')
 };
 </script>
 
@@ -46,7 +46,7 @@ const emitSearch = () => {
     padding: 8px 20px;
 }
 .el-input {
-    max-width: 1561px;
+    max-width: 1461px;
     width: 65vw;
     height: 40px;
 }
@@ -56,9 +56,13 @@ const emitSearch = () => {
 .wrap {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     gap: 20px;
     width: 90vw;
-    max-width: 1735px;
+    max-width: 1450px;
+    margin: 0 auto;
+}
+.paddNone {
+    margin: 0;
 }
 </style>
