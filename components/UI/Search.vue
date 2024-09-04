@@ -11,7 +11,9 @@
             />
         </div>
         <Filter />
-        <el-button type="primary" @click="emitSearch" class="paddNone">Найти компанию</el-button>
+        <el-button type="primary" @click="emitSearch" class="paddNone">
+            Найти компанию
+        </el-button>
     </div>
 </template>
 
@@ -20,22 +22,34 @@ import { ref } from "vue";
 import { ElInput, ElButton } from "element-plus";
 import Filter from "./Filter.vue";
 import { Search } from "@element-plus/icons-vue";
+import { useRouter } from "vue-router"; // Импортируем роутер
 
 const input = ref("");
 const printedText = ref("Напиши место практики");
+const router = useRouter(); // Инициализация роутера
 
 const emit = defineEmits(["search-input"]);
+const props = defineProps({
+    page: {
+        type: String,
+        required: true,
+    },
+});
 
 // Обработчик ввода
 const handleInput = (value) => {
-    // console.log("Input value: ", value);
     input.value = value;
 };
 
 // Эмитим событие при нажатии на кнопку поиска или Enter
 const emitSearch = () => {
-    emit("search-input", input.value);
-    navigateTo('./about')
+    if (props.page === "index") {
+        // Если текущая страница index.vue, перенаправляем на about.vue и передаем поисковый запрос
+        router.push({ path: "/about", query: { search: input.value } });
+    } else if (props.page === "about") {
+        // Если на странице About.vue, просто выполняем поиск
+        emit("search-input", input.value);
+    }
 };
 </script>
 

@@ -14,7 +14,7 @@
                 </p>
             </div>
             <div class="index-search">
-                <Search @search-input="handleSearchInput"/>
+                <Search :page="'index'" />
             </div>
             <Slider />
             <div class="index-dropdownlist"><DropdownList /></div>
