@@ -12,7 +12,7 @@
         </div>
         <div v-else class="rezume__state">
             <div
-                v-for="rezume in storage.rezumes"
+                v-for="rezume in storage.rezumes.slice(0, 4)"
                 :key="rezume.id"
                 class="rezume__state-void contain__margin"
             >
@@ -51,6 +51,11 @@
                     class="btn__cancel"
                     @click="cancelRezume(rezume.id)"
                     >Отменить отправку</el-button
+                >
+            </div>
+            <div v-if="storage.rezumes.length > 4" class="show-more-container">
+                <el-button type="text" @click="showMoreRezumes"
+                    >Показать больше</el-button
                 >
             </div>
         </div>
@@ -117,6 +122,10 @@ function getStatusLabelIcon(status) {
             return null;
     }
 }
+
+function showMoreRezumes() {
+    navigateTo("/groups/ResumeList");
+}
 </script>
 
 <style>
@@ -180,5 +189,9 @@ function getStatusLabelIcon(status) {
 .rezume__state {
     width: 600px;
     margin-top: 32px;
+}
+.show-more-container {
+    margin-top: 16px;
+    text-align: center;
 }
 </style>
