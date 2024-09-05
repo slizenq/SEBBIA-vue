@@ -14,18 +14,25 @@ import { useStore } from "~/storage/storage";
 import { computed } from "vue";
 
 const store = useStore();
-const value = inject("value");
+
+const props = defineProps({
+    value: {
+        type: String,
+        required: true,
+    },
+});
 
 const filteredRezumes = computed(() => {
-    if (value === "Просмотренные") {
+    if (props.value === "Просмотренные") {
         return store.rezumes.filter(
             (rezume) =>
                 rezume.status === "Отказано" || rezume.status === "Одобрено"
         );
-    } else if (value === "Входящие") {
+    } else if (props.value === "Входящие") {
         return store.rezumes.filter(
             (rezume) =>
-                rezume.status !== "Отказано" && rezume.status !== "Одобрено"
+                rezume.status === "Просмотрено" ||
+                rezume.status === "Не просмотрено"
         );
     } else {
         return store.rezumes;

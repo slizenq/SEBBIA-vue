@@ -5,7 +5,7 @@
         <el-segmented
             v-model="value"
             :options="options"
-            @click="change"
+            @click="handleChange"
             style="border-radius: 4px; margin-bottom: 24px"
         />
         <ResumeCardGroup :value="value" />
@@ -28,6 +28,10 @@ const value = ref("Просмотренные");
 provide("value", value);
 
 const options = ["Просмотренные", "Входящие"];
+
+const handleChange = () => {
+    console.log("Выбрано:", this.value);
+};
 </script>
 
 <style>
