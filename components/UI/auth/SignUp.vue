@@ -56,9 +56,14 @@ const loginForm = ref({
   rememberMe: false,
 });
 
-const registration = () => {
+const registration = async () => {
   console.log("Вход с данными:", loginForm.value);
-  register(loginForm.value.email, loginForm.value.password, loginForm.value.is_company);
+  const isRegisterSuccessful = await register(loginForm.value.email, loginForm.value.password, loginForm.value.is_company);
+  if (isRegisterSuccessful) {
+        alert("Регистрация успешна")
+    } else {
+        alert("Ошибка при регистрации");
+    }
 };
 </script>
 

@@ -8,7 +8,15 @@ export const register = async function(email, password, is_company) {
         password: password,
         is_company: is_company
     };
-    await axios.post(`${domenIP}/auth/register`, postData)
+    try {
+        const response = await axios.post(`${domenIP}/auth/register`, postData)
+        if (response.status === 200) {
+            return true;
+        }
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
 }
 export const requestAccessToken = async function(username, password) {
     const postData = {
