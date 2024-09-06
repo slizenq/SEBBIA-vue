@@ -21,13 +21,13 @@
                     >
                 </div>
                 <div v-else class="">
-                    <el-button type="success" plain>Принять</el-button>
-                    <el-button type="danger" plain>Отклонить</el-button>
+                    <el-button type="success" plain @click="acceptRezume"
+                        >Принять</el-button
+                    >
+                    <el-button type="danger" plain @click="declineRezume"
+                        >Отклонить</el-button
+                    >
                 </div>
-            </div>
-            <div v-else class="">
-                <el-button type="success" plain>Принять</el-button>
-                <el-button type="success" plain>Отклонить</el-button>
             </div>
         </div>
     </div>
@@ -43,6 +43,18 @@ const props = defineProps({
         required: true,
     },
 });
+
+const emit = defineEmits(["accept", "decline"]);
+
+function acceptRezume() {
+    emit("accept", props.rezume);
+    props.rezume.status = "Одобрено";
+}
+
+function declineRezume() {
+    emit("decline", props.rezume);
+    props.rezume.status = "Отказано";
+}
 </script>
 
 <style scoped>
