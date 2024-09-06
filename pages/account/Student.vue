@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <BreadCrumb :breadcrumbItems="breadcrumbItems" />
+        <BreadCrumb :breadcrumbItems="breadcrumbItems" class="bread_margin"/>
         <Progress/>
         <div class="rezume__screen">
             <div>
@@ -36,6 +36,9 @@ const breadcrumbItems = ref(
     display: flex;
     justify-content: space-between;
     align-items: first baseline;
+}
+.bread_margin {
+    margin-top: 80px
 }
 </style>
   

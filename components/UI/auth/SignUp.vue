@@ -1,31 +1,19 @@
-<!-- // Регистрация // -->
 <template>
     <div>
         <div class="login-dialog__form">
-            <!-- Логин -->
-            <Login />
-
-            <!-- Пароль -->
-            <Password />
-
-            <!-- Повторить пароль -->
-            <ReturnPass />
-
-            <!-- Запомнить пароль -->
+            <Login  v-model:email="loginForm.email"/>
+            <Password v-model:password="loginForm.password"/>
+            <ReturnPass v-model:passwordConfirm="loginForm.passwordConfirm"/>
             <div class="login-dialog__form-item login-dialog__checkbox">
                 <el-checkbox v-model="loginForm.rememberMe">
                     Запомнить пароль?
                 </el-checkbox>
             </div>
-
-            <!-- Кнопка Зарегистрироваться -->
             <div class="login-dialog__form-item login-dialog__submit">
-                <el-button type="primary" @click="login"
+                <el-button type="primary" @click="registration"
                     >Зарегистрироваться</el-button
                 >
             </div>
-
-            <!-- Ссылка на вход -->
             <div class="login-dialog__register">
                 <span>Есть аккаунт?</span>
                 <el-button
@@ -35,7 +23,6 @@
                     Войти
                 </el-button>
             </div>
-
             <div class="login-dialog__privacy-policy">
                 При регистрации и входе <br />вы соглашаетесь с
                 <a class="login-dialog__link" href=""
@@ -52,37 +39,34 @@ import { ElButton, ElCheckbox } from "element-plus";
 import Login from "./personality/Login.vue";
 import Password from "./personality/Password.vue";
 import ReturnPass from "./personality/ReturnPass.vue";
+import { register } from "./Authentication";
+import { inject } from 'vue';
+const whoUser = inject('whoUser', ref(null));
+console.log(whoUser);
 
 const loginForm = ref({
     email: "",
     password: "",
+    is_company: whoUser.value ? true : false,
     rememberMe: false,
 });
 
-const login = () => {
+const registration = () => {
     console.log("Вход с данными:", loginForm.value);
-};
-
-const register = () => {
-    console.log("Переход на страницу регистрации");
+    register(loginForm.value.email, loginForm.value.password, loginForm.value.is_company)
 };
 </script>
 
 <style scoped>
-/* Общие стили для формы */
 .login-dialog__form {
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
-
-/* Чекбокс */
 .login-dialog__checkbox {
     margin-top: 8px;
 }
-
-/* Кнопка Войти */
 .login-dialog__submit {
     display: flex;
     font-size: 14px;
@@ -91,20 +75,16 @@ const register = () => {
     justify-content: flex-start;
     max-width: 186px;
 }
-
 .login-dialog__submit button {
     padding: 8px 20px;
     height: 40px;
 }
-
-/* Стили для ссылки на регистрацию */
 .login-dialog__register {
     display: flex;
     font-size: 14px;
     flex-direction: column;
     gap: 12px;
 }
-
 .login-dialog__register-link {
     /* color: #409eff; */
     max-width: 82px;
@@ -113,14 +93,11 @@ const register = () => {
     font-weight: 500;
     padding: 8px 20px;
 }
-
-/* Политика конфиденциальности */
 .login-dialog__privacy-policy {
     margin-top: 16px;
     font-size: 12px;
     color: #999;
 }
-
 .login-dialog__link {
     color: #409eff;
     font-size: 12px;
