@@ -1,17 +1,46 @@
 <template>
     <div class="container">
-        <BreadCrumb :breadcrumbItems="breadcrumbItems" />
-        <Progress />
+        <BreadCrumb :breadcrumbItems="breadcrumbItems" class="bread_margin"/>
+        <Progress/>
+        <div class="rezume__screen">
+            <div>
+                <Rezume/>
+            </div>
+            <div>
+                <RezumeUser/>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
 import BreadCrumb from "~/components/BreadCrumb.vue";
 import { ref } from "vue";
-import Progress from "../../components/UI/Progress.vue";
-
-const breadcrumbItems = ref([
-    { path: "x/xx/xxx", label: "Профиль" },
-    { path: "x/xx/xxx", label: "Аккаунт" },
-]);
+import Progress from "~/components/UI/Progress.vue"
+import Rezume from "~/components/account/Rezume.vue";
+import RezumeUser from "~/components/account/RezumeUser.vue";
+  
+const breadcrumbItems = ref(
+        [
+            { path: "x/xx/xxx", label: "Профиль" },
+            { path: "x/xx/xxx", label: "Аккаунт" },
+        ]
+    );
 </script>
+
+<style>
+.rezume__screen {
+    border: 1px solid red;
+    display: flex;
+    flex-wrap: wrap;
+}
+.rezume__screen {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: first baseline;
+}
+.bread_margin {
+    margin-top: 80px
+}
+</style>

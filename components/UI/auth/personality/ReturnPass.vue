@@ -3,23 +3,24 @@
     <div class="login-dialog__form-item">
         <label class="login-dialog__label">Подтверждение</label>
         <el-input
-            v-model="loginForm.password"
+            v-model="passwordConfirm"
             placeholder="Повторите пароль"
             type="password"
             class="login-dialog__input"
             show-password
+            @input="$emit('update:passwordConfirm', $event)"
         />
     </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { toRefs } from "vue";
 import { ElInput } from "element-plus";
-import { Hide } from "@element-plus/icons-vue";
 
-const loginForm = ref({
-    password: "",
-});
+const props = defineProps({
+    passwordConfirm: String
+})
+const { passwordConfirm } = toRefs(props);
 </script>
 
 <style scoped>
