@@ -15,7 +15,7 @@
                     >
                     <el-button type="default" :icon="TopRight" class="link" />
                 </div>
-                <div v-else-if="rezume.status == 'Отказано'" class="tags">
+                <div v-else-if="rezume.status == 'Отказано'" class="resume-btn">
                     <el-tag size="large" type="danger" effect="light"
                         ><el-icon><CircleCloseFilled height="16" /></el-icon
                         >Отказано</el-tag
