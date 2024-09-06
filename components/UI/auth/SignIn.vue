@@ -34,7 +34,8 @@
 import { ref } from "vue";
 import { ElButton, ElCheckbox } from "element-plus";
 import Login from "./personality/Login.vue";
-import Password from "./personality/Password.vue";
+import { requestAccessToken } from "./Authentication";
+import Password  from "./personality/Password.vue";
 const emit = defineEmits(["login-success"]);
 
 const loginForm = ref({
@@ -44,27 +45,7 @@ const loginForm = ref({
 });
 const login = () => {
     console.log("Вход с данными:", loginForm.value);
-    if (
-        loginForm.value.email === "admin" &&
-        loginForm.value.password === "admin"
-    ) {
-        navigateTo("/account/company");
-        emit("login-success");
-    } else if (
-        loginForm.value.email === "viktor" &&
-        loginForm.value.password === "viktor"
-    ) {
-        navigateTo("/account/student");
-        emit("login-success");
-    } else if (
-        loginForm.value.email === "sasha" &&
-        loginForm.value.password === "sasha"
-    ) {
-        navigateTo("/account/student");
-        emit("login-success");
-    } else {
-        alert("Аккаунта не существует");
-    }
+    requestAccessToken(loginForm.value.email, loginForm.value.password)
 };
 </script>
 

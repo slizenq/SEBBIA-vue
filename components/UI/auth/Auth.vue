@@ -23,19 +23,22 @@
                 </div>
                 <div class="ss"><el-button type="primary" @click="nextStep" :disabled="activeNames.length === 0" >Далее</el-button ></div>
             </el-collapse>
-            <SignIn v-if="!showSteps" @login-success="handleLoginSuccess" @some-event-log="closeModalLogin"/>
+            <SignIn 
+                v-if="!showSteps" 
+                @login-success="handleLoginSuccess" 
+                @some-event-log="closeModalLogin"/>
             <SignUp
                 v-if="showSteps && selectedStep === 'signUp'"
-                @some-event-reg="closeModalReg"
-            />
+                @some-event-reg="closeModalReg"/>
         </el-dialog>
     </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, provide } from 'vue';
 import { ElButton, ElDialog, ElCollapseItem, ElCollapse } from "element-plus";
 import SignIn from "./SignIn.vue";
 import SignUp from "./SignUp.vue";
+
 const isDialogVisible = ref(false);
 const openDialog = () => {
     isDialogVisible.value = true;
@@ -73,6 +76,9 @@ const nextStep = () => {
             showModal.value = false;
             selectedStep.value = "signUp";
         }
+        const whoUser = ref(null);
+        whoUser.value = activeComponent.name === '1' ? false : activeComponent.name === '2' ? true : null;
+        provide('whoUser', whoUser);
     }
 };
 const closeModalLogin = () => {
@@ -103,6 +109,7 @@ const handleChange = (value) => {
         item.isActive = value.includes(item.name);
     });
 };
+
 </script>
 <style scoped>
 .ss {
@@ -132,35 +139,29 @@ const handleChange = (value) => {
     justify-content: center;
     gap: 20px;
 }
-/* Общие стили для формы */
 .login-dialog__form {
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
-/* Элементы формы (Логин и Пароль) */
 .login-dialog__form-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-/* Лейблы */
 .login-dialog__label {
     width: 80px;
     font-size: 14px;
     color: #333;
 }
-/* Поля ввода */
 .login-dialog__input {
     flex-grow: 1;
     max-width: 230px;
 }
-/* Чекбокс */
 .login-dialog__checkbox {
     margin-top: 8px;
 }
-/* Кнопка Войти */
 .login-dialog__submit {
     justify-content: flex-start;
 }
@@ -168,7 +169,6 @@ const handleChange = (value) => {
     padding: 8px 20px;
     height: 40px;
 }
-/* Стили для ссылки на регистрацию */
 .login-dialog__register {
     text-align: center;
     font-size: 14px;
@@ -177,7 +177,6 @@ const handleChange = (value) => {
     margin-left: 5px;
     color: #409eff;
 }
-/* Политика конфиденциальности */
 .login-dialog__privacy-policy {
     text-align: center;
     margin-top: 16px;
