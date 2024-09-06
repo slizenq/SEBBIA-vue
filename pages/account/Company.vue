@@ -30,7 +30,6 @@ const breadcrumbItems = ref([
 
 <style>
 .rezume__screen {
-    border: 1px solid red;
     display: flex;
     flex-wrap: wrap;
 }

@@ -43,9 +43,14 @@ const loginForm = ref({
     password: "",
     rememberMe: false,
 });
-const login = () => {
+const login = async () => {
     console.log("Вход с данными:", loginForm.value);
-    requestAccessToken(loginForm.value.email, loginForm.value.password)
+    const isLoginSuccessful = await requestAccessToken(loginForm.value.email, loginForm.value.password);
+    if (isLoginSuccessful) {
+        emit("login-success", false);
+    } else {
+        alert("Ошибка при входе, модальное окно не закрывается.");
+    }
 };
 </script>
 

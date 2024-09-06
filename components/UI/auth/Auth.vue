@@ -25,10 +25,12 @@
             </el-collapse>
             <SignIn 
                 v-if="!showSteps" 
+                :whoUser="whoUser"
                 @login-success="handleLoginSuccess" 
                 @some-event-log="closeModalLogin"/>
             <SignUp
                 v-if="showSteps && selectedStep === 'signUp'"
+                :whoUser="whoUser"
                 @some-event-reg="closeModalReg"/>
         </el-dialog>
     </div>
@@ -65,22 +67,29 @@ const showSteps = ref(false);
 const showModal = ref(false);
 const selectedStep = ref("");
 const titleModal = ref("Зарегистрироваться, как");
+const whoUser = ref(null);
+
 const nextStep = () => {
     if (activeNames.value.length === 1) {
         const activeComponent = items.find(
             (item) => item.name === activeNames.value[0]
         );
+        if (activeComponent && activeComponent.name === '1') {
+            whoUser.value = false;
+        } else if (activeComponent && activeComponent.name === '2') {
+            whoUser.value = true;
+        } else {
+            whoUser.value = null;
+        }
         if (activeComponent.name === "1" || activeComponent.name === "2") {
             titleModal.value = "Регистрация";
             activeComponent.value = true;
             showModal.value = false;
             selectedStep.value = "signUp";
         }
-        const whoUser = ref(null);
-        whoUser.value = activeComponent.name === '1' ? false : activeComponent.name === '2' ? true : null;
-        provide('whoUser', whoUser);
     }
 };
+
 const closeModalLogin = () => {
     showModal.value = true;
     showSteps.value = true;
