@@ -45,7 +45,7 @@
                     >Удалить</el-button
                 >
                 <el-button
-                    v-else
+                    v-else-if="rezume.status !== 'Отменено'"
                     type="danger"
                     plain
                     class="btn__cancel"
@@ -88,6 +88,13 @@ function cancelRezume(id) {
     const rezume = storage.rezumes.find((rezume) => rezume.id === id);
     if (rezume) {
         rezume.status = "Отменено";
+        // Обновляем статус резюме
+        storage.rezumes = storage.rezumes.map((r) => {
+            if (r.id === id) {
+                return rezume;
+            }
+            return r;
+        });
     }
 }
 
