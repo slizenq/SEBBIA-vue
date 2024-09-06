@@ -6,7 +6,9 @@
             class="status"
         >
             <p class="notFind">Найдено {{ filteredCards.length }} вакансий</p>
-            <span class="notFind-span">с запросом "{{ props.searchInput }}"</span>
+            <span class="notFind-span"
+                >с запросом "{{ props.searchInput }}"</span
+            >
         </div>
 
         <!-- Отображаем отфильтрованные карточки, если они есть -->
@@ -63,8 +65,18 @@ const cards = ref([
     { id: 2, company: "Google", vacancy: "Backend", education: "ДГТУ, РКСИ" },
     { id: 3, company: "Apple", vacancy: "Backend", education: "ДГТУ, РКСИ" },
     { id: 4, company: "Amazon", vacancy: "Backend", education: "ДГТУ, РКСИ" },
-    { id: 5, company: "Facebook", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-    { id: 6, company: "Microsoft", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
+    {
+        id: 5,
+        company: "Facebook",
+        vacancy: "Frontend",
+        education: "ДГТУ, РКСИ",
+    },
+    {
+        id: 6,
+        company: "Microsoft",
+        vacancy: "Frontend",
+        education: "ДГТУ, РКСИ",
+    },
     { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
     { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
     { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
