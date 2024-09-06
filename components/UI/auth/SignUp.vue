@@ -10,7 +10,8 @@
                 </el-checkbox>
             </div>
             <div class="login-dialog__form-item login-dialog__submit">
-                <el-button type="primary" @click="registration"
+                <el-button type="primary" 
+                    @click="registration"
                     >Зарегистрироваться</el-button
                 >
             </div>
@@ -34,26 +35,30 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, defineProps } from "vue";
 import { ElButton, ElCheckbox } from "element-plus";
 import Login from "./personality/Login.vue";
 import Password from "./personality/Password.vue";
 import ReturnPass from "./personality/ReturnPass.vue";
 import { register } from "./Authentication";
-import { inject } from 'vue';
-const whoUser = inject('whoUser', ref(null));
-console.log(whoUser);
+
+const props = defineProps({
+  whoUser: {
+    type: Boolean,
+    default: null, 
+  },
+});
 
 const loginForm = ref({
-    email: "",
-    password: "",
-    is_company: whoUser.value ? true : false,
-    rememberMe: false,
+  email: "",
+  password: "",
+  is_company: props.whoUser ? true : false,
+  rememberMe: false,
 });
 
 const registration = () => {
-    console.log("Вход с данными:", loginForm.value);
-    register(loginForm.value.email, loginForm.value.password, loginForm.value.is_company)
+  console.log("Вход с данными:", loginForm.value);
+  register(loginForm.value.email, loginForm.value.password, loginForm.value.is_company);
 };
 </script>
 
