@@ -166,6 +166,7 @@ p.more-link {
     text-decoration: none;
   margin-top: 50px;
   letter-spacing: 1px;
+  cursor: pointer;
 }
 .link-container {
   text-align: center;

@@ -30,7 +30,9 @@ export const requestAccessToken = async function(username, password) {
             }
         });
         const accessToken = response.data.access_token;
+        const user = response.data.user;
         localStorage.setItem('access_token', accessToken);
+        localStorage.setItem('user', JSON.stringify(user));
         (response.data.user.is_company == false) ? navigateTo('/account/student') : navigateTo('/account/company')
         console.log(response.data);
         if (response.status === 200) {
