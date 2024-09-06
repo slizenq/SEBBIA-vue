@@ -8,25 +8,28 @@
         </div>
         <div class="card__right">
             <div v-if="rezume.status == 'Отказано' || 'Одобрено'">
-                <div v-if="rezume.status == 'Одобрено'" class="">
+                <div v-if="rezume.status == 'Одобрено'" class="resume-btn">
                     <el-tag size="large" type="success" effect="light"
                         ><el-icon><CircleCheckFilled height="16" /></el-icon
                         >Принято</el-tag
                     >
+                    <el-button type="default" :icon="TopRight" class="link" />
                 </div>
-                <div v-else-if="rezume.status == 'Отказано'" class="">
+                <div v-else-if="rezume.status == 'Отказано'" class="tags">
                     <el-tag size="large" type="danger" effect="light"
                         ><el-icon><CircleCloseFilled height="16" /></el-icon
                         >Отказано</el-tag
                     >
+                    <el-button type="default" :icon="TopRight" class="link" />
                 </div>
-                <div v-else class="">
+                <div v-else class="resume-btn">
                     <el-button type="success" plain @click="acceptRezume"
                         >Принять</el-button
                     >
                     <el-button type="danger" plain @click="declineRezume"
                         >Отклонить</el-button
                     >
+                    <el-button type="default" :icon="TopRight" class="link" />
                 </div>
             </div>
         </div>
@@ -36,6 +39,7 @@
 <script setup>
 import { ElButton, ElTag } from "element-plus";
 import { CircleCheckFilled, CircleCloseFilled } from "@element-plus/icons-vue";
+import { TopRight } from "@element-plus/icons-vue";
 
 const props = defineProps({
     rezume: {
@@ -62,6 +66,12 @@ function declineRezume() {
     display: flex;
     flex-direction: column;
     gap: 4px;
+}
+
+.resume-btn {
+    display: flex;
+    justify-content: end;
+    gap: 8px;
 }
 .name {
     font-size: 18px;
