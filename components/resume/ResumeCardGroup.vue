@@ -44,7 +44,7 @@ const filteredRezumes = computed(() => {
 .card-group {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(7, 1fr);
+    grid-template-rows: repeat(auto, 1fr);
     grid-column-gap: 30px;
     grid-row-gap: 16px;
 }
