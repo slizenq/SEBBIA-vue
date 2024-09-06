@@ -9,15 +9,17 @@
             <!-- <div class="rezume__content contain__margin">
             </div> -->
         </div>
-        <ElButton type="primary" class="rezume-btn contain__margin">{{ createRezume[0] }}</ElButton>
+        <ElButton type="primary" class="rezume-btn contain__margin">
+            {{ createRezume[0] }}
+        </ElButton>
     </div>
 </template>
 
 <script setup>
-import { ElButton } from 'element-plus';
+import { ElButton } from "element-plus";
 
-const rezumeTitle = ['Резюме', 'Вакансия']
-const createRezume = ['Создать резюме', 'Добавить информацию']
+const rezumeTitle = ["Резюме", "Вакансия"];
+const createRezume = ["Создать резюме", "Добавить информацию"];
 </script>
 
 <style>
@@ -26,8 +28,8 @@ const createRezume = ['Создать резюме', 'Добавить инфо�
     height: 45px;
 }
 .not_filled {
-    color: #73767A;
-    background-color: #DEDFE0;
+    color: #73767a;
+    background-color: #dedfe0;
     padding: 7px 20px;
     border-radius: 5px;
     display: inline;
@@ -46,14 +48,14 @@ const createRezume = ['Создать резюме', 'Добавить инфо�
     width: 100%;
     position: relative;
     height: 120px;
-    background-color: rgba(115, 118, 122, 0.060);
+    background-color: rgba(115, 118, 122, 0.06);
     border-radius: 5px;
     padding: 16px;
 }
 .rezume__title {
     color: #303133;
     font-weight: 700;
-    font-size: 26px
+    font-size: 26px;
 }
 .rezume {
     margin-top: 40px;

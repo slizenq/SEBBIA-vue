@@ -12,7 +12,7 @@
         </div>
     </div>
 </template>
-  
+
 <script setup>
 import BreadCrumb from "~/components/BreadCrumb.vue";
 import { ref } from "vue";
@@ -44,4 +44,3 @@ const breadcrumbItems = ref(
     margin-top: 80px
 }
 </style>
-  

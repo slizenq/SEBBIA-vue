@@ -4,30 +4,28 @@
         <Progress/>
         <div class="rezume__screen">
             <div>
-                <Rezume/>
-                <RezumeState/>
+                <Rezume />
+                <RezumeState />
             </div>
             <div>
-                <RezumeUser/>
+                <RezumeUser />
             </div>
         </div>
     </div>
 </template>
-  
+
 <script setup>
 import BreadCrumb from "~/components/BreadCrumb.vue";
 import { ref } from "vue";
-import Progress from "~/components/UI/Progress.vue"
+import Progress from "~/components/UI/Progress.vue";
 import Rezume from "~/components/account/Rezume.vue";
 import RezumeState from "~/components/account/RezumeState.vue";
 import RezumeUser from "~/components/account/RezumeUser.vue";
-  
-const breadcrumbItems = ref(
-        [
-            { path: "x/xx/xxx", label: "Профиль" },
-            { path: "x/xx/xxx", label: "Аккаунт" },
-        ]
-    );
+
+const breadcrumbItems = ref([
+    { path: "x/xx/xxx", label: "Профиль" },
+    { path: "x/xx/xxx", label: "Аккаунт" },
+]);
 </script>
 
 <style>
@@ -41,4 +39,3 @@ const breadcrumbItems = ref(
     margin-top: 80px
 }
 </style>
-  
