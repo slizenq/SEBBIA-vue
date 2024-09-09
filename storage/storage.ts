@@ -2,6 +2,21 @@ import { createPinia } from "pinia";
 import { defineStore } from "pinia";
 import { createPersistedState } from "pinia-plugin-persistedstate";
 
+interface Rezume {
+    id: number;
+    firstName: string;
+    lastName: string;
+    companyName: string;
+    direction: string;
+    status: string;
+}
+
+interface State {
+    count: number;
+    name: string;
+    rezumes: Rezume[];
+}
+
 const pinia = createPinia().use(createPersistedState());
 
 export const useStore = defineStore({
