@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const domenIP = 'http://10.10.4.22:8000'
+const IP = 'http://10.10.4.44:8000'
 
 export const register = async function(email, password, is_company) { 
     const postData = {
@@ -9,9 +9,12 @@ export const register = async function(email, password, is_company) {
         is_company: is_company
     };
     try {
-        const response = await axios.post(`${domenIP}/auth/register`, postData)
+        const response = await axios.post(`${IP}/register`, postData)
+        console.log(response.data);
+
         if (response.status === 200) {
             return true;
+            
         }
     } catch (error) {
         console.error(error);
@@ -24,7 +27,7 @@ export const requestAccessToken = async function(username, password) {
         password: password
     }   
     try {
-        const response = await axios.post(`${domenIP}/auth/token`, postData, {
+        const response = await axios.post(`${IP}/token`, postData, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
@@ -33,6 +36,7 @@ export const requestAccessToken = async function(username, password) {
         const user = response.data.user;
         localStorage.setItem('access_token', accessToken);
         localStorage.setItem('user', JSON.stringify(user));
+        
         (response.data.user.is_company == false) ? navigateTo('/account/student') : navigateTo('/account/company')
         console.log(response.data);
         if (response.status === 200) {
@@ -43,6 +47,3 @@ export const requestAccessToken = async function(username, password) {
         return false;
     }
 }
-
-
-

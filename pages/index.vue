@@ -2,10 +2,7 @@
     <div class="main">
         <div class="container">
             <div class="hero">
-                <h1 class="hero__title">
-                    SebStudy: Найди идеальную<br />
-                    стажировку с нами
-                </h1>
+                <h1 class="hero__title">SebStudy: Найди идеальную<br />стажировку с нами</h1>
                 <p class="hero__desc">
                     Наша платформа соединяет студентов и компании для
                     эффективного поиска стажировок и практик. Найдите идеальную
@@ -13,14 +10,10 @@
                     нашей помощью!
                 </p>
             </div>
-            <div class="index-search">
-                <Search :page="'index'" />
-            </div>
+            <div class="index-search"><Search :page="'index'" /></div>
             <Slider />
             <div class="index-dropdownlist"><DropdownList /></div>
-            <div class="company__list">
-                <CardList :searchInput="searchText" />
-            </div>
+            <div class="company__list"><CardList :searchInput="searchText" /></div>
         </div>
     </div>
 </template>
@@ -29,6 +22,7 @@
 import Slider from "~/components/Slider.vue";
 import DropdownList from "~/components/UI/DropdownList.vue";
 import Search from "~/components/UI/Search.vue";
+import axios from "axios";
 import CardList from "~/components/card/CardList.vue";
 
 const searchText = ref("");

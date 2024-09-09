@@ -3,50 +3,74 @@
         <div class="header">
             <div class="header__wrap">
                 <div class="left__part">
-                    <img
-                        src="./../assets/images/logo.svg"
-                        alt="logo"
-                        class="left__part-logo"
-                    />
+                    <img src="./../assets/images/logo.svg" alt="logo" class="left__part-logo" />
                     <p class="left__part-name">
                         Звали <span class="logo__text-color">эй</span>чара?
                     </p>
                 </div>
                 <div class="middle__part">
-                    <div
-                        :class="{ 'home-bottom': $route.path === '/' }"
-                        class="even"
-                    >
-                        <NuxtLink
-                            to="/"
-                            :class="{ 'home-color': $route.path === '/' }"
-                            class="element"
-                            >Главная</NuxtLink
-                        >
+                    <div :class="{ 'home-bottom': $route.path === '/' }" class="even" >
+                        <NuxtLink to="/" :class="{ 'home-color': $route.path === '/' }" class="element" >Главная</NuxtLink >
                     </div>
-                    <div
-                        :class="{ 'about-bottom': $route.path === '/about' }"
-                        class="even"
-                    >
-                        <NuxtLink
-                            to="/about"
-                            :class="{ 'home-color': $route.path === '/about' }"
-                            class="element"
-                            >Компании</NuxtLink
-                        >
+                    <div :class="{ 'about-bottom': $route.path === '/about' }" class="even" >
+                        <NuxtLink to="/about" :class="{ 'home-color': $route.path === '/about' }" class="element" >Компании</NuxtLink>
                     </div>
                 </div>
-                <Auth class="right__part" @open-dialog="openDialog" />
+                <Auth class="right__part" @open-dialog="openDialog" v-if="isAuthenticated" :isAuthenticated="isAuthenticated"
+                :updateAuthStatus="updateAuthStatus"/>
+                <div :class="{ 
+                        'home-color': $route.path === '/account/student' || $route.path === '/account/company'
+                    }" class="account-element" v-else :isAuthenticated="isAuthenticated" @click="AccountClick">Аккаунт</div>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
+import { ref, onMounted, watch} from 'vue';
 import Auth from "./UI/auth/Auth.vue";
+
+const isAuthenticated = ref(false);
+const checkToken = () => {
+    const token = localStorage.getItem('access_token');
+    if (token != null) {
+        isAuthenticated.value = false
+    } else {
+        isAuthenticated.value = true
+    }
+};
+// тут я уже в шоки 
+onMounted(() => {
+    checkToken(); 
+    window.addEventListener('storage', (event) => {
+        if (event.key === 'access_token') {
+            checkToken();
+        }
+    });
+    const tokenWatcher = setInterval(checkToken, 500);
+    onUnmounted(() => {
+        clearInterval(tokenWatcher);
+        window.removeEventListener('storage', checkToken);
+    });
+});
+const updateAuthStatus = (status) => {
+    isAuthenticated.value = status;
+};
+// тут уже не в шоки
+const AccountClick = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.is_company) {
+        navigateTo('/account/company');
+    } else {
+        navigateTo('/account/student');
+    }
+};
 </script>
 
 <style>
+.account-element {
+    cursor: pointer;
+}
 .logo__text-color {
     color: #409eff;
 }
