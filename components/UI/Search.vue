@@ -22,11 +22,11 @@ import { ref } from "vue";
 import { ElInput, ElButton } from "element-plus";
 import Filter from "./Filter.vue";
 import { Search } from "@element-plus/icons-vue";
-import { useRouter } from "vue-router"; // Импортируем роутер
+import { useRouter } from "vue-router"; 
 
 const input = ref("");
 const printedText = ref("Напиши место практики");
-const router = useRouter(); // Инициализация роутера
+const router = useRouter();
 
 const emit = defineEmits(["search-input"]);
 const props = defineProps({
@@ -36,18 +36,14 @@ const props = defineProps({
     },
 });
 
-// Обработчик ввода
 const handleInput = (value) => {
     input.value = value;
 };
 
-// Эмитим событие при нажатии на кнопку поиска или Enter
 const emitSearch = () => {
     if (props.page === "index") {
-        // Если текущая страница index.vue, перенаправляем на about.vue и передаем поисковый запрос
         router.push({ path: "/about", query: { search: input.value } });
     } else if (props.page === "about") {
-        // Если на странице About.vue, просто выполняем поиск
         emit("search-input", input.value);
     }
 };

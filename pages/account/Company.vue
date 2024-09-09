@@ -21,16 +21,14 @@ import Progress from "~/components/UI/Progress.vue";
 import Rezume from "~/components/account/Rezume.vue";
 import RezumeState from "~/components/account/RezumeState.vue";
 import RezumeUser from "~/components/account/RezumeUser.vue";
+
 const isAuthorized = ref(false);
-const userInfo = ref(null)
 onMounted(() => {
     const token = localStorage.getItem('access_token');
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!token || !user) {
+    if (!token) {
         navigateTo('/error');
     } else {
         isAuthorized.value = true;
-        userInfo.value = user;
     }
 });
 const breadcrumbItems = ref([

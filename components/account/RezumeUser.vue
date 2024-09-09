@@ -2,52 +2,107 @@
     <div class="right__part-screen">
         <p class="right__part-title">{{ rightPartTitle[0] }}</p>
         <div class="right__part-user contain__margin">
-            <p class="right__part-elem">
-                <span>{{ combinedObject.Student.age.Age }}:</span>
-                {{ combinedObject.Student.age.StudentAge }}
-            </p>
-            <p class="right__part-elem">
-                <span>{{ combinedObject.Student.city.City }}:</span>
-                {{ combinedObject.Student.city.StudentCity }}
-            </p>
+            <p class="right__part-elem"><span>{{ combinedObject.Student.age.Age }}:</span> {{ combinedObject.Student.age.StudentAge }}</p>
+            <p class="right__part-elem"><span>{{ combinedObject.Student.city.City }}:</span> {{ combinedObject.Student.city.StudentCity }}</p>
         </div>
         <div class="contain__margin">
-            <ElButton type="primary" class="btn-edit right__part-btn"
-                >Редактировать профиль</ElButton
-            >
+            <ElButton type="primary" class="btn-edit right__part-btn">Редактировать профиль</ElButton>
         </div>
-        <ElButton plain class="btn-out right__part-btn">Выйти</ElButton>
+        <ElButton plain class="btn-out right__part-btn" @click="logout">Выйти</ElButton>
     </div>
 </template>
-
+  
 <script setup>
-import { ElButton } from "element-plus";
-const rightPartTitle = ["Фамилия Имя", "Наименование"];
-const combinedObject = {
+import { ref, onMounted } from 'vue';
+import { ElButton } from 'element-plus';
+import { defineProps } from 'vue';
+import axios from 'axios';
+
+const rightPartTitle = ['Фамилия Имя', 'Наименование'];
+const props = defineProps({
+  updateAuthStatus: {
+    type: Function,
+    required: true,
+  },
+});
+const logout = function() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user');
+    navigateTo('/')
+}
+  const combinedObject = ref({
     Student: {
         age: {
-            Age: "Возраст",
-            StudentAge: "test",
+            Age: 'Возраст',
+            StudentAge: 'test',
         },
         city: {
-            City: "Город",
-            StudentCity: "test",
+            City: 'Город',
+            StudentCity: 'test',
         },
     },
     Company: {
         form: {
-            Form: "Форма организации",
-            FormContent: "test",
+            Form: 'Форма организации',
+            FormContent: 'test',
         },
         city: {
-            City: "Город",
-            StudentCity: "test",
+            City: 'Город',
+            StudentCity: 'test',
         },
     },
     notFilled: {
-        notFilled: "не заполненно",
+        notFilled: 'не заполненно',
     },
+});
+  
+const searchResumes = async () => {
+    try {
+        const resume_id = '5';
+        const response = await axios.get(`http://10.10.4.44:8000/resumes/${resume_id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log('Результаты поиска:', response.data);
+        combinedObject.value = {
+            Student: {
+                age: {
+                    Age: 'Возраст',
+                    StudentAge: response.data.about_me, 
+                },
+                city: {
+                    City: 'Город',
+                    StudentCity: response.data.about_me,  
+                },
+            },
+            Company: {
+                form: {
+                    Form: 'Форма организации',
+                    FormContent: response.data.about_me, 
+                },
+            city: {
+                City: 'Город',
+                StudentCity: response.data.about_me, 
+            },
+        },
+            notFilled: {
+                notFilled: 'не заполнено',
+            },
+        };
+      return response.data;
+    } catch (error) {
+        if (error.response) {
+            console.error('Ошибка поиска:', error.response.data);
+        } else {
+            console.error('Ошибка сети или конфигурации запроса:', error.message);
+        }
+    }
 };
+onMounted(() => {
+    searchResumes();
+});
 </script>
 
 <style>
