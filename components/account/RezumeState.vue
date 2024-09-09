@@ -1,28 +1,62 @@
 <template>
     <div class="rezume__state">
         <p class="rezume__state-title">{{ rezumeState.title }}</p>
-        <div v-if="!storage.rezumes.length"  class="rezume__state-void contain__margin" >
+        <div
+            v-if="!storage.rezumes.length"
+            class="rezume__state-void contain__margin"
+        >
             <div class="current__state">
                 <p class="current__state-title">{{ rezumeState.empty }}</p>
                 <p class="current__state-desc">{{ rezumeState.description }}</p>
             </div>
         </div>
         <div v-else class="rezume__state">
-            <div v-for="rezume in storage.rezumes.slice(0, 4)" :key="rezume.id" class="rezume__state-void contain__margin" >
+            <div
+                v-for="rezume in storage.rezumes.slice(0, 4)"
+                :key="rezume.id"
+                class="rezume__state-void contain__margin"
+            >
                 <div class="current__state">
-                    <p class="current__state-title" :style="{ color: getStatusColor(rezume.name) }"> {{ rezume.name }} </p>
-                    <p class="current__state-desc" :style="{ color: getStatusColor(rezume.status) }" >
+                    <p
+                        class="current__state-title"
+                        :style="{ color: getStatusColor(rezume.name) }"
+                    >
+                        {{ rezume.name }}
+                    </p>
+                    <p
+                        class="current__state-desc"
+                        :style="{ color: getStatusColor(rezume.status) }"
+                    >
                         <el-icon v-if="getStatusLabelIcon(rezume.status)">
-                            <component :is="getStatusLabelIcon(rezume.status)" height="16" />
+                            <component
+                                :is="getStatusLabelIcon(rezume.status)"
+                                height="16"
+                            />
                         </el-icon>
                         {{ rezume.status }}
                     </p>
                 </div>
-                <el-button v-if="rezume.status === 'Отказано'" type="default" plain @click="removeRezume(rezume.id)" class="btn__delete" >Удалить</el-button >
-                <el-button v-else-if="rezume.status !== 'Отменено'" type="danger" plain class="btn__cancel" @click="cancelRezume(rezume.id)" >Отменить отправку</el-button>
+                <el-button
+                    v-if="rezume.status === 'Отказано'"
+                    type="default"
+                    plain
+                    @click="removeRezume(rezume.id)"
+                    class="btn__delete"
+                    >Удалить</el-button
+                >
+                <el-button
+                    v-else-if="rezume.status !== 'Отменено'"
+                    type="danger"
+                    plain
+                    class="btn__cancel"
+                    @click="cancelRezume(rezume.id)"
+                    >Отменить отправку</el-button
+                >
             </div>
             <div v-if="storage.rezumes.length > 4" class="show-more-container">
-                <el-button type="text" @click="showMoreRezumes">Показать больше</el-button>
+                <el-button type="text" @click="showMoreRezumes"
+                    >Показать больше</el-button
+                >
             </div>
         </div>
     </div>
