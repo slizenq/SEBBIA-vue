@@ -1,7 +1,7 @@
 <template>
     <div class="container">
-        <BreadCrumb :breadcrumbItems="breadcrumbItems" class="bread_margin"/>
-        <Progress/>
+        <BreadCrumb :breadcrumbItems="breadcrumbItems" class="bread_margin" />
+        <Progress />
         <div class="rezume__screen">
             <div>
                 <Rezume />
@@ -23,9 +23,9 @@ import RezumeState from "~/components/account/RezumeState.vue";
 import RezumeUser from "~/components/account/RezumeUser.vue";
 const isAuthorized = ref(false);
 onMounted(() => {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem("access_token");
     if (!token) {
-        navigateTo('/error');
+        navigateTo("/error");
     } else {
         isAuthorized.value = true;
     }
@@ -44,6 +44,6 @@ const breadcrumbItems = ref([
     align-items: first baseline;
 }
 .bread_margin {
-    margin-top: 80px
+    margin-top: 80px;
 }
 </style>

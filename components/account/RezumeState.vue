@@ -21,7 +21,7 @@
                         class="current__state-title"
                         :style="{ color: getStatusColor(rezume.name) }"
                     >
-                        {{ rezume.name }}
+                        {{ rezume.firstName }} {{ rezume.lastName }}
                     </p>
                     <p
                         class="current__state-desc"
@@ -185,7 +185,6 @@ function showMoreRezumes() {
     width: 100%;
     position: relative;
     height: 74px;
-
     border-radius: 5px;
     padding: 16px;
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="card__left">
-            <p class="name">{{ rezume.name }}</p>
+            <p class="name">{{ rezume.firstName }} {{ rezume.lastName }}</p>
             <div class="direction">
                 <p class="direction-title">{{ rezume.direction }}</p>
             </div>
