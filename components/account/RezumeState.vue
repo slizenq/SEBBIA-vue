@@ -52,6 +52,20 @@
                     @click="cancelRezume(rezume.id)"
                     >Отменить отправку</el-button
                 >
+                <transition name="fade">
+                    <div
+                        v-if="rezume.status === 'Отменено'"
+                        class="cancel-button"
+                    >
+                        <el-button
+                            type="primary"
+                            plain
+                            @click="returnRezume(rezume.id)"
+                            class="btn__return"
+                            >Вернуть ({{ rezume.countdown }} секунд)</el-button
+                        >
+                    </div>
+                </transition>
             </div>
             <div v-if="storage.rezumes.length > 4" class="show-more-container">
                 <el-button type="text" @click="showMoreRezumes"
@@ -63,7 +77,7 @@
 </template>
 
 <script setup>
-import { ElButton } from "element-plus";
+import { ElButton, ElNotification } from "element-plus";
 import { useStore } from "~/storage/storage";
 import {
     Hide,
@@ -88,13 +102,32 @@ function cancelRezume(id) {
     const rezume = storage.rezumes.find((rezume) => rezume.id === id);
     if (rezume) {
         rezume.status = "Отменено";
-        // Обновляем статус резюме
+        rezume.countdown = 10;
         storage.rezumes = storage.rezumes.map((r) => {
             if (r.id === id) {
                 return rezume;
             }
             return r;
         });
+        ElNotification({
+            title: "Вы отменили отправку",
+            message: `Резюме будет удалено  через 10 секунд, вы еще можете его восстановить`,
+            type: "warning",
+        });
+        let intervalId = setInterval(() => {
+            rezume.countdown--;
+            if (rezume.countdown === 0) {
+                clearInterval(intervalId);
+                storage.rezumes = storage.rezumes.filter(
+                    (rezume) => rezume.id !== id
+                );
+                ElNotification({
+                    title: "Резюме удалено",
+                    message: "Резюме удалено без возможности восстановления",
+                    type: "error",
+                });
+            }
+        }, 1000);
     }
 }
 
@@ -150,6 +183,7 @@ function showMoreRezumes() {
     border-radius: 4px;
     padding-inline: 16px;
 }
+
 .current__state-title {
     color: #409eff;
     font-weight: 700;
@@ -157,6 +191,7 @@ function showMoreRezumes() {
     line-height: 28px;
     text-align: left;
 }
+
 .current__state-desc {
     display: flex;
     justify-content: start;
@@ -167,6 +202,7 @@ function showMoreRezumes() {
     line-height: 26px;
     text-align: left;
 }
+
 .rezume-btn {
     width: 100%;
     height: 45px;
@@ -178,6 +214,7 @@ function showMoreRezumes() {
     max-height: 40px;
     padding: 8px 20px;
 }
+
 .current__state {
     display: flex;
     justify-content: center;
@@ -188,16 +225,29 @@ function showMoreRezumes() {
     border-radius: 5px;
     padding: 16px;
 }
+
 .rezume__state-title {
     font-weight: 700;
     font-size: 24px;
 }
+
 .rezume__state {
     width: 600px;
     margin-top: 32px;
 }
+
 .show-more-container {
     margin-top: 16px;
     text-align: center;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>
