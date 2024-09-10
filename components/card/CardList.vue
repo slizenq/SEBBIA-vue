@@ -1,14 +1,9 @@
 <template>
     <div>
         <!-- Если есть введённый запрос и результаты поиска, отображаем количество найденных вакансий -->
-        <div
-            v-if="props.searchInput && filteredCards.length > 0"
-            class="status"
-        >
+        <div v-if="props.searchInput && filteredCards.length > 0" class="status">
             <p class="notFind">Найдено {{ filteredCards.length }} вакансий</p>
-            <span class="notFind-span"
-                >с запросом "{{ props.searchInput }}"</span
-            >
+            <span class="notFind-span">с запросом "{{ props.searchInput }}"</span>
         </div>
 
         <!-- Отображаем отфильтрованные карточки, если они есть -->
@@ -16,9 +11,9 @@
             <Card
                 v-for="(card, index) in filteredCards"
                 :key="index"
-                :company="card.company"
-                :vacancy="card.vacancy"
-                :education="card.education"
+                :title="card.title"
+                :description="card.description"
+                :location="card.location"
             />
         </div>
 
@@ -31,9 +26,9 @@
                 <Card
                     v-for="(card, index) in cards"
                     :key="index"
-                    :company="card.company"
-                    :vacancy="card.vacancy"
-                    :education="card.education"
+                    :title="card.title"
+                    :description="card.description"
+                    :location="card.location"
                 />
             </div>
         </div>
@@ -50,49 +45,35 @@
 <style scoped></style>
 
 <script setup lang="ts">
+import { IP } from '../UI/auth/Authentication';
 import { ref, computed, defineProps } from "vue";
+import axios from 'axios';
 import Card from "./Card.vue";
 
+const cards = ref([
+    
+]);
+const searchResumes = async () => {
+    const response = await axios.get(`${IP}/vacancies/search`);
+    console.log(response.data[0].requirements.split(','));
+    
+    response.data.forEach(item => {
+        const newCard = {
+            id: item.vacancy_id,
+            title: item.title,
+            description: item.description,
+            location: item.location
+        };
+        cards.value.push(newCard);
+    });
+};
+searchResumes();
 const props = defineProps({
     searchInput: {
         type: String,
         required: true,
     },
 });
-
-const cards = ref([
-    { id: 1, company: "Sebbia", vacancy: "Backend", education: "ДГТУ, РКСИ" },
-    { id: 2, company: "Google", vacancy: "Backend", education: "ДГТУ, РКСИ" },
-    { id: 3, company: "Apple", vacancy: "Backend", education: "ДГТУ, РКСИ" },
-    { id: 4, company: "Amazon", vacancy: "Backend", education: "ДГТУ, РКСИ" },
-    {
-        id: 5,
-        company: "Facebook",
-        vacancy: "Frontend",
-        education: "ДГТУ, РКСИ",
-    },
-    {
-        id: 6,
-        company: "Microsoft",
-        vacancy: "Frontend",
-        education: "ДГТУ, РКСИ",
-    },
-    { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-    { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-    { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-    { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-    { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-    { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-    { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-    { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-    { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-    { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-    { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-    { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-    { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-    { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-    { id: 7, company: "Apple", vacancy: "Frontend", education: "ДГТУ, РКСИ" },
-]);
 
 // Состояние для отслеживания количества отображаемых карточек
 const visible = ref(9);
@@ -108,8 +89,8 @@ const filteredCards = computed(() => {
         return cards.value.slice(0, visible.value);
     }
     // Фильтрация карточек по названию компании
-    const result = cards.value.filter((card: { company: string }) =>
-        card.company.toLowerCase().includes(props.searchInput.toLowerCase())
+    const result = cards.value.filter((card: { title: string }) =>
+        card.title.toLowerCase().includes(props.searchInput.toLowerCase())
     );
     return result.slice(0, visible.value);
 });

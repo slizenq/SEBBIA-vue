@@ -3,11 +3,8 @@
         <template #header>
             <div class="header_box">
                 <div class="header__left-part">
-                    <p class="card__title">{{ company }}</p>
-                    <img
-                        src="/_nuxt/assets/images/createResume/check.svg"
-                        alt="status"
-                    />
+                    <p class="card__title">{{ title }}</p>
+                    <img src="/_nuxt/assets/images/createResume/check.svg" alt="status"/>
                 </div>
                 <div><Tag /></div>
             </div>
@@ -15,11 +12,7 @@
 
         <div class="card-info">
             <div class="card-info__vacancy">
-                <p class="vacancy-title">
-                    Вакансия:<span class="vacancy-title__span">{{
-                        vacancy
-                    }}</span>
-                </p>
+                <p class="vacancy-title">Вакансия:<span class="vacancy-title__span">{{ description }}</span></p>
             </div>
             <div class="card-info__education">
                 <svg
@@ -43,12 +36,22 @@
                 </svg>
                 <p class="education-title">
                     Учебное заведение:
-                    <span class="education-title__span">{{ education }}</span>
+                    <span class="education-title__span">{{ location }}</span>
                 </p>
             </div>
             <div class="card-info__skils">
                 <span class="skils-title">Навыки:</span>
-                <div class="skils__item"><SkillsTag /></div>
+                <div class="skils__item">
+                    <el-tag
+                        v-for="item in items"
+                        :key="item.label"
+                        :type="item.type"
+                        effect="plain"
+                        round
+                    >
+                        <div class="skill-tag">{{ item.label }}</div>
+                    </el-tag>
+                </div>
             </div>
             <div class="send">
                 <el-button type="primary" class="primary">
@@ -61,23 +64,32 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
-import { ElCard, ElButton } from "element-plus";
+import { defineProps, ref } from "vue";
+import { ElCard, ElButton, ElTag } from "element-plus";
 import Tag from "~/components/companyCreateResume/Tag.vue";
 import { TopRight } from "@element-plus/icons-vue";
-import SkillsTag from "~/components/card/SkillsTag.vue";
 
-// Определение пропсов
+const items = ref([
+    { type: "primary", label: "CSS" },
+    { type: "primary", label: "HTML" },
+    { type: "primary", label: "Java" },
+    { type: "primary", label: "Js" },
+    { type: "primary", label: "agile" },
+    { type: "primary", label: "SQL" },
+    { type: "primary", label: "PostgrSQL" },
+    { type: "primary", label: "Figma" },
+]);
+
 const props = defineProps({
-    company: {
+    title: {
         type: String,
         required: true,
     },
-    vacancy: {
+    description: {
         type: String,
         required: true,
     },
-    education: {
+    location: {
         type: String,
         required: true,
     },
@@ -85,11 +97,9 @@ const props = defineProps({
 </script>
 
 <style scoped>
-* {
-    margin: 0;
-    padding: 0;
+.skill-tag {
+    margin: 5px;
 }
-
 .link {
     padding: 4px 16px;
 }
