@@ -17,6 +17,7 @@ import { ref, onMounted } from 'vue';
 import { ElButton } from 'element-plus';
 import { defineProps } from 'vue';
 import axios from 'axios';
+import { IP } from '../UI/auth/Authentication';
 
 const rightPartTitle = ['Фамилия Имя', 'Наименование'];
 const props = defineProps({
@@ -60,7 +61,7 @@ const logout = function() {
 const searchResumes = async () => {
     try {
         const resume_id = '5';
-        const response = await axios.get(`http://10.10.4.44:8000/resumes/${resume_id}`, {
+        const response = await axios.get(`${IP}/resumes/${resume_id}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
