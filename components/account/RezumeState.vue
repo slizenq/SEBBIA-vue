@@ -109,11 +109,14 @@ function cancelRezume(id) {
             }
             return r;
         });
-        ElNotification({
+        const notification = ElNotification({
             title: "Вы отменили отправку",
             message: `Резюме будет удалено  через 10 секунд, вы еще можете его восстановить`,
             type: "warning",
         });
+        setTimeout(() => {
+            notification.close();
+        }, 8000);
         let intervalId = setInterval(() => {
             rezume.countdown--;
             if (rezume.countdown === 0) {
@@ -128,6 +131,25 @@ function cancelRezume(id) {
                 });
             }
         }, 1000);
+    }
+}
+
+function returnRezume(id) {
+    const rezume = storage.rezumes.find((rezume) => rezume.id === id);
+    if (rezume) {
+        rezume.status = "Отправлено";
+        rezume.countdown = null;
+        storage.rezumes = storage.rezumes.map((r) => {
+            if (r.id === id) {
+                return rezume;
+            }
+            return r;
+        });
+        ElNotification({
+            title: "Резюме восстановлено",
+            message: "Резюме восстановлено",
+            type: "success",
+        });
     }
 }
 
@@ -243,11 +265,18 @@ function showMoreRezumes() {
 
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.5s;
+    transition: opacity 0.5s, transform 0.5s;
 }
 
 .fade-enter,
 .fade-leave-to {
     opacity: 0;
+    transform: scale(0.5);
+}
+
+.fade-enter-to,
+.fade-leave {
+    opacity: 1;
+    transform: scale(1);
 }
 </style>
