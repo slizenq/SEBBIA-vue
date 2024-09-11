@@ -1,5 +1,5 @@
 <template>
-    <el-card class="card">
+    <el-card class="card" @click="openVacancy">
         <template #header>
             <div class="header_box">
                 <div class="header__left-part">
@@ -64,21 +64,17 @@
 </template>
 
 <script setup>
-import { defineProps, ref } from "vue";
+import { defineProps, defineEmits, ref } from "vue";
 import { ElCard, ElButton, ElTag } from "element-plus";
 import Tag from "~/components/companyCreateResume/Tag.vue";
 import { TopRight } from "@element-plus/icons-vue";
 
-const items = ref([
-    { type: "primary", label: "CSS" },
-    { type: "primary", label: "HTML" },
-    { type: "primary", label: "Java" },
-    { type: "primary", label: "Js" },
-    { type: "primary", label: "agile" },
-    { type: "primary", label: "SQL" },
-    { type: "primary", label: "PostgrSQL" },
-    { type: "primary", label: "Figma" },
-]);
+const items = ref([]);
+const openVacancy = async function() {
+    console.log(props.vacancy_id);
+    localStorage.setItem('vacancy', props.vacancy_id);
+    navigateTo('/vacancy')
+};
 
 const props = defineProps({
     title: {
@@ -93,7 +89,20 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    requirements: {
+        type: String,
+        required: true
+    },
+    vacancy_id: {
+        type: Number,
+        required: true
+    }
 });
+const splitRequirements = props.requirements.split(',');
+splitRequirements.forEach(item => {
+    items.value.push({ type: "primary", label: item });
+});
+
 </script>
 
 <style scoped>
@@ -110,6 +119,7 @@ const props = defineProps({
 
 .card {
     width: 100%;
+    cursor: pointer;
 }
 
 .header_box {

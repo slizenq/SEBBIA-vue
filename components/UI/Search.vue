@@ -24,7 +24,7 @@ import Filter from "./Filter.vue";
 import { Search } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router"; 
 
-const input = ref("");
+const input = ref("sdad");
 const printedText = ref("Напиши место практики");
 const router = useRouter();
 
