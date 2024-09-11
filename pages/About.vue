@@ -29,6 +29,7 @@ const handleSearchInput = (input) => {
     searchText.value = input;
 };
 
+
 // Получаем маршрут
 const route = useRoute();
 

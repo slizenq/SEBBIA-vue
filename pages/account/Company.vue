@@ -16,7 +16,7 @@
 
 <script setup>
 import BreadCrumb from "~/components/BreadCrumb.vue";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import Progress from "~/components/UI/Progress.vue";
 import Rezume from "~/components/account/Rezume.vue";
 import RezumeState from "~/components/account/RezumeState.vue";

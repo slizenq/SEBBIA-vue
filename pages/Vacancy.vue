@@ -1,0 +1,135 @@
+<template>
+    <div class="container">
+        <BreadCrumb/>
+        <div class="company__vacancy" @search="sea(message)">
+            <div class="company__vacancy__left-part">
+                <div class="left__element">
+                    <h1 class="direction">Фронтенд-разработчик</h1>
+                    <p class="description">Мобильный разработчик Фулл-стек разработчик Бекенд разработчик</p>
+                </div>
+                <div class="left__element">
+                    <p class="element__title">Чем предстоит заниматься</p>
+                    <ul>
+                        <li>Это команда профессионалов, стремящаяся к решению сложных задач</li>
+                        <li>Это команда профессионалов</li>
+                        <li>Это команда профессионалов, стремящаяся к</li>
+                        <li>Это команда профессионалов, стремящаяся к решению </li>
+                    </ul>
+                </div>
+                <div class="left__element">
+                    <p class="element__title">Желательные навыки</p>
+                </div>
+                <div class="left__element">
+                    <p class="element__title">О проектах</p>
+                    <p class="description">Это команда профессионалов, стремящаяся к решению сложных задач Это команда профессионалов, стремящаяся к решению сложных задач Это команда профессионалов, стремящаяся к решению сложных задач Это...</p>
+                </div>
+            </div>
+            <div class="company__vacancy__right-part">
+                <div class="about__company">
+                    <div>
+                        <div>
+                            <p class="right__title text__align">{{ vacancyData.title }}<img src="./../assets/images/vacancy/confirm.svg"></p>
+                            <p class="right__description">ООО</p>
+                        </div>
+                        <div class="wrap__margin">
+                            <p class="right__description text__align"><img src="./../assets/images/vacancy/location.svg">{{ vacancyData.location }}</p>
+                            <p class="right__description text__align"><img src="./../assets/images/vacancy/date.svg">22.02.2011</p>
+                        </div>
+                    </div>
+                    <img src="./../assets/images/company-logo.svg" alt="logo">
+                </div>
+                <p class="company__description">Это команда профессионалов, стремящаяся к решению сложных задач. Мы облао команда профессионалов, стремящаяся к решению сложных задач. Мы обла... </p>
+                <ElButton class="respond" type="primary">Откликнуться<img src="./../assets/images/vacancy/micro-link.svg"></ElButton>
+                <div class="partner">
+                    <p class="contract">Партнеры</p>
+                </div>
+            </div>
+        </div> 
+    </div>
+</template>
+
+<script setup>
+import { ElButton } from 'element-plus';
+import { IP } from '~/components/UI/auth/Authentication';
+import axios from "axios";
+
+const vacancyData = ref({});
+const fetchVacancyData = async () => {
+    const response = await axios.get(`${IP}/vacancies/${localStorage.getItem("vacancy")}`);
+    vacancyData.value = response.data;
+};
+fetchVacancyData()
+
+
+</script>
+
+<style scoped>
+.text__align {
+    display: flex;
+    align-items: center;
+    gap: 5px
+}
+.partner {
+    margin-top: 15px
+}
+.contract {
+    font-weight: 700;
+    font-size: 18px;
+}
+.respond {
+    width: 100%;
+    height: 44px
+}
+ul {
+    list-style-type: none; 
+}
+ul li::before {  
+    content: "—";  
+    margin-right: 5px; 
+}
+.company__description, .respond {
+    margin-top: 15px;
+}
+.wrap__margin {
+    margin-top: 20px;
+}
+.right__title {
+    font-size: 22px;
+    font-weight: 700
+}
+.about__company {
+    display: flex;
+    justify-content: space-between;
+}
+.company__vacancy__right-part {
+    width: 40%;
+}
+.company__vacancy__left-part {
+    width: 60%;
+}
+.company__vacancy {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    gap: 50px;
+}
+.direction {
+    font-size: 26px;
+}
+.element__title {
+    font-weight: 700;
+    font-size: 17px
+}
+.left__element {
+    margin-top: 42px
+}
+.description,
+ul > li {
+    color: #303133;
+    margin-top: 15px
+}
+.right__description {
+    margin-top: 8px;
+}
+</style>

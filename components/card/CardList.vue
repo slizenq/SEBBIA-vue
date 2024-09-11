@@ -14,6 +14,8 @@
                 :title="card.title"
                 :description="card.description"
                 :location="card.location"
+                :requirements="card.requirements"
+                :vacancy_id="card.vacancy_id"
             />
         </div>
 
@@ -29,6 +31,8 @@
                     :title="card.title"
                     :description="card.description"
                     :location="card.location"
+                    :requirements="card.requirements"
+                    :vacancy_id="card.vacancy_id"
                 />
             </div>
         </div>
@@ -50,19 +54,18 @@ import { ref, computed, defineProps } from "vue";
 import axios from 'axios';
 import Card from "./Card.vue";
 
-const cards = ref([
-    
-]);
+const cards = ref([]);
 const searchResumes = async () => {
     const response = await axios.get(`${IP}/vacancies/search`);
-    console.log(response.data[0].requirements.split(','));
+    console.log(response.data.vacancy_id);
     
     response.data.forEach(item => {
         const newCard = {
-            id: item.vacancy_id,
+            vacancy_id: item.vacancy_id,
             title: item.title,
             description: item.description,
-            location: item.location
+            location: item.location,
+            requirements: item.requirements,
         };
         cards.value.push(newCard);
     });
