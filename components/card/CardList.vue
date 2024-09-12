@@ -78,15 +78,28 @@ const props = defineProps({
     },
 });
 
-// Состояние для отслеживания количества отображаемых карточек
-const visible = ref(9);
+const visible = ref(6);
+const handleScroll = () => {
+  if (isSpecialPage()) {
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const documentHeight = document.documentElement.offsetHeight;
+    const triggerPoint = 0.7;
 
-// Функция для отображения большего количества карточек
+    if (scrollPosition >= (documentHeight * triggerPoint)) {
+      showMore();
+    }
+  }
+};
 const showMore = () => {
-    visible.value += 9;
+    visible.value += 6;
+};
+const isSpecialPage = () => {
+  return window.location.href.includes("/about");
 };
 
-// Фильтрация карточек на основе введённого поиска
+if (isSpecialPage()) {
+  window.addEventListener('scroll', handleScroll);
+}
 const filteredCards = computed(() => {
     if (!props.searchInput) {
         return cards.value.slice(0, visible.value);
