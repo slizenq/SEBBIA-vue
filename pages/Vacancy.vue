@@ -18,6 +18,17 @@
                 </div>
                 <div class="left__element">
                     <p class="element__title">Желательные навыки</p>
+                    <el-tag
+                        v-if="vacancyData.requirements"
+                        v-for="item in vacancyData.requirements.split(',')"
+                        :key="item"
+                        type="primary"
+                        effect="plain"
+                        round
+                        class="skills"
+                    >
+                        <div class="skill_tags">{{ item }}</div>
+                    </el-tag>
                 </div>
                 <div class="left__element">
                     <p class="element__title">О проектах</p>
@@ -49,7 +60,7 @@
 </template>
 
 <script setup>
-import { ElButton } from 'element-plus';
+import { ElButton, ElTag } from 'element-plus';
 import { IP } from '~/components/UI/auth/Authentication';
 import axios from "axios";
 
@@ -57,17 +68,26 @@ const vacancyData = ref({});
 const fetchVacancyData = async () => {
     const response = await axios.get(`${IP}/vacancies/${localStorage.getItem("vacancy")}`);
     vacancyData.value = response.data;
+    vacancyRequirements.value = response.data.requirements
 };
 fetchVacancyData()
-
 
 </script>
 
 <style scoped>
+
 .text__align {
     display: flex;
     align-items: center;
     gap: 5px
+}
+.skills {
+    margin-top: 15px;
+    padding: 15px 15px;
+    border-radius: 9px;
+}
+.skills {
+    margin-right: 8px;
 }
 .partner {
     margin-top: 15px
