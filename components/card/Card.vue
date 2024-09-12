@@ -4,7 +4,10 @@
             <div class="header_box">
                 <div class="header__left-part">
                     <p class="card__title">{{ title }}</p>
-                    <img src="/_nuxt/assets/images/createResume/check.svg" alt="status"/>
+                    <img
+                        src="/_nuxt/assets/images/createResume/check.svg"
+                        alt="status"
+                    />
                 </div>
                 <div><Tag /></div>
             </div>
@@ -12,7 +15,11 @@
 
         <div class="card-info">
             <div class="card-info__vacancy">
-                <p class="vacancy-title">Вакансия:<span class="vacancy-title__span">{{ description }}</span></p>
+                <p class="vacancy-title">
+                    Вакансия:<span class="vacancy-title__span">{{
+                        description
+                    }}</span>
+                </p>
             </div>
             <div class="card-info__education">
                 <svg
@@ -54,7 +61,7 @@
                 </div>
             </div>
             <div class="send">
-                <el-button type="primary" class="primary">
+                <el-button type="primary" class="primary" @click="sendResume">
                     Отправить резюме
                 </el-button>
                 <el-button type="default" :icon="TopRight" class="link" />
@@ -65,15 +72,15 @@
 
 <script setup>
 import { defineProps, defineEmits, ref } from "vue";
-import { ElCard, ElButton, ElTag } from "element-plus";
+import { ElCard, ElButton, ElTag, ElNotification } from "element-plus";
 import Tag from "~/components/companyCreateResume/Tag.vue";
 import { TopRight } from "@element-plus/icons-vue";
 
 const items = ref([]);
-const openVacancy = async function() {
+const openVacancy = async function () {
     console.log(props.vacancy_id);
-    localStorage.setItem('vacancy', props.vacancy_id);
-    navigateTo('/vacancy')
+    localStorage.setItem("vacancy", props.vacancy_id);
+    navigateTo("/vacancy");
 };
 
 const props = defineProps({
@@ -91,18 +98,28 @@ const props = defineProps({
     },
     requirements: {
         type: String,
-        required: true
+        required: true,
     },
     vacancy_id: {
         type: Number,
-        required: true
-    }
+        required: true,
+    },
 });
-const splitRequirements = props.requirements.split(',');
-splitRequirements.forEach(item => {
+const splitRequirements = props.requirements.split(",");
+splitRequirements.forEach((item) => {
     items.value.push({ type: "primary", label: item });
 });
 
+const sendResume = async function () {
+    const notification = ElNotification({
+        title: "Вы не можете откликнуться на данную вакансию!",
+        message: "Ваши направления не совпадает с навыками вакансии",
+        type: "warning",
+    });
+    setTimeout(() => {
+        notification.close();
+    }, 8000);
+};
 </script>
 
 <style scoped>
