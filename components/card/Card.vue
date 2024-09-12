@@ -126,7 +126,7 @@ splitRequirements.forEach((item) => {
 const sendResume = async function () {
     const notification = ElNotification({
         title: "Вы не можете откликнуться на данную вакансию!",
-        message: "Ваши направления не совпадает с навыками вакансии",
+        message: "Ваше направления не совпадает с навыками вакансии",
         type: "warning",
     });
     setTimeout(() => {
