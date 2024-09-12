@@ -14,16 +14,16 @@
                     </div>
                     <div class="footer__up-right-part">
                         <div class="right-part-element">
-                        <p class="part-element-title">Электронная почта</p>
-                        <a class="part-element-desc" href="mailto:yourhr@gmail.com">yourhr@gmail.com</a>
-                    </div>
+                            <p class="part-element-title">Электронная почта</p>
+                            <a class="part-element-desc" href="mailto:yourhr@gmail.com">yourhr@gmail.com</a>
+                        </div>
                         <div class="right-part-element">
                             <p class="part-element-title">Остались вопросы?</p>
-                            <el-button class="btn-call" type="primary" @click="toggleAudio">Позвонить</el-button>
-                            <!-- <audio ref="audioPlayer">
+                            <el-button class="btn-call" type="primary" plaid @click="toggleAudio">Позвонить</el-button>
+                            <audio ref="audioPlayer">
                             <source src="../59ffb9a2c698e21.mp3" type="audio/mpeg">
                             Your browser does not support the audio element.
-                            </audio> -->
+                            </audio>
                         </div>
                     </div>
                 </div>
@@ -52,6 +52,9 @@ function toggleAudio() {
 </script>
    
 <style scoped>
+.fot_margin {
+    margin-top: 30px
+}
 .el-button {
     padding: 20px 5px;
 }
@@ -89,7 +92,8 @@ function toggleAudio() {
     padding: 30px 0;
 }
 .footer-down {
-    color: #409eff;
+    color: #303133;
+    font-weight: 700;
     padding: 30px 0 60px;
 }
 .footer {
