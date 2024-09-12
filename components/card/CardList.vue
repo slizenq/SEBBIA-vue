@@ -96,10 +96,12 @@ const showMore = () => {
 const isSpecialPage = () => {
   return window.location.href.includes("/about");
 };
-
-if (isSpecialPage()) {
-  window.addEventListener('scroll', handleScroll);
-}
+onMounted(() => {
+  if (isSpecialPage()) {
+    window.addEventListener('scroll', handleScroll);
+  }
+  searchResumes();
+});
 const filteredCards = computed(() => {
     if (!props.searchInput) {
         return cards.value.slice(0, visible.value);
