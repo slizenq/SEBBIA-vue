@@ -19,7 +19,7 @@
                         </div>
                         <div class="right-part-element">
                             <p class="part-element-title">Остались вопросы?</p>
-                            <el-button class="btn-call" type="primary" plaid @click="toggleAudio">Позвонить</el-button>
+                            <el-button class="btn-call" type="primary" plaid @click="toggleAudio"><a href="tel:+7 999 999-99-99">Позвонить</a></el-button>
                             <audio ref="audioPlayer">
                             <source src="../59ffb9a2c698e21.mp3" type="audio/mpeg">
                             Your browser does not support the audio element.
