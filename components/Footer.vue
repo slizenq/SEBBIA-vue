@@ -4,56 +4,98 @@
             <div>
                 <div class="footer__up">
                     <div class="wrap">
-                    <div class="footer__up-left-part">
-                        <img src="@/assets/images/Footer/logoFooter.svg" alt="logo" />
-                        <div>
-                        <div class="logo-desc">Звали эйчара?</div>
-                        <p class="current-page">Компания</p>
-                        <p class="current-page">Кейсы</p>
+                        <div class="footer__up-left-part">
+                            <img
+                                src="@/assets/images/Footer/logoFooter.svg"
+                                alt="logo"
+                            />
+                            <div>
+                                <div class="logo-desc">Звали эйчара?</div>
+                                <p class="current-page active">Главная</p>
+                                <p class="current-page">Компания</p>
+                                <p class="current-page">Кейсы</p>
+                            </div>
+                        </div>
+                        <div class="footer__up-right-part">
+                            <div class="right-part-element">
+                                <p class="part-element-title">
+                                    Электронная почта
+                                </p>
+                                <a
+                                    class="part-element-desc"
+                                    href="mailto:yourhr@gmail.com"
+                                    >yourhr@gmail.com</a
+                                >
+                            </div>
+                            <div class="right-part-element">
+                                <p class="part-element-title">
+                                    Остались вопросы?
+                                </p>
+                                <el-button
+                                    class="btn-call"
+                                    type="primary"
+                                    plaid
+                                    @click="toggleAudio"
+                                    ><a href="tel:+7 999 999-99-99"
+                                        >Позвонить</a
+                                    ></el-button
+                                >
+                                <audio ref="audioPlayer">
+                                    <source
+                                        src="../59ffb9a2c698e21.mp3"
+                                        type="audio/mpeg"
+                                    />
+                                    Your browser does not support the audio
+                                    element.
+                                </audio>
+                            </div>
                         </div>
                     </div>
-                    <div class="footer__up-right-part">
-                        <div class="right-part-element">
-                            <p class="part-element-title">Электронная почта</p>
-                            <a class="part-element-desc" href="mailto:yourhr@gmail.com">yourhr@gmail.com</a>
-                        </div>
-                        <div class="right-part-element">
-                            <p class="part-element-title">Остались вопросы?</p>
-                            <el-button class="btn-call" type="primary" plaid @click="toggleAudio"><a href="tel:+7 999 999-99-99">Позвонить</a></el-button>
-                            <audio ref="audioPlayer">
-                            <source src="../59ffb9a2c698e21.mp3" type="audio/mpeg">
-                            Your browser does not support the audio element.
-                            </audio>
-                        </div>
+                    <div class="footer__up-line">
+                        <a class="footer-up-security">
+                            Политика конфиденциальности
+                        </a>
+                        <p>•</p>
+                        <a class="footer-up-security">
+                            Защита персональных данных
+                        </a>
                     </div>
                 </div>
-                <p class="footer-up-security">
-                    Политика конфиденциальности Защита персональных данных
-                </p>
-            </div>
-            <p class="footer-down">©2024 Team Practice</p>
+                <p class="footer-down">©2024 Team Practice</p>
             </div>
         </div>
     </div>
 </template>
-   
+
 <script setup>
 import { ElButton } from "element-plus";
 const audioPlayer = ref(null);
 
 function toggleAudio() {
-  const audio = audioPlayer.value;
-  if (audio.paused) {
-    audio.play();
-  } else {
-    audio.pause();
-  }
+    const audio = audioPlayer.value;
+    if (audio.paused) {
+        audio.play();
+    } else {
+        audio.pause();
+    }
 }
 </script>
-   
+
 <style scoped>
+.footer__up-line {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: #409eff;
+    column-gap: 10px;
+}
+
+.active {
+    color: #409eff;
+}
+
 .fot_margin {
-    margin-top: 30px
+    margin-top: 30px;
 }
 .el-button {
     padding: 20px 5px;
@@ -78,7 +120,7 @@ function toggleAudio() {
 }
 .logo-desc {
     margin-bottom: 20px;
-   }
+}
 .footer__up {
     border-bottom: 3px solid rgba(64, 158, 255, 0.1);
 }
@@ -102,4 +144,3 @@ function toggleAudio() {
     width: 100%;
 }
 </style>
-   
