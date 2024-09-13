@@ -12,8 +12,8 @@
                     <div :class="{ 'home-bottom': $route.path === '/' }" class="even" >
                         <NuxtLink to="/" :class="{ 'home-color': $route.path === '/' }" class="element" >Главная</NuxtLink >
                     </div>
-                    <div :class="{ 'about-bottom': $route.path === '/about' || $route.path === '/vacancy'  }" class="even" >
-                        <NuxtLink to="/about" :class="{ 'home-color': $route.path === '/about' || $route.path === '/vacancy' }" class="element" >Компании</NuxtLink>
+                    <div :class="{ 'about-bottom': $route.path === '/about' }" class="even" >
+                        <NuxtLink to="/about" :class="{ 'home-color': $route.path === '/about' }" class="element" >Компании</NuxtLink>
                     </div>
                 </div>
                 <Auth class="right__part" @open-dialog="openDialog" v-if="isAuthenticated" :isAuthenticated="isAuthenticated"

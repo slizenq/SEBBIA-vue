@@ -9,8 +9,13 @@
                                 src="@/assets/images/Footer/logoFooter.svg"
                                 alt="logo"
                             />
-                            <div>
-                                <div class="logo-desc">Звали эйчара?</div>
+                            <div class="footer__up-logo">
+                                <div class="logo-desc">
+                                    <p class="logo-desc-top">
+                                        Звали <span class="accent">эй</span>
+                                    </p>
+                                    <p class="logo-desc-bottom">чара?</p>
+                                </div>
                                 <p class="current-page active">Главная</p>
                                 <p class="current-page">Компания</p>
                                 <p class="current-page">Кейсы</p>
@@ -90,6 +95,24 @@ function toggleAudio() {
     column-gap: 10px;
 }
 
+.accent {
+    color: #409eff;
+}
+
+.logo-desc-top {
+    float: left;
+}
+
+.logo-desc-bottom {
+    float: right;
+}
+
+.footer__up-logo {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .active {
     color: #409eff;
 }
@@ -119,7 +142,9 @@ function toggleAudio() {
     padding: 7px 0 7px 0;
 }
 .logo-desc {
-    margin-bottom: 20px;
+    color: #000;
+    font-weight: 700;
+    max-width: 100px;
 }
 .footer__up {
     border-bottom: 3px solid rgba(64, 158, 255, 0.1);
