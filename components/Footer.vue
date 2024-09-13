@@ -16,9 +16,11 @@
                                     </p>
                                     <p class="logo-desc-bottom">чара?</p>
                                 </div>
-                                <p class="current-page active">Главная</p>
-                                <p class="current-page">Компания</p>
-                                <p class="current-page">Кейсы</p>
+                                <div class="logo-line">
+                                    <p class="current-page active">Главная</p>
+                                    <p class="current-page">Компания</p>
+                                    <p class="current-page">Кейсы</p>
+                                </div>
                             </div>
                         </div>
                         <div class="footer__up-right-part">
@@ -39,11 +41,11 @@
                                 <el-button
                                     class="btn-call"
                                     type="primary"
-                                    plaid
+                                    plain
                                     @click="toggleAudio"
-                                    ><a href="tel:+7 999 999-99-99"
-                                        >Позвонить</a
-                                    ></el-button
+                                >
+                                    <el-icon><Phone height="16px" /></el-icon
+                                    >Позвонить</el-button
                                 >
                                 <audio ref="audioPlayer">
                                     <source
@@ -60,7 +62,15 @@
                         <a class="footer-up-security">
                             Политика конфиденциальности
                         </a>
-                        <p>•</p>
+                        <span
+                            style="
+                                display: inline-block;
+                                font-size: 24px;
+                                color: #79bbff;
+                                border-radius: 6px;
+                            "
+                            >•</span
+                        >
                         <a class="footer-up-security">
                             Защита персональных данных
                         </a>
@@ -74,6 +84,7 @@
 
 <script setup>
 import { ElButton } from "element-plus";
+import { Phone } from "@element-plus/icons-vue";
 const audioPlayer = ref(null);
 
 function toggleAudio() {
@@ -95,6 +106,12 @@ function toggleAudio() {
     column-gap: 10px;
 }
 
+.footer__up-right-part {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
 .accent {
     color: #409eff;
 }
@@ -112,7 +129,6 @@ function toggleAudio() {
     flex-direction: column;
     gap: 16px;
 }
-
 .active {
     color: #409eff;
 }
@@ -166,6 +182,18 @@ function toggleAudio() {
 .footer {
     margin-top: 42px;
     background-color: #d5e6f8;
+    width: 100%;
+}
+
+.btn-call {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: #f7f7f7;
+    color: #409eff;
+    font-weight: 700;
+    padding: 4px 16px;
     width: 100%;
 }
 </style>
