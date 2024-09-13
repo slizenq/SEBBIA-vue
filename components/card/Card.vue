@@ -1,7 +1,7 @@
 <template>
-    <el-card class="card" @click="openVacancy">
+    <el-card class="card">
         <template #header>
-            <div class="header_box">
+            <div class="header_box" @click="openVacancy">
                 <div class="header__left-part">
                     <p class="card__title">{{ title }}</p>
                     <img
@@ -13,7 +13,7 @@
             </div>
         </template>
 
-        <div class="card-info">
+        <div class="card-info" @click="openVacancy">
             <div class="card-info__vacancy">
                 <p class="vacancy-title">
                     Вакансия:<span class="vacancy-title__span">{{
@@ -42,8 +42,9 @@
                     </defs>
                 </svg>
                 <p class="education-title">
-                    Учебное заведение:
-                    <span class="education-title__span">{{ location }}</span>
+                    Учебное заведение:<span class="education-title__span">{{
+                        location
+                    }}</span>
                 </p>
             </div>
             <div class="card-info__skils">
@@ -55,17 +56,24 @@
                         :type="item.type"
                         effect="plain"
                         round
+                        class="skills"
                     >
                         <div class="skill-tag">{{ item.label }}</div>
                     </el-tag>
                 </div>
             </div>
-            <div class="send">
-                <el-button type="primary" class="primary" @click="sendResume">
-                    Отправить резюме
-                </el-button>
-                <el-button type="default" :icon="TopRight" class="link" />
-            </div>
+        </div>
+
+        <div class="send">
+            <el-button type="primary" class="primary" @click="sendResume">
+                Отправить резюме
+            </el-button>
+            <el-button
+                type="default"
+                :icon="TopRight"
+                class="link"
+                @click="openVacancy"
+            />
         </div>
     </el-card>
 </template>
@@ -78,6 +86,11 @@ import { TopRight } from "@element-plus/icons-vue";
 
 const items = ref([]);
 const openVacancy = async function () {
+    console.log(props.vacancy_id);
+    localStorage.setItem("vacancy", props.vacancy_id);
+    navigateTo("/vacancy");
+};
+const openVacancyrepl = async function () {
     console.log(props.vacancy_id);
     localStorage.setItem("vacancy", props.vacancy_id);
     navigateTo("/vacancy");
@@ -113,7 +126,7 @@ splitRequirements.forEach((item) => {
 const sendResume = async function () {
     const notification = ElNotification({
         title: "Вы не можете откликнуться на данную вакансию!",
-        message: "Ваши направления не совпадает с навыками вакансии",
+        message: "Ваше направления не совпадает с навыками вакансии",
         type: "warning",
     });
     setTimeout(() => {
@@ -123,6 +136,18 @@ const sendResume = async function () {
 </script>
 
 <style scoped>
+.skils__item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+.skills {
+    padding: 10px 5px;
+    border-radius: 9px;
+}
+.vacancy-title__span {
+    margin-left: 7px;
+}
 .skill-tag {
     margin: 5px;
 }
@@ -137,6 +162,10 @@ const sendResume = async function () {
 .card {
     width: 100%;
     cursor: pointer;
+    position: relative;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-between; */
 }
 
 .header_box {
@@ -161,7 +190,7 @@ const sendResume = async function () {
 .card-info__education {
     display: flex;
     align-items: center;
-    gap: 6px;
+    align-items: baseline;
 }
 
 .education-title {
@@ -182,14 +211,15 @@ const sendResume = async function () {
     display: flex;
     flex-direction: row;
     gap: 8px;
+    align-items: baseline;
     padding: 6px;
 }
 
 .send {
     display: flex;
-    align-items: start;
+    align-items: end;
     justify-content: end;
-    /* gap: 8px; */
+    margin-top: 10px;
 }
 
 .el-card__header {
