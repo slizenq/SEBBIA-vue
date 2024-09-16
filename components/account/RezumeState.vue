@@ -1,10 +1,7 @@
 <template>
     <div class="rezume__state">
         <p class="rezume__state-title">{{ rezumeState.title }}</p>
-        <div
-            v-if="!storage.rezumes.length"
-            class="rezume__state-void contain__margin"
-        >
+        <div v-if="!storage.rezumes.length" class="rezume__state-void contain__margin">
             <div class="current__state">
                 <p class="current__state-title">{{ rezumeState.empty }}</p>
                 <p class="current__state-desc">{{ rezumeState.description }}</p>
@@ -17,21 +14,12 @@
                 class="rezume__state-void contain__margin"
             >
                 <div class="current__state">
-                    <p
-                        class="current__state-title"
-                        :style="{ color: getStatusColor(rezume.name) }"
-                    >
+                    <p class="current__state-title" :style="{ color: getStatusColor(rezume.name) }">
                         {{ rezume.firstName }} {{ rezume.lastName }}
                     </p>
-                    <p
-                        class="current__state-desc"
-                        :style="{ color: getStatusColor(rezume.status) }"
-                    >
+                    <p class="current__state-desc" :style="{ color: getStatusColor(rezume.status) }">
                         <el-icon v-if="getStatusLabelIcon(rezume.status)">
-                            <component
-                                :is="getStatusLabelIcon(rezume.status)"
-                                height="16"
-                            />
+                            <component :is="getStatusLabelIcon(rezume.status)" height="16"/>
                         </el-icon>
                         {{ rezume.status }}
                     </p>
@@ -53,10 +41,7 @@
                     >Отменить отправку</el-button
                 >
                 <transition name="fade">
-                    <div
-                        v-if="rezume.status === 'Отменено'"
-                        class="cancel-button"
-                    >
+                    <div v-if="rezume.status === 'Отменено'" class="cancel-button">
                         <el-button
                             type="primary"
                             plain
@@ -69,8 +54,7 @@
             </div>
             <div v-if="storage.rezumes.length > 4" class="show-more-container">
                 <el-button type="text" @click="showMoreRezumes"
-                    >Показать больше</el-button
-                >
+                    >Показать больше</el-button>
             </div>
         </div>
     </div>
@@ -79,15 +63,9 @@
 <script setup>
 import { ElButton, ElNotification } from "element-plus";
 import { useStore } from "~/storage/storage";
-import {
-    Hide,
-    CircleCheckFilled,
-    CircleCloseFilled,
-    View,
-} from "@element-plus/icons-vue";
+import { Hide, CircleCheckFilled, CircleCloseFilled, View } from "@element-plus/icons-vue";
 
 const storage = useStore();
-
 const rezumeState = {
     title: "Статус отправки резюме",
     empty: "Вы еще не отправляли свое резюме",

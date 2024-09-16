@@ -60,6 +60,7 @@
                     >
                         <div class="skill-tag">{{ item.label }}</div>
                     </el-tag>
+                    
                 </div>
             </div>
         </div>
@@ -86,12 +87,10 @@ import { TopRight } from "@element-plus/icons-vue";
 
 const items = ref([]);
 const openVacancy = async function () {
-    console.log(props.vacancy_id);
     localStorage.setItem("vacancy", props.vacancy_id);
     navigateTo("/vacancy");
 };
 const openVacancyrepl = async function () {
-    console.log(props.vacancy_id);
     localStorage.setItem("vacancy", props.vacancy_id);
     navigateTo("/vacancy");
 };

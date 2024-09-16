@@ -44,7 +44,6 @@ const loginForm = ref({
     rememberMe: false,
 });
 const login = async () => {
-    console.log("Вход с данными:", loginForm.value);
     const isLoginSuccessful = await requestAccessToken(loginForm.value.email, loginForm.value.password);
     if (isLoginSuccessful) {
         emit("login-success", false);

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const IP = 'http://10.10.4.64:8000'
+export const IP = 'http://10.10.4.94:8000'
 
 export const register = async function(email, password, is_company) { 
     const postData = {
@@ -10,7 +10,6 @@ export const register = async function(email, password, is_company) {
     };
     try {
         const response = await axios.post(`${IP}/register`, postData)
-        console.log(response.data);
 
         if (response.status === 200) {
             return true;
@@ -38,7 +37,6 @@ export const requestAccessToken = async function(username, password) {
         localStorage.setItem('user', JSON.stringify(user));
         
         (response.data.user.is_company == false) ? navigateTo('/account/student') : navigateTo('/account/company')
-        console.log(response.data);
         if (response.status === 200) {
             return true;
         }

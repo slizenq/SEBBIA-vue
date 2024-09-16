@@ -5,7 +5,7 @@
         <el-segmented
             v-model="value"
             :options="options"
-            @click="handleChange"
+            @change="handleChange"
             style="border-radius: 4px; margin-bottom: 24px"
         />
         <ResumeCardGroup :value="value" />
@@ -17,9 +17,11 @@ import BreadCrumb from "~/components/BreadCrumb.vue";
 import Progress from "~/components/UI/Progress.vue";
 import ResumeCardGroup from "~/components/resume/ResumeCardGroup.vue";
 import { ElSegmented } from "element-plus";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+
 const isAuthorized = ref(false);
-const userInfo = ref(null)
+const userInfo = ref(null);
+
 onMounted(() => {
     const token = localStorage.getItem('access_token');
     const user = JSON.parse(localStorage.getItem('user'));
@@ -30,19 +32,24 @@ onMounted(() => {
         userInfo.value = user;
     }
 });
+
 const breadcrumbItems = ref([
-    { path: "x/xx/xxx", label: "Просмотренные резюме" },
-    { path: "x/xx/xxx", label: "Просмотренные резюме" },
+    { path: "x/xx/xxx", label: "Профиль" },
+    { path: "x/xx/xxx", label: "Аккаунт" },
 ]);
 
 const value = ref("Просмотренные");
-provide("value", value);
-
 const options = ["Просмотренные", "Входящие"];
 
 const handleChange = () => {
-    console.log("Выбрано:", this.value);
+    breadcrumbItems.value = [
+        { path: "x/xx/xxx", label: "Профиль" },
+        { path: "x/xx/xxx", label: "Аккаунт" },
+        { path: "x/xx/xxx", label: value.value } 
+    ];
 };
+
+handleChange();
 </script>
 
 <style>

@@ -57,7 +57,6 @@ const loginForm = ref({
 });
 
 const registration = async () => {
-  console.log("Вход с данными:", loginForm.value);
   const isRegisterSuccessful = await register(loginForm.value.email, loginForm.value.password, loginForm.value.is_company);
   if (isRegisterSuccessful) {
         alert("Регистрация успешна")

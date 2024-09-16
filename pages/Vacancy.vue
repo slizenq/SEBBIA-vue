@@ -4,7 +4,7 @@
         <div class="company__vacancy" @search="sea(message)">
             <div class="company__vacancy__left-part">
                 <div class="left__element">
-                    <h1 class="direction">Фронтенд-разработчик</h1>
+                    <h1 class="direction">{{ vacancyData.description }}</h1>
                     <p class="description">Мобильный разработчик Фулл-стек разработчик Бекенд разработчик</p>
                 </div>
                 <div class="left__element">
@@ -50,7 +50,7 @@
                     <img src="./../assets/images/company-logo.svg" alt="logo">
                 </div>
                 <p class="company__description">Это команда профессионалов, стремящаяся к решению сложных задач. Мы облао команда профессионалов, стремящаяся к решению сложных задач. Мы обла... </p>
-                <ElButton class="respond" type="primary">Откликнуться<img src="./../assets/images/vacancy/micro-link.svg"></ElButton>
+                <ElButton class="respond" type="primary" v-if="checkCompany">Откликнуться<img src="./../assets/images/vacancy/micro-link.svg"></ElButton>
                 <div class="partner">
                     <p class="contract">Партнеры</p>
                 </div>
@@ -61,17 +61,26 @@
 
 <script setup>
 import { ElButton, ElTag } from 'element-plus';
-import { IP } from '~/components/UI/auth/Authentication';
+import { IP } from '~/components/UI/auth/Authentication';   
+import { ref } from 'vue';
 import axios from "axios";
 
+const checkCompany = ref(true);
 const vacancyData = ref({});
 const fetchVacancyData = async () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user.is_company == true) {
+        checkCompany.value = false;
+    } else {
+        checkCompany.value = true;
+    }
+    console.log(checkCompany.value);
+    
     const response = await axios.get(`${IP}/vacancies/${localStorage.getItem("vacancy")}`);
     vacancyData.value = response.data;
-    vacancyRequirements.value = response.data.requirements
+    // vacancyRequirements.value = response.data.requirements
 };
 fetchVacancyData()
-
 </script>
 
 <style scoped>
