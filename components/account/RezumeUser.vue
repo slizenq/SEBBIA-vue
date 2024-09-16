@@ -66,7 +66,6 @@ const searchResumes = async () => {
                 'Content-Type': 'application/json',
             },
         });
-        console.log('Результаты поиска:', response.data);
         combinedObject.value = {
             Student: {
                 age: {

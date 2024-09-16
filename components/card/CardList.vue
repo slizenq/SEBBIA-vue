@@ -57,8 +57,6 @@ import Card from "./Card.vue";
 const cards = ref([]);
 const searchResumes = async () => {
     const response = await axios.get(`${IP}/vacancies/search`);
-    console.log(response.data.vacancy_id);
-    
     response.data.forEach(item => {
         const newCard = {
             vacancy_id: item.vacancy_id,

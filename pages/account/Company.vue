@@ -21,7 +21,6 @@ import Progress from "~/components/UI/Progress.vue";
 import Rezume from "~/components/account/Rezume.vue";
 import RezumeState from "~/components/account/RezumeState.vue";
 import RezumeUser from "~/components/account/RezumeUser.vue";
-
 const isAuthorized = ref(false);
 onMounted(() => {
     const token = localStorage.getItem('access_token');
@@ -32,8 +31,8 @@ onMounted(() => {
     }
 });
 const breadcrumbItems = ref([
-    { path: "x/xx/xxx", label: "Профиль" },
-    { path: "x/xx/xxx", label: "Аккаунт" },
+    { path: "/x/xx/xxx", label: "Профиль" },
+    { path: "/x/xx/xxx", label: "Аккаунт" },
 ]);
 </script>
 

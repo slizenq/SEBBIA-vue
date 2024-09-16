@@ -20,7 +20,9 @@
                 :updateAuthStatus="updateAuthStatus"/>
                 <div :class="{ 
                         'home-color': $route.path === '/account/student' || $route.path === '/account/company'
-                    }" class="account-element" v-else :isAuthenticated="isAuthenticated" @click="AccountClick">Аккаунт</div>
+                    }" class="account-element" v-else :isAuthenticated="isAuthenticated" @click="AccountClick">
+                    <img v-if="logo_Account" src="./../assets/images/companyAccount.svg" alt="Company">
+                    <img v-else src="./../assets/images/studentAccount.svg" alt="Student">Аккаунт</div>
             </div>
         </div>
     </div>
@@ -29,21 +31,27 @@
 <script setup>
 import { ref, onMounted, watch} from 'vue';
 import Auth from "./UI/auth/Auth.vue";
+const logo_Account = ref();
 
 const isAuthenticated = ref(false);
 const checkToken = () => {
     const token = localStorage.getItem('access_token');
+    const logo = JSON.parse(localStorage.getItem('user'))
+    if (logo) {
+        logo_Account.value = logo.is_company;
+    }
+    
     if (token != null) {
         isAuthenticated.value = false
     } else {
         isAuthenticated.value = true
     }
 };
-// тут я уже в шоки 
+
 onMounted(() => {
     checkToken(); 
     window.addEventListener('storage', (event) => {
-        if (event.key === 'access_token') {
+        if (event.key === 'access_token' || event.key === 'access_token') {
             checkToken();
         }
     });
@@ -56,7 +64,7 @@ onMounted(() => {
 const updateAuthStatus = (status) => {
     isAuthenticated.value = status;
 };
-// тут уже не в шоки
+
 const AccountClick = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user && user.is_company) {
@@ -70,6 +78,9 @@ const AccountClick = () => {
 <style>
 .account-element {
     cursor: pointer;
+    display: flex;
+    gap: 5px;
+    align-items: center;
 }
 .logo__text-color {
     color: #409eff;
