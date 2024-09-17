@@ -1,9 +1,9 @@
 <template>
     <div class="right__part-screen">
-        <p class="right__part-title">{{ rightPartTitle[0] }}</p>
+        <p class="right__part-title">{{ isCompany ? titlePage.company.companyTitle : titlePage.student.studentTitle  }}</p>
         <div class="right__part-user contain__margin">
-            <p class="right__part-elem"><span>{{ combinedObject.Student.age.Age }}:</span> {{ combinedObject.Student.age.StudentAge }}</p>
-            <p class="right__part-elem"><span>{{ combinedObject.Student.city.City }}:</span> {{ combinedObject.Student.city.StudentCity }}</p>
+            <p class="right__part-elem"><span>{{ isCompany ? companyData.form.Form : studentData.age.Age }}:</span> {{ isCompany ? companyData.form.FormContent : studentData.age.StudentAge }}</p>
+            <p class="right__part-elem"><span>{{ isCompany ? companyData.city.City : studentData.city.City }}:</span> {{ isCompany ? companyData.city.StudentCity : studentData.city.StudentCity }}</p>
         </div>
         <div class="contain__margin">
             <ElButton type="primary" class="btn-edit right__part-btn">Редактировать профиль</ElButton>
@@ -19,12 +19,11 @@ import { defineProps } from 'vue';
 import axios from 'axios';
 import { IP } from '../UI/auth/Authentication';
 
-const rightPartTitle = ['Фамилия Имя', 'Наименование'];
 const props = defineProps({
-  updateAuthStatus: {
-    type: Function,
-    required: true,
-  },
+    updateAuthStatus: {
+        type: Function,
+        required: true,
+    },
 });
 const logout = function() {
     localStorage.removeItem('accessToken');
@@ -32,73 +31,40 @@ const logout = function() {
     localStorage.removeItem('user');
     navigateTo('/')
 }
-  const combinedObject = ref({
-    Student: {
-        age: {
-            Age: 'Возраст',
-            StudentAge: 'test',
-        },
-        city: {
-            City: 'Город',
-            StudentCity: 'test',
-        },
-    },
-    Company: {
-        form: {
-            Form: 'Форма организации',
-            FormContent: 'test',
-        },
-        city: {
-            City: 'Город',
-            StudentCity: 'test',
-        },
-    },
-    notFilled: {
-        notFilled: 'не заполненно',
-    },
+const titlePage = ref({
+    student: { studentTitle: 'Фамилия имя' },
+    company: { companyTitle: 'Наименование' }
+})
+const studentData = ref({
+    age: { Age: 'Возраст', StudentAge: 'Не заполнено' },
+    city: { City: 'Город', StudentCity: 'Не заполнено' }
 });
-  
+
+const companyData = ref({
+    form: { Form: 'Форма организации', FormContent: 'Не заполнено' },
+    city: { City: 'Город', StudentCity: 'Не заполнено'  }
+});
+const isCompany = ref(null);
+isCompany.value = true
 const searchResumes = async () => {
-    try {
-        const resume_id = '5';
-        const response = await axios.get(`${IP}/resumes/${resume_id}`, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        combinedObject.value = {
-            Student: {
-                age: {
-                    Age: 'Возраст',
-                    StudentAge: response.data.about_me, 
-                },
-                city: {
-                    City: 'Город',
-                    StudentCity: response.data.about_me,  
-                },
-            },
-            Company: {
-                form: {
-                    Form: 'Форма организации',
-                    FormContent: response.data.about_me, 
-                },
-            city: {
-                City: 'Город',
-                StudentCity: response.data.about_me, 
-            },
+    const resume_id = localStorage.getItem('resume_id');
+    const response = await axios.get(`${IP}/resumes/${resume_id}`, {
+        headers: {
+            'Content-Type': 'application/json',
         },
-            notFilled: {
-                notFilled: 'не заполнено',
-            },
-        };
-      return response.data;
-    } catch (error) {
-        if (error.response) {
-            console.error('Ошибка поиска:', error.response.data);
-        } else {
-            console.error('Ошибка сети или конфигурации запроса:', error.message);
-        }
+    });
+    const user = JSON.parse(localStorage.getItem('user')).is_company;
+    isCompany.value = user
+    if (isCompany.value) {
+        companyData.value.form.FormContent = response.data?.test || 'Не заполнено';
+        companyData.value.city.StudentCity = response.data?.test || 'Не заполнено';
+        titlePage.value.company.companyTitle = response.data?.test || 'Наименование';
+    } else {
+        studentData.value.age.StudentAge = response.data?.born_date || 'Не заполнено';
+        studentData.value.city.StudentCity = response.data?.about_projects || 'Не заполнено';
+        titlePage.value.student.studentTitle = response.data?.last_name + ' ' + response.data?.first_name || 'Фамилия Имя'
     }
+    return response.data;
 };
 onMounted(() => {
     searchResumes();

@@ -32,21 +32,21 @@
             </div>
 			<div class="fio">
 				<p class="description">Имя</p>
-				<el-input v-model="input" style="width: 100%" class="fio__input" placeholder="Имя" />
+				<el-input v-model="first_name" style="width: 100%" class="fio__input" placeholder="Имя" />
 
 				<p class="description">Фамилия</p>
-				<el-input v-model="input" style="width: 100%" class="fio__input" placeholder="Фамилия" />
+				<el-input v-model="last_name" style="width: 100%" class="fio__input" placeholder="Фамилия" />
 
 				<p class="description">Отчество</p>
-				<el-input v-model="input" style="width: 100%" class="fio__input" placeholder="Отчесво" />
+				<el-input v-model="middle_name" style="width: 100%" class="fio__input" placeholder="Отчесво" />
 			</div>
 			<div class="dropdown-list">
 				<div>
 					<p class="description">Город</p>
 					<el-select-v2
 						class="dropdown"
-						v-model="value"
-						:options="options"
+						v-model="city"
+						:options="cityOptions"
 						placeholder="Выберите город"
 						style="width: 240px; margin-right: 16px; vertical-align: middle"
 						clearable
@@ -56,8 +56,8 @@
 					<p class="description">Учебное заведение</p>
 					<el-select-v2
 						class="dropdown"
-						v-model="value"
-						:options="options"
+						v-model="education"
+						:options="educationOptions"
 						placeholder="Выберите учебное заведение"
 						style="width: 240px; margin-right: 16px; vertical-align: middle"
 						clearable
@@ -68,9 +68,9 @@
 				<p class="description">Дата рождения</p>
 				<el-date-picker
 					class="dropdown"
-					v-model="value1"
+					v-model="born_date"
 					type="date"
-					placeholder="Pick a day"
+					placeholder="ээ пупупууу"
 					:size="size"
 					style="width: 100%; margin-top: 8px;"
 				/>
@@ -85,34 +85,72 @@ import { Picture as IconPicture } from '@element-plus/icons-vue'
 import { ElUpload, ElImage, ElIcon, ElInput, ElSelectV2, ElDatePicker, ElButton } from 'element-plus';
 import BreadCrumb from './../../../components/BreadCrumb.vue'
 import Progress from '~/components/UI/Progress.vue';
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { IP } from '~/components/UI/auth/Authentication';
+import axios from 'axios';
 
-// const entity = {
-// 	photo: photo,
-//	first_name: first_name,
-//	middle_name: middle_name
-//	last_name: last_name,
-//	about_projects: city, 
-//	education: education,
-//	born_date: born_date
-// }
-
+const photo = ref(null)
+const first_name = ref(null)
+const middle_name = ref(null)
+const last_name = ref(null)
+const city = ref(null)
+const education = ref(null)
+const born_date = ref(null)
+const cities = ["Москва", "Санкт-Петербург", "РКСИ"];
+const cityOptions = cities.map((city, idx) => ({
+  	value: idx + 1,
+  	label: city,
+  	class: "custom-option",
+}));
+const educationInstit = ["МГУ", "СПбГУ", "РКСИ"];
+const educationOptions = educationInstit.map((institution, idx) => ({
+  	value: idx + 1,
+  	label: institution,
+  	class: "custom-option",
+}));
+const selectedCity = computed(() => {
+  	return cityOptions.find(option => option.value === city.value) || null;
+});
+const selectedEducation = computed(() => {
+  	return educationOptions.find(option => option.value === education.value) || null;
+});
 const showUpProgress = ref(false)
 const breadcrumbItems = ref([
     { path: "x/xx/xxx", label: "Профиль" },
     { path: "x/xx/xxx", label: "Аккаунт" },
     { path: "x/xx/xxx", label: "Личные данные"},
 ]);
-const sendForm = function() {
-	showUpProgress.value = true
-}
-const value = ref([]);
-const cities = ["1", "2", "3"];
-const options = cities.map((city, idx) => ({
-    value: idx + 1,
-    label: city,
-    class: "custom-option",
-}));
+const sendForm = async function() {
+    try {
+        const studentEntity = {
+            first_name: first_name.value,
+            last_name: last_name.value,
+            middle_name: middle_name.value,
+            phone_number: "37505119",  
+            education: selectedEducation.value?.label || "",  
+            about_me: "string",  
+            born_date: 19,  
+            skills: [],  
+            photo: photo.value,  
+            directions: ["string"],
+            about_projects: selectedCity.value?.label || "",  
+            portfolio: "http://example.com",
+        };
+        const response = await axios.post(`${IP}/resumes/`, studentEntity, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('access_token')}`,
+                "Content-Type": "application/json",
+                "accept": "application/json"
+            }
+        });
+		localStorage.setItem('resume_id', response.data.resume_id)
+        console.log(response);
+    } catch (error) {
+        console.error('Error submitting form:', error);
+    } finally {
+        showUpProgress.value = false;
+    }
+};
 </script>
 
 <style scoped>
