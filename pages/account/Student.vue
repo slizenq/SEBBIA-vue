@@ -4,7 +4,7 @@
         <Progress />
         <div class="rezume__screen">
             <div>
-                <Rezume />
+                <Rezume/>
                 <RezumeState />
             </div>
             <div>

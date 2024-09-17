@@ -1,15 +1,13 @@
 <template>
     <div class="rezume">
         <p class="rezume__title">{{ rezumeTitle[0] }}</p>
-        <div>
+        <div @click="nextStap">
             <div class="rezume__void contain__margin">
                 <p class="not_filled">Не заполнено</p>
                 <p class="more_details">Подробнее</p>
             </div>
-            <!-- <div class="rezume__content contain__margin">
-            </div> -->
         </div>
-        <ElButton type="primary" class="rezume-btn contain__margin">
+        <ElButton @click="nextStap" type="primary" class="rezume-btn contain__margin">
             {{ createRezume[0] }}
         </ElButton>
     </div>
@@ -17,7 +15,9 @@
 
 <script setup>
 import { ElButton } from "element-plus";
-
+const nextStap = function() {
+    navigateTo('/account/resume/ResumeStudent')
+}
 const rezumeTitle = ["Резюме", "Вакансия"];
 const createRezume = ["Создать резюме", "Добавить информацию"];
 </script>
@@ -51,6 +51,8 @@ const createRezume = ["Создать резюме", "Добавить инфо�
     background-color: rgba(115, 118, 122, 0.06);
     border-radius: 5px;
     padding: 16px;
+    cursor: pointer;
+
 }
 .rezume__title {
     color: #303133;

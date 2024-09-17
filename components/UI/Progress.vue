@@ -1,7 +1,7 @@
 <template>
     <div class="demo-progress">
         <p class="progress__title">Заполни профиль</p>
-        <el-progress :percentage="52" :format="format" />
+        <el-progress :percentage="25" :format="format" />
     </div>
 </template>
 

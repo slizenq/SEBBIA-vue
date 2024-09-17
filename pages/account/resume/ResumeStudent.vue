@@ -1,0 +1,211 @@
+<template>
+    <div class="container">
+        <BreadCrumb :breadcrumbItems="breadcrumbItems" class="bread_margin" />
+        <Progress/>
+		<div class="opportunity">
+			<div class="opportunity__left-part opportunity__text">
+				<p class="opportunity__text-title"><img src="./../../../assets/images/tooltip.svg">Открывается возможность</p>
+				<p class="opportunity__text-desc">заполнять резюме внутри профиля</p>
+			</div>
+			<div v-if="showUpProgress" class="opportunity__right-part opportunity__text">
+				<p><span class="procent">+25%</span> за заполнение</p>
+				<p>личной информации в профиле</p>
+			</div>
+		</div>
+        <div class="form">
+            <h1 class="form__title">Личные данные</h1>
+            <div>
+              	<p class="description">Добавить фото</p>
+				<ElUpload>
+					<div class="demo-image__error">
+						<div class="block">
+							<el-image>
+								<template #error>
+								<div class="image-slot">
+									<el-icon><icon-picture /></el-icon>
+								</div>
+								</template>
+							</el-image>
+						</div>
+					</div>
+				</ElUpload>
+            </div>
+			<div class="fio">
+				<p class="description">Имя</p>
+				<el-input v-model="input" style="width: 100%" class="fio__input" placeholder="Имя" />
+
+				<p class="description">Фамилия</p>
+				<el-input v-model="input" style="width: 100%" class="fio__input" placeholder="Фамилия" />
+
+				<p class="description">Отчество</p>
+				<el-input v-model="input" style="width: 100%" class="fio__input" placeholder="Отчесво" />
+			</div>
+			<div class="dropdown-list">
+				<div>
+					<p class="description">Город</p>
+					<el-select-v2
+						class="dropdown"
+						v-model="value"
+						:options="options"
+						placeholder="Выберите город"
+						style="width: 240px; margin-right: 16px; vertical-align: middle"
+						clearable
+					/>
+				</div>
+				<div>
+					<p class="description">Учебное заведение</p>
+					<el-select-v2
+						class="dropdown"
+						v-model="value"
+						:options="options"
+						placeholder="Выберите учебное заведение"
+						style="width: 240px; margin-right: 16px; vertical-align: middle"
+						clearable
+					/>
+				</div>
+			</div>
+			<div>
+				<p class="description">Дата рождения</p>
+				<el-date-picker
+					class="dropdown"
+					v-model="value1"
+					type="date"
+					placeholder="Pick a day"
+					:size="size"
+					style="width: 100%; margin-top: 8px;"
+				/>
+			</div>
+			<ElButton type="primary" @click="sendForm" class="send_form">Сохранить</ElButton>
+      </div>
+    </div>
+</template>
+
+<script setup>
+import { Picture as IconPicture } from '@element-plus/icons-vue'
+import { ElUpload, ElImage, ElIcon, ElInput, ElSelectV2, ElDatePicker, ElButton } from 'element-plus';
+import BreadCrumb from './../../../components/BreadCrumb.vue'
+import Progress from '~/components/UI/Progress.vue';
+import { ref } from "vue";
+
+// const entity = {
+// 	photo: photo,
+//	first_name: first_name,
+//	middle_name: middle_name
+//	last_name: last_name,
+//	about_projects: city, 
+//	education: education,
+//	born_date: born_date
+// }
+
+const showUpProgress = ref(false)
+const breadcrumbItems = ref([
+    { path: "x/xx/xxx", label: "Профиль" },
+    { path: "x/xx/xxx", label: "Аккаунт" },
+    { path: "x/xx/xxx", label: "Личные данные"},
+]);
+const sendForm = function() {
+	showUpProgress.value = true
+}
+const value = ref([]);
+const cities = ["1", "2", "3"];
+const options = cities.map((city, idx) => ({
+    value: idx + 1,
+    label: city,
+    class: "custom-option",
+}));
+</script>
+
+<style scoped>
+.opportunity__text-title {
+	display: flex;
+	align-items: center;
+	font-size: 20px;
+	font-weight: 600;
+	color: #409EFF;
+}
+.opportunity__text-desc {
+	color: #409EFF;
+}
+.procent {
+	color: #409EFF;
+	font-size: 24px;
+	font-weight: 700;
+}
+.opportunity__text {
+	line-height: 155%;
+}
+.opportunity__right-part {
+	text-align: right;
+}
+.opportunity__left-part {
+	color: #79BBFF;
+}
+.opportunity {
+	display: flex;
+	justify-content: space-between;
+}
+.send_form {
+	width: 100%;
+	height: 40px;
+	margin-top: 32px;
+}
+.dropdown-list {
+	display: flex;
+	justify-content: space-between;
+}
+.dropdown {
+	margin-top: 8px;
+}
+.fio__input {
+	margin-top: 8px;
+}
+.description {
+	margin-top: 17px;
+	font-size: 14px;
+}
+.demo-image__error .block[data-v-cde71935] {
+	border-right: none;
+}
+.form__title {
+  font-size: 23px;
+}
+.form {
+  width: 550px;
+  margin-top: 50px;
+}
+.demo-image__error .block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color);
+  display: inline-block;
+  width: 250px;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+.demo-image__error .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.demo-image__error .el-image {
+  max-width: 300px;
+  max-height: 200px;
+  width: 100%;
+  height: 200px;
+}
+
+.demo-image__error .image-slot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: var(--el-fill-color-light);
+  color: var(--el-text-color-secondary);
+  font-size: 30px;
+}
+.demo-image__error .image-slot .el-icon {
+  font-size: 30px;
+}
+</style>
