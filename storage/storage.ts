@@ -11,12 +11,6 @@ interface Rezume {
     status: string;
 }
 
-interface State {
-    count: number;
-    name: string;
-    rezumes: Rezume[];
-}
-
 const pinia = createPinia().use(createPersistedState());
 
 export const useStore = defineStore({
