@@ -148,6 +148,30 @@ function getStatusColor(status) {
     }
 }
 
+// Первый вариант
+// function getStatusColor(status) {
+//     const colors = {
+//         Одобрено: "#67c23a",
+//         Отказано: "#f56c6c",
+//         Просмотрено: "#303133",
+//         "Не просмотрено": "#909399",
+//     };
+//     return colors[status] || null;
+// }
+
+// Второй вариант
+// const statuses = [
+//     { status: "Одобрено", color: "#67c23a", icon: CircleCheckFilled },
+//     { status: "Отказано", color: "#f56c6c", icon: CircleCloseFilled },
+//     { status: "Просмотрено", color: "#303133", icon: View },
+//     { status: "Не просмотрено", color: "#909399", icon: Hide },
+// ];
+
+// function getStatusColor(status) {
+//     const statusItem = statuses.find((item) => item.status === status);
+//     return statusItem ? statusItem.color : null;
+// }
+
 function getStatusLabelIcon(status) {
     switch (status) {
         case "Одобрено":
