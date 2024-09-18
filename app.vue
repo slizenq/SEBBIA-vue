@@ -60,13 +60,13 @@ span {
 }
 @keyframes text {
   0% {
-    color: #e65c00;
+    color: #ffffff;
   }
   50% {
-    color: #18b201;
+    color: #1109f1;
   }
   100% {
-    color: #0456c8;
+    color: #ff0000;
   }
 }
 .preloader {
