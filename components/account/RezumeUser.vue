@@ -6,7 +6,7 @@
             <p class="right__part-elem"><span>{{ isCompany ? companyData.city.City : studentData.city.City }}:</span> {{ isCompany ? companyData.city.StudentCity : studentData.city.StudentCity }}</p>
         </div>
         <div class="contain__margin">
-            <ElButton type="primary" class="btn-edit right__part-btn">Редактировать профиль</ElButton>
+            <ElButton type="primary" class="btn-edit right__part-btn" @click="nextStap">Редактировать профиль</ElButton>
         </div>
         <ElButton plain class="btn-out right__part-btn" @click="logout">Выйти</ElButton>
     </div>
@@ -25,6 +25,9 @@ const props = defineProps({
         required: true,
     },
 });
+const nextStap = function() {
+    navigateTo('/account/resume/ResumeStudent')
+}
 const logout = function() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('access_token');
@@ -47,7 +50,7 @@ const companyData = ref({
 const isCompany = ref(null);
 isCompany.value = true
 const searchResumes = async () => {
-    const resume_id = localStorage.getItem('resume_id');
+    const resume_id = JSON.parse(localStorage.getItem('resume_id')).resume_id
     const response = await axios.get(`${IP}/resumes/${resume_id}`, {
         headers: {
             'Content-Type': 'application/json',

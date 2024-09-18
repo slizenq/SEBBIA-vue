@@ -20,6 +20,8 @@
                 <el-button
                     @click="$emit('someEventReg')"
                     class="login-dialog__register-link"
+                    type="primary"
+                    plain
                 >
                     Войти
                 </el-button>
@@ -96,6 +98,7 @@ const registration = async () => {
 }
 .login-dialog__register-link {
     /* color: #409eff; */
+    margin-top: 30px;
     max-width: 82px;
     font-size: 14px;
     line-height: 22px;
@@ -103,7 +106,7 @@ const registration = async () => {
     padding: 8px 20px;
 }
 .login-dialog__privacy-policy {
-    margin-top: 16px;
+    margin-top: 0;
     font-size: 12px;
     color: #999;
 }

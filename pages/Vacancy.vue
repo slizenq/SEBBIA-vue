@@ -54,6 +54,7 @@
                 <div class="partner">
                     <p class="contract">Партнеры</p>
                 </div>
+                
             </div>
         </div> 
     </div>
