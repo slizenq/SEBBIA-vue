@@ -11,32 +11,60 @@
             @close="resetDialog"
             class="login-dialog"
         >
-            <el-collapse v-if="showModal" v-model="activeNames" @change="handleChange" >
+            <el-collapse
+                v-if="showModal"
+                v-model="activeNames"
+                @change="handleChange"
+            >
                 <div class="select">
                     <div v-for="item in items" :key="item.name">
-                        <el-collapse-item :title="item.title" :name="item.name" 
-                        :style="{ border: item.isActive  ? '1px solid #409EFF' : '1px solid #dcdfe6', borderRadius: '5px', }"
+                        <el-collapse-item
+                            :title="item.title"
+                            :name="item.name"
+                            :style="{
+                                border: item.isActive
+                                    ? '1px solid #409EFF'
+                                    : '1px solid #dcdfe6',
+                                borderRadius: '5px',
+                            }"
                         >
-                            <div> <p :style="{ fontSize: item.isActive ? '16px' : '', }" > {{ item.content }} </p> </div>
+                            <div>
+                                <p
+                                    :style="{
+                                        fontSize: item.isActive ? '16px' : '',
+                                    }"
+                                >
+                                    {{ item.content }}
+                                </p>
+                            </div>
                         </el-collapse-item>
                     </div>
                 </div>
-                <div class="ss"><el-button type="primary" @click="nextStep" :disabled="activeNames.length === 0" >Далее</el-button ></div>
+                <div class="ss">
+                    <el-button
+                        type="primary"
+                        @click="nextStep"
+                        :disabled="activeNames.length === 0"
+                        >Далее</el-button
+                    >
+                </div>
             </el-collapse>
-            <SignIn 
-                v-if="!showSteps" 
+            <SignIn
+                v-if="!showSteps"
                 :whoUser="whoUser"
-                @login-success="handleLoginSuccess" 
-                @some-event-log="closeModalLogin"/>
+                @login-success="handleLoginSuccess"
+                @some-event-log="closeModalLogin"
+            />
             <SignUp
                 v-if="showSteps && selectedStep === 'signUp'"
                 :whoUser="whoUser"
-                @some-event-reg="closeModalReg"/>
+                @some-event-reg="closeModalReg"
+            />
         </el-dialog>
     </div>
 </template>
 <script setup>
-import { ref, provide } from 'vue';
+import { ref, provide } from "vue";
 import { ElButton, ElDialog, ElCollapseItem, ElCollapse } from "element-plus";
 import SignIn from "./SignIn.vue";
 import SignUp from "./SignUp.vue";
@@ -74,9 +102,9 @@ const nextStep = () => {
         const activeComponent = items.find(
             (item) => item.name === activeNames.value[0]
         );
-        if (activeComponent && activeComponent.name === '1') {
+        if (activeComponent && activeComponent.name === "1") {
             whoUser.value = false;
-        } else if (activeComponent && activeComponent.name === '2') {
+        } else if (activeComponent && activeComponent.name === "2") {
             whoUser.value = true;
         } else {
             whoUser.value = null;
@@ -118,7 +146,6 @@ const handleChange = (value) => {
         item.isActive = value.includes(item.name);
     });
 };
-
 </script>
 <style scoped>
 .ss {
