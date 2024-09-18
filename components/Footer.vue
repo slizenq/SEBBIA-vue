@@ -38,15 +38,10 @@
                                 <p class="part-element-title">
                                     Остались вопросы?
                                 </p>
-                                <el-button
-                                    class="btn-call"
-                                    type="primary"
-                                    plain
-                                    @click="toggleAudio"
-                                >
-                                    <el-icon><Phone height="16px" /></el-icon
-                                    >Позвонить</el-button
-                                >
+                                <el-button class="btn-call" type="primary" plain @click="toggleCamera">
+                                <el-icon><Phone height="16px" /></el-icon>
+                                Позвонить
+                                </el-button>
                                 <audio ref="audioPlayer">
                                     <source
                                         src="../59ffb9a2c698e21.mp3"
@@ -79,6 +74,7 @@
                 <p class="footer-down">©2024 Team Practice</p>
             </div>
         </div>
+        <!-- <video id="video" ref="videoElement" width="100%" height="50%" autoplay class="jeka"></video> -->
     </div>
 </template>
 
@@ -86,15 +82,27 @@
 import { ElButton } from "element-plus";
 import { Phone } from "@element-plus/icons-vue";
 const audioPlayer = ref(null);
+const videoElement = ref(null);
 
-function toggleAudio() {
+const toggleCamera = async () => {
     const audio = audioPlayer.value;
     if (audio.paused) {
         audio.play();
     } else {
         audio.pause();
     }
-}
+//   if (navigator.mediaDevices.getUserMedia) {
+//     try {
+//       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      
+//       if (videoElement.value) {
+//         videoElement.value.srcObject = stream;
+//       }
+//     } catch (error) {
+//       console.log('Не удалось получить доступ к камере: ', error);
+//     }
+//   }
+};
 </script>
 
 <style scoped>
