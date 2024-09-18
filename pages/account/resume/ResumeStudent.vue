@@ -2,12 +2,12 @@
     <div class="container">
         <BreadCrumb :breadcrumbItems="breadcrumbItems" class="bread_margin" />
         <Progress/>
-		<div class="opportunity">
+		<div class="opportunity" v-if="showUpProgress">
 			<div class="opportunity__left-part opportunity__text">
 				<p class="opportunity__text-title"><img src="./../../../assets/images/tooltip.svg">Открывается возможность</p>
 				<p class="opportunity__text-desc">заполнять резюме внутри профиля</p>
 			</div>
-			<div v-if="showUpProgress" class="opportunity__right-part opportunity__text">
+			<div class="opportunity__right-part opportunity__text">
 				<p><span class="procent">+25%</span> за заполнение</p>
 				<p>личной информации в профиле</p>
 			</div>
@@ -145,10 +145,11 @@ const sendForm = async function() {
         });
 		localStorage.setItem('resume_id', response.data.resume_id)
         console.log(response);
+		showUpProgress.value = true;
     } catch (error) {
         console.error('Error submitting form:', error);
     } finally {
-        showUpProgress.value = false;
+        showUpProgress.value = true;
     }
 };
 </script>
