@@ -1,28 +1,42 @@
 <template>
     <div class="rezume">
         <p class="rezume__title">{{ rezumeTitle[0] }}</p>
-        <div @click="nextStap">
+        <div>
             <div class="rezume__void contain__margin">
                 <p class="not_filled">Не заполнено</p>
                 <p class="more_details">Подробнее</p>
             </div>
         </div>
-        <ElButton @click="nextStap" type="primary" class="rezume-btn contain__margin">
+        <ElButton type="primary" class="rezume-btn contain__margin">
             {{ createRezume[0] }}
         </ElButton>
+        <!-- <el-button plain @click="open1"> Top Right </el-button> -->
     </div>
 </template>
 
 <script setup>
 import { ElButton } from "element-plus";
-const nextStap = function() {
-    navigateTo('/account/resume/ResumeStudent')
-}
+// import { ElNotification } from 'element-plus'
+
+// const open1 = () => {
+//   ElNotification({
+//     title: 'Произошла ошибка при отправке',
+//     message: "Проверьте соединение к интернету",
+//   })
+// }   
 const rezumeTitle = ["Резюме", "Вакансия"];
 const createRezume = ["Создать резюме", "Добавить информацию"];
 </script>
 
 <style>
+/* .el-notification  {
+    background-color: rgba(245, 108, 108, 0.5);
+    width: 400px;
+
+}
+.el-notification__title {
+    color: pink; 
+} */
 .rezume-btn {
     width: 100%;
     height: 45px;

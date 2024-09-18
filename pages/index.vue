@@ -26,7 +26,6 @@
 import Slider from "~/components/Slider.vue";
 import DropdownList from "~/components/UI/DropdownList.vue";
 import Search from "~/components/UI/Search.vue";
-import axios from "axios";
 import CardList from "~/components/card/CardList.vue";
 
 const searchText = ref("");

@@ -129,7 +129,7 @@
 </template>
 
 <script setup>
-import { ElButton, ElTag, ElDialog } from "element-plus";
+import { ElButton, ElTag, ElDialog, ElNotification } from "element-plus";
 import { InfoFilled } from "@element-plus/icons-vue";
 import { IP } from "~/components/UI/auth/Authentication";
 import { ref } from "vue";
@@ -138,6 +138,20 @@ import axios from "axios";
 const isDialogVisible = ref(false);
 const openDialog = () => {
     isDialogVisible.value = true;
+    ElNotification({
+        title: "Резюме отправлено",
+        message: "Вы можете посмотреть его статус в личном кабинете ",
+        duration: 5000,
+        type: "success",
+        showClose: false,
+    });
+    // ElNotification({
+    //     title: "Произошла ошибка при отправке",
+    //     message: "Проверьте соединение к интернету",
+    //     duration: 5000,
+    //     type: "error",
+    //     showClose: false,
+    // });
 };
 
 const closeDialog = () => {
@@ -152,7 +166,9 @@ const checkCompany = ref(true);
 const vacancyData = ref({});
 const fetchVacancyData = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
-    if (user.is_company == true) {
+    if (user?.is_company == true) {
+        checkCompany.value = false;
+    } else if (!user) {
         checkCompany.value = false;
     } else {
         checkCompany.value = true;
@@ -163,10 +179,32 @@ const fetchVacancyData = async () => {
         `${IP}/vacancies/${localStorage.getItem("vacancy")}`
     );
     vacancyData.value = response.data;
-    // vacancyRequirements.value = response.data.requirements
 };
 fetchVacancyData();
 </script>
+
+<style>
+.el-notification {
+    max-width: 484px;
+    width: auto;
+    height: auto;
+    border-radius: 2px;
+    background-color: rgba(236, 245, 255, 1);
+    color: #409eff;
+    padding: 8px 16px;
+}
+
+.el-notification__title {
+    color: #409eff;
+}
+
+.el-notification__content p {
+    color: #409eff;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+}
+</style>
 
 <style scoped>
 .text__align {
