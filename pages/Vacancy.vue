@@ -69,7 +69,9 @@ const checkCompany = ref(true);
 const vacancyData = ref({});
 const fetchVacancyData = async () => {
     const user = JSON.parse(localStorage.getItem('user'));
-    if (user.is_company == true) {
+    if (user?.is_company == true) {
+        checkCompany.value = false;
+    } else if (!user) {
         checkCompany.value = false;
     } else {
         checkCompany.value = true;
@@ -78,7 +80,6 @@ const fetchVacancyData = async () => {
     
     const response = await axios.get(`${IP}/vacancies/${localStorage.getItem("vacancy")}`);
     vacancyData.value = response.data;
-    // vacancyRequirements.value = response.data.requirements
 };
 fetchVacancyData()
 </script>

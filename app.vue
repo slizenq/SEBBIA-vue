@@ -51,7 +51,7 @@ a {
     margin: 0 auto;
 }
 
-span {
+/* span {
   color: #737373;
   font-size: 10px;
   text-transform: uppercase;
@@ -68,7 +68,7 @@ span {
   100% {
     color: #ff0000;
   }
-}
+} */
 .preloader {
   position: fixed;
   top: 0;
