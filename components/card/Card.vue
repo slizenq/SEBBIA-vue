@@ -80,17 +80,13 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref } from "vue";
+import { defineProps, ref } from "vue";
 import { ElCard, ElButton, ElTag, ElNotification } from "element-plus";
 import Tag from "~/components/companyCreateResume/Tag.vue";
 import { TopRight } from "@element-plus/icons-vue";
 
 const items = ref([]);
 const openVacancy = async function () {
-    localStorage.setItem("vacancy", props.vacancy_id);
-    navigateTo("/vacancy");
-};
-const openVacancyrepl = async function () {
     localStorage.setItem("vacancy", props.vacancy_id);
     navigateTo("/vacancy");
 };
