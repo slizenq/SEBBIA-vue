@@ -280,10 +280,10 @@ const sendForm = async function () {
     justify-content: space-between;
 }
 .dropdown {
-    margin-top: 8px;
+	margin-top: 16px;
 }
 .fio__input {
-    margin-top: 8px;
+	margin-top: 16px;
 }
 .description {
     margin-top: 17px;
