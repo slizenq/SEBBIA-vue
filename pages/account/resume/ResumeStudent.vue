@@ -21,7 +21,20 @@
         <div class="form">
             <h1 class="form__title">Личные данные</h1>
             <div>
-                <p class="description">Добавить фото</p>
+                <p class="description">
+                    Добавить фото
+                    <el-popover
+                        placement="top-start"
+                        title="Добавляй свое фото"
+                        :width="200"
+                        trigger="hover"
+                        content="Это гарантирует лучшее запоминание твоего резюме среди других претендентов"
+                    >
+                        <template #reference>
+                            <el-icon><InfoFilled /></el-icon>
+                        </template>
+                    </el-popover>
+                </p>
                 <ElUpload>
                     <div class="demo-image__error">
                         <div class="block">
@@ -112,7 +125,7 @@
 </template>
 
 <script setup>
-import { Picture as IconPicture } from "@element-plus/icons-vue";
+import { Picture as IconPicture, InfoFilled } from "@element-plus/icons-vue";
 import {
     ElUpload,
     ElImage,
@@ -121,6 +134,7 @@ import {
     ElSelectV2,
     ElDatePicker,
     ElButton,
+    ElPopover,
 } from "element-plus";
 import BreadCrumb from "./../../../components/BreadCrumb.vue";
 import Progress from "~/components/UI/Progress.vue";
@@ -280,10 +294,10 @@ const sendForm = async function () {
     justify-content: space-between;
 }
 .dropdown {
-	margin-top: 16px;
+    margin-top: 16px;
 }
 .fio__input {
-	margin-top: 16px;
+    margin-top: 16px;
 }
 .description {
     margin-top: 17px;
