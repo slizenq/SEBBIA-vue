@@ -103,15 +103,16 @@ const closeDialog = () => {
     isDialogVisible.value = false;
 };
 
-const nextStap = function () {
-    navigateTo("/account/resume/ResumeStudent");
-};
-const logout = function () {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("user");
-    navigateTo("/");
-};
+const nextStap = function() {
+    navigateTo('/account/resume/ResumeStudent')
+}
+const logout = function() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('resume_id')
+    navigateTo('/')
+}
 const titlePage = ref({
     student: { studentTitle: "Фамилия имя" },
     company: { companyTitle: "Наименование" },
@@ -128,8 +129,8 @@ const companyData = ref({
 const isCompany = ref(null);
 isCompany.value = true;
 const searchResumes = async () => {
-    const resume_id = JSON.parse(localStorage.getItem("resume_id")).resume_id;
-    const response = await axios.get(`${IP}/resumes/${resume_id}`, {
+    const resume_id = JSON.parse(localStorage.getItem('resume_id'))?.resume_id
+    const response = await axios.get(`${IP}/resumes/${resume_id || 6}`, {
         headers: {
             "Content-Type": "application/json",
         },
