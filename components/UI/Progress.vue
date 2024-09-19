@@ -7,15 +7,15 @@
 
 <script setup>
 import { ElProgress } from 'element-plus';
-const progress = ref(3)
 
 const format = (percentage) => (percentage === 100 ? "Full" : `${percentage}%`);
 const getProgress = () => {
-    let checkProgress = JSON.parse(localStorage.getItem('resume_id')).progress
+    const progress = ref(0)
+    let checkProgress = JSON.parse(localStorage.getItem('resume_id'))?.progress
     if (checkProgress) {
         return checkProgress
     } else {
-        return progress
+        return progress.value
     }
 }
 </script>
