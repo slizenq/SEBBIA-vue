@@ -21,12 +21,12 @@
         <div class="form">
             <h1 class="form__title">Личные данные</h1>
             <div>
-                <p class="description">
+                <p class="description popUp">
                     Добавить фото
                     <el-popover
                         placement="top-start"
                         title="Добавляй свое фото"
-                        :width="200"
+                        :width="300"
                         trigger="hover"
                         content="Это гарантирует лучшее запоминание твоего резюме среди других претендентов"
                     >
@@ -281,6 +281,11 @@ const sendForm = async function () {
 </style>
 
 <style scoped>
+.popUp {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 .opportunity__text-title {
     display: flex;
     align-items: center;
