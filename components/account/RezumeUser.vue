@@ -26,7 +26,8 @@ const props = defineProps({
     },
 });
 const nextStap = function() {
-    navigateTo('/account/resume/ResumeStudent')
+    // navigateTo('/account/resume/ResumeStudent')
+    
 }
 const logout = function() {
     localStorage.removeItem('accessToken');
