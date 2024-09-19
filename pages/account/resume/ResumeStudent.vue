@@ -113,20 +113,12 @@
 
 <script setup>
 import { Picture as IconPicture } from "@element-plus/icons-vue";
-import {
-    ElUpload,
-    ElImage,
-    ElIcon,
-    ElInput,
-    ElSelectV2,
-    ElDatePicker,
-    ElButton,
-} from "element-plus";
+import { ElUpload, ElImage, ElIcon, ElInput, ElSelectV2, ElDatePicker, ElButton } from "element-plus";
 import BreadCrumb from "./../../../components/BreadCrumb.vue";
 import Progress from "~/components/UI/Progress.vue";
 import { ref, computed } from "vue";
 import { IP } from "~/components/UI/auth/Authentication";
-import axios from "axios";
+import axios, { AxiosHeaders } from "axios";
 import { ElNotification } from "element-plus";
 
 const photo = ref(null);
@@ -164,22 +156,20 @@ const breadcrumbItems = ref([
     { path: "x/xx/xxx", label: "Личные данные" },
 ]);
 const sendForm = async function () {
-    // ElNotification({
-    //     title: "Резюме сохранено",
-    //     message: "Резюме успешно сохранено в личном кабинете",
-    //     duration: 3000,
-    //     type: "success",
-    //     showClose: false,
-    // });
     ElNotification({
         title: "Произошла ошибка при отправке",
         message: "Проверьте соединение к интернету",
-        duration: 5000,
+        duration: 2000,
         type: "error",
         showClose: false,
     });
+    const headers = {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        "Content-Type": "application/json",
+        accept: "application/json",
+    };
     try {
-        const studentEntity = {
+        var studentEntity = {
             first_name: first_name.value,
             last_name: last_name.value,
             middle_name: middle_name.value,
@@ -193,26 +183,53 @@ const sendForm = async function () {
             about_projects: selectedCity.value?.label || "",
             portfolio: "http://example.com",
         };
-        const response = await axios.post(`${IP}/resumes/`, studentEntity, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-                "Content-Type": "application/json",
-                accept: "application/json",
-            },
-        });
-        let data = {
-            resume_id: response.data.resume_id,
-            progress: 0,
-        };
-        localStorage.setItem("resume_id", JSON.stringify(data));
-        let newProgress = JSON.parse(localStorage.getItem("resume_id"));
-        console.log(newProgress);
-        if (newProgress) {
-            newProgress.progress = 25;
-            localStorage.setItem("resume_id", JSON.stringify(newProgress));
+        console.log('oke');
+        let checkAccount = JSON.parse(localStorage.getItem('resume_id'))?.resume_id
+        if (checkAccount) {
+            console.log('okeoke');
+            let resumeData = studentEntity
+            try {
+                const getResumeResponse = await axios.get(`${IP}/resumes/${checkAccount}`, { headers: headers });
+                console.log('get запрос успешен:', getResumeResponse);
+            } catch (error) {
+                console.error('Ошибка при выполнении get запроса:', error.response ? error.response.data : error.message);
+            }
+            var postData = {
+                first_name: 'daadsd',
+                last_name: last_name.value || resumeData?.last_name || '',
+                middle_name: middle_name.value || resumeData?.middle_name || '',
+                phone_number: "37505119",
+                education: selectedEducation.value?.label || resumeData?.education || '',
+                about_me: "string",
+                born_date: 19,
+                skills: [],
+                photo: "",
+                directions: ["string"],
+                about_projects: selectedCity.value?.label || resumeData?.about_projects || '',
+                portfolio: "http://example.com",
+            };
+            try {
+                const postResponse = await axios.put(`${IP}/resumes/${checkAccount}`, postData, { headers: headers });
+                console.log('PUT запрос успешен:', postResponse);
+            } catch (error) {
+                console.error('Ошибка при выполнении PUT запроса:', error.response ? error.response.data : error.message);
+            }
+        } else {
+            console.log('okeokeoke');
+            const response = await axios.post(`${IP}/resumes/`, studentEntity, { headers: headers });
+            let data = {
+                resume_id: response.data?.resume_id,
+                progress: 0,
+            };
+            localStorage.setItem("resume_id", JSON.stringify(data));
+            let newProgress = JSON.parse(localStorage.getItem("resume_id"));
+            if (newProgress) {
+                newProgress.progress = 25;
+                localStorage.setItem("resume_id", JSON.stringify(newProgress));
+            }
+            console.log(response);
+            showUpProgress.value = true;
         }
-        console.log(response);
-        showUpProgress.value = true;
     } catch (error) {
         console.error("Error submitting form:", error);
     } finally {
