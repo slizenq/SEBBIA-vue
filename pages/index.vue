@@ -34,7 +34,7 @@ const handleSearchInput = (input) => {
 };
 </script>
 
-<style>
+<style scoped>
 .index-dropdownlist {
     margin-top: 80px;
 }
