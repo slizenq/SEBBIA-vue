@@ -1,42 +1,38 @@
 <template>
     <div class="rezume">
         <p class="rezume__title">{{ rezumeTitle[0] }}</p>
-        <div>
+        <div @click="dialogResume = true">
             <div class="rezume__void contain__margin">
                 <p class="not_filled">Не заполнено</p>
                 <p class="more_details">Подробнее</p>
             </div>
         </div>
-        <ElButton type="primary" class="rezume-btn contain__margin">
+        <ElButton type="primary" class="rezume-btn contain__margin" @click="dialogResume = true">
             {{ createRezume[0] }}
         </ElButton>
-        <!-- <el-button plain @click="open1"> Top Right </el-button> -->
+        <el-dialog
+            v-model="dialogResume"
+            width="620"
+            top="2%"
+            :before-close="handleClose"
+        >
+        <div>
+            <div v-if="whichDialog">1</div>
+            <div v-else>2</div>
+        </div>
+        </el-dialog>
     </div>
 </template>
 
 <script setup>
-import { ElButton } from "element-plus";
-// import { ElNotification } from 'element-plus'
-
-// const open1 = () => {
-//   ElNotification({
-//     title: 'Произошла ошибка при отправке',
-//     message: "Проверьте соединение к интернету",
-//   })
-// }   
+import { ElButton, ElDialog } from "element-plus"; 
 const rezumeTitle = ["Резюме", "Вакансия"];
 const createRezume = ["Создать резюме", "Добавить информацию"];
+const dialogResume = ref(false)
+const whichDialog = ref(true)
 </script>
 
 <style>
-/* .el-notification  {
-    background-color: rgba(245, 108, 108, 0.5);
-    width: 400px;
-
-}
-.el-notification__title {
-    color: pink; 
-} */
 .rezume-btn {
     width: 100%;
     height: 45px;

@@ -46,9 +46,9 @@ export const sendForm = async function (first_name, last_name, middle_name, sele
             }
 
             var postData = {
-                first_name: first_name.value || resumeData?.first_name || '',
-                last_name: last_name.value || resumeData?.last_name || '',
-                middle_name: middle_name.value || resumeData?.middle_name || '',
+                first_name: resumeData?.first_name || '',
+                last_name: resumeData?.last_name || '',
+                middle_name: resumeData?.middle_name || '',
                 phone_number: "37505119",
                 education: selectedEducation.value?.label || resumeData?.education || '',
                 about_me: "string",
