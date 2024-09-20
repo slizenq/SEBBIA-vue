@@ -1,51 +1,25 @@
 <template>
     <div class="right__part-screen">
         <p class="right__part-title">
-            {{
-                isCompany
-                    ? titlePage.company.companyTitle
-                    : titlePage.student.studentTitle
-            }}
+            {{ isCompany ? titlePage.company.companyTitle : titlePage.student.studentTitle }}
         </p>
         <div class="right__part-user contain__margin">
             <p class="right__part-elem">
-                <span
-                    >{{
-                        isCompany ? companyData.form.Form : studentData.age.Age
-                    }}:</span
-                >
-                {{
-                    isCompany
-                        ? companyData.form.FormContent
-                        : studentData.age.StudentAge
-                }}
+                <span>{{ isCompany ? companyData.form.Form : studentData.age.Age }}:</span> {{ isCompany ? companyData.form.FormContent : studentData.age.StudentAge }}
             </p>
             <p class="right__part-elem">
-                <span
-                    >{{
-                        isCompany
-                            ? companyData.city.City
-                            : studentData.city.City
-                    }}:</span
-                >
-                {{
-                    isCompany
-                        ? companyData.city.StudentCity
-                        : studentData.city.StudentCity
-                }}
+                <span>{{ isCompany ? companyData.city.City : studentData.city.City}}:</span> {{ isCompany ? companyData.city.StudentCity : studentData.city.StudentCity }}
             </p>
         </div>
         <div class="contain__margin">
             <ElButton
                 type="primary"
                 class="btn-edit right__part-btn"
-                @click="nextStap"
+                @click="dialogRedactor = true"
                 >Редактировать профиль</ElButton
             >
         </div>
-        <ElButton plain class="btn-out right__part-btn" @click="openDialog"
-            >Выйти</ElButton
-        >
+        <ElButton plain class="btn-out right__part-btn" @click="openDialog">Выйти</ElButton>
         <el-dialog
             v-model="isDialogVisible"
             :title="titleModal"
@@ -69,12 +43,21 @@
                     </p>
                 </div>
                 <div class="buttons">
-                    <ElButton plain class="" @click="logout">Выйти</ElButton
-                    ><ElButton type="primary" class="" @click="closeDialog"
-                        >Не выходить</ElButton
-                    >
+                    <ElButton plain class="" @click="logout">Выйти</ElButton>
+                    <ElButton type="primary" class="" @click="closeDialog">Не выходить</ElButton>
                 </div>
             </div>
+        </el-dialog>
+        
+        <el-dialog
+            v-model="dialogRedactor"
+            title="Личные данные"
+            width="620"
+            top="2%"
+            class="dialog_margin"
+            :before-close="handleClose"
+        >
+            <EditProfileStudent @profileUpdated="updateProfileData"/>
         </el-dialog>
     </div>
 </template>
@@ -86,6 +69,8 @@ import { Guide } from "@element-plus/icons-vue";
 import { defineProps } from "vue";
 import axios from "axios";
 import { IP } from "../UI/auth/Authentication";
+import EditProfileStudent from "../EditAccount/student/EditProfileStudent.vue";
+const dialogRedactor = ref(false)
 
 const props = defineProps({
     updateAuthStatus: {
@@ -105,7 +90,6 @@ const closeDialog = () => {
 
 const nextStap = function() {
     // navigateTo('/account/resume/ResumeStudent')
-    
 }
 const logout = function() {
     localStorage.removeItem('accessToken');
@@ -130,31 +114,35 @@ const companyData = ref({
 const isCompany = ref(null);
 isCompany.value = true;
 const searchResumes = async () => {
-    const resume_id = JSON.parse(localStorage.getItem('resume_id'))?.resume_id
-    const response = await axios.get(`${IP}/resumes/${resume_id || 6}`, {
+    const user_id = JSON.parse(localStorage.getItem('user'))?.uuid
+    const response = await axios.get(`${IP}/resume/users/${user_id || 0}/resumes`, {
         headers: {
             "Content-Type": "application/json",
         },
     });
+    console.log(response.data[0]);
     const user = JSON.parse(localStorage.getItem("user")).is_company;
     isCompany.value = user;
     if (isCompany.value) {
-        companyData.value.form.FormContent =
-            response.data?.test || "Не заполнено";
-        companyData.value.city.StudentCity =
-            response.data?.test || "Не заполнено";
-        titlePage.value.company.companyTitle =
-            response.data?.test || "Наименование";
+        companyData.value.form.FormContent = response.data[0]?.test || "Не заполнено";
+        companyData.value.city.StudentCity = response.data[0]?.test || "Не заполнено";
+        titlePage.value.company.companyTitle = response.data[0]?.test || "Наименование";
     } else {
-        studentData.value.age.StudentAge =
-            response.data?.born_date || "Не заполнено";
-        studentData.value.city.StudentCity =
-            response.data?.about_projects || "Не заполнено";
-        titlePage.value.student.studentTitle =
-            response.data?.last_name + " " + response.data?.first_name ||
-            "Фамилия Имя";
-    }
+        studentData.value.age.StudentAge = response.data[0]?.born_date || "Не заполнено";
+        studentData.value.city.StudentCity = response.data[0]?.city || "Не заполнено";
+        titlePage.value.student.studentTitle = response.data[0]?.last_name + " " + response.data[0]?.first_name || "Фамилия Имя" }
     return response.data;
+};
+// обновляем после выполнения функц из дочернего элемента
+const updateProfileData = (data) => {
+  if (isCompany.value) {
+    companyData.value.form.FormContent = data[0];
+    titlePage.value.company.companyTitle = `${data.last_name} ${data.first_name}`;
+  } else {
+    studentData.value.age.StudentAge = data.born_date || 'Не заполнено';
+    studentData.value.city.StudentCity = data.city || 'Не заполнено';
+    titlePage.value.student.studentTitle = `${data.last_name} ${data.first_name}`;
+  }
 };
 onMounted(() => {
     searchResumes();
@@ -169,7 +157,6 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
 }
-
 .buttons {
     display: flex;
     align-items: center;

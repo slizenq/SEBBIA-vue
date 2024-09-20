@@ -117,25 +117,14 @@
                     style="width: 100%; margin-top: 8px"
                 />
             </div>
-            <ElButton type="primary" @click="sendForm" class="send_form"
-                >Сохранить</ElButton
-            >
+            <ElButton type="primary" @click="sendForm" class="send_form">Сохранить</ElButton>
         </div>
     </div>
 </template>
 
 <script setup>
 import { Picture as IconPicture, InfoFilled } from "@element-plus/icons-vue";
-import {
-    ElUpload,
-    ElImage,
-    ElIcon,
-    ElInput,
-    ElSelectV2,
-    ElDatePicker,
-    ElButton,
-    ElPopover,
-} from "element-plus";
+import { ElUpload, ElImage, ElIcon, ElInput, ElSelectV2, ElDatePicker, ElButton, ElPopover } from "element-plus";
 import BreadCrumb from "./../../../components/BreadCrumb.vue";
 import Progress from "~/components/UI/Progress.vue";
 import { ref, computed } from "vue";
@@ -211,7 +200,7 @@ const sendForm = async function () {
             console.log('okeoke');
             let resumeData = studentEntity
             try {
-                const getResumeResponse = await axios.get(`${IP}/resumes/${checkAccount}`, { headers: headers });
+                const getResumeResponse = await axios.get(`${IP}/resume/resumes/${checkAccount}`, { headers: headers });
                 console.log('get запрос успешен:', getResumeResponse);
             } catch (error) {
                 console.error('Ошибка при выполнении get запроса:', error.response ? error.response.data : error.message);
@@ -231,14 +220,14 @@ const sendForm = async function () {
                 portfolio: "http://example.com",
             };
             try {
-                const postResponse = await axios.put(`${IP}/resumes/${checkAccount}`, postData, { headers: headers });
+                const postResponse = await axios.put(`${IP}/resume/resumes/${checkAccount}`, postData, { headers: headers });
                 console.log('PUT запрос успешен:', postResponse);
             } catch (error) {
                 console.error('Ошибка при выполнении PUT запроса:', error.response ? error.response.data : error.message);
             }
         } else {
             console.log('okeokeoke');
-            const response = await axios.post(`${IP}/resumes/`, studentEntity, { headers: headers });
+            const response = await axios.post(`${IP}/resume/resumes/`, studentEntity, { headers: headers });
             let data = {
                 resume_id: response.data?.resume_id,
                 progress: 0,

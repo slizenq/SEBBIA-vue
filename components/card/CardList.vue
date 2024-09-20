@@ -50,7 +50,7 @@ import Card from "./Card.vue";
 
 const cards = ref([]);
 const searchResumes = async () => {
-    const response = await axios.get(`${IP}/vacancies/search`);
+    const response = await axios.get(`${IP}/vacancy/vacancies/search`);
     response.data.forEach(item => {
         const newCard = {
             vacancy_id: item.vacancy_id,
@@ -62,7 +62,6 @@ const searchResumes = async () => {
         cards.value.push(newCard);
     });
 };
-searchResumes();
 const props = defineProps({
     searchInput: {
         type: String,
