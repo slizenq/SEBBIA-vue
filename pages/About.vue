@@ -24,8 +24,8 @@ import Search from "~/components/UI/Search.vue";
 import CardList from "~/components/card/CardList.vue";
 
 const breadcrumbItems = ref([
-    { path: "/x/xx/xxx", label: "Главная" },
-    { path: "/x/xx/xxx", label: "Поиск компании" },
+    { path: "/", label: "Главная" },
+    { path: "/about", label: "Поиск компании" },
 ]);
 const searchText = ref("");
 const handleSearchInput = (input) => {

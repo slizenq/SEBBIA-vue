@@ -8,7 +8,8 @@
                 <RezumeState />
             </div>
             <div>
-                <RezumeUser />
+                <RezumeUser/>
+                <!-- @profileUpdated="updateProfileData" :isCompany="isCompany" :companyData="companyData" :studentData="studentData" :titlePage="titlePage" -->
             </div>
         </div>
     </div>

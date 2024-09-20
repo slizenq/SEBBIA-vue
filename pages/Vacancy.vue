@@ -159,7 +159,7 @@ const closeDialog = () => {
 };
 
 const link = () => {
-    navigateTo("/account/resume/ResumeStudent");
+    navigateTo("/account/Student");
 };
 
 const checkCompany = ref(true);
@@ -175,9 +175,7 @@ const fetchVacancyData = async () => {
     }
     console.log(checkCompany.value);
 
-    const response = await axios.get(
-        `${IP}/vacancies/${localStorage.getItem("vacancy")}`
-    );
+    const response = await axios.get(`${IP}/vacancy/vacancies/${localStorage.getItem("vacancy")}`);
     vacancyData.value = response.data;
 };
 fetchVacancyData();
