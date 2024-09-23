@@ -1,11 +1,7 @@
 <template>
     <div class="right__part-screen">
         <p class="right__part-title">
-            {{
-                isCompany
-                    ? titlePage.company.companyTitle
-                    : titlePage.student.studentTitle
-            }}
+            {{ isCompany ? titlePage.company.companyTitle : titlePage.student.studentTitle }}
         </p>
         <div class="right__part-user contain__margin">
             <p class="right__part-elem">
@@ -70,9 +66,7 @@
                 </div>
                 <div class="buttons">
                     <ElButton plain class="" @click="logout">Выйти</ElButton>
-                    <ElButton type="primary" class="" @click="closeDialog"
-                        >Не выходить</ElButton
-                    >
+                    <ElButton type="primary" class="" @click="closeDialog">Не выходить</ElButton>
                 </div>
             </div>
         </el-dialog>
@@ -85,7 +79,8 @@
             class="dialog_margin"
             :before-close="handleClose"
         >
-            <EditProfileStudent @profileUpdated="updateProfileData" />
+            <EditProfileCompany v-if="is_user" @profileUpdated="updateProfileData"/>
+            <EditProfileStudent v-else @profileUpdated="updateProfileData"/>
         </el-dialog>
     </div>
 </template>
@@ -98,8 +93,9 @@ import { defineProps } from "vue";
 import axios from "axios";
 import { IP } from "../UI/auth/Authentication";
 import EditProfileStudent from "../EditAccount/student/EditProfileStudent.vue";
+import EditProfileCompany from "../EditAccount/company/EditProfileCompany.vue";
 const dialogRedactor = ref(false);
-
+const is_user = ref(false)
 const props = defineProps({
     updateAuthStatus: {
         type: Function,
@@ -111,7 +107,11 @@ const isDialogVisible = ref(false);
 const openDialog = () => {
     isDialogVisible.value = true;
 };
-
+const userVerified = () => {
+	let is_user_id = JSON.parse(localStorage.getItem('user')).is_company
+	is_user.value = is_user_id
+}
+userVerified()
 const closeDialog = () => {
     isDialogVisible.value = false;
 };
