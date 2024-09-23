@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const IP = 'http://10.10.4.118:8000'
+export const IP = 'http://10.10.4.160:8000'
 
 export const register = async function(email, password, is_company) { 
     const postData = {
