@@ -90,6 +90,7 @@
                         <div class="contacts">
                             <p>Контакты</p>
                             <el-input
+                                v-maska="'+7 ### ### ## ##'"
                                 v-model="contacts"
                                 placeholder="+7 (000)"
                             />
@@ -109,6 +110,7 @@
 </template>
 
 <script setup>
+import { vMaska } from "maska/vue";
 import { TopRight, InfoFilled } from "@element-plus/icons-vue";
 import {
     ElButton,
