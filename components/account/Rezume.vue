@@ -7,7 +7,11 @@
                 <p class="more_details">Подробнее</p>
             </div>
         </div>
-        <ElButton type="primary" class="rezume-btn contain__margin" @click="dialogResume = true">
+        <ElButton
+            type="primary"
+            class="rezume-btn contain__margin"
+            @click="dialogResume = true"
+        >
             {{ createRezume[0] }}
         </ElButton>
         <el-dialog
@@ -15,24 +19,29 @@
             width="620"
             top="2%"
             :before-close="handleClose"
+            class="my-dialog"
         >
-        <div>
-            <div v-if="whichDialog">1</div>
-            <div v-else>2</div>
-        </div>
+            <div>
+                <div v-if="whichDialog"><EditResumeStudent /></div>
+                <div v-else>2</div>
+            </div>
         </el-dialog>
     </div>
 </template>
 
 <script setup>
-import { ElButton, ElDialog } from "element-plus"; 
+import { ElButton, ElDialog } from "element-plus";
+import EditResumeStudent from "../EditAccount/student/EditResumeStudent.vue";
 const rezumeTitle = ["Резюме", "Вакансия"];
 const createRezume = ["Создать резюме", "Добавить информацию"];
-const dialogResume = ref(false)
-const whichDialog = ref(true)
+const dialogResume = ref(false);
+const whichDialog = ref(true);
 </script>
 
 <style>
+.my-dialog .el-dialog__headerbtn {
+    display: none;
+}
 .rezume-btn {
     width: 100%;
     height: 45px;
@@ -62,7 +71,6 @@ const whichDialog = ref(true)
     border-radius: 5px;
     padding: 16px;
     cursor: pointer;
-
 }
 .rezume__title {
     color: #303133;
