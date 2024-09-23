@@ -1,8 +1,11 @@
 <template>
-    <div class="edit-resume">
+    <div class="edit-resume" v-if="showPreview">
         <div class="edit-resume__header">
             <p class="edit-resume__title">Резюме</p>
-            <el-button class="edit-resume__btn">
+            <el-button
+                class="edit-resume__btn"
+                @click="showPreview = !showPreview"
+            >
                 Предпросмотр <el-icon><TopRight /></el-icon>
             </el-button>
         </div>
@@ -107,11 +110,90 @@
             </el-form>
         </div>
     </div>
+    <div class="preview" v-else>
+        <div class="preview__header">
+            <p class="preview__title">Предпросмотр</p>
+            <div class="preview__btn">
+                <el-button @click="showPreview = !showPreview"
+                    >Вернуться <el-icon><TopRight /></el-icon
+                ></el-button>
+                <el-button
+                    type="primary"
+                    class="edit-resume__btn"
+                    @click="showPreview = !showPreview"
+                >
+                    Сохранить сейчас
+                </el-button>
+            </div>
+        </div>
+        <div class="preview__content">
+            <h2 class="content__title">Резюме</h2>
+            <div class="content__form">
+                <el-upload
+                    ref="uploadRef"
+                    action="#"
+                    list-type="picture-card"
+                    :auto-upload="false"
+                    limit="1"
+                    :on-preview="handlePictureCardPreview"
+                    :on-remove="handleRemove"
+                >
+                    <el-icon><Plus /></el-icon>
+
+                    <template #file="{ file }">
+                        <div>
+                            <img
+                                class="el-upload-list__item-thumbnail"
+                                :src="file.url"
+                                alt=""
+                            />
+                            <span class="el-upload-list__item-actions">
+                                <span
+                                    class="el-upload-list__item-preview"
+                                    @click="handlePictureCardPreview(file)"
+                                >
+                                    <el-icon><zoom-in /></el-icon>
+                                </span>
+                                <span
+                                    v-if="!disabled"
+                                    class="el-upload-list__item-delete"
+                                    @click="handleDownload(file)"
+                                >
+                                    <el-icon><Download /></el-icon>
+                                </span>
+                                <span
+                                    v-if="!disabled"
+                                    class="el-upload-list__item-delete"
+                                    @click="handleRemove(file)"
+                                >
+                                    <el-icon><Delete /></el-icon>
+                                </span>
+                            </span>
+                        </div>
+                    </template>
+                </el-upload>
+                <el-dialog v-model="dialogVisible">
+                    <img
+                        width="100%"
+                        :src="dialogImageUrl"
+                        alt="Preview Image"
+                    />
+                </el-dialog>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
 import { vMaska } from "maska/vue";
-import { TopRight, InfoFilled } from "@element-plus/icons-vue";
+import {
+    TopRight,
+    InfoFilled,
+    Delete,
+    Download,
+    Plus,
+    ZoomIn,
+} from "@element-plus/icons-vue";
 import {
     ElButton,
     ElIcon,
@@ -120,17 +202,51 @@ import {
     ElSelect,
     ElOption,
     ElTag,
+    ElUpload,
+    ElDialog,
 } from "element-plus";
+
 import { ref } from "vue";
+
+const dialogImageUrl = ref("");
+const dialogVisible = ref(false);
+const disabled = ref(false);
+const uploadRef = ref(null);
+
+/**
+ * @param {object} uploadFile
+ * @param {array} uploadFiles
+ */
+const handleRemove = (uploadFile, uploadFiles) => {
+    uploadRef.value.handleRemove(uploadFile);
+};
+
+const handlePictureCardPreview = (file) => {
+    dialogImageUrl.value = file.url;
+    dialogVisible.value = true;
+};
+
+const handleDownload = (file) => {
+    const url = URL.createObjectURL(file.raw);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", file.name);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    console.log(file);
+};
 
 // Поля ввода для текста
 const textarea1 = ref("");
 const textarea2 = ref("");
 const portfolioLink = ref("");
 const contacts = ref("");
-
 const value = ref("");
 const phone = ref("");
+
+const showPreview = ref(true);
 
 // Опции для селекта "Направление"
 const options = [
@@ -178,6 +294,36 @@ const saveForm = () => {
 </script>
 
 <style scoped>
+.content__title {
+    font-size: 20px;
+    color: #303133;
+    text-align: left;
+}
+.preview__content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    border: 1px solid rgba(235, 238, 245, 1);
+    padding: 16px 24px;
+}
+.preview__title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #409eff;
+    text-align: left;
+}
+.preview__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+.preview__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
 .edit-resume__header {
     display: flex;
     justify-content: space-between;
