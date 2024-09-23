@@ -141,6 +141,7 @@ const companyData = ref({
 });
 const isCompany = ref(null);
 isCompany.value = true;
+const emit = defineEmits(['resumeUpdated']);
 const searchResumes = async () => {
     const user_id = JSON.parse(localStorage.getItem("user"))?.uuid;
     const response = await axios.get(
@@ -152,6 +153,11 @@ const searchResumes = async () => {
         }
     );
     console.log(response.data[0]);
+    emit('resumeUpdate', {
+        first_name: response.data[0].first_name,
+        middle_name: response.data[0].middle_name,
+        last_name: response.data[0].last_name
+    })
     const user = JSON.parse(localStorage.getItem("user")).is_company;
     isCompany.value = user;
     if (isCompany.value) {

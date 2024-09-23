@@ -19,19 +19,19 @@ export const sendForm = async function (first_name, last_name, middle_name, sele
 
     try {
         var studentEntity = {
-            first_name: first_name.value,
-            last_name: last_name.value,
-            middle_name: middle_name.value,
-            phone_number: "37505119",
+            first_name: first_name.value || "",
+            last_name: last_name.value || "",
+            middle_name: middle_name.value || "",
+            phone_number: "37505119" || "",
             education: selectedEducation.value?.label || "",
-            about_me: "string",
-            born_date: 19,
-            skills: [],
-            photo: photo.value,
-            directions: ["string"],
+            about_me: "string" || "",
+            born_date: 19 || "",
+            skills: [] || "",
+            photo: photo.value || "",
+            directions: ["string"] || "",
             about_projects: "",
-            portfolio: "http://example.com",
-            city: selectedCity.value?.label || ""
+            portfolio: "http://example.com" || " ",
+            city: selectedCity.value?.label || " "
         };
 
         let checkAccount = JSON.parse(localStorage.getItem('resume_id'))?.resume_id;
