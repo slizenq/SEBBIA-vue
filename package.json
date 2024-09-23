@@ -34,8 +34,7 @@
         "ts-proto": "^1.181.2",
         "uuid": "^10.0.0",
         "vue": "^3.4.38",
-        "vue-router": "^4.4.3",
-        "vue-the-mask": "^0.11.1"
+        "vue-router": "^4.4.3"
     },
     "devDependencies": {
         "@sidebase/nuxt-auth": "^0.8.1",
