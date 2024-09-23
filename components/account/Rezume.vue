@@ -12,9 +12,7 @@
                 class="rezume__void resume__void-update contain__margin"
             >
                 <p class="not_filled not_filled__update">
-                    {{
-                        showResume.first_name +
-                            " " +
+                    {{ showResume.first_name + " " +
                             showResume.middle_name +
                             " " +
                             showResume.last_name || "Не заполнено"
