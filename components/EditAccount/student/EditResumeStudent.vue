@@ -129,56 +129,70 @@
         <div class="preview__content">
             <h2 class="content__title">Резюме</h2>
             <div class="content__form">
-                <el-upload
-                    ref="uploadRef"
-                    action="#"
-                    list-type="picture-card"
-                    :auto-upload="false"
-                    limit="1"
-                    :on-preview="handlePictureCardPreview"
-                    :on-remove="handleRemove"
-                >
-                    <el-icon><Plus /></el-icon>
+                <div class="content__form-img-block">
+                    <el-upload
+                        ref="uploadRef"
+                        action="#"
+                        list-type="picture-card"
+                        :auto-upload="false"
+                        limit="1"
+                        :on-preview="handlePictureCardPreview"
+                        :on-remove="handleRemove"
+                    >
+                        <el-icon><Plus /></el-icon>
 
-                    <template #file="{ file }">
-                        <div>
-                            <img
-                                class="el-upload-list__item-thumbnail"
-                                :src="file.url"
-                                alt=""
-                            />
-                            <span class="el-upload-list__item-actions">
-                                <span
-                                    class="el-upload-list__item-preview"
-                                    @click="handlePictureCardPreview(file)"
-                                >
-                                    <el-icon><zoom-in /></el-icon>
+                        <template #file="{ file }">
+                            <div>
+                                <img
+                                    class="el-upload-list__item-thumbnail"
+                                    :src="file.url"
+                                    alt=""
+                                />
+                                <span class="el-upload-list__item-actions">
+                                    <span
+                                        class="el-upload-list__item-preview"
+                                        @click="handlePictureCardPreview(file)"
+                                    >
+                                        <el-icon><zoom-in /></el-icon>
+                                    </span>
+                                    <span
+                                        v-if="!disabled"
+                                        class="el-upload-list__item-delete"
+                                        @click="handleDownload(file)"
+                                    >
+                                        <el-icon><Download /></el-icon>
+                                    </span>
+                                    <span
+                                        v-if="!disabled"
+                                        class="el-upload-list__item-delete"
+                                        @click="handleRemove(file)"
+                                    >
+                                        <el-icon><Delete /></el-icon>
+                                    </span>
                                 </span>
-                                <span
-                                    v-if="!disabled"
-                                    class="el-upload-list__item-delete"
-                                    @click="handleDownload(file)"
-                                >
-                                    <el-icon><Download /></el-icon>
-                                </span>
-                                <span
-                                    v-if="!disabled"
-                                    class="el-upload-list__item-delete"
-                                    @click="handleRemove(file)"
-                                >
-                                    <el-icon><Delete /></el-icon>
-                                </span>
-                            </span>
+                            </div>
+                        </template>
+                    </el-upload>
+                    <el-dialog v-model="dialogVisible">
+                        <img
+                            width="100%"
+                            :src="dialogImageUrl"
+                            alt="Preview Image"
+                        />
+                    </el-dialog>
+                    <div class="content__form-info">
+                        <h2>Аранова Варвара Алексеевна</h2>
+                        <div class="">
+                            <h3>Направление</h3>
+                            <p>Фронтенд</p>
                         </div>
-                    </template>
-                </el-upload>
-                <el-dialog v-model="dialogVisible">
-                    <img
-                        width="100%"
-                        :src="dialogImageUrl"
-                        alt="Preview Image"
-                    />
-                </el-dialog>
+                        <div class="">
+                            <p>
+                                Дата рождения: <span>26.02.2006 (18 лет)</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -294,6 +308,17 @@ const saveForm = () => {
 </script>
 
 <style scoped>
+.content__form-info {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.content__form-img-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 32px;
+}
 .content__title {
     font-size: 20px;
     color: #303133;
