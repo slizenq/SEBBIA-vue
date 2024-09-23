@@ -124,10 +124,11 @@ import { ref } from "vue";
 // Поля ввода для текста
 const textarea1 = ref("");
 const textarea2 = ref("");
-const portfolioLink = ref(""); // Ссылка на портфолио
-const contacts = ref(""); // Контакты
+const portfolioLink = ref("");
+const contacts = ref("");
 
 const value = ref("");
+const phone = ref("");
 
 // Опции для селекта "Направление"
 const options = [
