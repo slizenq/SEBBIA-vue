@@ -55,7 +55,6 @@
                 </el-form-item>
                 <el-form-item>
                     <p>Навыки</p>
-                    <!-- Блок навыков -->
                     <div class="skills-input">
                         <el-button @click="addSkill">+ Добавить</el-button>
                         <el-input
@@ -76,6 +75,33 @@
                             {{ tag }}
                         </el-tag>
                     </div>
+                </el-form-item>
+
+                <!-- Новые поля Ссылка на портфолио и Контакты -->
+                <el-form-item>
+                    <div class="portfolio-contacts">
+                        <div class="portfolio">
+                            <p>Ссылка на портфолио</p>
+                            <el-input
+                                v-model="portfolioLink"
+                                placeholder="Please input"
+                            />
+                        </div>
+                        <div class="contacts">
+                            <p>Контакты</p>
+                            <el-input
+                                v-model="contacts"
+                                placeholder="+7 (000)"
+                            />
+                        </div>
+                    </div>
+                </el-form-item>
+
+                <!-- Кнопка "Сохранить" -->
+                <el-form-item>
+                    <el-button type="primary" class="save-btn" @click="saveForm"
+                        >Сохранить</el-button
+                    >
                 </el-form-item>
             </el-form>
         </div>
@@ -98,6 +124,8 @@ import { ref } from "vue";
 // Поля ввода для текста
 const textarea1 = ref("");
 const textarea2 = ref("");
+const portfolioLink = ref(""); // Ссылка на портфолио
+const contacts = ref(""); // Контакты
 
 const value = ref("");
 
@@ -133,6 +161,17 @@ const addSkill = () => {
 const removeTag = (index) => {
     skills.value.splice(index, 1); // Удаление тега по индексу
 };
+
+// Функция сохранения формы
+const saveForm = () => {
+    console.log("Форма сохранена", {
+        textarea1: textarea1.value,
+        textarea2: textarea2.value,
+        skills: skills.value,
+        portfolioLink: portfolioLink.value,
+        contacts: contacts.value,
+    });
+};
 </script>
 
 <style scoped>
@@ -162,5 +201,21 @@ const removeTag = (index) => {
 .skills-tags {
     display: flex;
     flex-wrap: wrap;
+}
+
+.portfolio-contacts {
+    display: flex;
+    justify-content: space-between;
+}
+
+.portfolio,
+.contacts {
+    width: 48%;
+}
+
+.save-btn {
+    width: 100%;
+    background-color: #f0f8ff;
+    color: #409eff;
 }
 </style>
