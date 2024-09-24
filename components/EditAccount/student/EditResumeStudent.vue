@@ -237,7 +237,7 @@
                         </el-tag>
                     </div>
                 </section>
-                <section class="section-links">
+                <section class="section-links section">
                     <p class="section-links__title">Ссылки</p>
                     <a
                         href="{{ portfolioLink }}"
