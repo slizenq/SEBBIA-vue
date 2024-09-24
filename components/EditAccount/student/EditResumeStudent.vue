@@ -217,6 +217,35 @@
                         <p>{{ contacts }}</p>
                     </div>
                 </section>
+                <section class="section-about">
+                    <p class="section-about__title">О себе</p>
+                    <p class="section-about__text">{{ textarea1 }}</p>
+                </section>
+                <section class="section-project">
+                    <p class="section-project__title">О проектах</p>
+                    <p class="section-project__text">{{ textarea2 }}</p>
+                </section>
+                <section class="section-skills">
+                    <p class="section-skills__title">Навыки</p>
+                    <div class="skills-tags">
+                        <el-tag
+                            v-for="(tag, index) in skills"
+                            :key="index"
+                            style="margin: 5px"
+                        >
+                            {{ tag }}
+                        </el-tag>
+                    </div>
+                </section>
+                <section class="section-links">
+                    <p class="section-links__title">Ссылки</p>
+                    <a
+                        href="{{ portfolioLink }}"
+                        target="_blank"
+                        class="links"
+                        >{{ portfolioLink }}</a
+                    >
+                </section>
             </div>
         </div>
     </div>
@@ -258,7 +287,12 @@ const date = ref("22.12.2001");
 const age = ref(23);
 const city = ref("Ростов-на-Дону");
 const education = ref("РКСИ");
-// const number = ref("+7 900 000 00 00");
+const about = ref(
+    "Element Plus Design Element Plus Design Element Plus Design Element Plus Design Element Plus Design Element Plus Design"
+);
+const projects = ref(
+    "Element Plus Design Element Plus Design Element Plus Design Element Plus Design Element Plus Design Element Plus Design"
+);
 
 /**
  * @param {object} uploadFile
@@ -313,7 +347,7 @@ const options = [
 
 // Управление навыками (тегами)
 const newSkill = ref(""); // новое значение навыка
-const skills = ref(["Tag", "Tag", "Tag", "Tag"]); // начальные теги
+const skills = ref([]); // начальные теги
 
 // Функция добавления нового навыка
 const addSkill = () => {
@@ -341,6 +375,9 @@ const saveForm = () => {
 </script>
 
 <style scoped>
+.links {
+    color: #409eff;
+}
 .content__form-direction {
     display: flex;
     flex-direction: column;
