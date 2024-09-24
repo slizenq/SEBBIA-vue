@@ -88,6 +88,25 @@
                     >Откликнуться<img
                         src="./../assets/images/vacancy/micro-link.svg"
                 /></ElButton>
+                <ElButton
+                    @click="editVacancy"
+                    class="respond"
+                    type="primary"
+                    v-else
+                    >Редактировать<img
+                        src="./../assets/images/vacancy/micro-link.svg"
+                /></ElButton>
+                <el-dialog
+                    v-model="isDialogVisibleVacancy"
+                    width="700px"
+                    :close-on-click-modal="true"
+                    :close-on-press-escape="true"
+                    @close="resetDialog"
+                    class="login-dialog"
+                    top="2%"
+                >
+                    <EditVacancyCompany/>
+                </el-dialog>
                 <el-dialog
                     v-model="isDialogVisible"
                     :title="titleModal"
@@ -132,23 +151,28 @@
 import { ElButton, ElTag, ElDialog, ElNotification } from "element-plus";
 import { InfoFilled } from "@element-plus/icons-vue";
 import { IP } from "~/components/UI/auth/Authentication";
+import EditVacancyCompany from "./../components/EditAccount/company/EditVacancyCompany.vue"
 import { ref } from "vue";
 import axios from "axios";
 
+const isDialogVisibleVacancy = ref(false)
 const isDialogVisible = ref(false);
+const editVacancy = function() {
+    isDialogVisibleVacancy.value = true
+}
 const openDialog = () => {
     isDialogVisible.value = true;
     ElNotification({
         title: "Резюме отправлено",
         message: "Вы можете посмотреть его статус в личном кабинете ",
-        duration: 5000,
+        duration: 2000,
         type: "success",
         showClose: false,
     });
     // ElNotification({
     //     title: "Произошла ошибка при отправке",
     //     message: "Проверьте соединение к интернету",
-    //     duration: 5000,
+    //     duration: 2000,
     //     type: "error",
     //     showClose: false,
     // });
@@ -176,6 +200,8 @@ const fetchVacancyData = async () => {
     console.log(checkCompany.value);
 
     const response = await axios.get(`${IP}/vacancy/vacancies/${localStorage.getItem("vacancy")}`);
+    console.log(response.data);
+    
     vacancyData.value = response.data;
 };
 fetchVacancyData();

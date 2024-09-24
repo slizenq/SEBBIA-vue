@@ -1,35 +1,11 @@
 <template>
     <div class="right__part-screen">
-        <p class="right__part-title">
-            {{ isCompany ? titlePage.company.companyTitle : titlePage.student.studentTitle }}
-        </p>
+        <p class="right__part-title">{{ isCompany ? titlePage.company.companyTitle : titlePage.student.studentTitle }}</p>
         <div class="right__part-user contain__margin">
-            <p class="right__part-elem">
-                <span
-                    >{{
-                        isCompany ? companyData.form.Form : studentData.age.Age
-                    }}:</span
-                >
-                {{
-                    isCompany
-                        ? companyData.form.FormContent
-                        : studentData.age.StudentAge
-                }}
-            </p>
-            <p class="right__part-elem">
-                <span
-                    >{{
-                        isCompany
-                            ? companyData.city.City
-                            : studentData.city.City
-                    }}:</span
-                >
-                {{
-                    isCompany
-                        ? companyData.city.StudentCity
-                        : studentData.city.StudentCity
-                }}
-            </p>
+            <p class="right__part-elem"><span>{{ isCompany ? companyData.form.Form : studentData.age.Age }}:</span>
+                {{ isCompany ? companyData.form.FormContent : studentData.age.StudentAge}}</p>
+            <p class="right__part-elem"><span>{{ isCompany ? companyData.city.City : studentData.city.City }}:</span>
+                {{ isCompany ? companyData.city.StudentCity : studentData.city.StudentCity }}</p>
         </div>
         <div class="contain__margin">
             <ElButton
@@ -39,9 +15,7 @@
                 >Редактировать профиль</ElButton
             >
         </div>
-        <ElButton plain class="btn-out right__part-btn" @click="openDialog"
-            >Выйти</ElButton
-        >
+        <ElButton plain class="btn-out right__part-btn" @click="openDialog">Выйти</ElButton>
         <el-dialog
             v-model="isDialogVisible"
             :title="titleModal"
