@@ -130,7 +130,7 @@
             <h2 class="content__title">Резюме</h2>
             <div class="content__form">
                 <div class="content__form-img-block">
-                    <el-upload
+                    <!-- <el-upload
                         ref="uploadRef"
                         action="#"
                         list-type="picture-card"
@@ -172,27 +172,51 @@
                                 </span>
                             </div>
                         </template>
-                    </el-upload>
-                    <el-dialog v-model="dialogVisible">
+                    </el-upload> -->
+                    <div class="content__form-img-block">
+                        <el-image
+                            src="https://avatars.mds.yandex.net/i?id=8080454993d343ee2244082899de25363e197ae0-3577053-images-thumbs&n=13"
+                            fit="cover"
+                            style="width: 148px; height: 148px"
+                        />
+                    </div>
+                    <!-- <el-dialog v-model="dialogVisible">
                         <img
                             width="100%"
                             :src="dialogImageUrl"
                             alt="Preview Image"
                         />
-                    </el-dialog>
+                    </el-dialog> -->
                     <div class="content__form-info">
-                        <h2>Аранова Варвара Алексеевна</h2>
-                        <div class="">
-                            <h3>Направление</h3>
-                            <p>Фронтенд</p>
+                        <h2 class="content__form-info-title">{{ name }}</h2>
+                        <div class="content__form-direction">
+                            <h3 class="content__form-info-direction">
+                                Направление:
+                            </h3>
+                            <p>{{ value }}</p>
                         </div>
                         <div class="">
-                            <p>
-                                Дата рождения: <span>26.02.2006 (18 лет)</span>
+                            <p class="content__form-info-date">
+                                Дата рождения:
+                                <span>{{ date }} ({{ age }} лет)</span>
                             </p>
                         </div>
                     </div>
                 </div>
+                <section class="content__form-section">
+                    <div class="form-section">
+                        <p class="form-section__title">Город</p>
+                        <p>{{ city }}</p>
+                    </div>
+                    <div class="form-section">
+                        <p class="form-section__title">Учебное заведение</p>
+                        <p>{{ education }}</p>
+                    </div>
+                    <div class="form-section">
+                        <p class="form-section__title">Контакты</p>
+                        <p>{{ contacts }}</p>
+                    </div>
+                </section>
             </div>
         </div>
     </div>
@@ -218,6 +242,7 @@ import {
     ElTag,
     ElUpload,
     ElDialog,
+    ElImage,
 } from "element-plus";
 
 import { ref } from "vue";
@@ -226,6 +251,14 @@ const dialogImageUrl = ref("");
 const dialogVisible = ref(false);
 const disabled = ref(false);
 const uploadRef = ref(null);
+
+const name = ref("Техник Павел Николаевич");
+const direction = ref("Фронтенд");
+const date = ref("22.12.2001");
+const age = ref(23);
+const city = ref("Ростов-на-Дону");
+const education = ref("РКСИ");
+// const number = ref("+7 900 000 00 00");
 
 /**
  * @param {object} uploadFile
@@ -308,6 +341,52 @@ const saveForm = () => {
 </script>
 
 <style scoped>
+.content__form-direction {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.content__form-direction > p {
+    font-size: 16px;
+    line-height: 24px;
+    color: #303133;
+}
+.content__form-info-title {
+    font-size: 20px;
+    line-height: 28px;
+    color: #303133;
+}
+.content__form-info-direction {
+    font-size: 18px;
+    line-height: 26px;
+    color: #303133;
+}
+.content__form-info-date {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    color: #303133;
+}
+.content__form-info-date > span {
+    font-size: 16px;
+    line-height: 24px;
+    color: #606266;
+}
+.form-section__title {
+    font-size: 18px;
+    line-height: 26px;
+    color: #303133;
+}
+.content__form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+.content__form-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 42px;
+}
 .content__form-info {
     display: flex;
     flex-direction: column;
