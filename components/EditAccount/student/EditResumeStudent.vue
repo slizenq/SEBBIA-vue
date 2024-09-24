@@ -217,15 +217,15 @@
                         <p>{{ contacts }}</p>
                     </div>
                 </section>
-                <section class="section-about">
+                <section class="section-about section">
                     <p class="section-about__title">О себе</p>
                     <p class="section-about__text">{{ textarea1 }}</p>
                 </section>
-                <section class="section-project">
+                <section class="section-project section">
                     <p class="section-project__title">О проектах</p>
                     <p class="section-project__text">{{ textarea2 }}</p>
                 </section>
-                <section class="section-skills">
+                <section class="section-skills section">
                     <p class="section-skills__title">Навыки</p>
                     <div class="skills-tags">
                         <el-tag
@@ -282,17 +282,10 @@ const disabled = ref(false);
 const uploadRef = ref(null);
 
 const name = ref("Техник Павел Николаевич");
-const direction = ref("Фронтенд");
 const date = ref("22.12.2001");
 const age = ref(23);
 const city = ref("Ростов-на-Дону");
 const education = ref("РКСИ");
-const about = ref(
-    "Element Plus Design Element Plus Design Element Plus Design Element Plus Design Element Plus Design Element Plus Design"
-);
-const projects = ref(
-    "Element Plus Design Element Plus Design Element Plus Design Element Plus Design Element Plus Design Element Plus Design"
-);
 
 /**
  * @param {object} uploadFile
@@ -375,6 +368,11 @@ const saveForm = () => {
 </script>
 
 <style scoped>
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
 .links {
     color: #409eff;
 }
