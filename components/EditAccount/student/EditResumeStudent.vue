@@ -11,7 +11,7 @@
         </div>
         <div class="edit-resume__content">
             <el-form :model="form" label-width="auto" style="max-width: 600px">
-                <el-form-item>
+                <el-form-item class="content__form-direction">
                     <p>
                         Направление
                         <el-icon
@@ -32,7 +32,7 @@
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item class="content__form-about">
                     <p>Расскажи о себе</p>
                     <el-input
                         v-model="textarea1"
@@ -44,7 +44,7 @@
                         maxlength="100"
                     />
                 </el-form-item>
-                <el-form-item>
+                <el-form-item class="content__form-about">
                     <p>О проектах</p>
                     <el-input
                         v-model="textarea2"
@@ -56,7 +56,7 @@
                         maxlength="100"
                     />
                 </el-form-item>
-                <el-form-item>
+                <el-form-item class="content__form-skills">
                     <p>Навыки</p>
                     <div class="skills-input">
                         <el-button @click="addSkill">+ Добавить</el-button>
@@ -65,6 +65,7 @@
                             placeholder="Please input"
                             style="width: 300px; margin-left: 10px"
                             @keyup.enter="addSkill"
+                            clearable
                         />
                     </div>
                     <div class="skills-tags">
@@ -374,6 +375,23 @@ const saveForm = () => {
 </script>
 
 <style scoped>
+.el-form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.content__form-about {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.content__form-skills {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
 .section {
     display: flex;
     flex-direction: column;
@@ -385,7 +403,7 @@ const saveForm = () => {
 .content__form-direction {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 }
 .content__form-direction > p {
     font-size: 16px;
@@ -473,6 +491,7 @@ const saveForm = () => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 26px;
 }
 
 .edit-resume__btn {
@@ -492,6 +511,11 @@ const saveForm = () => {
     margin-bottom: 10px;
 }
 
+.skills-input .el-input {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
 .skills-tags {
     display: flex;
     flex-wrap: wrap;
@@ -504,7 +528,9 @@ const saveForm = () => {
 
 .portfolio,
 .contacts {
-    width: 48%;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
 }
 
 .save-btn {
