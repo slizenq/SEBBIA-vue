@@ -13,11 +13,11 @@
 </template>
 
 <script setup>
-import BreadCrumb from "~/components/BreadCrumb.vue";
-import Progress from "~/components/UI/Progress.vue";
 import ResumeCardGroup from "~/components/resume/ResumeCardGroup.vue";
 import { ElSegmented } from "element-plus";
 import { ref, onMounted } from "vue";
+import BreadCrumb from "~/components/UI/interface/bigEl/BreadCrumb.vue";
+import Progress from "~/components/UI/interface/bigEl/Progress.vue";
 
 const isAuthorized = ref(false);
 const userInfo = ref(null);

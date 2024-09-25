@@ -16,14 +16,14 @@
 </template>
 
 <script setup>
-import BreadCrumb from "~/components/BreadCrumb.vue";
 import { ref } from "vue";
-import Progress from "~/components/UI/Progress.vue";
 import Rezume from "~/components/account/Rezume.vue";
 import RezumeState from "~/components/account/RezumeState.vue";
 import RezumeUser from "~/components/account/RezumeUser.vue";
 import axios from "axios";
 import { IP } from "~/components/UI/auth/Authentication";
+import BreadCrumb from "~/components/UI/interface/bigEl/BreadCrumb.vue";
+import Progress from "~/components/UI/interface/bigEl/Progress.vue";
 const isAuthorized = ref(false);
 onMounted(() => {
     const token = localStorage.getItem("access_token");

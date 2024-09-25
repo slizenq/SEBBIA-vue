@@ -18,10 +18,10 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import BreadCrumb from "~/components/BreadCrumb.vue";
-import DropdownList from "~/components/UI/DropdownList.vue";
-import Search from "~/components/UI/Search.vue";
+import DropdownList from "~/components/UI/interface/minEl/DropdownList.vue";
 import CardList from "~/components/card/CardList.vue";
+import BreadCrumb from "~/components/UI/interface/bigEl/BreadCrumb.vue";
+import Search from "~/components/UI/interface/bigEl/Search.vue";
 
 const breadcrumbItems = ref([
     { path: "/", label: "Главная" },

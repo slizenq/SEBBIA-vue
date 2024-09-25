@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <BreadCrumb />
+        <BreadCrumb :breadcrumbItems="breadcrumbItems"/>
         <div class="company__vacancy" @search="sea(message)">
             <div class="company__vacancy__left-part">
                 <div class="left__element">
@@ -154,7 +154,12 @@ import { IP } from "~/components/UI/auth/Authentication";
 import EditVacancyCompany from "./../components/EditAccount/company/EditVacancyCompany.vue"
 import { ref } from "vue";
 import axios from "axios";
-
+import BreadCrumb from "~/components/UI/interface/bigEl/BreadCrumb.vue";
+const breadcrumbItems = ref([
+    { path: "/", label: "Главная" },
+    { path: "/about", label: "Поиск компании" },
+    { path: "/", label: "Компания" },
+]);
 const isDialogVisibleVacancy = ref(false)
 const isDialogVisible = ref(false);
 const editVacancy = function() {
@@ -169,13 +174,6 @@ const openDialog = () => {
         type: "success",
         showClose: false,
     });
-    // ElNotification({
-    //     title: "Произошла ошибка при отправке",
-    //     message: "Проверьте соединение к интернету",
-    //     duration: 2000,
-    //     type: "error",
-    //     showClose: false,
-    // });
 };
 
 const closeDialog = () => {
