@@ -84,14 +84,14 @@
                 <!-- Новые поля Ссылка на портфолио и Контакты -->
                 <el-form-item>
                     <div class="portfolio-contacts">
-                        <div class="portfolio">
+                        <div class="portfolio contact">
                             <p>Ссылка на портфолио</p>
                             <el-input
                                 v-model="portfolioLink"
                                 placeholder="Please input"
                             />
                         </div>
-                        <div class="contacts">
+                        <div class="contacts contact">
                             <p>Контакты</p>
                             <el-input
                                 v-maska="'+7 ### ### ## ##'"
@@ -379,6 +379,10 @@ const saveForm = () => {
     display: flex;
     flex-direction: column;
     gap: 32px;
+}
+
+.contact {
+    width: 45%;
 }
 
 .content__form-about {
