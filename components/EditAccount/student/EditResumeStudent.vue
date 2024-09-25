@@ -217,15 +217,20 @@
                         <p>{{ contacts }}</p>
                     </div>
                 </section>
-                <section class="section-about section">
+                <section class="section-about section" v-if="textarea1">
                     <p class="section-about__title">О себе</p>
                     <p class="section-about__text">{{ textarea1 }}</p>
                 </section>
-                <section class="section-project section">
+
+                <section class="section-project section" v-if="textarea2">
                     <p class="section-project__title">О проектах</p>
                     <p class="section-project__text">{{ textarea2 }}</p>
                 </section>
-                <section class="section-skills section">
+
+                <section
+                    class="section-skills section"
+                    v-if="skills.length > 0"
+                >
                     <p class="section-skills__title">Навыки</p>
                     <div class="skills-tags">
                         <el-tag
@@ -237,7 +242,8 @@
                         </el-tag>
                     </div>
                 </section>
-                <section class="section-links section">
+
+                <section class="section-links section" v-if="portfolioLink">
                     <p class="section-links__title">Ссылки</p>
                     <a
                         href="{{ portfolioLink }}"
