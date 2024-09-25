@@ -15,9 +15,9 @@
 </template>
 
 <script setup>
-import BreadCrumb from "~/components/BreadCrumb.vue";
 import { ref, onMounted } from "vue";
-import Progress from "~/components/UI/Progress.vue";
+import BreadCrumb from "~/components/UI/interface/bigEl/BreadCrumb.vue";
+import Progress from "~/components/UI/interface/bigEl/Progress.vue";
 import Rezume from "~/components/account/Rezume.vue";
 import RezumeState from "~/components/account/RezumeState.vue";
 import RezumeUser from "~/components/account/RezumeUser.vue";

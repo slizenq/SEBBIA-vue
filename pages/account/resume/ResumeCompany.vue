@@ -6,7 +6,8 @@
 </template>
 
 <script setup>
-import { BreadCrumb } from './../../../components/BreadCrumb.vue'
+import BreadCrumb from '~/components/UI/interface/bigEl/BreadCrumb.vue';
+
 const breadcrumbItems = ref([
     { path: "x/xx/xxx", label: "Профиль" },
     { path: "x/xx/xxx", label: "Аккаунт" },

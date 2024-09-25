@@ -136,12 +136,12 @@ import {
     ElButton,
     ElPopover,
 } from "element-plus";
-import BreadCrumb from "./../../../components/BreadCrumb.vue";
-import Progress from "~/components/UI/Progress.vue";
 import { ref, computed } from "vue";
 import { IP } from "~/components/UI/auth/Authentication";
 import axios, { AxiosHeaders } from "axios";
 import { ElNotification } from "element-plus";
+import BreadCrumb from "~/components/UI/interface/bigEl/BreadCrumb.vue";
+import Progress from "~/components/UI/interface/bigEl/Progress.vue";
 
 const photo = ref(null);
 const first_name = ref(null);

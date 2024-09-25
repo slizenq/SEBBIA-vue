@@ -24,8 +24,8 @@
 
 <script setup>
 import Slider from "~/components/Slider.vue";
-import DropdownList from "~/components/UI/DropdownList.vue";
-import Search from "~/components/UI/Search.vue";
+import Search from "~/components/UI/interface/bigEl/Search.vue";
+import DropdownList from "~/components/UI/interface/minEl/DropdownList.vue";
 import CardList from "~/components/card/CardList.vue";
 
 const searchText = ref("");

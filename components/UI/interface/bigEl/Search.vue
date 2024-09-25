@@ -20,9 +20,9 @@
 <script setup>
 import { ref } from "vue";
 import { ElInput, ElButton } from "element-plus";
-import Filter from "./Filter.vue";
 import { Search } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router"; 
+import Filter from "../minEl/Filter.vue";
 
 const input = ref("");
 const printedText = ref("Напиши место практики");
