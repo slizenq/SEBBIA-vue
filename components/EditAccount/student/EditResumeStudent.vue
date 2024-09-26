@@ -84,7 +84,7 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <div class="portfolio-contacts">
+                    <div class="portfolio-phone_number">
                         <div class="portfolio contact">
                             <p>Ссылка на портфолио</p>
                             <el-input
@@ -92,10 +92,10 @@
                                 placeholder="Please input"
                             />
                         </div>
-                        <div class="contacts contact">
+                        <div class="phone_number contact">
                             <p>Контакты</p>
                             <el-input
-                                v-maska="'+7 ### ### ## ##'"
+                                v-maska="'+7 (###) ### ## ##'"
                                 v-model="phone_number"
                                 placeholder="+7 (000)"
                             />
@@ -163,17 +163,17 @@
                     </div>
                     <div class="form-section">
                         <p class="form-section__title">Контакты</p>
-                        <p>{{ contacts }}</p>
+                        <p>{{ phone_number }}</p>
                     </div>
                 </section>
-                <section class="section-about section" v-if="textarea1">
+                <section class="section-about section" v-if="about_me">
                     <p class="section-about__title">О себе</p>
-                    <p class="section-about__text">{{ textarea1 }}</p>
+                    <p class="section-about__text">{{ about_me }}</p>
                 </section>
 
-                <section class="section-project section" v-if="textarea2">
+                <section class="section-project section" v-if="about_projects">
                     <p class="section-project__title">О проектах</p>
-                    <p class="section-project__text">{{ textarea2 }}</p>
+                    <p class="section-project__text">{{ about_projects }}</p>
                 </section>
 
                 <section
@@ -192,13 +192,13 @@
                     </div>
                 </section>
 
-                <section class="section-links section" v-if="portfolioLink">
+                <section class="section-links section" v-if="portfolio">
                     <p class="section-links__title">Ссылки</p>
                     <a
-                        href="{{ portfolioLink }}"
+                        href="{{ portfolio }}"
                         target="_blank"
                         class="links"
-                        >{{ portfolioLink }}</a
+                        >{{ portfolio }}</a
                     >
                 </section>
             </div>
@@ -210,53 +210,25 @@
 import { vMaska } from "maska/vue";
 
 import { Direction } from "~/src/domain/boundedContexts/Resume/ValueObjects/Direction";
-import {
-    TopRight,
-    InfoFilled,
-    Delete,
-    Download,
-    Plus,
-    ZoomIn,
-} from "@element-plus/icons-vue";
-import {
-    ElButton,
-    ElIcon,
-    ElForm,
-    ElInput,
-    ElSelect,
-    ElOption,
-    ElTag,
-    ElUpload,
-    ElDialog,
-    ElImage,
-} from "element-plus";
+import { TopRight, InfoFilled } from "@element-plus/icons-vue";
+import { ElButton, ElIcon, ElForm, ElInput, ElSelect, ElOption, ElTag, ElImage } from "element-plus";
 import { ref } from "vue";
+import { sendFormResume } from "../EditStudent";
 
 const dialogImageUrl = ref("");
 const dialogVisible = ref(false);
 const disabled = ref(false);
 const uploadRef = ref(null);
 
-// Direction
 const direction = ref(Direction.create(""));
-const selectedDirection = ref("");
-// Опции для селекта "Направление"
+const selectedDirection = ref([]);
 const options = [
-    {
-        value: "Курское",
-        label: "Курское",
-    },
-    {
-        value: "Донецкое",
-        label: "Донецкое",
-    },
-    {
-        value: "Луганское",
-        label: "Луганское",
-    },
+    { value: "Курское", label: "Курское" },
+    { value: "Донецкое", label: "Донецкое" },
+    { value: "Луганское", label: "Луганское" },
 ];
 const handleDirectionChange = (value) => {
-    direction.value = Direction.create(value);
+    selectedDirection.value = value;
 };
 
 const name = ref("Техник Павел Николаевич");
@@ -289,34 +261,12 @@ const handleDownload = (file) => {
     console.log(file);
 };
 
-//const about_me = ref(null);
-//const about_projects = ref(null);
-//const portfolio = ref(null);
-//const phone_number = ref(null);
-//const directions = ref(null);
-//const showPreview = ref(true);
-//const options = [
-//    { value: "Курское", label: "Курское" },
-//    { value: "Донецкое", label: "Донецкое" },
-//    { value: "Луганское", label: "Луганское" },
-//];
-
-//const skills = ref([]); 
-
-
-// Поля ввода для текста
-const textarea1 = ref("");
-const textarea2 = ref("");
-const portfolioLink = ref("");
-const contacts = ref("");
-// const direction = ref(null); // измените тип на объект Direction
-const phone = ref("");
-
+const about_me = ref(null);
+const about_projects = ref(null);
+const portfolio = ref(null);
+const phone_number = ref(null);
 const showPreview = ref(true);
-
-// Управление навыками (тегами)
-const newSkill = ref(""); // новое значение навыка
-const skills = ref([]); // начальные теги
+const skills = ref([]); 
 
 
 const addSkill = () => {
@@ -330,27 +280,25 @@ const removeTag = (index) => {
     skills.value.splice(index, 1); 
 };
 
-// const saveForm = async () => {
-//   await sendFormHandler(directions, about_me, about_projects, skills, portfolio, phone_number);
-
-// Функция сохранения формы
-const saveForm = () => {
+const saveForm = async () => {
+    await sendFormResume(about_me, about_projects, skills, portfolio, phone_number, selectedDirection );
     try {
-        if (!selectedDirection.value) {
+        if (selectedDirection.value.length === 0) {
             throw new Error("Пустое значение для специальности");
         }
         console.log("Форма сохранена", {
-            textarea1: textarea1.value,
-            textarea2: textarea2.value,
+            about_me: about_me.value,
+            about_projects: about_projects.value,
             skills: skills.value,
-            portfolioLink: portfolioLink.value,
-            contacts: contacts.value,
+            portfolio: portfolio.value,
+            phone_number: phone_number.value,
             direction: direction.value,
         });
     } catch (error) {
         console.error("Ошибка валидации направления", error);
     }
 };
+
 </script>
 
 <style scoped>
@@ -504,13 +452,13 @@ const saveForm = () => {
     flex-wrap: wrap;
 }
 
-.portfolio-contacts {
+.portfolio-phone_number {
     display: flex;
     justify-content: space-between;
 }
 
 .portfolio,
-.contacts {
+.phone_number {
     display: flex;
     flex-direction: column;
     gap: 9px;
