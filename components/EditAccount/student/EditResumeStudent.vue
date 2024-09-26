@@ -330,15 +330,6 @@ const removeTag = (index) => {
     skills.value.splice(index, 1); 
 };
 
-
-
-
-
-
-
-
-
-
 // const saveForm = async () => {
 //   await sendFormHandler(directions, about_me, about_projects, skills, portfolio, phone_number);
 
