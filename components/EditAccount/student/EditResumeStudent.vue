@@ -19,10 +19,12 @@
                         /></el-icon>
                     </p>
                     <el-select
-                        v-model="directions"
+
+                        v-model="selectedDirection"
                         placeholder="Select"
                         size="large"
                         style="width: 240px"
+                        @change="handleDirectionChange"
                     >
                         <el-option
                             v-for="item in options"
@@ -206,15 +208,56 @@
 
 <script setup>
 import { vMaska } from "maska/vue";
-import { TopRight, InfoFilled } from "@element-plus/icons-vue";
-import { ElButton, ElIcon, ElForm, ElInput, ElSelect, ElOption, ElTag, ElImage } from "element-plus";
-import { sendForm as sendFormHandler } from "../EditStudent";
+
+import { Direction } from "~/src/domain/boundedContexts/Resume/ValueObjects/Direction";
+import {
+    TopRight,
+    InfoFilled,
+    Delete,
+    Download,
+    Plus,
+    ZoomIn,
+} from "@element-plus/icons-vue";
+import {
+    ElButton,
+    ElIcon,
+    ElForm,
+    ElInput,
+    ElSelect,
+    ElOption,
+    ElTag,
+    ElUpload,
+    ElDialog,
+    ElImage,
+} from "element-plus";
 import { ref } from "vue";
 
 const dialogImageUrl = ref("");
 const dialogVisible = ref(false);
 const disabled = ref(false);
 const uploadRef = ref(null);
+
+// Direction
+const direction = ref(Direction.create(""));
+const selectedDirection = ref("");
+// Опции для селекта "Направление"
+const options = [
+    {
+        value: "Курское",
+        label: "Курское",
+    },
+    {
+        value: "Донецкое",
+        label: "Донецкое",
+    },
+    {
+        value: "Луганское",
+        label: "Луганское",
+    },
+];
+const handleDirectionChange = (value) => {
+    direction.value = Direction.create(value);
+};
 
 const name = ref("Техник Павел Николаевич");
 const date = ref("22.12.2001");
@@ -245,19 +288,36 @@ const handleDownload = (file) => {
     URL.revokeObjectURL(url);
     console.log(file);
 };
-const about_me = ref(null);
-const about_projects = ref(null);
-const portfolio = ref(null);
-const phone_number = ref(null);
-const directions = ref(null);
-const showPreview = ref(true);
-const options = [
-    { value: "Курское", label: "Курское" },
-    { value: "Донецкое", label: "Донецкое" },
-    { value: "Луганское", label: "Луганское" },
-];
 
-const skills = ref([]); 
+//const about_me = ref(null);
+//const about_projects = ref(null);
+//const portfolio = ref(null);
+//const phone_number = ref(null);
+//const directions = ref(null);
+//const showPreview = ref(true);
+//const options = [
+//    { value: "Курское", label: "Курское" },
+//    { value: "Донецкое", label: "Донецкое" },
+//    { value: "Луганское", label: "Луганское" },
+//];
+
+//const skills = ref([]); 
+
+
+// Поля ввода для текста
+const textarea1 = ref("");
+const textarea2 = ref("");
+const portfolioLink = ref("");
+const contacts = ref("");
+// const direction = ref(null); // измените тип на объект Direction
+const phone = ref("");
+
+const showPreview = ref(true);
+
+// Управление навыками (тегами)
+const newSkill = ref(""); // новое значение навыка
+const skills = ref([]); // начальные теги
+
 
 const addSkill = () => {
     if (skills.value) {
@@ -278,8 +338,27 @@ const removeTag = (index) => {
 
 
 
-const saveForm = async () => {
-    await sendFormHandler(directions, about_me, about_projects, skills, portfolio, phone_number);
+
+// const saveForm = async () => {
+//   await sendFormHandler(directions, about_me, about_projects, skills, portfolio, phone_number);
+
+// Функция сохранения формы
+const saveForm = () => {
+    try {
+        if (!selectedDirection.value) {
+            throw new Error("Пустое значение для специальности");
+        }
+        console.log("Форма сохранена", {
+            textarea1: textarea1.value,
+            textarea2: textarea2.value,
+            skills: skills.value,
+            portfolioLink: portfolioLink.value,
+            contacts: contacts.value,
+            direction: direction.value,
+        });
+    } catch (error) {
+        console.error("Ошибка валидации направления", error);
+    }
 };
 </script>
 
