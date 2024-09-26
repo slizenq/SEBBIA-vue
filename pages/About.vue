@@ -41,6 +41,9 @@ onMounted(() => {
 </script>
 
 <style>
+.company__list {
+    margin-top: 30px;
+}
 .about-dropdownlist {
     margin-top: 40px;
 }

@@ -96,7 +96,7 @@ import { Picture as IconPicture, InfoFilled } from "@element-plus/icons-vue";
 import { ElUpload, ElIcon, ElInput, ElSelectV2, ElDatePicker, ElButton, ElPopover } from "element-plus";
 import { ref, computed, defineEmits } from "vue";
 import { sendForm as sendFormHandler } from "../EditStudent";
-const photo = ref(null);
+const photo = ref('test');
 const first_name = ref(null);
 const middle_name = ref(null);
 const last_name = ref(null);
@@ -134,12 +134,12 @@ const selectedEducation = computed(() => educationOptions.find(option => option.
 const handleFormSubmit = async () => {
     await sendFormHandler(first_name, last_name, middle_name, selectedEducation, selectedCity, photo, showUpProgress);
     emit('profileUpdated', {
-        first_name: first_name.value || 'test',
-        last_name: last_name.value || 'test',
-        middle_name: middle_name.value || 'test',
-        city: selectedCity.value?.label || 'test',
-        education: selectedEducation.value?.label || 'test',
-        photo: photo.value || 'test'
+        first_name: first_name.value,
+        last_name: last_name.value,
+        middle_name: middle_name.value,
+        city: selectedCity.value?.label,
+        education: selectedEducation.value?.label,
+        photo: photo.value
     });
 };
 </script>

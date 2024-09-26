@@ -19,7 +19,7 @@
                         /></el-icon>
                     </p>
                     <el-select
-                        v-model="value"
+                        v-model="directions"
                         placeholder="Select"
                         size="large"
                         style="width: 240px"
@@ -35,7 +35,7 @@
                 <el-form-item class="content__form-about">
                     <p>Расскажи о себе</p>
                     <el-input
-                        v-model="textarea1"
+                        v-model="about_me"
                         style=""
                         autosize
                         type="textarea"
@@ -47,7 +47,7 @@
                 <el-form-item class="content__form-about">
                     <p>О проектах</p>
                     <el-input
-                        v-model="textarea2"
+                        v-model="about_projects"
                         style=""
                         autosize
                         type="textarea"
@@ -61,7 +61,7 @@
                     <div class="skills-input">
                         <el-button @click="addSkill">+ Добавить</el-button>
                         <el-input
-                            v-model="newSkill"
+                            v-model="skills"
                             placeholder="Please input"
                             style="width: 300px; margin-left: 10px"
                             @keyup.enter="addSkill"
@@ -81,13 +81,12 @@
                     </div>
                 </el-form-item>
 
-                <!-- Новые поля Ссылка на портфолио и Контакты -->
                 <el-form-item>
                     <div class="portfolio-contacts">
                         <div class="portfolio contact">
                             <p>Ссылка на портфолио</p>
                             <el-input
-                                v-model="portfolioLink"
+                                v-model="portfolio"
                                 placeholder="Please input"
                             />
                         </div>
@@ -95,18 +94,15 @@
                             <p>Контакты</p>
                             <el-input
                                 v-maska="'+7 ### ### ## ##'"
-                                v-model="contacts"
+                                v-model="phone_number"
                                 placeholder="+7 (000)"
                             />
                         </div>
                     </div>
                 </el-form-item>
 
-                <!-- Кнопка "Сохранить" -->
                 <el-form-item>
-                    <el-button type="primary" class="save-btn" @click="saveForm"
-                        >Сохранить</el-button
-                    >
+                    <el-button type="primary" class="save-btn" @click="saveForm">Сохранить</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -131,49 +127,6 @@
             <h2 class="content__title">Резюме</h2>
             <div class="content__form">
                 <div class="content__form-img-block">
-                    <!-- <el-upload
-                        ref="uploadRef"
-                        action="#"
-                        list-type="picture-card"
-                        :auto-upload="false"
-                        limit="1"
-                        :on-preview="handlePictureCardPreview"
-                        :on-remove="handleRemove"
-                    >
-                        <el-icon><Plus /></el-icon>
-
-                        <template #file="{ file }">
-                            <div>
-                                <img
-                                    class="el-upload-list__item-thumbnail"
-                                    :src="file.url"
-                                    alt=""
-                                />
-                                <span class="el-upload-list__item-actions">
-                                    <span
-                                        class="el-upload-list__item-preview"
-                                        @click="handlePictureCardPreview(file)"
-                                    >
-                                        <el-icon><zoom-in /></el-icon>
-                                    </span>
-                                    <span
-                                        v-if="!disabled"
-                                        class="el-upload-list__item-delete"
-                                        @click="handleDownload(file)"
-                                    >
-                                        <el-icon><Download /></el-icon>
-                                    </span>
-                                    <span
-                                        v-if="!disabled"
-                                        class="el-upload-list__item-delete"
-                                        @click="handleRemove(file)"
-                                    >
-                                        <el-icon><Delete /></el-icon>
-                                    </span>
-                                </span>
-                            </div>
-                        </template>
-                    </el-upload> -->
                     <div class="content__form-img-block">
                         <el-image
                             src="https://avatars.mds.yandex.net/i?id=8080454993d343ee2244082899de25363e197ae0-3577053-images-thumbs&n=13"
@@ -181,13 +134,6 @@
                             style="width: 148px; height: 148px"
                         />
                     </div>
-                    <!-- <el-dialog v-model="dialogVisible">
-                        <img
-                            width="100%"
-                            :src="dialogImageUrl"
-                            alt="Preview Image"
-                        />
-                    </el-dialog> -->
                     <div class="content__form-info">
                         <h2 class="content__form-info-title">{{ name }}</h2>
                         <div class="content__form-direction">
@@ -260,27 +206,9 @@
 
 <script setup>
 import { vMaska } from "maska/vue";
-import {
-    TopRight,
-    InfoFilled,
-    Delete,
-    Download,
-    Plus,
-    ZoomIn,
-} from "@element-plus/icons-vue";
-import {
-    ElButton,
-    ElIcon,
-    ElForm,
-    ElInput,
-    ElSelect,
-    ElOption,
-    ElTag,
-    ElUpload,
-    ElDialog,
-    ElImage,
-} from "element-plus";
-
+import { TopRight, InfoFilled } from "@element-plus/icons-vue";
+import { ElButton, ElIcon, ElForm, ElInput, ElSelect, ElOption, ElTag, ElImage } from "element-plus";
+import { sendForm as sendFormHandler } from "../EditStudent";
 import { ref } from "vue";
 
 const dialogImageUrl = ref("");
@@ -293,7 +221,6 @@ const date = ref("22.12.2001");
 const age = ref(23);
 const city = ref("Ростов-на-Дону");
 const education = ref("РКСИ");
-
 /**
  * @param {object} uploadFile
  * @param {array} uploadFiles
@@ -318,59 +245,41 @@ const handleDownload = (file) => {
     URL.revokeObjectURL(url);
     console.log(file);
 };
-
-// Поля ввода для текста
-const textarea1 = ref("");
-const textarea2 = ref("");
-const portfolioLink = ref("");
-const contacts = ref("");
-const value = ref("");
-const phone = ref("");
-
+const about_me = ref(null);
+const about_projects = ref(null);
+const portfolio = ref(null);
+const phone_number = ref(null);
+const directions = ref(null);
 const showPreview = ref(true);
-
-// Опции для селекта "Направление"
 const options = [
-    {
-        value: "Курское",
-        label: "Курское",
-    },
-    {
-        value: "Донецкое",
-        label: "Донецкое",
-    },
-    {
-        value: "Луганское",
-        label: "Луганское",
-    },
+    { value: "Курское", label: "Курское" },
+    { value: "Донецкое", label: "Донецкое" },
+    { value: "Луганское", label: "Луганское" },
 ];
 
-// Управление навыками (тегами)
-const newSkill = ref(""); // новое значение навыка
-const skills = ref([]); // начальные теги
+const skills = ref([]); 
 
-// Функция добавления нового навыка
 const addSkill = () => {
-    if (newSkill.value) {
-        skills.value.push(newSkill.value);
-        newSkill.value = ""; // Очистка поля ввода после добавления
+    if (skills.value) {
+        skills.value.push(skills.value);
+        skills.value = ""; 
     }
 };
 
-// Функция удаления навыка (тега)
 const removeTag = (index) => {
-    skills.value.splice(index, 1); // Удаление тега по индексу
+    skills.value.splice(index, 1); 
 };
 
-// Функция сохранения формы
-const saveForm = () => {
-    console.log("Форма сохранена", {
-        textarea1: textarea1.value,
-        textarea2: textarea2.value,
-        skills: skills.value,
-        portfolioLink: portfolioLink.value,
-        contacts: contacts.value,
-    });
+
+
+
+
+
+
+
+
+const saveForm = async () => {
+    await sendFormHandler(directions, about_me, about_projects, skills, portfolio, phone_number);
 };
 </script>
 
