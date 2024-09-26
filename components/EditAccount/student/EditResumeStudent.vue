@@ -19,7 +19,6 @@
                         /></el-icon>
                     </p>
                     <el-select
-
                         v-model="selectedDirection"
                         placeholder="Select"
                         size="large"
@@ -61,9 +60,11 @@
                 <el-form-item class="content__form-skills">
                     <p>Навыки</p>
                     <div class="skills-input">
-                        <el-button @click="addSkill">+ Добавить</el-button>
+                        <el-button @click="addSkill($event)"
+                            >+ Добавить</el-button
+                        >
                         <el-input
-                            v-model="skills"
+                            v-model="newSkill"
                             placeholder="Please input"
                             style="width: 300px; margin-left: 10px"
                             @keyup.enter="addSkill"
@@ -104,7 +105,9 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" class="save-btn" @click="saveForm">Сохранить</el-button>
+                    <el-button type="primary" class="save-btn" @click="saveForm"
+                        >Сохранить</el-button
+                    >
                 </el-form-item>
             </el-form>
         </div>
@@ -268,16 +271,15 @@ const phone_number = ref(null);
 const showPreview = ref(true);
 const skills = ref([]); 
 
-
 const addSkill = () => {
-    if (skills.value) {
-        skills.value.push(skills.value);
-        skills.value = ""; 
+    if (newSkill.value) {
+        skills.value.push(newSkill.value);
+        newSkill.value = "";
     }
 };
 
 const removeTag = (index) => {
-    skills.value.splice(index, 1); 
+    skills.value.splice(index, 1);
 };
 
 const saveForm = async () => {
