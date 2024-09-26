@@ -19,10 +19,11 @@
                         /></el-icon>
                     </p>
                     <el-select
-                        v-model="value"
+                        v-model="selectedDirection"
                         placeholder="Select"
                         size="large"
                         style="width: 240px"
+                        @change="handleDirectionChange"
                     >
                         <el-option
                             v-for="item in options"
@@ -260,6 +261,7 @@
 
 <script setup>
 import { vMaska } from "maska/vue";
+import { Direction } from "~/src/domain/boundedContexts/Resume/ValueObjects/Direction";
 import {
     TopRight,
     InfoFilled,
@@ -287,6 +289,28 @@ const dialogImageUrl = ref("");
 const dialogVisible = ref(false);
 const disabled = ref(false);
 const uploadRef = ref(null);
+
+// Direction
+const direction = ref(Direction.create(""));
+const selectedDirection = ref("");
+// Опции для селекта "Направление"
+const options = [
+    {
+        value: "Курское",
+        label: "Курское",
+    },
+    {
+        value: "Донецкое",
+        label: "Донецкое",
+    },
+    {
+        value: "Луганское",
+        label: "Луганское",
+    },
+];
+const handleDirectionChange = (value) => {
+    direction.value = Direction.create(value);
+};
 
 const name = ref("Техник Павел Николаевич");
 const date = ref("22.12.2001");
@@ -324,26 +348,10 @@ const textarea1 = ref("");
 const textarea2 = ref("");
 const portfolioLink = ref("");
 const contacts = ref("");
-const value = ref("");
+// const direction = ref(null); // измените тип на объект Direction
 const phone = ref("");
 
 const showPreview = ref(true);
-
-// Опции для селекта "Направление"
-const options = [
-    {
-        value: "Курское",
-        label: "Курское",
-    },
-    {
-        value: "Донецкое",
-        label: "Донецкое",
-    },
-    {
-        value: "Луганское",
-        label: "Луганское",
-    },
-];
 
 // Управление навыками (тегами)
 const newSkill = ref(""); // новое значение навыка
@@ -364,13 +372,21 @@ const removeTag = (index) => {
 
 // Функция сохранения формы
 const saveForm = () => {
-    console.log("Форма сохранена", {
-        textarea1: textarea1.value,
-        textarea2: textarea2.value,
-        skills: skills.value,
-        portfolioLink: portfolioLink.value,
-        contacts: contacts.value,
-    });
+    try {
+        if (!selectedDirection.value) {
+            throw new Error("Пустое значение для специальности");
+        }
+        console.log("Форма сохранена", {
+            textarea1: textarea1.value,
+            textarea2: textarea2.value,
+            skills: skills.value,
+            portfolioLink: portfolioLink.value,
+            contacts: contacts.value,
+            direction: direction.value,
+        });
+    } catch (error) {
+        console.error("Ошибка валидации направления", error);
+    }
 };
 </script>
 
