@@ -197,12 +197,9 @@
 
                 <section class="section-links section" v-if="portfolio">
                     <p class="section-links__title">Ссылки</p>
-                    <a
-                        href="{{ portfolio }}"
-                        target="_blank"
-                        class="links"
-                        >{{ portfolio }}</a
-                    >
+                    <a href="{{ portfolio }}" target="_blank" class="links">{{
+                        portfolio
+                    }}</a>
                 </section>
             </div>
         </div>
@@ -214,7 +211,16 @@ import { vMaska } from "maska/vue";
 
 import { Direction } from "~/src/domain/boundedContexts/Resume/ValueObjects/Direction";
 import { TopRight, InfoFilled } from "@element-plus/icons-vue";
-import { ElButton, ElIcon, ElForm, ElInput, ElSelect, ElOption, ElTag, ElImage } from "element-plus";
+import {
+    ElButton,
+    ElIcon,
+    ElForm,
+    ElInput,
+    ElSelect,
+    ElOption,
+    ElTag,
+    ElImage,
+} from "element-plus";
 import { ref } from "vue";
 import { sendFormResume } from "../EditStudent";
 
@@ -269,7 +275,8 @@ const about_projects = ref(null);
 const portfolio = ref(null);
 const phone_number = ref(null);
 const showPreview = ref(true);
-const skills = ref([]); 
+const skills = ref([]);
+const newSkill = ref([]);
 
 const addSkill = () => {
     if (newSkill.value) {
@@ -283,7 +290,14 @@ const removeTag = (index) => {
 };
 
 const saveForm = async () => {
-    await sendFormResume(about_me, about_projects, skills, portfolio, phone_number, selectedDirection );
+    await sendFormResume(
+        about_me,
+        about_projects,
+        skills,
+        portfolio,
+        phone_number,
+        selectedDirection
+    );
     try {
         if (selectedDirection.value.length === 0) {
             throw new Error("Пустое значение для специальности");
@@ -300,7 +314,6 @@ const saveForm = async () => {
         console.error("Ошибка валидации направления", error);
     }
 };
-
 </script>
 
 <style scoped>
