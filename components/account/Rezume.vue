@@ -7,16 +7,9 @@
                 <p class="more_details">Подробнее</p>
             </div>
 
-            <div
-                v-else
-                class="rezume__void resume__void-update contain__margin"
-            >
+            <div v-else class="rezume__void resume__void-update contain__margin">
                 <p class="not_filled not_filled__update">
-                    {{ showResume.first_name + " " +
-                            showResume.middle_name +
-                            " " +
-                            showResume.last_name || "Не заполнено"
-                    }}
+                    {{ showResume.first_name + " " + showResume.middle_name + " " + showResume.last_name || "Не заполнено" }}
                 </p>
                 <p class="more_details resume__update-more">Подробнее</p>
             </div>
@@ -36,7 +29,7 @@
             class="my-dialog"
         >
             <div>
-                <div v-if="whichDialog"><EditResumeStudent /></div>
+                <div v-if="whichDialog"><EditResumeStudent @updateDialogg="updateDialogg"/></div>
                 <div v-else>2</div>
             </div>
         </el-dialog>
@@ -55,11 +48,13 @@ const dialogResume = ref(false);
 const whichDialog = ref(true);
 const showResume = ref({});
 const showEvent = ref(true);
+const updateDialogg = (value) => {
+    dialogResume.value = value;
+};
 let updateResume = async () => {
     try {
         let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
-        const getResume = await axios.get(
-            `${IP}/resume/users/${checkUUid}/resumes`
+        const getResume = await axios.get(`${IP}/resume/users/${checkUUid}/resumes`
         );
         showResume.value = getResume.data[0];
         if (

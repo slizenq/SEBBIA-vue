@@ -39,7 +39,7 @@ const breadcrumbItems = ref([
 ]);
 
 const value = ref("Просмотренные");
-const options = ["Просмотренные", "Входящие"];
+const options = ["Просмотренные резюме", "Входящие резюме"];
 
 const handleChange = () => {
     breadcrumbItems.value = [

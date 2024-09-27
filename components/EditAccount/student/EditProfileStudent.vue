@@ -96,6 +96,9 @@ import { Picture as IconPicture, InfoFilled } from "@element-plus/icons-vue";
 import { ElUpload, ElIcon, ElInput, ElSelectV2, ElDatePicker, ElButton, ElPopover } from "element-plus";
 import { ref, computed, defineEmits } from "vue";
 import { sendForm as sendFormHandler } from "../EditStudent";
+
+import { ElNotification } from "element-plus";
+
 const photo = ref('test');
 const first_name = ref(null);
 const middle_name = ref(null);
@@ -104,19 +107,22 @@ const city = ref(null);
 const education = ref(null);
 const born_date = ref(null);
 const showUpProgress = ref(false);
-const emit = defineEmits(['profileUpdated']);
+const emit = defineEmits(['profileUpdated', 'updateDialogRedactor']);
 const cities = ["Москва", "Санкт-Петербург", "РКСИ"];
-const age = computed(() => {
-    if (!born_date.value) return '';
-    const today = new Date();
-    const birthDate = new Date(born_date.value);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-    }
-    return age;
-});
+
+
+const dialogRedactor = ref(false);
+// const age = computed(() => {
+//     if (!born_date.value) return '';
+//     const today = new Date();
+//     const birthDate = new Date(born_date.value);
+//     let age = today.getFullYear() - birthDate.getFullYear();
+//     const monthDiff = today.getMonth() - birthDate.getMonth();
+//     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+//         age--;
+//     }
+//     return age;
+// });
 const cityOptions = cities.map((city, idx) => ({
     value: idx + 1,
     label: city,
@@ -131,8 +137,21 @@ const educationOptions = educationInstit.map((institution, idx) => ({
 const selectedCity = computed(() => cityOptions.find(option => option.value === city.value) || null);
 const selectedEducation = computed(() => educationOptions.find(option => option.value === education.value) || null);
 
-const handleFormSubmit = async () => {
-    await sendFormHandler(first_name, last_name, middle_name, selectedEducation, selectedCity, photo, showUpProgress);
+const handleFormSubmit = async () => {                  
+    await sendFormHandler(first_name, last_name, middle_name, selectedEducation, selectedCity, photo, showUpProgress, dialogRedactor ) ?
+    emit('updateDialogRedactor', false) : emit('updateDialogRedactor', false)
+    
+    
+    
+    
+
+    ElNotification({
+        title: "Произошла ошибка при отправке",
+        message: "Проверьте соединение к интернету",
+        duration: 2000,
+        type: "error",
+        showClose: false,
+    });
     emit('profileUpdated', {
         first_name: first_name.value,
         last_name: last_name.value,

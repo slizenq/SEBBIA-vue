@@ -54,7 +54,7 @@
             :before-close="handleClose"
         >
             <EditProfileCompany v-if="is_user" @profileUpdated="updateProfileData"/>
-            <EditProfileStudent v-else @profileUpdated="updateProfileData"/>
+            <EditProfileStudent v-else @profileUpdated="updateProfileData" @updateDialogRedactor="updateDialogRedactor"/>
         </el-dialog>
     </div>
 </template>
@@ -69,6 +69,7 @@ import { IP } from "../UI/auth/Authentication";
 import EditProfileStudent from "../EditAccount/student/EditProfileStudent.vue";
 import EditProfileCompany from "../EditAccount/company/EditProfileCompany.vue";
 const dialogRedactor = ref(false);
+
 const is_user = ref(false)
 const props = defineProps({
     updateAuthStatus: {
@@ -76,7 +77,9 @@ const props = defineProps({
         required: true,
     },
 });
-
+const updateDialogRedactor = (value) => {
+  dialogRedactor.value = value;
+};
 const isDialogVisible = ref(false);
 const openDialog = () => {
     isDialogVisible.value = true;
@@ -152,7 +155,6 @@ const searchResumes = async () => {
     }
     return response.data;
 };
-// обновляем после выполнения функц из дочернего элемента
 const updateProfileData = (data) => {
     if (isCompany.value) {
         companyData.value.form.FormContent = data[0];
@@ -166,6 +168,7 @@ const updateProfileData = (data) => {
 onMounted(() => {
     searchResumes();
 });
+
 </script>
 
 <style scoped>

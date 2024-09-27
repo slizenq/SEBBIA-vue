@@ -211,18 +211,10 @@ import { vMaska } from "maska/vue";
 
 import { Direction } from "~/src/domain/boundedContexts/Resume/ValueObjects/Direction";
 import { TopRight, InfoFilled } from "@element-plus/icons-vue";
-import {
-    ElButton,
-    ElIcon,
-    ElForm,
-    ElInput,
-    ElSelect,
-    ElOption,
-    ElTag,
-    ElImage,
-} from "element-plus";
+import { ElButton, ElIcon, ElForm, ElInput, ElSelect, ElOption, ElTag, ElImage } from "element-plus";
 import { ref } from "vue";
 import { sendFormResume } from "../EditStudent";
+import { defineEmits } from "vue";
 
 const dialogImageUrl = ref("");
 const dialogVisible = ref(false);
@@ -288,16 +280,12 @@ const addSkill = () => {
 const removeTag = (index) => {
     skills.value.splice(index, 1);
 };
+const emit = defineEmits(['updateDialogg']);
+const dialogRedactor = ref(false);
 
 const saveForm = async () => {
-    await sendFormResume(
-        about_me,
-        about_projects,
-        skills,
-        portfolio,
-        phone_number,
-        selectedDirection
-    );
+    await sendFormResume( about_me, about_projects, skills, portfolio, phone_number, selectedDirection, dialogRedactor) ?
+    emit('updateDialogg', false) : emit('updateDialogg', false)
     try {
         if (selectedDirection.value.length === 0) {
             throw new Error("Пустое значение для специальности");
