@@ -210,8 +210,22 @@
 import { vMaska } from "maska/vue";
 
 import { Direction } from "~/src/domain/boundedContexts/Resume/ValueObjects/Direction";
+import { PhoneNumber } from "~/src/domain/boundedContexts/Resume/ValueObjects/phoneNumber";
+import { AboutMe } from "~/src/domain/boundedContexts/Resume/ValueObjects/AboutMe";
+import { AboutProject } from "~/src/domain/boundedContexts/Resume/ValueObjects/AboutProject";
+import { Skills } from "~/src/domain/boundedContexts/Resume/ValueObjects/Skills";
+import { Portfolio } from "~/src/domain/boundedContexts/Resume/ValueObjects/Portfolio";
 import { TopRight, InfoFilled } from "@element-plus/icons-vue";
-import { ElButton, ElIcon, ElForm, ElInput, ElSelect, ElOption, ElTag, ElImage } from "element-plus";
+import {
+    ElButton,
+    ElIcon,
+    ElForm,
+    ElInput,
+    ElSelect,
+    ElOption,
+    ElTag,
+    ElImage,
+} from "element-plus";
 import { ref } from "vue";
 import { sendFormResume } from "../EditStudent";
 import { defineEmits } from "vue";
@@ -229,7 +243,7 @@ const options = [
     { value: "Луганское", label: "Луганское" },
 ];
 const handleDirectionChange = (value) => {
-    selectedDirection.value = [value]
+    selectedDirection.value = [value];
 };
 
 const name = ref("Техник Павел Николаевич");
@@ -280,26 +294,46 @@ const addSkill = () => {
 const removeTag = (index) => {
     skills.value.splice(index, 1);
 };
-const emit = defineEmits(['updateDialogg']);
+const emit = defineEmits(["updateDialogg"]);
 const dialogRedactor = ref(false);
 
 const saveForm = async () => {
-    await sendFormResume( about_me, about_projects, skills, portfolio, phone_number, selectedDirection, dialogRedactor) ?
-    emit('updateDialogg', false) : emit('updateDialogg', false)
     try {
-        if (selectedDirection.value.length === 0) {
-            throw new Error("Пустое значение для специальности");
-        }
+        const phoneNumber =
+            typeof phone_number === "string"
+                ? PhoneNumber.create(phone_number.replace(/[^0-9]/g, ""))
+                : PhoneNumber.create("");
+
+        const aboutMe = AboutMe.create(about_me);
+        const aboutProjects = AboutProject.create(about_projects);
+        const skills = Skills.create(skills);
+        const portfolio = Portfolio.create(portfolio);
+        const direction = Direction.create(selectedDirection[0]);
+
+        // Если мы достигли этой точки, данные валидны
         console.log("Форма сохранена", {
-            about_me: about_me.value,
-            about_projects: about_projects.value,
-            skills: skills.value,
-            portfolio: portfolio.value,
-            phone_number: phone_number.value,
-            direction: direction.value,
+            about_me: aboutMe,
+            about_projects: aboutProjects,
+            skills: skills,
+            portfolio: portfolio,
+            phone_number: phoneNumber,
+            direction: direction,
         });
+
+        // Отправить данные формы на сервер
+        (await sendFormResume(
+            aboutMe,
+            aboutProjects,
+            skills,
+            portfolio,
+            phoneNumber,
+            direction,
+            dialogRedactor
+        ))
+            ? emit("updateDialogg", false)
+            : emit("updateDialogg", false);
     } catch (error) {
-        console.error("Ошибка валидации направления", error);
+        console.error("Ошибка валидации", error);
     }
 };
 </script>
