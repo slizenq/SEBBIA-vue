@@ -237,7 +237,7 @@ const options = [
     { value: "Луганское", label: "Луганское" },
 ];
 const handleDirectionChange = (value) => {
-    selectedDirection.value = value;
+    selectedDirection.value = [value]
 };
 
 const name = ref("Техник Павел Николаевич");

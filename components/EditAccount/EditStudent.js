@@ -83,44 +83,44 @@ export const sendForm = async function ( first_name, last_name, middle_name, sel
 
 export const sendFormResume = async function (about_me, about_projects, skills, portfolio, phone_number, selectedDirection) {
     console.log(about_me.value, about_projects.value, skills.value, portfolio.value, phone_number.value, selectedDirection.value);
-//     const headers = {
-//         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-//         "Content-Type": "application/json",
-//         accept: "application/json",
-//     };
-//     let checkAccount = JSON.parse(localStorage.getItem('resume_id'))?.resume_id;
+    const headers = {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        "Content-Type": "application/json",
+        accept: "application/json",
+    };
+    let checkAccount = JSON.parse(localStorage.getItem('resume_id'))?.resume_id;
 
-//     let saveData = ref()
-//     try {
-//         const getResumeResponse = await axios.get(`${IP}/resume/resumes/${checkAccount}`, { headers });
-//         console.log('GET запрос успешен:', getResumeResponse);
-//         saveData.value = getResumeResponse
-//         console.log(saveData.value.data);
+    let saveData = ref()
+    try {
+        const getResumeResponse = await axios.get(`${IP}/resume/resumes/${checkAccount}`, { headers });
+        console.log('GET запрос успешен:', getResumeResponse);
+        saveData.value = getResumeResponse
+        console.log(saveData.value.data);
         
-//     } catch (error) {
-//         console.error('Ошибка при выполнении GET запроса:', error.response ? error.response.data : error.message);
-//     }
+    } catch (error) {
+        console.error('Ошибка при выполнении GET запроса:', error.response ? error.response.data : error.message);
+    }
         
-//     var postData = {
-//         first_name: saveData.value.data.first_name,
-//         last_name: saveData.value.data.last_name,
-//         middle_name: saveData.value.data.middle_name,
-//         phone_number: phone_number.value.replace(/\s/g, '').replace(/\+/g, '').replace(/\(/g, '').replace(/\)/g, '') || saveData.value.data.phone_number,
-//         education: saveData.value.data.education,
-//         about_me: about_me.value || saveData.value.data.about_me,
-//         born_date: saveData.value.data.born_date,
-//         skills:                                         saveData.value.data.skills,
-//         photo: saveData.value.data.photo,
-//         directions:                                     saveData.value.data.directions,
-//         about_projects: about_projects.value || saveData.value.data.about_projects,
-//         portfolio: portfolio.value || saveData.value.data.portfolio,
-//         city: saveData.value.data.city
-//     };
+    var postData = {
+        first_name: saveData.value.data.first_name,
+        last_name: saveData.value.data.last_name,
+        middle_name: saveData.value.data.middle_name,
+        phone_number: phone_number.value.replace(/\s/g, '').replace(/\+/g, '').replace(/\(/g, '').replace(/\)/g, '') || saveData.value.data.phone_number,
+        education: saveData.value.data.education,
+        about_me: about_me.value || saveData.value.data.about_me,
+        born_date: saveData.value.data.born_date,
+        skills: skills.value || saveData.value.data.skills,
+        photo: saveData.value.data.photo,
+        directions: selectedDirection.value || saveData.value.data.directions,
+        about_projects: about_projects.value || saveData.value.data.about_projects,
+        portfolio: portfolio.value || saveData.value.data.portfolio,
+        city: saveData.value.data.city
+    };
 
-//     try {
-//         const postResponse = await axios.put(`${IP}/resume/resumes/${checkAccount}`, postData, { headers });
-//         console.log('PUT запрос успешен:', postResponse);
-//     } catch (error) {
-//         console.error('Ошибка при выполнении PUT запроса:', error.response ? error.response.data : error.message);
-//     }
+    try {
+        const postResponse = await axios.put(`${IP}/resume/resumes/${checkAccount}`, postData, { headers });
+        console.log('PUT запрос успешен:', postResponse);
+    } catch (error) {
+        console.error('Ошибка при выполнении PUT запроса:', error.response ? error.response.data : error.message);
+    }
 }
