@@ -1,7 +1,6 @@
 import axios from "axios";
 import { IP } from "../UI/auth/Authentication";
-
-export const sendForm = async function ( first_name, last_name, middle_name, selectedEducation, selectedCity, photo, showUpProgress ) {
+export const sendForm = async function ( first_name, last_name, middle_name, selectedEducation, selectedCity, photo, showUpProgress, dialogRedactor ) {
     try {
         var studentEntity = {
             first_name: first_name.value,
@@ -55,8 +54,11 @@ export const sendForm = async function ( first_name, last_name, middle_name, sel
             try {
                 const postResponse = await axios.put(`${IP}/resume/resumes/${checkAccount}`, postData, { headers });
                 console.log('PUT запрос успешен:', postResponse);
+                dialogRedactor.value = false;
+                return true
             } catch (error) {
                 console.error('Ошибка при выполнении PUT запроса:', error.response ? error.response.data : error.message);
+                return false
             }
         } else {
             const response = await axios.post(`${IP}/resume/resumes/`, studentEntity, { headers });
@@ -73,15 +75,18 @@ export const sendForm = async function ( first_name, last_name, middle_name, sel
             }
             showUpProgress.value = true;
             console.log(response);
+            dialogRedactor.value = false;
+            return true
         }
     } catch (error) {
         console.error("Error submitting form:", error);
+        return false
     } finally {
         showUpProgress.value = true;
     }
 };
 
-export const sendFormResume = async function (about_me, about_projects, skills, portfolio, phone_number, selectedDirection) {
+export const sendFormResume = async function (about_me, about_projects, skills, portfolio, phone_number, selectedDirection, dialogRedactor) {
     console.log(about_me.value, about_projects.value, skills.value, portfolio.value, phone_number.value, selectedDirection.value);
     const headers = {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -120,6 +125,8 @@ export const sendFormResume = async function (about_me, about_projects, skills, 
     try {
         const postResponse = await axios.put(`${IP}/resume/resumes/${checkAccount}`, postData, { headers });
         console.log('PUT запрос успешен:', postResponse);
+        dialogRedactor.value = false;
+        return true
     } catch (error) {
         console.error('Ошибка при выполнении PUT запроса:', error.response ? error.response.data : error.message);
     }
