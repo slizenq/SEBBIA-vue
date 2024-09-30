@@ -208,37 +208,27 @@
 
 <script setup>
 import { vMaska } from "maska/vue";
-
-import { Direction } from "~/src/domain/boundedContexts/Resume/ValueObjects/Direction";
-import { PhoneNumber } from "~/src/domain/boundedContexts/Resume/ValueObjects/phoneNumber";
-import { AboutMe } from "~/src/domain/boundedContexts/Resume/ValueObjects/AboutMe";
-import { AboutProject } from "~/src/domain/boundedContexts/Resume/ValueObjects/AboutProject";
-import { Skills } from "~/src/domain/boundedContexts/Resume/ValueObjects/Skills";
-import { Portfolio } from "~/src/domain/boundedContexts/Resume/ValueObjects/Portfolio";
+// import { Direction } from "~/src/domain/boundedContexts/Resume/ValueObjects/Direction";
+// import { PhoneNumber } from "~/src/domain/boundedContexts/Resume/ValueObjects/phoneNumber";
+// import { AboutMe } from "~/src/domain/boundedContexts/Resume/ValueObjects/AboutMe";
+// import { AboutProject } from "~/src/domain/boundedContexts/Resume/ValueObjects/AboutProject";
+// import { Skills } from "~/src/domain/boundedContexts/Resume/ValueObjects/Skills";
+// import { Portfolio } from "~/src/domain/boundedContexts/Resume/ValueObjects/Portfolio";
 import { TopRight, InfoFilled } from "@element-plus/icons-vue";
-import {
-    ElButton,
-    ElIcon,
-    ElForm,
-    ElInput,
-    ElSelect,
-    ElOption,
-    ElTag,
-    ElImage,
-} from "element-plus";
+import { ElButton, ElIcon, ElForm, ElInput, ElSelect, ElOption, ElTag, ElImage } from "element-plus";
 import { ref } from "vue";
 import { sendFormResume } from "../EditStudent";
 import { defineEmits } from "vue";
 
-const dialogImageUrl = ref("");
-const dialogVisible = ref(false);
-const disabled = ref(false);
-const uploadRef = ref(null);
+// const dialogImageUrl = ref("");
+// const dialogVisible = ref(false);
+// const disabled = ref(false);
+// const uploadRef = ref(null);
 
-const direction = ref(Direction.create(""));
+const direction = ref("");
 const selectedDirection = ref([]);
 const options = [
-    { value: "Курское", label: "Курское" },
+    { value: "Backend Developer", label: "Backend Developer" },
     { value: "Донецкое", label: "Донецкое" },
     { value: "Луганское", label: "Луганское" },
 ];
@@ -251,30 +241,30 @@ const date = ref("22.12.2001");
 const age = ref(23);
 const city = ref("Ростов-на-Дону");
 const education = ref("РКСИ");
+
 /**
  * @param {object} uploadFile
  * @param {array} uploadFiles
  */
-const handleRemove = (uploadFile, uploadFiles) => {
-    uploadRef.value.handleRemove(uploadFile);
-};
 
-const handlePictureCardPreview = (file) => {
-    dialogImageUrl.value = file.url;
-    dialogVisible.value = true;
-};
-
-const handleDownload = (file) => {
-    const url = URL.createObjectURL(file.raw);
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", file.name);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    console.log(file);
-};
+// const handleRemove = (uploadFile, uploadFiles) => {
+//     uploadRef.value.handleRemove(uploadFile);
+// };
+// const handlePictureCardPreview = (file) => {
+//     dialogImageUrl.value = file.url;
+//     dialogVisible.value = true;
+// };
+// const handleDownload = (file) => {
+//     const url = URL.createObjectURL(file.raw);
+//     const link = document.createElement("a");
+//     link.href = url;
+//     link.setAttribute("download", file.name);
+//     document.body.appendChild(link);
+//     link.click();
+//     document.body.removeChild(link);
+//     URL.revokeObjectURL(url);
+//     console.log(file);
+// };
 
 const about_me = ref(null);
 const about_projects = ref(null);
@@ -299,37 +289,24 @@ const dialogRedactor = ref(false);
 
 const saveForm = async () => {
     try {
-        const phoneNumber =
-            typeof phone_number === "string"
-                ? PhoneNumber.create(phone_number.replace(/[^0-9]/g, ""))
-                : PhoneNumber.create("");
 
-        const aboutMe = AboutMe.create(about_me);
-        const aboutProjects = AboutProject.create(about_projects);
-        const skills = Skills.create(skills);
-        const portfolio = Portfolio.create(portfolio);
-        const direction = Direction.create(selectedDirection[0]);
+        // const aboutMe = AboutMe.create(about_me);
+        // const aboutProjects = AboutProject.create(about_projects);
+        // const skills = Skills.create(skills);
+        // const portfolio = Portfolio.create(portfolio);
+        // const direction = Direction.create(selectedDirection[0]);
 
-        // Если мы достигли этой точки, данные валидны
         console.log("Форма сохранена", {
-            about_me: aboutMe,
-            about_projects: aboutProjects,
+            about_me: about_me,
+            about_projects: about_projects,
             skills: skills,
             portfolio: portfolio,
-            phone_number: phoneNumber,
+            phone_number: phone_number,
             direction: direction,
         });
 
         // Отправить данные формы на сервер
-        (await sendFormResume(
-            aboutMe,
-            aboutProjects,
-            skills,
-            portfolio,
-            phoneNumber,
-            direction,
-            dialogRedactor
-        ))
+        (await sendFormResume( about_me, about_projects, skills, portfolio, phone_number, selectedDirection, dialogRedactor))
             ? emit("updateDialogg", false)
             : emit("updateDialogg", false);
     } catch (error) {

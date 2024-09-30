@@ -5,23 +5,15 @@
             <div class="company__vacancy__left-part">
                 <div class="left__element">
                     <h1 class="direction">{{ vacancyData.description }}</h1>
-                    <p class="description">
-                        Мобильный разработчик Фулл-стек разработчик Бекенд
-                        разработчик
-                    </p>
+                    <p class="description">Мобильный разработчик Фулл-стек разработчик Бекенд разработчик</p>
                 </div>
                 <div class="left__element">
                     <p class="element__title">Чем предстоит заниматься</p>
                     <ul>
-                        <li>
-                            Это команда профессионалов, стремящаяся к решению
-                            сложных задач
-                        </li>
+                        <li>Это команда профессионалов, стремящаяся к решению сложных задач</li>
                         <li>Это команда профессионалов</li>
                         <li>Это команда профессионалов, стремящаяся к</li>
-                        <li>
-                            Это команда профессионалов, стремящаяся к решению
-                        </li>
+                        <li>Это команда профессионалов, стремящаяся к решению</li>
                     </ul>
                 </div>
                 <div class="left__element">
@@ -52,24 +44,17 @@
                 <div class="about__company">
                     <div>
                         <div>
-                            <p class="right__title text__align">
-                                {{ vacancyData.title
-                                }}<img
-                                    src="./../assets/images/vacancy/confirm.svg"
-                                />
+                            <p class="right__title text__align">{{ vacancyData.title}}
+                                <img src="./../assets/images/vacancy/confirm.svg"/>
                             </p>
                             <p class="right__description">ООО</p>
                         </div>
                         <div class="wrap__margin">
                             <p class="right__description text__align">
-                                <img
-                                    src="./../assets/images/vacancy/location.svg"
-                                />{{ vacancyData.location }}
+                                <img src="./../assets/images/vacancy/location.svg"/>{{ vacancyData.location }}
                             </p>
                             <p class="right__description text__align">
-                                <img
-                                    src="./../assets/images/vacancy/date.svg"
-                                />22.02.2011
+                                <img src="./../assets/images/vacancy/date.svg"/>22.02.2011
                             </p>
                         </div>
                     </div>
@@ -80,62 +65,35 @@
                     задач. Мы облао команда профессионалов, стремящаяся к
                     решению сложных задач. Мы обла...
                 </p>
-                <ElButton
-                    @click="openDialog"
-                    class="respond"
-                    type="primary"
-                    v-if="checkCompany"
-                    >Откликнуться<img
-                        src="./../assets/images/vacancy/micro-link.svg"
-                /></ElButton>
-                <ElButton
-                    @click="editVacancy"
-                    class="respond"
-                    type="primary"
-                    v-else
-                    >Редактировать<img
-                        src="./../assets/images/vacancy/micro-link.svg"
-                /></ElButton>
-                <el-dialog
-                    v-model="isDialogVisibleVacancy"
-                    width="700px"
-                    :close-on-click-modal="true"
-                    :close-on-press-escape="true"
+                <ElButton @click="openDialog" class="respond" type="primary" v-if="checkCompany">Откликнуться
+                    <img src="./../assets/images/vacancy/micro-link.svg"/>
+                </ElButton>
+                <ElButton @click="editVacancy" class="respond" type="primary" v-else>Редактировать
+                    <img src="./../assets/images/vacancy/micro-link.svg"/>
+                </ElButton>
+                <el-dialog v-model="isDialogVisibleVacancy" width="700px" :close-on-click-modal="true":close-on-press-escape="true"
                     @close="resetDialog"
                     class="login-dialog"
                     top="2%"
                 >
                     <EditVacancyCompany/>
                 </el-dialog>
-                <el-dialog
-                    v-model="isDialogVisible"
-                    :title="titleModal"
-                    width="480px"
-                    :close-on-click-modal="true"
+                <el-dialog v-model="isDialogVisible" :title="titleModal" width="480px" :close-on-click-modal="true"
                     :close-on-press-escape="true"
                     @close="resetDialog"
                     class="login-dialog"
                 >
                     <div class="wrap">
                         <div class="wrap__title">
-                            <el-icon
-                                ><InfoFilled color="#409EFF" height="22px"
-                            /></el-icon>
-                            <h2>Заполните резюме</h2>
+                            <el-icon><InfoFilled color="#409EFF" height="22px"/></el-icon>
+                            <h2>{{ dialogContent.title }}</h2>
                         </div>
                         <div class="wrap__content">
-                            <p class="wrap__content-text">
-                                Для отклика требуется создать резюме в личном
-                                кабинете, где есть подсказки, чтобы научиться
-                                профессионально о себе рассказать будущему
-                                работодателю
-                            </p>
+                            <p class="wrap__content-text">{{ dialogContent.description }}</p>
                         </div>
                         <div class="wrap__footer">
                             <el-button @click="closeDialog">Позже</el-button>
-                            <el-button @click="link" type="primary"
-                                >Перейти к резюме</el-button
-                            >
+                            <el-button @click="link" type="primary">Перейти к резюме</el-button>
                         </div>
                     </div>
                 </el-dialog>
@@ -155,6 +113,7 @@ import EditVacancyCompany from "./../components/EditAccount/company/EditVacancyC
 import { ref } from "vue";
 import axios from "axios";
 import BreadCrumb from "~/components/UI/interface/bigEl/BreadCrumb.vue";
+
 const breadcrumbItems = ref([
     { path: "/", label: "Главная" },
     { path: "/about", label: "Поиск компании" },
@@ -165,15 +124,33 @@ const isDialogVisible = ref(false);
 const editVacancy = function() {
     isDialogVisibleVacancy.value = true
 }
-const openDialog = () => {
-    isDialogVisible.value = true;
-    ElNotification({
-        title: "Резюме отправлено",
-        message: "Вы можете посмотреть его статус в личном кабинете ",
-        duration: 2000,
-        type: "success",
-        showClose: false,
-    });
+const dialogContent = ref({})
+const openDialog = async () => {
+    const response = await axios.get(`${IP}/vacancy/vacancies/${localStorage.getItem("vacancy")}`);
+    let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
+    const getResume = await axios.get(`${IP}/resume/users/${checkUUid}/resumes`)
+    console.log(getResume.data[0]);
+    console.log(response.data);
+    if (getResume.data[0].directions && getResume.data[0].education && getResume.data[0].phone_number && getResume.data[0].portfolio) {
+        if (getResume.data[0].directions[0] == getResume.title) {
+            dialogContent.value.title = "Направление не совпадает";
+            dialogContent.value.description = "Для отклика требуется указать в вашем резюме, направление, которое присутствует в компании, на которую вы хотите откликнуться";
+            isDialogVisible.value = true;
+        } else {
+            isDialogVisible.value = false;
+            ElNotification({
+                title: "Резюме отправлено",
+                message: "Вы можете посмотреть его статус в личном кабинете ",
+                duration: 2000,
+                type: "success",
+                showClose: false,
+            });
+        }
+    } else {
+        dialogContent.value.title = "Заполните резюме";
+        dialogContent.value.description = "Для отклика требуется создать резюме в личном кабинете, где есть подсказки, чтобы научиться профессионально о себе рассказать будущему работодателю";
+        isDialogVisible.value = true;
+    }
 };
 
 const closeDialog = () => {
@@ -188,20 +165,18 @@ const checkCompany = ref(true);
 const vacancyData = ref({});
 const fetchVacancyData = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
-    if (user?.is_company == true) {
-        checkCompany.value = false;
-    } else if (!user) {
-        checkCompany.value = false;
-    } else {
-        checkCompany.value = true;
-    }
+    checkCompany.value = user?.is_company === true || !user ? false : true;
+
     console.log(checkCompany.value);
 
     const response = await axios.get(`${IP}/vacancy/vacancies/${localStorage.getItem("vacancy")}`);
+    let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
+    const getResume = await axios.get(`${IP}/resume/users/${checkUUid}/resumes`)
+    console.log(getResume.data[0]);
     console.log(response.data);
     
     vacancyData.value = response.data;
-};
+}
 fetchVacancyData();
 </script>
 
