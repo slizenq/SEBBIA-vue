@@ -124,16 +124,7 @@ const isDialogVisible = ref(false);
 const editVacancy = function() {
     isDialogVisibleVacancy.value = true
 }
-const dialogContent = ref({
-    // notCompleteResume: {
-    //     title: "Заполните резюме",
-    //     description: "Для отклика требуется создать резюме в личном кабинете, где есть подсказки, чтобы научиться профессионально о себе рассказать будущему работодателю"
-    // },
-    // notFitDirection: {
-    //     title: "Направление не совпадает",
-    //     description: "Для отклика требуется указать в вашем резюме, направление, которое присутствует в компании, на которую вы хотите откликнуться"
-    // }
-})
+const dialogContent = ref({})
 const openDialog = async () => {
     const response = await axios.get(`${IP}/vacancy/vacancies/${localStorage.getItem("vacancy")}`);
     let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
