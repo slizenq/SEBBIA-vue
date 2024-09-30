@@ -5,6 +5,12 @@
             :key="rezume.id"
             :rezume="rezume"
         />
+        <section v-if="!filteredRezumes.length" class="no-resume">
+            <p class="no-resume__title">Вы еще не получили резюме</p>
+            <p class="no-resume__subtitle">
+                Заполните информацию о компании, чтобы получить <br> больше резюме
+            </p>
+        </section>
     </div>
 </template>
 
@@ -23,16 +29,16 @@ const props = defineProps({
 });
 
 const filteredRezumes = computed(() => {
-    if (props.value === "Просмотренные") {
+    if (props.value === "Просмотренные резюме") {
         return store.rezumes.filter(
             (rezume) =>
                 rezume.status === "Отказано" || rezume.status === "Одобрено"
         );
-    } else if (props.value === "Входящие") {
+    } else if (props.value === "Входящие резюме") {
         return store.rezumes.filter(
             (rezume) =>
-                rezume.status === "Просмотрено" ||
-                rezume.status === "Не просмотрено"
+                rezume.status === "Не просмотрено" ||
+                rezume.status === "Просмотрено"
         );
     } else {
         return store.rezumes;
@@ -47,5 +53,24 @@ const filteredRezumes = computed(() => {
     grid-template-rows: repeat(auto, 1fr);
     grid-column-gap: 30px;
     grid-row-gap: 16px;
+}
+
+.no-resume {
+    margin-top: 54px;
+    grid-column: 1 / 3;
+    text-align: center;
+    padding: 24px;
+}
+
+.no-resume__title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: rgba(64, 158, 255, 1);
+}
+
+.no-resume__subtitle {
+    font-size: 16px;
+    color: rgba(144, 147, 153, 1);
 }
 </style>

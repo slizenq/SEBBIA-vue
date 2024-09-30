@@ -23,10 +23,10 @@ const isAuthorized = ref(false);
 const userInfo = ref(null);
 
 onMounted(() => {
-    const token = localStorage.getItem('access_token');
-    const user = JSON.parse(localStorage.getItem('user'));
+    const token = localStorage.getItem("access_token");
+    const user = JSON.parse(localStorage.getItem("user"));
     if (!token || !user) {
-        navigateTo('/error');
+        navigateTo("/error");
     } else {
         isAuthorized.value = true;
         userInfo.value = user;
@@ -38,14 +38,14 @@ const breadcrumbItems = ref([
     { path: "x/xx/xxx", label: "Аккаунт" },
 ]);
 
-const value = ref("Просмотренные");
+const value = ref("Просмотренные резюме");
 const options = ["Просмотренные резюме", "Входящие резюме"];
 
 const handleChange = () => {
     breadcrumbItems.value = [
         { path: "x/xx/xxx", label: "Профиль" },
         { path: "x/xx/xxx", label: "Аккаунт" },
-        { path: "x/xx/xxx", label: value.value } 
+        { path: "x/xx/xxx", label: value.value },
     ];
 };
 

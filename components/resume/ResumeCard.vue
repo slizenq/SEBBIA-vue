@@ -7,30 +7,37 @@
             </div>
         </div>
         <div class="card__right">
-            <div v-if="rezume.status == 'Отказано' || 'Одобрено'">
-                <div v-if="rezume.status == 'Одобрено'" class="resume-btn">
+            <div
+                v-if="
+                    rezume.status === 'Отказано' || rezume.status === 'Одобрено'
+                "
+            >
+                <div v-if="rezume.status === 'Одобрено'" class="resume-btn">
                     <el-tag size="large" type="success" effect="light"
                         ><el-icon><CircleCheckFilled height="16" /></el-icon
                         >Принято</el-tag
                     >
                     <el-button type="default" :icon="TopRight" class="link" />
                 </div>
-                <div v-else-if="rezume.status == 'Отказано'" class="resume-btn">
+                <div
+                    v-else-if="rezume.status === 'Отказано'"
+                    class="resume-btn"
+                >
                     <el-tag size="large" type="danger" effect="light"
                         ><el-icon><CircleCloseFilled height="16" /></el-icon
                         >Отказано</el-tag
                     >
                     <el-button type="default" :icon="TopRight" class="link" />
                 </div>
-                <div v-else class="resume-btn">
-                    <el-button type="success" plain @click="acceptRezume"
-                        >Принять</el-button
-                    >
-                    <el-button type="danger" plain @click="declineRezume"
-                        >Отклонить</el-button
-                    >
-                    <el-button type="default" :icon="TopRight" class="link" />
-                </div>
+            </div>
+            <div v-else class="resume-btn">
+                <el-button type="success" plain @click="acceptRezume"
+                    >Принять</el-button
+                >
+                <el-button type="danger" plain @click="declineRezume"
+                    >Отклонить</el-button
+                >
+                <el-button type="default" :icon="TopRight" class="link" />
             </div>
         </div>
     </div>
