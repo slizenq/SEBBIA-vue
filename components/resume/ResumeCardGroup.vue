@@ -30,12 +30,12 @@ const props = defineProps({
 });
 
 const filteredRezumes = computed(() => {
-    if (props.value === "Просмотренные резюме") {
+    if (props.value === "Просмотренные") {
         return store.rezumes.filter(
             (rezume) =>
                 rezume.status === "Отказано" || rezume.status === "Одобрено"
         );
-    } else if (props.value === "Входящие резюме") {
+    } else if (props.value === "Входящие") {
         return store.rezumes.filter(
             (rezume) =>
                 rezume.status === "Не просмотрено" ||

@@ -7,6 +7,7 @@
             :options="options"
             @change="handleChange"
             style="border-radius: 4px; margin-bottom: 24px"
+            class="segmented"
         />
         <ResumeCardGroup :value="value" />
     </div>
@@ -38,14 +39,14 @@ const breadcrumbItems = ref([
     { path: "x/xx/xxx", label: "Аккаунт" },
 ]);
 
-const value = ref("Просмотренные резюме");
-const options = ["Просмотренные резюме", "Входящие резюме"];
+const value = ref("Просмотренные");
+const options = ["Просмотренные", "Входящие"];
 
 const handleChange = () => {
     breadcrumbItems.value = [
         { path: "x/xx/xxx", label: "Профиль" },
         { path: "x/xx/xxx", label: "Аккаунт" },
-        { path: "x/xx/xxx", label: value.value },
+        { path: "x/xx/xxx", label: value.value + " резюме" },
     ];
 };
 
@@ -60,9 +61,17 @@ handleChange();
 
 .el-segmented__group {
     gap: 5px;
+    width: 30vw;
+    box-sizing: border-box;
 }
 
 .is-selected {
     border-radius: 4px;
+}
+
+@media (max-width: 890px) {
+    .el-segmented__group {
+        width: 90vw;
+    }
 }
 </style>

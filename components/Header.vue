@@ -118,6 +118,10 @@ const AccountClick = () => {
 </script>
 
 <style>
+
+.header__wrap{
+    flex-wrap: wrap;
+}
 .account-element {
     cursor: pointer;
     display: flex;
