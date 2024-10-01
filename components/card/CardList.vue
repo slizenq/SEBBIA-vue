@@ -1,8 +1,13 @@
 <template>
     <div>
-        <div v-if="props.searchInput && filteredCards.length > 0" class="status">
+        <div
+            v-if="props.searchInput && filteredCards.length > 0"
+            class="status"
+        >
             <p class="notFind">Найдено {{ filteredCards.length }} вакансий</p>
-            <span class="notFind-span">с запросом "{{ props.searchInput }}"</span>
+            <span class="notFind-span"
+                >с запросом "{{ props.searchInput }}"</span
+            >
         </div>
 
         <div v-if="filteredCards.length > 0" class="card-list">
@@ -43,15 +48,15 @@
 </template>
 
 <script setup lang="ts">
-import { IP } from '../UI/auth/Authentication';
+import { IP } from "../UI/auth/Authentication";
 import { ref, computed, defineProps } from "vue";
-import axios from 'axios';
+import axios from "axios";
 import Card from "./Card.vue";
 
 const cards = ref([]);
 const searchResumes = async () => {
     const response = await axios.get(`${IP}/vacancy/vacancies/search`);
-    response.data.forEach(item => {
+    response.data.forEach((item) => {
         const newCard = {
             vacancy_id: item.vacancy_id,
             title: item.title,
@@ -71,27 +76,27 @@ const props = defineProps({
 
 const visible = ref(6);
 const handleScroll = () => {
-  if (isSpecialPage()) {
-    const scrollPosition = window.innerHeight + window.scrollY;
-    const documentHeight = document.documentElement.offsetHeight;
-    const triggerPoint = 0.7;
+    if (isSpecialPage()) {
+        const scrollPosition = window.innerHeight + window.scrollY;
+        const documentHeight = document.documentElement.offsetHeight;
+        const triggerPoint = 0.7;
 
-    if (scrollPosition >= (documentHeight * triggerPoint)) {
-      showMore();
+        if (scrollPosition >= documentHeight * triggerPoint) {
+            showMore();
+        }
     }
-  }
 };
 const showMore = () => {
     visible.value += 6;
 };
 const isSpecialPage = () => {
-  return window.location.href.includes("/about");
+    return window.location.href.includes("/about");
 };
 onMounted(() => {
-  if (isSpecialPage()) {
-    window.addEventListener('scroll', handleScroll);
-  }
-  searchResumes();
+    if (isSpecialPage()) {
+        window.addEventListener("scroll", handleScroll);
+    }
+    searchResumes();
 });
 const filteredCards = computed(() => {
     if (!props.searchInput) {
@@ -125,10 +130,30 @@ const hasMoreCards = computed(() => {
 }
 .card-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: clamp(16px, 2.3vw, 40px);
-    justify-content: start;
+    justify-content: center; /* добавьте эту строку */
+    grid-template-columns: 1fr;
 }
+
+@media (min-width: 680px) {
+    .card-list {
+        grid-template-columns: repeat(2, minmax(300px, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .card-list {
+        grid-template-columns: repeat(3, minmax(300px, 1fr));
+    }
+}
+
+.card-list > * {
+    max-width: 552px;
+}
+.card-list > *:nth-child(2n):last-child {
+    justify-self: start;
+}
+
 .notFind {
     font-size: 34px;
 }
@@ -146,21 +171,5 @@ const hasMoreCards = computed(() => {
 }
 .show-more-btn:hover {
     background-color: #0056b3;
-}
-@media (min-width: 768px) {
-    .card-list {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    }
-}
-@media (min-width: 1024px) {
-    .card-list {
-        grid-template-columns: repeat(3, minmax(300px, 1fr));
-    }
-}
-.card-list > * {
-    max-width: 552px;
-}
-.card-list > *:nth-child(2n):last-child {
-    justify-self: start;
 }
 </style>

@@ -43,7 +43,7 @@ const handleSearchInput = (input) => {
 .company__list {
     margin: 50px auto 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 30px;
 }
@@ -51,7 +51,7 @@ const handleSearchInput = (input) => {
     margin-top: 100px;
 }
 .hero {
-    width: 48vw;
+    width: 88vw;
     margin: 0 auto;
 }
 .hero__title {

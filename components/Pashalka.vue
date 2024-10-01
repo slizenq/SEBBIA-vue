@@ -1,6 +1,6 @@
 <template>
     <div v-if="showPashalka">
-        <el-dialog v-model="visible" width="40%" :before-close="handleClose">
+        <el-dialog v-model="visible" width="50%" :before-close="handleClose">
             <img
                 :src="imageUrl"
                 alt="Image"
