@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package vacancy;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./proto/pb/go";
+
+// Описание вакансии (без id, id будет только в ответах)
+message Vacancy {
+  repeated Skill expected_skills = 1;     // Ожидаемые навыки
+  string about_practice = 2;              // Необязательное поле - о практике (макс 500 символов)
+  repeated Direction directions = 3;      // Направления
+  string about_projects = 4;              // О проектах (макс 500 символов, необязательное поле)
+  string company_id = 5;                  // UUID компании
+}
+
+message Skill {
+  string skill = 1;                       // Описание навыка, не более 30 символов
+}
+
+message Direction {
+  string direction = 1;                   // Направление (выбор из списка)
+}
+
+// Команды для создания и обновления вакансии
+message CreateVacancyRequest {
+  Vacancy vacancy = 1;                    // Данные вакансии (ID не передается, генерируется на сервере)
+}
+
+message UpdateVacancyRequest {
+  string id = 1;                          // ID вакансии (UUID)
+  Vacancy vacancy = 2;                    // Обновленные данные вакансии (ID не требуется)
+}
+
+// Ответы
+message VacancyResponse {
+  string id = 1;                          // ID вакансии (UUID, обязательное поле в ответах)
+  Vacancy vacancy = 2;                    // Данные вакансии
+}
+
+message VacancyCreated {
+  string id = 1;                          // ID вакансии (сгенерированный UUID)
+  Vacancy vacancy = 2;                    // Данные вакансии
+  google.protobuf.Timestamp timestamp = 3;// Время создания
+}
+
+message VacancyUpdated {
+  string id = 1;                          // ID вакансии (UUID вакансии)
+  Vacancy vacancy = 2;                    // Обновленные данные вакансии
+  google.protobuf.Timestamp timestamp = 3;// Время обновления
+}
+
+// Новый запрос на получение вакансии по ID
+message GetVacancyByIdRequest {
+  string id = 1;                           // VacancyId - UUID вакансии
+}
+
+// Новый запрос на получение вакансий по параметрам (все поля опциональные)
+message GetVacanciesByParamsRequest {
+  repeated Skill expected_skills = 1;     // Фильтрация по навыкам
+  string about_practice = 2;              // Фильтрация по описанию практики
+  repeated Direction directions = 3;      // Фильтрация по направлениям
+  string company_id = 4;                  // Фильтрация по компании
+}
+
+message GetVacanciesResponse {
+  repeated VacancyWithId vacancies = 1;   // Список найденных вакансий (с ID)
+}
+
+// Вакансия с обязательным ID для ответа
+message VacancyWithId {
+  string id = 1;                          // ID вакансии (UUID)
+  repeated Skill expected_skills = 2;     // Ожидаемые навыки
+  string about_practice = 3;              // Необязательное поле - о практике (макс 500 символов)
+  repeated Direction directions = 4;      // Направления
+  string about_projects = 5;              // О проектах (макс 500 символов, необязательное поле)
+  string company_id = 6;                  // UUID компании
+}
+
+// gRPC-сервис
+service VacancyService {
+  rpc CreateVacancy(CreateVacancyRequest) returns (VacancyResponse);
+  rpc UpdateVacancy(UpdateVacancyRequest) returns (VacancyResponse);
+
+  // Новый метод для получения вакансии по ID
+  rpc GetVacancyById(GetVacancyByIdRequest) returns (VacancyResponse);
+
+  // Новый метод для получения списка вакансий по параметрам
+  rpc GetVacanciesByParams(GetVacanciesByParamsRequest) returns (GetVacanciesResponse);
+}

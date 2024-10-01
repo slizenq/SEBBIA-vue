@@ -11,8 +11,9 @@
         "gen:proto": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./assets/proto --ts_proto_opt=outputServices=grpc-js --ts_proto_opt=env=node,forceLong=long ./assets/proto/cloudevent.proto"
     },
     "dependencies": {
-        "@grpc/grpc-js": "^1.11.1",
+        "@grpc/grpc-js": "^1.11.3",
         "@grpc/proto-loader": "^0.7.13",
+        "@improbable-eng/grpc-web": "^0.15.0",
         "@nuxtjs/axios": "^5.13.6",
         "@pinia/nuxt": "^0.5.2",
         "axios": "^1.7.7",
