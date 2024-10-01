@@ -21,7 +21,7 @@
 import { ref } from "vue";
 import { ElInput, ElButton } from "element-plus";
 import { Search } from "@element-plus/icons-vue";
-import { useRouter } from "vue-router"; 
+import { useRouter } from "vue-router";
 import Filter from "../minEl/Filter.vue";
 
 const input = ref("");
@@ -65,6 +65,7 @@ const emitSearch = () => {
 }
 .wrap {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 20px;
