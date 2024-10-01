@@ -1,19 +1,21 @@
-<!-- Логин -->
 <template>
     <div class="login-dialog__form-item">
         <label class="login-dialog__label">Логин</label>
+        
         <el-input
             :model-value="email"
             placeholder="Электронная почта"
             class="login-dialog__input"
             @input="$emit('update:email', $event)"
         />
+        <InputError :email="email"/>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ElInput } from "element-plus";
 import { toRefs } from "vue";
+import InputError from "./../../InputError.vue"
 
 const props = defineProps({
     email: String,
@@ -22,6 +24,10 @@ const { email } = toRefs(props);
 </script>
 
 <style scoped>
+.validation-status {
+  display: flex;
+  flex-direction: column;
+}
 .login-dialog__form-item {
     display: flex;
     align-items: center;
