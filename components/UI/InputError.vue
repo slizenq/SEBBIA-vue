@@ -8,30 +8,26 @@
   
   <script setup lang="ts">
   import { ref, watch, toRefs } from 'vue';
-  import { checkEmailFormat } from '~/src/domain/email'; // Импорт функции проверки
+  import { checkEmailFormat } from '~/src/domain/auth';  
   
-  // Получаем пропсы
   const props = defineProps({
     email: String,
   });
   
-  // Делаем реактивные ссылки на пропсы
   const { email } = toRefs(props);
   
-  // Статус для отображения состояния проверки
   const status = ref<'loading' | 'valid' | 'invalid' | null>(null);
   
-  // Следим за изменениями в email
   watch(email, async (newEmail) => {
     if (!newEmail) {
       status.value = null;
       return;
     }
   
-    status.value = 'loading'; // Показываем индикатор загрузки
+    status.value = 'loading'; 
   
     const isValid = await checkEmailFormat(newEmail);
-    status.value = isValid ? 'valid' : 'invalid'; // Устанавливаем результат проверки
+    status.value = isValid ? 'valid' : 'invalid'; 
   });
   </script>
   
