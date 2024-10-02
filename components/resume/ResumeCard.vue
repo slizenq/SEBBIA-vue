@@ -102,8 +102,23 @@ function declineRezume() {
     align-items: center;
     align-self: stretch;
     max-width: 816px;
-    max-height: 74px;
+    /* max-height: 74px; */
     padding: 16px;
     background-color: #fafafa;
+}
+
+@media (min-width: 320px) and (max-width: 460px) {
+    .card {
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+        gap: 10px;
+    }
+    .resume-btn {
+        gap: 2px;
+    }
+}
+.link {
+    margin-left: 12px;
 }
 </style>
