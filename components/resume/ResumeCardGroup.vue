@@ -8,7 +8,8 @@
         <section v-if="!filteredRezumes.length" class="no-resume">
             <p class="no-resume__title">Вы еще не получили резюме</p>
             <p class="no-resume__subtitle">
-                Заполните информацию о компании, чтобы получить <br> больше резюме
+                Заполните информацию о компании, чтобы получить <br />
+                больше резюме
             </p>
         </section>
     </div>
@@ -29,12 +30,12 @@ const props = defineProps({
 });
 
 const filteredRezumes = computed(() => {
-    if (props.value === "Просмотренные резюме") {
+    if (props.value === "Просмотренные") {
         return store.rezumes.filter(
             (rezume) =>
                 rezume.status === "Отказано" || rezume.status === "Одобрено"
         );
-    } else if (props.value === "Входящие резюме") {
+    } else if (props.value === "Входящие") {
         return store.rezumes.filter(
             (rezume) =>
                 rezume.status === "Не просмотрено" ||
@@ -53,6 +54,24 @@ const filteredRezumes = computed(() => {
     grid-template-rows: repeat(auto, 1fr);
     grid-column-gap: 30px;
     grid-row-gap: 16px;
+}
+
+@media (max-width: 890px) {
+    .card-group {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 1024px) {
+    .card-group {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1440px) {
+    .card-group {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 .no-resume {
