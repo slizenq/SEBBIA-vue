@@ -2,7 +2,6 @@
 
 gRPC-web
 
-
 // Рассмотрим использование gRPC-Web в браузере.
 Мы рассмотрим:
     1) Определение службы в файле .proto.
@@ -72,3 +71,4 @@ echoService.echo(request, {}, function(err, response) {
         "webpack-cli": "^3.1.0"
     }
 }
+
