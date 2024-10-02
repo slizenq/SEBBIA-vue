@@ -56,7 +56,7 @@ echoService.echo(request, {}, function(err, response) {
   // ...
 });
 
-
+ 
 Вам понадобится файлpackage.json
 
 {
