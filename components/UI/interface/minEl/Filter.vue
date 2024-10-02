@@ -5,6 +5,8 @@
 <script setup>
 import { ElButton } from "element-plus";
 import { Filter } from "@element-plus/icons-vue";
+import { createVacancy } from "~/assets/proto/client";
 const dad = function () {
+    createVacancy()
 }
 </script>

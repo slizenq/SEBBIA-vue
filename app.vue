@@ -1,12 +1,11 @@
 <template>
     <div id="app">
-        <Header></Header>
+        <Header class="header"></Header>
         <NuxtPage></NuxtPage>
         <div id="app">
             <div v-if="isLoaded"></div>
-                <div v-else>
+            <div v-else>
                 <div class="preloader">
-
                     <div class="loader"></div>
                 </div>
             </div>
@@ -16,7 +15,7 @@
 </template>
 
 <script setup>
-const isLoaded = ref(false)
+const isLoaded = ref(false);
 import Footer from "./components/Footer.vue";
 onMounted(() => {
     setTimeout(() => {
@@ -35,6 +34,7 @@ onMounted(() => {
     font-size: 16px;
     text-decoration: none;
 }
+
 body {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
@@ -70,35 +70,33 @@ a {
   }
 } */
 .preloader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
 .loader {
-  border: 8px solid #002bcf;
-  border-top: 8px solid #f54925;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 2s linear infinite;
+    border: 8px solid #002bcf;
+    border-top: 8px solid #f54925;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
-
-
 </style>
