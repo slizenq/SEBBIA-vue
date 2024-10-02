@@ -193,6 +193,8 @@ const AccountClick = () => {
 
 const toggleBurger = () => {
     isBurgerActive.value = !isBurgerActive.value;
+    const burger = document.querySelector(".burger");
+    burger.classList.toggle("active");
 };
 </script>
 
