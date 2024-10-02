@@ -36,64 +36,6 @@
                         >
                     </div>
                 </div>
-                <Auth
-                    class="right__part"
-                    @open-dialog="openDialog"
-                    v-if="isAuthenticated"
-                    :isAuthenticated="isAuthenticated"
-                    :updateAuthStatus="updateAuthStatus"
-                />
-                <div
-                    :class="{
-                        'home-color':
-                            $route.path === '/account/student' ||
-                            $route.path === '/account/company',
-                    }"
-                    class="account-element"
-                    v-else
-                    :isAuthenticated="isAuthenticated"
-                    @click="AccountClick"
-                >
-                    <img
-                        v-if="logo_Account"
-                        src="./../assets/images/companyAccount.svg"
-                        alt="Company"
-                    />
-                    <img
-                        v-else
-                        src="./../assets/images/studentAccount.svg"
-                        alt="Student"
-                    />Аккаунт
-                </div>
-                <div class="burger" @click="toggleBurger" v-if="isMobile">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-            <div class="mobile-menu" v-if="isBurgerActive && isMobile">
-                <div
-                    :class="{ 'home-bottom': $route.path === '/' }"
-                    class="even"
-                >
-                    <NuxtLink
-                        to="/"
-                        :class="{ 'home-color': $route.path === '/' }"
-                        class="element"
-                        >Главная</NuxtLink
-                    >
-                </div>
-                <div
-                    :class="{ 'about-bottom': $route.path === '/about' }"
-                    class="even"
-                >
-                    <NuxtLink
-                        to="/about"
-                        :class="{ 'home-color': $route.path === '/about' }"
-                        class="element"
-                        >Компании</NuxtLink
-                    >
-                </div>
                 <div
                     :class="{
                         'home-color':
@@ -123,7 +65,92 @@
                     :isAuthenticated="isAuthenticated"
                     :updateAuthStatus="updateAuthStatus"
                 />
+                <div class="burger" @click="toggleBurger" v-if="isMobile">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
+            <el-drawer
+                v-model="isBurgerActive"
+                direction="rtl"
+                :with-header="false"
+                class="drawer"
+            >
+                <div class="mobile-menu">
+                    <div
+                        :class="{ 'home-bottom': $route.path === '/' }"
+                        class="even"
+                    >
+                        <NuxtLink
+                            to="/"
+                            :class="{ 'home-color': $route.path === '/' }"
+                            class="element"
+                            >Главная</NuxtLink
+                        >
+                    </div>
+                    <div
+                        :class="{ 'about-bottom': $route.path === '/about' }"
+                        class="even"
+                    >
+                        <NuxtLink
+                            to="/about"
+                            :class="{ 'home-color': $route.path === '/about' }"
+                            class="element"
+                            >Компании</NuxtLink
+                        >
+                    </div>
+                    <Auth
+                        class="right__part"
+                        @open-dialog="openDialog"
+                        v-if="isAuthenticated"
+                        :isAuthenticated="isAuthenticated"
+                        :updateAuthStatus="updateAuthStatus"
+                    />
+                    <div
+                        :class="{
+                            'home-color':
+                                $route.path === '/account/student' ||
+                                $route.path === '/account/company',
+                        }"
+                        class="account-element"
+                        v-if="!isAuthenticated"
+                        :isAuthenticated="isAuthenticated"
+                        @click="AccountClick"
+                    >
+                        <img
+                            v-if="logo_Account"
+                            src="./../assets/images/companyAccount.svg"
+                            alt="Company"
+                        />
+                        <img
+                            v-else
+                            src="./../assets/images/studentAccount.svg"
+                            alt="Student"
+                        />Аккаунт
+                    </div>
+                    <div
+                        :class="{
+                            'home-color':
+                                $route.path === '/account/student' ||
+                                $route.path === '/account/company',
+                        }"
+                        class="account-element"
+                        v-if="isAuthenticated"
+                    >
+                        <img
+                            v-if="logo_Account"
+                            src="./../assets/images/companyAccount.svg"
+                            alt="Company"
+                        />
+                        <img
+                            v-else
+                            src="./../assets/images/studentAccount.svg"
+                            alt="Student"
+                        />Аккаунт
+                    </div>
+                </div>
+            </el-drawer>
         </div>
     </div>
 </template>
@@ -131,6 +158,8 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import Auth from "./UI/auth/Auth.vue";
+import { ElDrawer } from "element-plus";
+
 const logo_Account = ref();
 
 const isAuthenticated = ref(false);
@@ -163,10 +192,12 @@ onMounted(() => {
         clearInterval(tokenWatcher);
         window.removeEventListener("storage", checkToken);
     });
+
     const screenWidth = window.innerWidth;
     if (screenWidth <= 768) {
         isMobile.value = true;
     }
+
     window.addEventListener("resize", () => {
         const screenWidth = window.innerWidth;
         if (screenWidth <= 768) {
@@ -197,7 +228,6 @@ const toggleBurger = () => {
     burger.classList.toggle("active");
 };
 </script>
-
 <style>
 .account-element {
     cursor: pointer;
@@ -227,10 +257,6 @@ const toggleBurger = () => {
     align-items: center;
     justify-content: center;
 }
-/* .even:hover {
-	box-shadow: 0 5px 7px -5px #409EFF;
-} */
-
 .middle__part {
     display: flex;
     gap: 40px;
@@ -244,6 +270,7 @@ const toggleBurger = () => {
 .middle__part .element:last-of-type {
     margin-right: 0;
 }
+
 .header {
     height: 50px;
     box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.1);
@@ -251,6 +278,7 @@ const toggleBurger = () => {
     margin-bottom: 10px;
     z-index: 1000;
 }
+
 .header__wrap {
     display: flex;
     justify-content: space-between;
@@ -270,31 +298,20 @@ const toggleBurger = () => {
     position: relative;
     z-index: 1;
 }
-
 .burger span {
     display: block;
     width: 20px;
     height: 2px;
     background-color: #333;
     margin-bottom: 5px;
-    transition: all 0.3s;
-}
-
-.burger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-
-.burger.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.burger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
 }
 
 @media (max-width: 768px) {
     .burger {
         display: block;
+    }
+    .right__part {
+        display: none;
     }
     .middle__part {
         display: none;
@@ -302,22 +319,23 @@ const toggleBurger = () => {
     .account-element {
         display: none;
     }
+    .drawer .account-element,
+    .drawer .right__part {
+        display: block;
+    }
     .mobile-menu {
+        padding: 20px;
         display: flex;
+        gap: 20px;
         flex-direction: column;
         align-items: center;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 5px;
-        box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.1);
-        z-index: 1001; /* Добавлено */
-        position: absolute; /* Добавлено */
-        top: 50px; /* Добавлено */
-        right: 0; /* Изменено */
+        justify-content: center;
     }
-    .mobile-menu .account-element {
-        display: block;
-        margin-bottom: 20px;
+    .drawer {
+        width: 35%;
+    }
+    .el-drawer__body {
+        padding-inline: 10px;
     }
 }
 </style>
