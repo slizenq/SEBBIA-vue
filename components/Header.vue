@@ -193,6 +193,8 @@ const AccountClick = () => {
 
 const toggleBurger = () => {
     isBurgerActive.value = !isBurgerActive.value;
+    const burger = document.querySelector(".burger");
+    burger.classList.toggle("active");
 };
 </script>
 
@@ -297,6 +299,9 @@ const toggleBurger = () => {
     .middle__part {
         display: none;
     }
+    .account-element {
+        display: none;
+    }
     .mobile-menu {
         display: flex;
         flex-direction: column;
@@ -310,9 +315,9 @@ const toggleBurger = () => {
         top: 50px; /* Добавлено */
         right: 0; /* Изменено */
     }
-
-    .account-element {
-        display: none;
+    .mobile-menu .account-element {
+        display: block;
+        margin-bottom: 20px;
     }
 }
 </style>
