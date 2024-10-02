@@ -76,6 +76,8 @@
                 direction="rtl"
                 :with-header="false"
                 class="drawer"
+                show-close="true"
+                size="100%"
             >
                 <div class="mobile-menu">
                     <div
@@ -149,6 +151,9 @@
                             alt="Student"
                         />Аккаунт
                     </div>
+                    <div class="close-button" @click="isBurgerActive = false">
+                        <el-icon><Close /></el-icon>
+                    </div>
                 </div>
             </el-drawer>
         </div>
@@ -158,7 +163,8 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import Auth from "./UI/auth/Auth.vue";
-import { ElDrawer } from "element-plus";
+import { ElDrawer, ElIcon } from "element-plus";
+import { Close } from "@element-plus/icons-vue";
 
 const logo_Account = ref();
 
@@ -304,6 +310,16 @@ const toggleBurger = () => {
     height: 2px;
     background-color: #333;
     margin-bottom: 5px;
+}
+
+.close-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    font-size: 44px;
+    color: #333;
 }
 
 @media (max-width: 768px) {
