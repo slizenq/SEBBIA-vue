@@ -7,7 +7,10 @@ protoc -I="D:\SEBBIA\assets\proto" "D:\SEBBIA\assets\proto\vacancy.proto" --grpc
 
 npm install grpc-web google-protobuf
 
-protoc -I="D:\SEBBIA\assets\proto" "D:\SEBBIA\assets\proto\vacancy.proto" --grpc-web_out=import_style=commonjs,mode=grpcwebtext:"D:\SEBBIA\assets\proto"
-
 || protoc --js_out=import_style=commonjs,binary:. --grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:. assets/proto/vacancy.proto
-PS C:\Users\vikto\OneDrive\Рабочий стол\SEBBIA>  
+|| protoc --js_out=import_style=commonjs,binary:. --grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:. company.proto companyService.proto
+ 
+
+
+
+|| protoc --js_out=import_style=commonjs,binary:. --grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:. auth.proto
