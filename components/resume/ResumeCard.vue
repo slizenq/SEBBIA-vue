@@ -101,6 +101,7 @@ function declineRezume() {
     justify-content: space-between;
     align-items: center;
     align-self: stretch;
+    gap: 6px;
     max-width: 816px;
     /* max-height: 74px; */
     padding: 16px;
