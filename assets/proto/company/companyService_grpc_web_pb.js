@@ -1,5 +1,5 @@
 /**
- * @fileoverview gRPC-Web generated client stub for vacancy
+ * @fileoverview gRPC-Web generated client stub for company
  * @enhanceable
  * @public
  */
@@ -8,7 +8,7 @@
 // versions:
 // 	protoc-gen-grpc-web v1.5.0
 // 	protoc              v5.28.2
-// source: assets/proto/vacancy.proto
+// source: companyService.proto
 
 
 /* eslint-disable */
@@ -20,9 +20,11 @@ const grpc = {};
 grpc.web = require('grpc-web');
 
 
+var company_pb = require('./company_pb.js')
+
 var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js')
 const proto = {};
-proto.vacancy = require('./vacancy_pb.js');
+proto.company = require('./companyService_pb.js');
 
 /**
  * @param {string} hostname
@@ -32,7 +34,7 @@ proto.vacancy = require('./vacancy_pb.js');
  * @struct
  * @final
  */
-proto.vacancy.VacancyServiceClient =
+proto.company.CompanyServiceClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
   options.format = 'text';
@@ -58,7 +60,7 @@ proto.vacancy.VacancyServiceClient =
  * @struct
  * @final
  */
-proto.vacancy.VacancyServicePromiseClient =
+proto.company.CompanyServicePromiseClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
   options.format = 'text';
@@ -79,246 +81,246 @@ proto.vacancy.VacancyServicePromiseClient =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.vacancy.CreateVacancyRequest,
- *   !proto.vacancy.VacancyResponse>}
+ *   !proto.company.Company,
+ *   !proto.company.GetCompanyResponse>}
  */
-const methodDescriptor_VacancyService_CreateVacancy = new grpc.web.MethodDescriptor(
-  '/vacancy.VacancyService/CreateVacancy',
+const methodDescriptor_CompanyService_CreateCompany = new grpc.web.MethodDescriptor(
+  '/company.CompanyService/CreateCompany',
   grpc.web.MethodType.UNARY,
-  proto.vacancy.CreateVacancyRequest,
-  proto.vacancy.VacancyResponse,
+  company_pb.Company,
+  company_pb.GetCompanyResponse,
   /**
-   * @param {!proto.vacancy.CreateVacancyRequest} request
+   * @param {!proto.company.Company} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.vacancy.VacancyResponse.deserializeBinary
+  company_pb.GetCompanyResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.vacancy.CreateVacancyRequest} request The
+ * @param {!proto.company.Company} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.vacancy.VacancyResponse)}
+ * @param {function(?grpc.web.RpcError, ?proto.company.GetCompanyResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.vacancy.VacancyResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.company.GetCompanyResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.vacancy.VacancyServiceClient.prototype.createVacancy =
+proto.company.CompanyServiceClient.prototype.createCompany =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/vacancy.VacancyService/CreateVacancy',
+      '/company.CompanyService/CreateCompany',
       request,
       metadata || {},
-      methodDescriptor_VacancyService_CreateVacancy,
+      methodDescriptor_CompanyService_CreateCompany,
       callback);
 };
 
 
 /**
- * @param {!proto.vacancy.CreateVacancyRequest} request The
+ * @param {!proto.company.Company} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.vacancy.VacancyResponse>}
+ * @return {!Promise<!proto.company.GetCompanyResponse>}
  *     Promise that resolves to the response
  */
-proto.vacancy.VacancyServicePromiseClient.prototype.createVacancy =
+proto.company.CompanyServicePromiseClient.prototype.createCompany =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/vacancy.VacancyService/CreateVacancy',
+      '/company.CompanyService/CreateCompany',
       request,
       metadata || {},
-      methodDescriptor_VacancyService_CreateVacancy);
+      methodDescriptor_CompanyService_CreateCompany);
 };
 
 
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.vacancy.UpdateVacancyRequest,
- *   !proto.vacancy.VacancyResponse>}
+ *   !proto.company.ChangeCompanyRequest,
+ *   !proto.company.GetCompanyResponse>}
  */
-const methodDescriptor_VacancyService_UpdateVacancy = new grpc.web.MethodDescriptor(
-  '/vacancy.VacancyService/UpdateVacancy',
+const methodDescriptor_CompanyService_ChangeCompany = new grpc.web.MethodDescriptor(
+  '/company.CompanyService/ChangeCompany',
   grpc.web.MethodType.UNARY,
-  proto.vacancy.UpdateVacancyRequest,
-  proto.vacancy.VacancyResponse,
+  proto.company.ChangeCompanyRequest,
+  company_pb.GetCompanyResponse,
   /**
-   * @param {!proto.vacancy.UpdateVacancyRequest} request
+   * @param {!proto.company.ChangeCompanyRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.vacancy.VacancyResponse.deserializeBinary
+  company_pb.GetCompanyResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.vacancy.UpdateVacancyRequest} request The
+ * @param {!proto.company.ChangeCompanyRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.vacancy.VacancyResponse)}
+ * @param {function(?grpc.web.RpcError, ?proto.company.GetCompanyResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.vacancy.VacancyResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.company.GetCompanyResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.vacancy.VacancyServiceClient.prototype.updateVacancy =
+proto.company.CompanyServiceClient.prototype.changeCompany =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/vacancy.VacancyService/UpdateVacancy',
+      '/company.CompanyService/ChangeCompany',
       request,
       metadata || {},
-      methodDescriptor_VacancyService_UpdateVacancy,
+      methodDescriptor_CompanyService_ChangeCompany,
       callback);
 };
 
 
 /**
- * @param {!proto.vacancy.UpdateVacancyRequest} request The
+ * @param {!proto.company.ChangeCompanyRequest} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.vacancy.VacancyResponse>}
+ * @return {!Promise<!proto.company.GetCompanyResponse>}
  *     Promise that resolves to the response
  */
-proto.vacancy.VacancyServicePromiseClient.prototype.updateVacancy =
+proto.company.CompanyServicePromiseClient.prototype.changeCompany =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/vacancy.VacancyService/UpdateVacancy',
+      '/company.CompanyService/ChangeCompany',
       request,
       metadata || {},
-      methodDescriptor_VacancyService_UpdateVacancy);
+      methodDescriptor_CompanyService_ChangeCompany);
 };
 
 
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.vacancy.GetVacancyByIdRequest,
- *   !proto.vacancy.VacancyResponse>}
+ *   !proto.company.GetCompanyRequest,
+ *   !proto.company.GetCompanyResponse>}
  */
-const methodDescriptor_VacancyService_GetVacancyById = new grpc.web.MethodDescriptor(
-  '/vacancy.VacancyService/GetVacancyById',
+const methodDescriptor_CompanyService_GetCompany = new grpc.web.MethodDescriptor(
+  '/company.CompanyService/GetCompany',
   grpc.web.MethodType.UNARY,
-  proto.vacancy.GetVacancyByIdRequest,
-  proto.vacancy.VacancyResponse,
+  proto.company.GetCompanyRequest,
+  company_pb.GetCompanyResponse,
   /**
-   * @param {!proto.vacancy.GetVacancyByIdRequest} request
+   * @param {!proto.company.GetCompanyRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.vacancy.VacancyResponse.deserializeBinary
+  company_pb.GetCompanyResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.vacancy.GetVacancyByIdRequest} request The
+ * @param {!proto.company.GetCompanyRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.vacancy.VacancyResponse)}
+ * @param {function(?grpc.web.RpcError, ?proto.company.GetCompanyResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.vacancy.VacancyResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.company.GetCompanyResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.vacancy.VacancyServiceClient.prototype.getVacancyById =
+proto.company.CompanyServiceClient.prototype.getCompany =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/vacancy.VacancyService/GetVacancyById',
+      '/company.CompanyService/GetCompany',
       request,
       metadata || {},
-      methodDescriptor_VacancyService_GetVacancyById,
+      methodDescriptor_CompanyService_GetCompany,
       callback);
 };
 
 
 /**
- * @param {!proto.vacancy.GetVacancyByIdRequest} request The
+ * @param {!proto.company.GetCompanyRequest} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.vacancy.VacancyResponse>}
+ * @return {!Promise<!proto.company.GetCompanyResponse>}
  *     Promise that resolves to the response
  */
-proto.vacancy.VacancyServicePromiseClient.prototype.getVacancyById =
+proto.company.CompanyServicePromiseClient.prototype.getCompany =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/vacancy.VacancyService/GetVacancyById',
+      '/company.CompanyService/GetCompany',
       request,
       metadata || {},
-      methodDescriptor_VacancyService_GetVacancyById);
+      methodDescriptor_CompanyService_GetCompany);
 };
 
 
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.vacancy.GetVacanciesByParamsRequest,
- *   !proto.vacancy.GetVacanciesResponse>}
+ *   !proto.company.Filters,
+ *   !proto.company.FilterResponse>}
  */
-const methodDescriptor_VacancyService_GetVacanciesByParams = new grpc.web.MethodDescriptor(
-  '/vacancy.VacancyService/GetVacanciesByParams',
+const methodDescriptor_CompanyService_GetCompaniesByFilters = new grpc.web.MethodDescriptor(
+  '/company.CompanyService/GetCompaniesByFilters',
   grpc.web.MethodType.UNARY,
-  proto.vacancy.GetVacanciesByParamsRequest,
-  proto.vacancy.GetVacanciesResponse,
+  proto.company.Filters,
+  proto.company.FilterResponse,
   /**
-   * @param {!proto.vacancy.GetVacanciesByParamsRequest} request
+   * @param {!proto.company.Filters} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.vacancy.GetVacanciesResponse.deserializeBinary
+  proto.company.FilterResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.vacancy.GetVacanciesByParamsRequest} request The
+ * @param {!proto.company.Filters} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.vacancy.GetVacanciesResponse)}
+ * @param {function(?grpc.web.RpcError, ?proto.company.FilterResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.vacancy.GetVacanciesResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.company.FilterResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.vacancy.VacancyServiceClient.prototype.getVacanciesByParams =
+proto.company.CompanyServiceClient.prototype.getCompaniesByFilters =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/vacancy.VacancyService/GetVacanciesByParams',
+      '/company.CompanyService/GetCompaniesByFilters',
       request,
       metadata || {},
-      methodDescriptor_VacancyService_GetVacanciesByParams,
+      methodDescriptor_CompanyService_GetCompaniesByFilters,
       callback);
 };
 
 
 /**
- * @param {!proto.vacancy.GetVacanciesByParamsRequest} request The
+ * @param {!proto.company.Filters} request The
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.vacancy.GetVacanciesResponse>}
+ * @return {!Promise<!proto.company.FilterResponse>}
  *     Promise that resolves to the response
  */
-proto.vacancy.VacancyServicePromiseClient.prototype.getVacanciesByParams =
+proto.company.CompanyServicePromiseClient.prototype.getCompaniesByFilters =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/vacancy.VacancyService/GetVacanciesByParams',
+      '/company.CompanyService/GetCompaniesByFilters',
       request,
       metadata || {},
-      methodDescriptor_VacancyService_GetVacanciesByParams);
+      methodDescriptor_CompanyService_GetCompaniesByFilters);
 };
 
 
-module.exports = proto.vacancy;
+module.exports = proto.company;
 

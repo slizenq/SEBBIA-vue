@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package company;
+option go_package = "./company";
+import "google/protobuf/timestamp.proto";
+
+message Photo{
+  bytes photo = 1;
+  string fileName = 2;
+}
+
+message Company{
+  string title = 1;
+  optional google.protobuf.Timestamp foundationDate = 2;
+  optional string aboutCompany = 3;
+  optional Photo photo = 4;
+  string typeCompany = 5;
+  string accountId = 6;
+  string location = 7;
+  repeated string contracts = 8;
+}
+
+message GetCompanyResponse{
+  string title = 1;
+  optional google.protobuf.Timestamp foundationDate = 2;
+  optional string aboutCompany = 3;
+  optional string photo = 4;
+  string typeCompany = 5;
+  string accountId = 6;
+  string location = 7;
+  repeated string contracts = 8;
+}

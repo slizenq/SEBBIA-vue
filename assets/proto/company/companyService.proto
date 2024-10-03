@@ -1,0 +1,42 @@
+syntax = "proto3";
+package company;
+option go_package = "./company";
+import "company.proto";
+import "google/protobuf/timestamp.proto";
+
+
+message ChangeCompanyRequest{
+  optional string title = 1;
+  optional google.protobuf.Timestamp foundationDate = 2;
+  optional company.Photo photo = 3;
+  optional string aboutCompany = 4;
+  optional string typeCompany = 5;
+  optional string location = 7;
+  repeated string contracts = 8;
+}
+
+message GetCompanyRequest{
+  optional string title = 1;
+  optional string aboutCompany = 3;
+  optional string typeCompany = 4;
+  optional string location = 6;
+  repeated string contracts = 7;
+
+}
+
+message Filters{
+  optional string typeCompany = 4;
+  optional string location = 6;
+  repeated string contracts = 7;
+}
+
+message FilterResponse{
+  repeated GetCompanyResponse company = 1;
+}
+
+service CompanyService{
+  rpc CreateCompany(Company) returns (GetCompanyResponse) {};
+  rpc ChangeCompany(ChangeCompanyRequest) returns (GetCompanyResponse){};
+  rpc GetCompany(GetCompanyRequest) returns (GetCompanyResponse){};
+  rpc GetCompaniesByFilters(Filters) returns (FilterResponse){};
+}
