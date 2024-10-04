@@ -14,3 +14,20 @@ npm install grpc-web google-protobuf
 
 
 || protoc --js_out=import_style=commonjs,binary:. --grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:. auth.proto
+
+protoc -I=assets\proto\test calculator.proto --grpc-web_out=import_style=commonjs,mode=grpcwebtext:assets\proto\test
+
+
+npm install path-browserify stream-browserify browserify-zlib os-browserify util process stream-http url
+
+
+protoc -I="." calculator.proto --js_out=import_style=commonjs:.
+
+protoc --js_out=import_style=commonjs,binary:. --grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:. account.proto authService.proto
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ts-proto
+
+
+npm install ts-proto
