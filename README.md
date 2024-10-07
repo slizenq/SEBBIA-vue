@@ -31,3 +31,17 @@ ts-proto
 
 
 npm install ts-proto
+
+
+protoc --plugin=protoc-gen-ts_proto=.\node_modules\.bin\protoc-gen-ts_proto.cmd --ts_proto_out=importSuffix=.js:. assets\proto\test\example.proto
+{
+    // https://nuxt.com/docs/guide/concepts/typescript
+    "extends": "./.nuxt/tsconfig.json",
+    "compilerOptions": {
+        "esModuleInterop": true,
+    }
+}
+import { grpc } from '@improbable-eng/grpc-web';
+npm install -g pnpm
+import { grpc } from '@improbable-eng/grpc-web';
+
