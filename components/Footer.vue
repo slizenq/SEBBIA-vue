@@ -5,10 +5,15 @@
                 <div class="footer__up">
                     <div class="wrap">
                         <div class="footer__up-left-part">
-                            <img src="@/assets/images/Footer/logoFooter.svg" alt="logo"/>
+                            <img
+                                src="@/assets/images/Footer/logoFooter.svg"
+                                alt="logo"
+                            />
                             <div class="footer__up-logo">
                                 <div class="logo-desc">
-                                    <p class="logo-desc-top">Звали <span class="accent">эй</span></p>
+                                    <p class="logo-desc-top">
+                                        Звали <span class="accent">эй</span>
+                                    </p>
                                     <p class="logo-desc-bottom">чара?</p>
                                 </div>
                                 <div class="logo-line">
@@ -20,41 +25,121 @@
                         </div>
                         <div class="footer__up-right-part">
                             <div class="right-part-element">
-                                <p class="part-element-title">Электронная почта</p>
-                                <a class="part-element-desc" href="mailto:yourhr@gmail.com">yourhr@gmail.com</a>
+                                <p class="part-element-title">
+                                    Электронная почта
+                                </p>
+                                <a
+                                    class="part-element-desc"
+                                    href="mailto:yourhr@gmail.com"
+                                    >yourhr@gmail.com</a
+                                >
                             </div>
                             <div class="right-part-element">
-                                <p class="part-element-title">Остались вопросы?</p>
-                                <el-button class="btn-call" type="primary" plain @click="taptap">
+                                <p class="part-element-title">
+                                    Остались вопросы?
+                                </p>
+                                <el-button
+                                    class="btn-call"
+                                    type="primary"
+                                    plain
+                                    @click="taptap"
+                                >
                                     <el-icon><Phone height="16px" /></el-icon>
                                     Позвонить
                                 </el-button>
-                                <el-dialog v-model="hamster" style="background-color: #1c1f24;" class="hamster-color"width="500px" top="1%">
+                                <el-dialog
+                                    v-model="hamster"
+                                    style="background-color: #1c1f24"
+                                    class="hamster-color"
+                                    width="500px"
+                                    top="1%"
+                                >
                                     <div class="hamster">
-                                        <p class="warn">СКОРО ЛИСТИНГ!!! УСПЕЙ ПОБОЛЬШЕ НАТАПАТЬ.<br> {{ timer }}</p>
+                                        <p class="warn">
+                                            СКОРО ЛИСТИНГ!!! УСПЕЙ ПОБОЛЬШЕ
+                                            НАТАПАТЬ.<br />
+                                            {{ timer }}
+                                        </p>
                                         <div class="hamster__header">
-                                            <div class="hamster__header-tap hamster__header-elem">Прибыли за тап:<br> +{{ tap }}</div>
-                                            <div class="hamster__header-up hamster__header-elem">Монет для апа:<br> {{ lvl }}</div>
-                                            <div class="hamster__header-coin hamster__header-elem">Прибыль в мин:<br> {{ n }}0</div>
+                                            <div
+                                                class="hamster__header-tap hamster__header-elem"
+                                            >
+                                                Прибыли за тап:<br />
+                                                +{{ tap }}
+                                            </div>
+                                            <div
+                                                class="hamster__header-up hamster__header-elem"
+                                            >
+                                                Монет для апа:<br />
+                                                {{ lvl }}
+                                            </div>
+                                            <div
+                                                class="hamster__header-coin hamster__header-elem"
+                                            >
+                                                Прибыль в мин:<br />
+                                                {{ n }}0
+                                            </div>
                                         </div>
                                         <div class="current__money">
-                                            <img src="./../moneta.png" width="70px" alt="">
-                                            <p class="mymoney" style="color: #fff;">{{ currentTap }}</p>
+                                            <img
+                                                src="./../moneta.png"
+                                                width="70px"
+                                                alt=""
+                                            />
+                                            <p
+                                                class="mymoney"
+                                                style="color: #fff"
+                                            >
+                                                {{ currentTap }}
+                                            </p>
                                         </div>
-                                        <el-progress style="margin-left: 20px;" :percentage="Math.round(progress)" :format="format" />
-                                        <div class="hamster_rod" @click="upMoney">
-                                            <img src="./../hamster.jpg" class="hamster_per">
+                                        <el-progress
+                                            style="margin-left: 20px"
+                                            :percentage="Math.round(progress)"
+                                            :format="format"
+                                        />
+                                        <div
+                                            class="hamster_rod"
+                                            @click="upMoney"
+                                        >
+                                            <img
+                                                src="./../hamster.jpg"
+                                                class="hamster_per"
+                                            />
                                         </div>
-                                        <p style="margin-top: 10px;color: #fff; font-weight: 700">MyHealth: {{ mybatary }}/{{ batary }}</p>
+                                        <p
+                                            style="
+                                                margin-top: 10px;
+                                                color: #fff;
+                                                font-weight: 700;
+                                            "
+                                        >
+                                            MyHealth: {{ mybatary }}/{{
+                                                batary
+                                            }}
+                                        </p>
                                     </div>
                                 </el-dialog>
                             </div>
                         </div>
                     </div>
                     <div class="footer__up-line">
-                        <a class="footer-up-security">Политика конфиденциальности</a>
-                        <span style=" display: inline-block; font-size: 24px; color: #79bbff;  border-radius: 6px;">•</span>
-                        <a class="footer-up-security">Защита персональных данных</a>
+                        <a class="footer-up-security"
+                            >Политика конфиденциальности</a
+                        >
+                        <span
+                            style="
+                                display: block;
+                                font-size: 24px;
+                                color: #79bbff;
+                                border-radius: 6px;
+                            "
+                            class="span-decor"
+                            >•</span
+                        >
+                        <a class="footer-up-security"
+                            >Защита персональных данных</a
+                        >
                     </div>
                 </div>
                 <p class="footer-down">©2024 Team Practice</p>
@@ -66,54 +151,54 @@
 <script setup>
 import { ElButton, ElIcon, ElDialog, ElProgress } from "element-plus";
 import { Phone } from "@element-plus/icons-vue";
-const hamster = ref(null)
-const tap = ref(2)
-const currentTap = ref(0)
-const lvl = ref(500)
-const batary = ref(1500)
-const mybatary = ref(batary.value)
+const hamster = ref(null);
+const tap = ref(2);
+const currentTap = ref(0);
+const lvl = ref(500);
+const batary = ref(1500);
+const mybatary = ref(batary.value);
 
-
-const hour = ref(23)
-const minute = ref(59)
-const second = ref(59)
+const hour = ref(23);
+const minute = ref(59);
+const second = ref(59);
 
 const timer = computed(() => {
-    return `${hour.value}:${minute.value}:${second.value}`
-})
-
-const letsgo = function() {
-    if (second.value == 0) {
-        second.value = 59
-        minute.value = minute.value - 1
-    } else if (minute.value == 0) {
-        minute.value = 59
-        hour.value = hour.value - 1
-    }
-    second.value = second.value - 1
-    if (mybatary.value < batary.value) {
-        mybatary.value = mybatary.value + 4
-    }
-}
-onMounted(() => {
-    let timerId = setInterval(() => letsgo(), 1000); 
-    setTimeout(() => { clearInterval(timerId); alert('stop'); }, 9999999);
+    return `${hour.value}:${minute.value}:${second.value}`;
 });
 
-const progress = ref(0)
-const upMoney = function() {
-    currentTap.value = currentTap.value + tap.value
-    mybatary.value = mybatary.value - tap.value
-    progress.value = 100 * currentTap.value / lvl.value
-    console.log(currentTap.value + ' ' + lvl.value);
-    console.log(progress.value);
-    
-}
-const taptap = function() {
-    hamster.value = true
-}
-const format = (percentage) => (percentage === 100 ? "Full" : `${percentage}%`);
+const letsgo = function () {
+    if (second.value == 0) {
+        second.value = 59;
+        minute.value = minute.value - 1;
+    } else if (minute.value == 0) {
+        minute.value = 59;
+        hour.value = hour.value - 1;
+    }
+    second.value = second.value - 1;
+    if (mybatary.value < batary.value) {
+        mybatary.value = mybatary.value + 4;
+    }
+};
+onMounted(() => {
+    let timerId = setInterval(() => letsgo(), 1000);
+    setTimeout(() => {
+        clearInterval(timerId);
+        alert("stop");
+    }, 9999999);
+});
 
+const progress = ref(0);
+const upMoney = function () {
+    currentTap.value = currentTap.value + tap.value;
+    mybatary.value = mybatary.value - tap.value;
+    progress.value = (100 * currentTap.value) / lvl.value;
+    console.log(currentTap.value + " " + lvl.value);
+    console.log(progress.value);
+};
+const taptap = function () {
+    hamster.value = true;
+};
+const format = (percentage) => (percentage === 100 ? "Full" : `${percentage}%`);
 </script>
 
 <style scoped>
@@ -128,7 +213,7 @@ const format = (percentage) => (percentage === 100 ? "Full" : `${percentage}%`);
     font-weight: 700;
     font-size: 24px;
     text-align: center;
-    color: red
+    color: red;
 }
 .hamster_per {
     width: 80%;
@@ -141,7 +226,7 @@ const format = (percentage) => (percentage === 100 ? "Full" : `${percentage}%`);
     display: flex;
     justify-content: center;
     margin-top: 10px;
-    user-select: none
+    user-select: none;
 }
 .mymoney {
     font-size: 35px;
@@ -171,7 +256,7 @@ const format = (percentage) => (percentage === 100 ? "Full" : `${percentage}%`);
     background-color: #2a2c30;
 }
 .hamster_rod {
-  position: relative;
+    position: relative;
 }
 
 .hamster_per {
@@ -182,37 +267,22 @@ const format = (percentage) => (percentage === 100 ? "Full" : `${percentage}%`);
     transform: scale(0.9);
 }
 .warn {
-  animation: text 2s linear infinite;
+    animation: text 2s linear infinite;
 }
 .hamster {
     background-color: #1c1f24;
 }
 @keyframes text {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .footer__up-line {
     display: flex;
@@ -220,6 +290,17 @@ const format = (percentage) => (percentage === 100 ? "Full" : `${percentage}%`);
     align-items: center;
     color: #409eff;
     column-gap: 10px;
+}
+
+@media (max-width: 500px) {
+    .footer__up-line {
+        flex-direction: column;
+        row-gap: 10px;
+    }
+    .span-decor {
+        display: none;
+        opacity: 0;
+    }
 }
 
 .footer__up-right-part {
@@ -269,6 +350,14 @@ const format = (percentage) => (percentage === 100 ? "Full" : `${percentage}%`);
     justify-content: space-between;
     align-items: center;
 }
+
+@media (max-width: 500px) {
+    .wrap {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+}
 .current-page {
     font-weight: 700;
     padding: 7px 0 7px 0;
@@ -281,6 +370,11 @@ const format = (percentage) => (percentage === 100 ? "Full" : `${percentage}%`);
 .footer__up {
     border-bottom: 3px solid rgba(64, 158, 255, 0.1);
 }
+@media (max-width: 500px) {
+    .footer-down {
+        text-align: center;
+    }
+}
 .footer__up-left-part {
     display: flex;
     padding: 60px 0 20px 0;
@@ -289,6 +383,12 @@ const format = (percentage) => (percentage === 100 ? "Full" : `${percentage}%`);
 .footer-up-security {
     color: #409eff;
     padding: 30px 0;
+}
+
+@media (max-width: 500px) {
+    .footer-up-security {
+        padding: 15px 0;
+    }
 }
 .footer-down {
     color: #303133;

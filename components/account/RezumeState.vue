@@ -68,7 +68,11 @@
                 </transition>
             </div>
             <div v-if="storage.rezumes.length > 4" class="show-more-container">
-                <el-button type="text" @click="showMoreRezumes"
+                <el-button
+                    type="primary"
+                    plain
+                    class="show-more"
+                    @click="showMoreRezumes"
                     >Показать больше</el-button
                 >
             </div>
