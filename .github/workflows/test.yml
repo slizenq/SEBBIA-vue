@@ -1,0 +1,48 @@
+name: Test start app
+
+on: 
+  push:
+    branches:
+      ["*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+        - name: Checkout Repo
+          uses: actions/checkout@v4
+
+        - name: Create Node Environment
+          uses: actions/setup-node@v4
+          with: 
+            node-version: 16.x
+
+        - name: Clean npm cache
+          run: npm cache clean --force
+
+        - name: Update esbuild
+          run: npm install esbuild@0.23.1 --save-dev
+
+        - name: Install Packages and Build Application
+          run: |
+            npm i
+
+        - name: Test Application Start
+          run: |
+            npm run dev &
+            sleep 10
+            curl -f http://localhost:3000 || (echo "App did not start" && exit 1)
+
+        # - name: Setup Pages 
+        #   id: pages
+        #   uses: actions/configure-pages@v3
+
+        # - name: Build with Jekyll  # Builds the application with Jekyll.
+        #   uses: actions/jekyll-build-pages@v1
+        #   with:
+        #     source: ./dist/
+        #     destination: ./_site
+
+        # - name: Upload artifact  # Uploads the build artifact.
+        #   uses: actions/upload-pages-artifact@v2
