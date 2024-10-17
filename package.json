@@ -11,6 +11,7 @@
         "gen:proto": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./assets/proto --ts_proto_opt=outputServices=grpc-js --ts_proto_opt=env=node,forceLong=long ./assets/proto/cloudevent.proto"
     },
     "dependencies": {
+        "@bufbuild/protobuf": "^2.2.0",
         "@grpc/grpc-js": "^1.12.2",
         "@grpc/proto-loader": "^0.7.13",
         "@improbable-eng/grpc-web": "^0.15.0",
@@ -50,6 +51,7 @@
         "vue": "^3.5.11",
         "vue-router": "^4.4.5"
     },
+    "proxy": "http://10.10.4.104/",
     "devDependencies": {
         "@sidebase/nuxt-auth": "^0.9.3",
         "@types/js-base64": "^3.3.1",
