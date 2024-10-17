@@ -5,7 +5,7 @@
                 <div class="header__left-part">
                     <p class="card__title">{{ title }}</p>
                     <img
-                        src="/_nuxt/assets/images/createResume/check.svg"
+                        src="./../../assets/images/createResume/check.svg " 
                         alt="status"
                     />
                 </div>
