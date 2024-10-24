@@ -1,16 +1,22 @@
- <template>
-    <el-button type="primary" :icon="Filter" plain @click="dad">Фильтр</el-button>
+<template>
+    <el-button type="primary" :icon="Filter" plain @click="signup">Фильтр</el-button>
 </template>
 
 <script setup>
 import { ElButton } from "element-plus";
 import { Filter } from "@element-plus/icons-vue";
+import axios from "axios";
 
-import "./../../../../assets/proto/vacancy/client"
-// import "./../../../../assets/proto/auth/client"
-
-const dad = function () {
-    console.log('piece of shit');
-}
-
+const signup = async () => {
+  try {
+    const response = await axios.post('http://localhost:3000/signup', {
+      email: "viktor.rak05q@gmail.com",
+      password: "ShaddowFixend123!",
+      isCompany: false
+    });
+    console.log("Response:", response.data);
+  } catch (error) {
+    console.error("Error during signUp:", error);
+  }
+};
 </script>
