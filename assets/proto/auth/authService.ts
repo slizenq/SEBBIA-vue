@@ -66,6 +66,7 @@ export interface SendOTPRequest {
 }
 
 export interface TokensWithUserInfo {
+  [x: string]: any;
   accessToken: AccessToken | undefined;
   refreshToken: RefreshToken | undefined;
   account: AccountInfo | undefined;
@@ -1117,5 +1118,5 @@ export interface MessageFns<T> {
   create<I extends Exact<DeepPartial<T>, I>>(base?: I): T;
   fromPartial<I extends Exact<DeepPartial<T>, I>>(object: I): T;
 }
-export { Empty };
+export { Empty, Rpc };
 
