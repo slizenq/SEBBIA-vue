@@ -5,70 +5,12 @@
 <script setup>
 import { ElButton } from "element-plus";
 import { Filter } from "@element-plus/icons-vue";
-// import { example } from "~/assets/proto/test/ba";
+
+import "./../../../../assets/proto/vacancy/client"
+// import "./../../../../assets/proto/auth/client"
+
 const dad = function () {
-    // example()
+    console.log('piece of shit');
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-console.log('adsd');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </script>
