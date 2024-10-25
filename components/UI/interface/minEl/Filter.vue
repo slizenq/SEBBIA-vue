@@ -10,7 +10,7 @@ import axios from "axios";
 const signup = async () => {
   try {
     const response = await axios.post('http://localhost:3000/signup', {
-      email: "viktor.rak05q@gmail.com",
+      email: "viktor.rak101@gmail.com",
       password: "ShaddowFixend123!",
       isCompany: false
     });
