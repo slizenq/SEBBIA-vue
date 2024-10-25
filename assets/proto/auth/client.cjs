@@ -19,6 +19,7 @@ const client = new proto.SSOServerService("92.53.105.243:81", grpc.credentials.c
 
 app.use(express.json());
 
+// Register
 async function signUp(accountData) {
 	return new Promise((resolve, reject) => {
 		client.SignUp(accountData, (err, response) => {
@@ -32,14 +33,12 @@ async function signUp(accountData) {
 		});
 	});
 }
-
 app.post("/signup", async (req, res) => {
 	const accountData = {
 		email: { email: req.body.email },
 		password: { password: req.body.password },
 		isCompany: req.body.isCompany,
 	};
-
 	try {
 		const response = await signUp(accountData);
 		res.json(response);
@@ -47,7 +46,35 @@ app.post("/signup", async (req, res) => {
 		res.status(500).json({ error: err.message });
 	}
 });
+// Login
+async function Login(loginData) {
+	return new Promise((resolve, reject) => {
+		client.Login(loginData, (err, response) => {
+		if (err) {
+			console.error("gRPC error:", err);
+			reject(err);
+		} else {
+			console.log("Response from gRPC:", response);
+			resolve(response);
+		}
+		});
+	});
+}
 
+app.post("/login", async (req, res) => {
+	const loginData = {
+		email: {email: req.body.email},
+		password: {password: req.body.password},
+	};
+	console.log(loginData);
+	
+	try {
+		const response = await Login(loginData);
+		res.json(response);
+	} catch (err) {
+		res.status(500).json({ error: err.message });
+	}
+});
 app.listen(port, () => {
   	console.log(`Server listening on http://localhost:${port}`);
 });
