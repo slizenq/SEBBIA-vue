@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const IP = "http://192.168.0.15:8000";
+export const IP = "http://localhost:3000";
 
 export const register = async function (email, password, is_company) {
     const postData = {
@@ -9,40 +9,41 @@ export const register = async function (email, password, is_company) {
         is_company: is_company,
     };
     try {
-        const response = await axios.post(`${IP}/register`, postData);
-
+        const response = await axios.post(`${IP}/signup`, postData);
         if (response.status === 200) {
+            console.log(response.data)
             return true;
         }
+
     } catch (error) {
         console.error(error);
         return false;
     }
 };
-export const requestAccessToken = async function (username, password) {
+export const requestAccessToken = async function (email, password) {
     const postData = {
-        username: username,
+        email: email,
         password: password,
     };
+    console.log(postData);
+
     try {
-        const response = await axios.post(`${IP}/token`, postData, {
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
-        });
-        const accessToken = response.data.access_token;
-        const user = response.data.user;
+        const response = await axios.post(`${IP}/login`, postData);
+        console.log("Response from server:", response.data);
+
+        const accessToken = response.data.accessToken.accessToken.token;
+        const user = response.data.account;
+        
         localStorage.setItem("access_token", accessToken);
         localStorage.setItem("user", JSON.stringify(user));
 
-        response.data.user.is_company == false
-            ? navigateTo("/account/student")
-            : navigateTo("/account/company");
+        user.isCompany ? navigateTo("/account/company") : navigateTo("/account/student");
+
         if (response.status === 200) {
             return true;
         }
     } catch (error) {
-        console.error(error);
+        console.error("Error:", error);
         return false;
     }
 };
