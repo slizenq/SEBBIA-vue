@@ -1,13 +1,16 @@
+// Закрыто
 import axios from "axios";
 
 export const IP = "http://localhost:3000";
 
-export const register = async function (email, password, is_company) {
+export const register = async function (email, password, isCompany) {
     const postData = {
         email: email,
         password: password,
-        is_company: is_company,
+        isCompany: isCompany,
     };
+    console.log(postData);
+    
     try {
         const response = await axios.post(`${IP}/signup`, postData);
         if (response.status === 200) {
@@ -25,7 +28,6 @@ export const requestAccessToken = async function (email, password) {
         email: email,
         password: password,
     };
-    console.log(postData);
 
     try {
         const response = await axios.post(`${IP}/login`, postData);

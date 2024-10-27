@@ -2,7 +2,7 @@ const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 const express = require("express");
 
-const PROTO_PATH = "./authService.proto";
+const PROTO_PATH = "assets/proto/auth/authService.proto";
 
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   	keepCase: true,
