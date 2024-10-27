@@ -9,7 +9,6 @@
             </div>
             <div>
                 <RezumeUser />
-                <!-- @profileUpdated="updateProfileData" :isCompany="isCompany" :companyData="companyData" :studentData="studentData" :titlePage="titlePage" -->
             </div>
         </div>
     </div>
@@ -24,7 +23,6 @@ import axios from "axios";
 import { IP } from "~/components/UI/auth/Authentication";
 import BreadCrumb from "~/components/UI/interface/bigEl/BreadCrumb.vue";
 import Progress from "~/components/UI/interface/bigEl/Progress.vue";
-import { fa } from "element-plus/es/locale/index.mjs";
 const isAuthorized = ref(false);
 onMounted(() => {
     const token = localStorage.getItem("access_token");
