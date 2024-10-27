@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "./pb";
+
+message ApplicationVacancy {
+    string Id = 1;
+    string resumeId = 2;
+    string vacancyId = 3;
+    ApplicationVacancyStatus status = 4;
+}
+
+message CreateApplicationVacancyReq{
+    string resumeId = 1;
+    string vacancyId = 2;
+}
+
+message CreateApplicationVacancyRes {
+    string applicationVacancyId = 1;
+}
+
+enum ApplicationVacancyStatus {
+    UNREVIEWED = 0;
+    REVIEWED = 1;
+    ACCEPTED = 2;
+    REJECTED = 3;
+}
+
+// message UpdateApplicationVacancyStatusReq {
+//     string applicationVacancyId = 1;
+//     ApplicationVacancyStatus status = 2;
+// }
+
+message ReviewApplicationVacancyReq {
+    string applicationVacancyId = 1;
+}
+
+message AcceptApplicationVacancyReq {
+    string applicationVacancyId = 1;
+}
+
+message RejectApplicationVacancyReq {
+    string applicationVacancyId = 1;
+}
+
+message GetApplicationsVacanciesReq {
+}
+
+message GetApplicationVacancyByIdReq {
+    string applicationVacancyId = 1;
+}
+
+message GetApplicationVacancyByIdRes {
+    ApplicationVacancy applicationVacancy = 1;
+}
+
+message GetApplicationsVacancyByVacancyIdReq {
+    string vacancyId = 1;
+}
+
+message GetApplicationsVacancyByVacancyIdRes {
+    repeated ApplicationVacancy applicationsVacancy = 1;
+}
+
+service ApplicationVacancyService {
+    rpc CreateApplicationVacancy(CreateApplicationVacancyReq) returns (CreateApplicationVacancyRes){};
+    rpc ReviewApplicationVacancy(ReviewApplicationVacancyReq) returns (google.protobuf.Empty){};
+    rpc AcceptApplicationVacancy(AcceptApplicationVacancyReq) returns (google.protobuf.Empty){};
+    rpc RejectApplicationVacancy(RejectApplicationVacancyReq) returns (google.protobuf.Empty){};
+    rpc GetApplicationVacancyById(GetApplicationVacancyByIdReq) returns (GetApplicationVacancyByIdRes){};
+    rpc GetApplicationsVacancyByVacancyId(GetApplicationsVacancyByVacancyIdReq) returns (GetApplicationsVacancyByVacancyIdRes){};
+}
