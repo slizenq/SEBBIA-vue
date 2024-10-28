@@ -28,9 +28,14 @@ export const requestAccessToken = async function (email, password) {
         email: email,
         password: password,
     };
+    const resumeId = "test"; 
+    const postData1 = {
+        resumeId: resumeId
+    };
 
     try {
         const response = await axios.post(`${IP}/login`, postData);
+        // const resumeResponse = await axios.post(`${IP}/getResumeById`, postData1);
         console.log("Response from server:", response.data);
 
         const accessToken = response.data.accessToken.accessToken.token;
