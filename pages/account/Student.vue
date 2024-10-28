@@ -32,47 +32,22 @@ onMounted(() => {
         isAuthorized.value = true;
     }
 });
-let checkResumeId = async () => {
-    try {
-        let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
-        const getResume = await axios.get(
-            `${IP}/resume/users/${checkUUid}/resumes`
-        );
-        let data = {
-            resume_id: getResume.data[0].resume_id,
-            progress: 0,
-        };
+// Заполняемость прогресса в зависимости от наличия профиля/резюме
+// let checkResumeId = async () => {
+//     try {
+//         let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
+//         const getResume = await axios.get(`${IP}/resume/users/${checkUUid}/resumes`);
+//         let data = { resume_id: getResume.data[0].resume_id, progress: 0 };
 
-        if (
-            getResume.data[0].first_name &&
-            getResume.data[0].last_name &&
-            getResume.data[0].middle_name &&
-            getResume.data[0].education &&
-            getResume.data[0].city
-        ) {
-            data.progress = 25;
-        }
+//         if ( getResume.data[0].first_name && getResume.data[0].last_name && getResume.data[0].middle_name && getResume.data[0].education && getResume.data[0].city) { data.progress = 25 }
 
-        if (
-            data.progress === 25 &&
-            getResume.data[0].about_me &&
-            getResume.data[0].about_projects &&
-            getResume.data[0].phone_number &&
-            getResume.data[0].portfolio &&
-            getResume.data[0].skills &&
-            getResume.data[0].directions
-        ) {
-            data.progress = 75;
-        }
-        localStorage.setItem("resume_id", JSON.stringify(data));
-    } catch (error) {
-        console.error(
-            "Ошибка при выполнении GET запроса:",
-            error.response ? error.response.data : error.message
-        );
-    }
-};
-checkResumeId();
+//         if ( data.progress === 25 && getResume.data[0].about_me && getResume.data[0].about_projects && getResume.data[0].phone_number && getResume.data[0].portfolio && getResume.data[0].skills && getResume.data[0].directions) { data.progress = 75 }
+//         localStorage.setItem("resume_id", JSON.stringify(data));
+//     } catch (error) {
+//         console.error( "Ошибка при выполнении GET запроса:", error.response ? error.response.data : error.message);
+//     }
+// };
+// checkResumeId();
 
 const breadcrumbItems = ref([
     { path: "x/xx/xxx", label: "Профиль" },

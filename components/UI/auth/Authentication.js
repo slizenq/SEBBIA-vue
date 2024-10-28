@@ -1,8 +1,7 @@
-// Закрыто
 import axios from "axios";
 
 export const IP = "http://localhost:3000";
-
+// Регистрация 
 export const register = async function (email, password, isCompany) {
     const postData = {
         email: email,
@@ -23,6 +22,7 @@ export const register = async function (email, password, isCompany) {
         return false;
     }
 };
+// Авторизация
 export const requestAccessToken = async function (email, password) {
     const postData = {
         email: email,
