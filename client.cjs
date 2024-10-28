@@ -2,20 +2,33 @@ const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 const express = require("express");
 
-const PROTO_PATH = "assets/proto/auth/authService.proto";
+const PROTO_PATH = ["assets/proto/auth/authService.proto", "assets/proto/student/student.proto"];
 
-const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
+const Auth = protoLoader.loadSync(PROTO_PATH, {
   	keepCase: true,
   	longs: String,
   	enums: String,
   	defaults: true,
   	oneofs: true,
 });
-
-const proto = grpc.loadPackageDefinition(packageDefinition).pb;
+const Student = protoLoader.loadSync(PROTO_PATH, {
+	keepCase: true,
+	longs: String,
+	enums: String,
+	defaults: true,
+	oneofs: true,
+});
+// auth - SSOServerService
+// student - StudentService
+// company - CompanyService
+// resume - ResumeService
+// vacancy - VacancyService
+// applicationVacancy - ApplicationVacancyService
+const auth = grpc.loadPackageDefinition(Auth).pb;
+const student = grpc.loadPackageDefinition(Student).student;
 const app = express();
 const port = 3000;
-const client = new proto.SSOServerService("92.53.105.243:81", grpc.credentials.createInsecure());
+const client = new auth.SSOServerService("92.53.105.243:81", grpc.credentials.createInsecure());
 
 app.use(express.json());
 
@@ -60,7 +73,6 @@ async function Login(loginData) {
 		});
 	});
 }
-
 app.post("/login", async (req, res) => {
 	const loginData = {
 		email: {email: req.body.email},
@@ -75,6 +87,35 @@ app.post("/login", async (req, res) => {
 		res.status(500).json({ error: err.message });
 	}
 });
+// Получение аккаунта по токену
+async function GetStudentByToken(accountData) {
+	return new Promise((resolve, reject) => {
+		client.GetStudentByToken(accountData, (err, response) => {
+		if (err) {
+			console.error("gRPC error:", err);
+			reject(err);
+		} else {
+			console.log("Response from gRPC:", response);
+			resolve(response);
+		}
+		});
+	});
+}
+// GetStudentByToken()
+app.post("/GetStudentByToken", async (req, res) => {
+	const accountData = {
+		email: { email: req.body.email },
+		password: { password: req.body.password },
+		isCompany: req.body.isCompany,
+	};
+	try {
+		const response = await GetStudentByToken(accountData);
+		res.json(response);
+	} catch (err) {
+		res.status(500).json({ error: err.message });
+	}
+});
+
 app.listen(port, () => {
   	console.log(`Server listening on http://localhost:${port}`);
 });

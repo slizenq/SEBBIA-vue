@@ -17,3 +17,9 @@ browserify-zlib
 cloudevents
 dotenv
 glob
+
+// grpc - component (8)
+
+Authentication.js - Регистрация, авторизация success (made)
+Student.vue - Шкала прогресса (Not done)
+

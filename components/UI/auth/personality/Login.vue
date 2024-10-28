@@ -13,6 +13,11 @@
 
 <script setup lang="ts">
 import { ElInput } from "element-plus";
+import { toRefs } from "vue";
+const props = defineProps({
+    email: String
+})
+const { email } = toRefs(props);
 </script>
 
 <style scoped>
