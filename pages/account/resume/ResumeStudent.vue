@@ -206,12 +206,15 @@ const sendForm = async function () {
             portfolio: "http://example.com",
         };
         console.log("oke");
-        let checkAccount = JSON.parse( localStorage.getItem("resume_id") )?.resume_id;
+        let checkAccount = JSON.parse(
+            localStorage.getItem("resume_id")
+        )?.resume_id;
         if (checkAccount) {
             console.log("okeoke");
             let resumeData = studentEntity;
             try {
-                const getResumeResponse = await axios.get(`${IP}/resume/resumes/${checkAccount}`,
+                const getResumeResponse = await axios.get(
+                    `${IP}/resume/resumes/${checkAccount}`,
                     { headers: headers }
                 );
                 console.log("get запрос успешен:", getResumeResponse);
@@ -242,7 +245,8 @@ const sendForm = async function () {
                 portfolio: "http://example.com",
             };
             try {
-                const postResponse = await axios.put(`${IP}/resume/resumes/${checkAccount}`,
+                const postResponse = await axios.put(
+                    `${IP}/resume/resumes/${checkAccount}`,
                     postData,
                     { headers: headers }
                 );
@@ -255,7 +259,11 @@ const sendForm = async function () {
             }
         } else {
             console.log("okeokeoke");
-            const response = await axios.post(`${IP}/resume/resumes/`, studentEntity, { headers: headers });
+            const response = await axios.post(
+                `${IP}/resume/resumes/`,
+                studentEntity,
+                { headers: headers }
+            );
             let data = {
                 resume_id: response.data?.resume_id,
                 progress: 0,
