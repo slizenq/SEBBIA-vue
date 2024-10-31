@@ -106,13 +106,11 @@ h1 {
   background: #FDFAF5;
   box-shadow: -2px 2px 2px 0px rgba(0, 0, 0, 0.1);
 }
-
 .screen-reader-text {
     position: absolute;
     top: -9999em;
     left: -9999em;
 }
-    
 @keyframes bgshadow {
   0% {
     box-shadow: inset -160px 160px 0px 5px rgba(0, 0, 0, 0.4);

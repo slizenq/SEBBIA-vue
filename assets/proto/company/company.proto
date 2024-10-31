@@ -21,12 +21,13 @@ message Company{
 }
 
 message GetCompanyResponse{
-  string title = 1;
+  optional string title = 1;
   optional google.protobuf.Timestamp foundationDate = 2;
   optional string aboutCompany = 3;
   optional string photo = 4;
-  string typeCompany = 5;
-  string accountId = 6;
-  string location = 7;
+  optional string typeCompany = 5;
+  optional string accountId = 6;
+  optional string location = 7;
   repeated string contracts = 8;
+  optional string id = 9;
 }

@@ -19,7 +19,7 @@ message Student {
   string Education  = 6;
   string Location  = 7;
   string PhotoURL = 8;
-  bytes Photo = 9;
+  string Photo = 9;
   string AccountID = 10;
 }
 

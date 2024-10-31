@@ -165,13 +165,9 @@ const editVacancy = function () {
 };
 const dialogContent = ref({});
 const openDialog = async () => {
-    const response = await axios.get(
-        `${IP}/vacancy/vacancies/${localStorage.getItem("vacancy")}`
-    );
+    const response = await axios.get(`${IP}/vacancy/vacancies/${localStorage.getItem("vacancy")}`);
     let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
-    const getResume = await axios.get(
-        `${IP}/resume/users/${checkUUid}/resumes`
-    );
+    const getResume = await axios.get(`${IP}/resume/users/${checkUUid}/resumes`);
     console.log(getResume.data[0]);
     console.log(response.data);
     if (
