@@ -39,9 +39,9 @@
 <script setup>
 import { ElButton, ElDialog } from "element-plus";
 import EditResumeStudent from "../EditAccount/student/EditResumeStudent.vue";
-
 import axios from "axios";
 import { IP } from "../UI/auth/Authentication";
+
 const rezumeTitle = ["Резюме", "Вакансия"];
 const createRezume = ["Создать резюме", "Добавить информацию"];
 const dialogResume = ref(false);
@@ -53,22 +53,14 @@ const updateDialogg = (value) => {
 };
 let updateResume = async () => {
     try {
-        let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
-        const getResume = await axios.get(`${IP}/resume/users/${checkUUid}/resumes`
-        );
+        let checkUUid = localStorage.getItem("access_token");
+        const getResume = await axios.post(`${IP}/getStudentByToken`, {checkUUid});
         showResume.value = getResume.data[0];
-        if (
-            getResume.data[0].first_name &&
-            getResume.data[0].middle_name &&
-            getResume.data[0].last_name
-        ) {
+        if ( getResume.data[0].first_name && getResume.data[0].middle_name && getResume.data[0].last_name ) {
             showEvent.value = false;
         }
     } catch (error) {
-        console.error(
-            "Ошибка при выполнении GET запроса:",
-            error.response ? error.response.data : error.message
-        );
+        console.error("Ошибка при выполнении GET запроса:", error.response ? error.response.data : error.message);
     }
 };
 updateResume();

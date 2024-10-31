@@ -121,14 +121,8 @@ isCompany.value = true;
 const emit = defineEmits(['resumeUpdated']);
 const searchResumes = async () => {
     const user_id = JSON.parse(localStorage.getItem("user"))?.uuid;
-    const response = await axios.get(
-        `${IP}/resume/users/${user_id || 0}/resumes`,
-        {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }
-    );
+    const response = await axios.get(`${IP}/resume/users/${user_id || 0}/resumes`,
+        { headers: { "Content-Type": "application/json"} });
     console.log(response.data[0]);
     emit('resumeUpdate', {
         first_name: response.data[0].first_name,
@@ -138,20 +132,13 @@ const searchResumes = async () => {
     const user = JSON.parse(localStorage.getItem("user")).is_company;
     isCompany.value = user;
     if (isCompany.value) {
-        companyData.value.form.FormContent =
-            response.data[0]?.test || "Не заполнено";
-        companyData.value.city.StudentCity =
-            response.data[0]?.test || "Не заполнено";
-        titlePage.value.company.companyTitle =
-            response.data[0]?.test || "Наименование";
+        companyData.value.form.FormContent = response.data[0]?.test || "Не заполнено";
+        companyData.value.city.StudentCity = response.data[0]?.test || "Не заполнено";
+        titlePage.value.company.companyTitle = response.data[0]?.test || "Наименование";
     } else {
-        studentData.value.age.StudentAge =
-            response.data[0]?.born_date || "Не заполнено";
-        studentData.value.city.StudentCity =
-            response.data[0]?.city || "Не заполнено";
-        titlePage.value.student.studentTitle =
-            response.data[0]?.last_name + " " + response.data[0]?.first_name ||
-            "Фамилия Имя";
+        studentData.value.age.StudentAge = response.data[0]?.born_date || "Не заполнено";
+        studentData.value.city.StudentCity = response.data[0]?.city || "Не заполнено";
+        titlePage.value.student.studentTitle = response.data[0]?.last_name + " " + response.data[0]?.first_name || "Фамилия Имя";
     }
     return response.data;
 };

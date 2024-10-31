@@ -2,11 +2,11 @@
 // versions:
 //   protoc-gen-ts_proto  v2.2.5
 //   protoc               v5.28.2
-// source: assets/proto/company/company.proto
+// source: company.proto
 
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-import { Timestamp } from "../../../google/protobuf/timestamp.js";
+import { Timestamp } from "./../../../google/protobuf/timestamp.js";
 
 export const protobufPackage = "company";
 
@@ -27,14 +27,15 @@ export interface Company {
 }
 
 export interface GetCompanyResponse {
-  title: string;
+  title?: string | undefined;
   foundationDate?: Date | undefined;
   aboutCompany?: string | undefined;
   photo?: string | undefined;
-  typeCompany: string;
-  accountId: string;
-  location: string;
+  typeCompany?: string | undefined;
+  accountId?: string | undefined;
+  location?: string | undefined;
   contracts: string[];
+  id?: string | undefined;
 }
 
 function createBasePhoto(): Photo {
@@ -298,20 +299,21 @@ export const Company: MessageFns<Company> = {
 
 function createBaseGetCompanyResponse(): GetCompanyResponse {
   return {
-    title: "",
+    title: undefined,
     foundationDate: undefined,
     aboutCompany: undefined,
     photo: undefined,
-    typeCompany: "",
-    accountId: "",
-    location: "",
+    typeCompany: undefined,
+    accountId: undefined,
+    location: undefined,
     contracts: [],
+    id: undefined,
   };
 }
 
 export const GetCompanyResponse: MessageFns<GetCompanyResponse> = {
   encode(message: GetCompanyResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.title !== "") {
+    if (message.title !== undefined) {
       writer.uint32(10).string(message.title);
     }
     if (message.foundationDate !== undefined) {
@@ -323,17 +325,20 @@ export const GetCompanyResponse: MessageFns<GetCompanyResponse> = {
     if (message.photo !== undefined) {
       writer.uint32(34).string(message.photo);
     }
-    if (message.typeCompany !== "") {
+    if (message.typeCompany !== undefined) {
       writer.uint32(42).string(message.typeCompany);
     }
-    if (message.accountId !== "") {
+    if (message.accountId !== undefined) {
       writer.uint32(50).string(message.accountId);
     }
-    if (message.location !== "") {
+    if (message.location !== undefined) {
       writer.uint32(58).string(message.location);
     }
     for (const v of message.contracts) {
       writer.uint32(66).string(v!);
+    }
+    if (message.id !== undefined) {
+      writer.uint32(74).string(message.id);
     }
     return writer;
   },
@@ -409,6 +414,14 @@ export const GetCompanyResponse: MessageFns<GetCompanyResponse> = {
           message.contracts.push(reader.string());
           continue;
         }
+        case 9: {
+          if (tag !== 74) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -420,22 +433,23 @@ export const GetCompanyResponse: MessageFns<GetCompanyResponse> = {
 
   fromJSON(object: any): GetCompanyResponse {
     return {
-      title: isSet(object.title) ? globalThis.String(object.title) : "",
+      title: isSet(object.title) ? globalThis.String(object.title) : undefined,
       foundationDate: isSet(object.foundationDate) ? fromJsonTimestamp(object.foundationDate) : undefined,
       aboutCompany: isSet(object.aboutCompany) ? globalThis.String(object.aboutCompany) : undefined,
       photo: isSet(object.photo) ? globalThis.String(object.photo) : undefined,
-      typeCompany: isSet(object.typeCompany) ? globalThis.String(object.typeCompany) : "",
-      accountId: isSet(object.accountId) ? globalThis.String(object.accountId) : "",
-      location: isSet(object.location) ? globalThis.String(object.location) : "",
+      typeCompany: isSet(object.typeCompany) ? globalThis.String(object.typeCompany) : undefined,
+      accountId: isSet(object.accountId) ? globalThis.String(object.accountId) : undefined,
+      location: isSet(object.location) ? globalThis.String(object.location) : undefined,
       contracts: globalThis.Array.isArray(object?.contracts)
         ? object.contracts.map((e: any) => globalThis.String(e))
         : [],
+      id: isSet(object.id) ? globalThis.String(object.id) : undefined,
     };
   },
 
   toJSON(message: GetCompanyResponse): unknown {
     const obj: any = {};
-    if (message.title !== "") {
+    if (message.title !== undefined) {
       obj.title = message.title;
     }
     if (message.foundationDate !== undefined) {
@@ -447,17 +461,20 @@ export const GetCompanyResponse: MessageFns<GetCompanyResponse> = {
     if (message.photo !== undefined) {
       obj.photo = message.photo;
     }
-    if (message.typeCompany !== "") {
+    if (message.typeCompany !== undefined) {
       obj.typeCompany = message.typeCompany;
     }
-    if (message.accountId !== "") {
+    if (message.accountId !== undefined) {
       obj.accountId = message.accountId;
     }
-    if (message.location !== "") {
+    if (message.location !== undefined) {
       obj.location = message.location;
     }
     if (message.contracts?.length) {
       obj.contracts = message.contracts;
+    }
+    if (message.id !== undefined) {
+      obj.id = message.id;
     }
     return obj;
   },
@@ -467,14 +484,15 @@ export const GetCompanyResponse: MessageFns<GetCompanyResponse> = {
   },
   fromPartial<I extends Exact<DeepPartial<GetCompanyResponse>, I>>(object: I): GetCompanyResponse {
     const message = createBaseGetCompanyResponse();
-    message.title = object.title ?? "";
+    message.title = object.title ?? undefined;
     message.foundationDate = object.foundationDate ?? undefined;
     message.aboutCompany = object.aboutCompany ?? undefined;
     message.photo = object.photo ?? undefined;
-    message.typeCompany = object.typeCompany ?? "";
-    message.accountId = object.accountId ?? "";
-    message.location = object.location ?? "";
+    message.typeCompany = object.typeCompany ?? undefined;
+    message.accountId = object.accountId ?? undefined;
+    message.location = object.location ?? undefined;
     message.contracts = object.contracts?.map((e) => e) || [];
+    message.id = object.id ?? undefined;
     return message;
   },
 };

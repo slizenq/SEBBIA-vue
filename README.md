@@ -21,5 +21,5 @@ glob
 // grpc - component (8)
 
 Authentication.js - Регистрация, авторизация success (made)
-Student.vue - Шкала прогресса (Not done)
+Rezume.vue - подгрузка пользователя по токену / для компании сделать отдельную условную отрисовку
 
