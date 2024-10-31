@@ -8,12 +8,7 @@
                 {{ isCompany ? companyData.city.StudentCity : studentData.city.StudentCity }}</p>
         </div>
         <div class="contain__margin">
-            <ElButton
-                type="primary"
-                class="btn-edit right__part-btn"
-                @click="dialogRedactor = true"
-                >Редактировать профиль</ElButton
-            >
+            <ElButton type="primary" class="btn-edit right__part-btn" @click="dialogRedactor = true">Редактировать профиль</ElButton>
         </div>
         <ElButton plain class="btn-out right__part-btn" @click="openDialog">Выйти</ElButton>
         <el-dialog
@@ -45,14 +40,7 @@
             </div>
         </el-dialog>
 
-        <el-dialog
-            v-model="dialogRedactor"
-            title="Личные данные"
-            width="620"
-            top="2%"
-            class="dialog_margin"
-            :before-close="handleClose"
-        >
+        <el-dialog v-model="dialogRedactor" title="Личные данные" width="620" top="2%" class="dialog_margin" :before-close="handleClose">
             <EditProfileCompany v-if="is_user" @profileUpdated="updateProfileData"/>
             <EditProfileStudent v-else @profileUpdated="updateProfileData" @updateDialogRedactor="updateDialogRedactor"/>
         </el-dialog>
@@ -93,25 +81,25 @@ const closeDialog = () => {
     isDialogVisible.value = false;
 };
 
-const nextStap = function () {
-    // navigateTo('/account/resume/ResumeStudent')
-};
+// const nextStap = function () {
+//     navigateTo('/account/resume/ResumeStudent')
+// };
 const logout = function () {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("access_token");
     localStorage.removeItem("user");
     localStorage.removeItem("resume_id");
+    localStorage.removeItem("AccountID");
     navigateTo("/");
 };
 const titlePage = ref({
-    student: { studentTitle: "Фамилия имя" },
-    company: { companyTitle: "Наименование" },
+    student: { studentTitle: "Наименование" },
+    company: { companyTitle: "Фамилия имя" },
 });
 const studentData = ref({
     age: { Age: "Возраст", StudentAge: "Не заполнено" },
     city: { City: "Город", StudentCity: "Не заполнено" },
 });
-
 const companyData = ref({
     form: { Form: "Форма организации", FormContent: "Не заполнено" },
     city: { City: "Город", StudentCity: "Не заполнено" },
@@ -120,36 +108,37 @@ const isCompany = ref(null);
 isCompany.value = true;
 const emit = defineEmits(['resumeUpdated']);
 const searchResumes = async () => {
-    const user_id = JSON.parse(localStorage.getItem("user"))?.uuid;
-    const response = await axios.get(`${IP}/resume/users/${user_id || 0}/resumes`,
-        { headers: { "Content-Type": "application/json"} });
-    console.log(response.data[0]);
+    let checkUUid = localStorage.getItem("access_token");
+    const response = await axios.post(`${IP}/getStudentByToken`, {checkUUid});
+    console.log('das');
+    
+    console.log(response.data);
     emit('resumeUpdate', {
-        first_name: response.data[0].first_name,
-        middle_name: response.data[0].middle_name,
-        last_name: response.data[0].last_name
+        FirstName: response.data.FirstName,
+        MiddleName: response.data.MiddleName,
+        LastName: response.data.LastName
     })
     const user = JSON.parse(localStorage.getItem("user")).is_company;
     isCompany.value = user;
     if (isCompany.value) {
-        companyData.value.form.FormContent = response.data[0]?.test || "Не заполнено";
-        companyData.value.city.StudentCity = response.data[0]?.test || "Не заполнено";
-        titlePage.value.company.companyTitle = response.data[0]?.test || "Наименование";
+        companyData.value.form.FormContent = response.data?.test || "Не заполнено";
+        companyData.value.city.StudentCity = response.data?.test || "Не заполнено";
+        titlePage.value.company.companyTitle = response.data?.test || "Наименование";
     } else {
-        studentData.value.age.StudentAge = response.data[0]?.born_date || "Не заполнено";
-        studentData.value.city.StudentCity = response.data[0]?.city || "Не заполнено";
-        titlePage.value.student.studentTitle = response.data[0]?.last_name + " " + response.data[0]?.first_name || "Фамилия Имя";
+        studentData.value.age.StudentAge = response.data?.BornDate || "Не заполнено";
+        studentData.value.city.StudentCity = response.data?.Location || "Не заполнено";
+        titlePage.value.student.studentTitle = response.data?.LastName + " " + response.data?.FirstName || "Фамилия Имя";
     }
     return response.data;
 };
 const updateProfileData = (data) => {
     if (isCompany.value) {
-        companyData.value.form.FormContent = data[0];
-        titlePage.value.company.companyTitle = `${data.last_name} ${data.first_name}`;
+        companyData.value.form.FormContent = data;
+        titlePage.value.company.companyTitle = `${data.LastName} ${data.FirstName}`;
     } else {
-        studentData.value.age.StudentAge = data.born_date || "Не заполнено";
-        studentData.value.city.StudentCity = data.city || "Не заполнено";
-        titlePage.value.student.studentTitle = `${data.last_name} ${data.first_name}`;
+        studentData.value.age.StudentAge = data.BornDate || "Не заполнено";
+        studentData.value.city.StudentCity = data.Location || "Не заполнено";
+        titlePage.value.student.studentTitle = `${data.LastName} ${data.FirstName}`;
     }
 };
 onMounted(() => {
