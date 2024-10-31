@@ -9,25 +9,15 @@
 
             <div v-else class="rezume__void resume__void-update contain__margin">
                 <p class="not_filled not_filled__update">
-                    {{ showResume.first_name + " " + showResume.middle_name + " " + showResume.last_name || "Не заполнено" }}
+                    {{ showResume.FirstName + " " + showResume.MiddleName + " " + showResume.LastName || "Не заполнено" }}
                 </p>
                 <p class="more_details resume__update-more">Подробнее</p>
             </div>
         </div>
-        <ElButton
-            type="primary"
-            class="rezume-btn contain__margin"
-            @click="dialogResume = true"
-        >
+        <ElButton type="primary" class="rezume-btn contain__margin" @click="dialogResume = true">
             {{ createRezume[0] }}
         </ElButton>
-        <el-dialog
-            v-model="dialogResume"
-            width="620"
-            top="2%"
-            :before-close="handleClose"
-            class="my-dialog"
-        >
+        <el-dialog v-model="dialogResume" width="620" top="2%" :before-close="handleClose" class="my-dialog">
             <div>
                 <div v-if="whichDialog"><EditResumeStudent @updateDialogg="updateDialogg"/></div>
                 <div v-else>2</div>
@@ -48,15 +38,15 @@ const dialogResume = ref(false);
 const whichDialog = ref(true);
 const showResume = ref({});
 const showEvent = ref(true);
-const updateDialogg = (value) => {
-    dialogResume.value = value;
-};
+const updateDialogg = (value) => { dialogResume.value = value };
 let updateResume = async () => {
     try {
         let checkUUid = localStorage.getItem("access_token");
         const getResume = await axios.post(`${IP}/getStudentByToken`, {checkUUid});
-        showResume.value = getResume.data[0];
-        if ( getResume.data[0].first_name && getResume.data[0].middle_name && getResume.data[0].last_name ) {
+        showResume.value = getResume.data;
+        console.log(getResume);
+        localStorage.setItem("AccountID", getResume.data.AccountID)
+        if ( getResume.data.FirstName && getResume.data.MiddleName && getResume.data.LastName ) {
             showEvent.value = false;
         }
     } catch (error) {

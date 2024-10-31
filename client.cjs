@@ -176,7 +176,7 @@ app.post("/getStudentById", async (req, res) => {
 // Получение студента по token
 async function getStudentByToken(studentToken) {
     const client = createStudentClient();
-    metadata.add("Authorization", `Bearer ${studentToken}`);
+    metadata.set("Authorization", `Bearer ${studentToken}`);
     
     const request = { studentToken };
     return new Promise((resolve, reject) => {
