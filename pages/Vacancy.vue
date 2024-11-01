@@ -5,23 +5,15 @@
             <div class="company__vacancy__left-part">
                 <div class="left__element">
                     <h1 class="direction">{{ vacancyData.description }}</h1>
-                    <p class="description">
-                        Мобильный разработчик, Фулл-стек разработчик, Бекенд
-                        разработчик
-                    </p>
+                    <p class="description">Мобильный разработчик, Фулл-стек разработчик, Бекенд разработчик</p>
                 </div>
                 <div class="left__element">
                     <p class="element__title">Чем предстоит заниматься</p>
                     <ul>
-                        <li>
-                            Это команда профессионалов, стремящаяся к решению
-                            сложных задач
-                        </li>
+                        <li>Это команда профессионалов, стремящаяся к решениюсложных задач</li>
                         <li>Это команда профессионалов</li>
                         <li>Это команда профессионалов, стремящаяся к</li>
-                        <li>
-                            Это команда профессионалов, стремящаяся к решению
-                        </li>
+                        <li>Это команда профессионалов, стремящаяся к решению</li>
                     </ul>
                 </div>
                 <div class="left__element">
@@ -54,22 +46,16 @@
                         <div>
                             <p class="right__title text__align">
                                 {{ vacancyData.title }}
-                                <img
-                                    src="./../assets/images/vacancy/confirm.svg"
-                                />
+                                <img src="./../assets/images/vacancy/confirm.svg"/>
                             </p>
                             <p class="right__description">ООО</p>
                         </div>
                         <div class="wrap__margin">
                             <p class="right__description text__align">
-                                <img
-                                    src="./../assets/images/vacancy/location.svg"
-                                />{{ vacancyData.location }}
+                                <img src="./../assets/images/vacancy/location.svg"/>{{ vacancyData.location }}
                             </p>
                             <p class="right__description text__align">
-                                <img
-                                    src="./../assets/images/vacancy/date.svg"
-                                />22.02.2011
+                                <img src="./../assets/images/vacancy/date.svg"/>22.02.2011
                             </p>
                         </div>
                     </div>
@@ -211,7 +197,7 @@ const checkCompany = ref(true);
 const vacancyData = ref({});
 const fetchVacancyData = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
-    checkCompany.value = user?.is_company === true || !user ? false : true;
+    checkCompany.value = user?.isCompany === true || !user ? false : true;
 
     console.log(checkCompany.value);
 

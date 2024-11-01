@@ -73,8 +73,10 @@ const openDialog = () => {
     isDialogVisible.value = true;
 };
 const userVerified = () => {
-	let is_user_id = JSON.parse(localStorage.getItem('user')).is_company
+	let is_user_id = JSON.parse(localStorage.getItem('user')).isCompany
 	is_user.value = is_user_id
+    console.log(is_user_id);
+    
 }
 userVerified()
 const closeDialog = () => {
@@ -118,7 +120,7 @@ const searchResumes = async () => {
         MiddleName: response.data.MiddleName,
         LastName: response.data.LastName
     })
-    const user = JSON.parse(localStorage.getItem("user")).is_company;
+    const user = JSON.parse(localStorage.getItem("user")).isCompany;
     isCompany.value = user;
     if (isCompany.value) {
         companyData.value.form.FormContent = response.data?.test || "Не заполнено";

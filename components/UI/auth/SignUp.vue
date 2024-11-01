@@ -10,27 +10,17 @@
                 </el-checkbox>
             </div>
             <div class="login-dialog__form-item login-dialog__submit">
-                <el-button type="primary" 
-                    @click="registration"
-                    >Зарегистрироваться</el-button
-                >
+                <el-button type="primary" @click="registration">Зарегистрироваться</el-button>
             </div>
             <div class="login-dialog__register">
                 <span>Есть аккаунт?</span>
-                <el-button
-                    @click="$emit('someEventReg')"
-                    class="login-dialog__register-link"
-                    type="primary"
-                    plain
-                >
+                <el-button @click="$emit('someEventReg')" class="login-dialog__register-link" type="primary" plain>
                     Войти
                 </el-button>
             </div>
             <div class="login-dialog__privacy-policy">
                 При регистрации и входе <br />вы соглашаетесь с
-                <a class="login-dialog__link" href=""
-                    >политикой конфиденциальности</a
-                >
+                <a class="login-dialog__link" href="">политикой конфиденциальности</a>
             </div>
         </div>
     </div>
@@ -54,12 +44,12 @@ const props = defineProps({
 const loginForm = ref({
   email: "",
   password: "",
-  is_company: props.whoUser ? true : false,
+  isCompany: props.whoUser ? true : false,
   rememberMe: false,
 });
 
 const registration = async () => {
-  const isRegisterSuccessful = await register(loginForm.value.email, loginForm.value.password, loginForm.value.is_company);
+  const isRegisterSuccessful = await register(loginForm.value.email, loginForm.value.password, loginForm.value.isCompany);
   if (isRegisterSuccessful) {
         alert("Регистрация успешна")
     } else {

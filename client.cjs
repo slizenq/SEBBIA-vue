@@ -353,55 +353,65 @@ app.post("/createResumeStudent", async (req, res) => {
 
 
 
-// Получение компании по id
-async function createCompany(studentId) {
-    const client = createCompanyClient();
-    // metadata.add('Authorization', `Bearer ${yourToken}`);
-    const request = { studentId };
+
+// Создание профиля компании
+const toTimestamp = (date) => {
+    const seconds = Math.floor(date.getTime() / 1000);
+    const nanos = (date.getTime() % 1000) * 1000000; 
+    return { seconds, nanos }; 
+};
+
+async function createCompany(token, companyData) {
+    const client = createCompanyClient();   
+    const metadata = new grpc.Metadata();
+    metadata.add('Authorization', `Bearer ${token}`);
+    
+    const foundationDate = companyData.foundationDate ? toTimestamp(new Date(companyData.foundationDate)) : null;  
+    const photo = companyData.photo
+        ? 
+        {
+            photo: companyData.photo.data,  
+            fileName: companyData.photo.fileName || "default.png"  
+        }
+        : null;
+    const request = {
+        title: companyData.company_name || "Sebbia",
+        location: companyData.city_company || "Ростов-на-Дону",
+        typeCompany: companyData.type_company || "ООО",
+        foundationDate: foundationDate, 
+        aboutCompany: companyData.about_company || "ПУК ПУК В БОЛЬШОМ РЕГИСТРЕ",
+        photo: photo,
+        contracts: companyData.contracts || []
+    };
+
     return new Promise((resolve, reject) => {
-        client.CreateCompany(request, (err, response) => {
+        client.CreateCompany(request, metadata, (err, response) => {
             if (err) {
-                console.error("gRPC error:", err);
+                console.error("gRPC error:", err.details || err.message); 
                 reject(err);
             } else {
                 console.log("Response from gRPC:", response);
-                resolve(response.student); 
+                resolve(response);
             }
         });
     });
 }
-app.post("/CreateCompany", async (req, res) => {
-    const { studentId } = req.body;
-    try {
-        const student = await createCompany(studentId);
-        res.json(student);
-		
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+
+
+
+
+
+app.post("/createCompany", async (req, res) => {
+    const token = req.headers.authorization?.split(" ")[1];
+    const companyData = req.body;
+    if (!token) {
+        return res.status(401).json({ error: "Unauthorized: No token provided" });
     }
-});
-// Создание компании
-async function CreateCompany(studentId) {
-    const client = createCompanyClient();
-    const request = { studentId };
-    return new Promise((resolve, reject) => {
-        client.CreateCompany(request, (err, response) => {
-            if (err) {
-                console.error("gRPC error:", err);
-                reject(err);
-            } else {
-                console.log("Response from gRPC:", response);
-                resolve(response.student); 
-            }
-        });
-    });
-}
-app.post("/CreateCompany", async (req, res) => {
-    const { studentId } = req.body;
     try {
-        const student = await CreateCompany(studentId);
-        res.json(student);
+        const company = await createCompany(token, companyData);
+        res.json(company);
     } catch (err) {
+        console.error("Error in /createCompany:", err.message);
         res.status(500).json({ error: err.message });
     }
 });
