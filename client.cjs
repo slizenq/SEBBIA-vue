@@ -87,6 +87,13 @@ function createVacancyClient() {
     return new vacancyPackage.VacancyService("92.53.105.243:81", grpc.credentials.createInsecure(), options);
 }
 
+
+
+
+
+
+
+
 // Регистрация 
 async function signUp(accountData) {
     const client = createAuthClient();
@@ -144,6 +151,13 @@ app.post("/login", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+
+
+
+
+
+
 // Получение студента по id
 async function getStudentById(studentId) {
     const client = createStudentClient();
@@ -199,7 +213,7 @@ app.post("/getStudentByToken", async (req, res) => {
         console.log(studentTokenLog);
     } catch (err) { res.status(500).json({ error: err.message }) }
 });
-// Создание студента
+// Создание профиля студента
 async function createStudent(token, studentData) {
     const client = createStudentClient();
     const metadata = new grpc.Metadata();
@@ -242,6 +256,103 @@ app.post("/createStudent", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+// Редактирование профиля студента
+async function updateStudent(token, studentData) {
+    const client = createStudentClient();
+    const metadata = new grpc.Metadata();
+    metadata.add('Authorization', `Bearer ${token}`);
+    if (!studentData.student_id) {
+        throw new Error("student_id is missing for update request");
+    }
+    const request = {
+        studentId: studentData.student_id,
+        student: {
+            FirstName: studentData.first_name,
+            MiddleName: studentData.middle_name,
+            LastName: studentData.last_name,
+            BornDate: studentData.born_date,
+            Education: studentData.education,
+            Location: studentData.location,
+            PhotoURL: studentData.photo_url,
+            AccountID: studentData.account_id
+        }
+    };
+    return new Promise((resolve, reject) => {
+        client.UpdateStudent(request, metadata, (err, response) => {
+            if (err) {
+                console.error("gRPC error:", err.details || err.message); 
+                reject(err);
+            } else {
+                console.log("Response from gRPC:", response);
+                resolve(response.student);
+            }
+        })
+    });
+}
+app.post("/updateStudent", async (req, res) => {
+    const token = req.headers.authorization?.split(" ")[1];
+    const studentData = req.body;
+    if (!token) {
+        return res.status(401).json({ error: "Unauthorized: No token provided" });
+    }
+    if (!studentData.student_id) {
+        return res.status(400).json({ error: "student_id is required for update" });
+    }
+    try {
+        if (!studentData.student_id) {
+            return res.status(400).json({ error: "student_id is required for update" });
+        }
+        const student = await updateStudent(token, studentData);
+        res.json(student);
+    } catch (err) {
+        console.error("Error in /updateStudent:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+// Создание резюме студента
+async function createResumeStudent(token, studentData) {
+    const client = createResumeClient();
+    const metadata = new grpc.Metadata();
+    metadata.add('Authorization', `Bearer ${token}`);
+    const request = {
+        aboutMe: studentData.about_me,
+        skills: studentData.skills.map(skill => ({ skill })),   
+        direction: studentData.direction,
+        aboutProjects: studentData.about_projects,
+        portfolio: studentData.portfolio,
+    };
+    return new Promise((resolve, reject) => {
+        client.CreateResume(request, metadata, (err, response) => {
+            if (err) {
+                console.error("gRPC error:", err.details || err.message); 
+                reject(err);
+            } else {
+                console.log("Response from gRPC:", response);
+                resolve(response.resume);
+            }
+        })
+    });
+}
+app.post("/createResumeStudent", async (req, res) => {
+    const token = req.headers.authorization?.split(" ")[1];
+    const studentData = req.body;
+    if (!token) {
+        return res.status(401).json({ error: "Unauthorized: No token provided" });
+    }
+    try {
+        const resume = await createResumeStudent(token, studentData);
+        res.json(resume);
+    } catch (err) {
+        console.error("Error in /createResumeStudent:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
+
+
+
+
 // Получение компании по id
 async function createCompany(studentId) {
     const client = createCompanyClient();

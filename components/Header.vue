@@ -221,7 +221,7 @@ const updateAuthStatus = (status) => {
 
 const AccountClick = () => {
     const user = JSON.parse(localStorage.getItem("user"));
-    if (user && user.is_company) {
+    if (user && user.isCompany) {
         navigateTo("/account/company");
     } else {
         navigateTo("/account/student");
