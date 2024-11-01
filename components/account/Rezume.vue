@@ -20,7 +20,7 @@
         <el-dialog v-model="dialogResume" width="620" top="2%" :before-close="handleClose" class="my-dialog">
             <div>
                 <div v-if="whichDialog"><EditResumeStudent @updateDialogg="updateDialogg"/></div>
-                <div v-else>2</div>
+                <div v-else><EditVacancyCompany @updateDialogg="updateDialogg"/></div>
             </div>
         </el-dialog>
     </div>
@@ -31,17 +31,22 @@ import { ElButton, ElDialog } from "element-plus";
 import EditResumeStudent from "../EditAccount/student/EditResumeStudent.vue";
 import axios from "axios";
 import { IP } from "../UI/auth/Authentication";
+import EditVacancyCompany from "../EditAccount/company/EditVacancyCompany.vue";
 
 const rezumeTitle = ["Резюме", "Вакансия"];
 const createRezume = ["Создать резюме", "Добавить информацию"];
 const dialogResume = ref(false);
-const whichDialog = ref(true);
+const whichDialog = ref();
 const showResume = ref({});
 const showEvent = ref(true);
 const updateDialogg = (value) => { dialogResume.value = value };
 let updateResume = async () => {
     try {
         let checkUUid = localStorage.getItem("access_token");
+        whichDialog.value = !JSON.parse(localStorage.getItem("user")).isCompany
+        console.log('logiiii');
+        console.log(whichDialog.value);
+        
         const getResume = await axios.post(`${IP}/getStudentByToken`, {checkUUid});
         showResume.value = getResume.data;
         console.log(getResume);
