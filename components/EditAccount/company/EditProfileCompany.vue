@@ -123,6 +123,8 @@ const handleFormSubmit = async () => {
     };
     console.log("Company Data:", companyData);
     const success = await createCompany(companyData);
+    console.log(success);
+    
     if (success) {
         emit('profileUpdated');
     } else {

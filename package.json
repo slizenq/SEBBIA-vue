@@ -19,6 +19,7 @@
         "@pinia/nuxt": "^0.5.5",
         "axios": "^1.7.7",
         "consola": "^3.2.3",
+        "cors": "^2.8.5",
         "defu": "^6.1.4",
         "element-plus": "^2.8.6",
         "express": "^4.21.1",

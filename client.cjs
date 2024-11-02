@@ -1,6 +1,12 @@
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 const express = require("express");
+const cors = require('cors');
+
+const app = express();
+const port = 3001;
+app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(express.json());
 
 const options = {
     'grpc.max_receive_message_length': 2147483648, 
@@ -63,10 +69,6 @@ const applicationVacancyPakage = grpc.loadPackageDefinition(applicationVacancy).
 const companyPackage = grpc.loadPackageDefinition(company).company;
 const resumePackage = grpc.loadPackageDefinition(resume).resume;
 const vacancyPackage = grpc.loadPackageDefinition(vacancy).vacancy;
-
-const app = express();
-const port = 3000;
-app.use(express.json());
 
 function createAuthClient() {
     return new authPackage.SSOServerService("92.53.105.243:81", grpc.credentials.createInsecure(), options);
@@ -396,11 +398,6 @@ async function createCompany(token, companyData) {
         });
     });
 }
-
-
-
-
-
 app.post("/createCompany", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const companyData = req.body;
@@ -414,6 +411,37 @@ app.post("/createCompany", async (req, res) => {
         console.error("Error in /createCompany:", err.message);
         res.status(500).json({ error: err.message });
     }
+});
+// Получение компании по token
+async function getCompanyByAccessToken(companyToken) {
+    const client = createCompanyClient();
+    metadata.set("Authorization", `Bearer ${companyToken}`);
+    
+    const request = { companyToken };
+    return new Promise((resolve, reject) => {
+        client.GetCompanyByAccessToken(request, metadata, (err, response) => {
+            if (err) {
+                console.error("gRPC error:", err);
+                reject(err);
+            } else {
+                if (response) {
+                    console.log("Response from gRPC:", response);
+                    resolve(response);
+                } else {
+                    console.error("gRPC returned no response");
+                    reject(new Error("gRPC returned no response"));
+                }
+            }
+        });
+    });
+}
+app.post("/getCompanyByAccessToken", async (req, res) => {
+    const companyToken = req.body.checkUUid;
+    try {
+        let companyTokenLog = await getCompanyByAccessToken(companyToken);
+        res.json(companyTokenLog);
+        console.log(companyTokenLog);
+    } catch (err) { res.status(500).json({ error: err.message }) }
 });
 app.listen(port, () => {
     console.log(`Server listening on http://localhost:${port}`);
