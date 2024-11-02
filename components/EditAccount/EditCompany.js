@@ -3,20 +3,15 @@ import { IP } from "../UI/auth/Authentication";
 
 export const createCompany = async function (companyData, dialogRedactor) {
     try {
-        const headers = {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`
-        };
-        if (!companyData.company_name || companyData.company_name.length > 100) {
-            throw new Error("Название компании должно быть заполнено и содержать менее 100 символов.");
-        }
+        const headers = { Authorization: `Bearer ${localStorage.getItem("access_token")}` }; 
         const companyEntity = {
-            title: companyData.company_name || 'Sebbia',
-            location: companyData.city_company?.label || "",
-            typeCompany: companyData.type_company?.label || "",
-            foundationDate: companyData.company_date || "",
-            aboutCompany: companyData.textarea2 || "",
-            photo: companyData.photo || "",
-            contracts: companyData.skills || []
+            title: companyData.title,
+            location: companyData.location,
+            typeCompany: companyData.typeCompany,
+            foundationDate: companyData.foundationDate,
+            aboutCompany: companyData.aboutCompany,
+            photo: companyData.photo,
+            contracts: companyData.contracts || []
         };
         const accountID = localStorage.getItem("AccountID");
         if (accountID) {
