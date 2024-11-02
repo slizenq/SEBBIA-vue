@@ -32,6 +32,8 @@ export const createCompany = async function (companyData, dialogRedactor) {
             }
         } else {
             const response = await axios.post(`${IP}/createCompany`, companyEntity, { headers });
+            console.log(response.data);
+            
             const data = {
                 company_id: response.data?.company_id,
                 progress: 25

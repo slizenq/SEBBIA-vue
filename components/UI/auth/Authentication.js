@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const IP = "http://localhost:3000";
+export const IP = "http://localhost:3001";
 // Регистрация 
 export const register = async function (email, password, isCompany) {
     const postData = {

@@ -1,6 +1,6 @@
 <template>
     <div class="rezume">
-        <p class="rezume__title">{{ rezumeTitle[0] }}</p>
+        <p class="rezume__title">{{ rezumeTitle[whichDialog ? 0 : 1] }}</p>
         <div @click="dialogResume = true">
             <div v-if="showEvent" class="rezume__void contain__margin">
                 <p class="not_filled">Не заполнено</p>
@@ -15,7 +15,7 @@
             </div>
         </div>
         <ElButton type="primary" class="rezume-btn contain__margin" @click="dialogResume = true">
-            {{ createRezume[0] }}
+            {{ createRezume[whichDialog ? 0 : 1] }}
         </ElButton>
         <el-dialog v-model="dialogResume" width="620" top="2%" :before-close="handleClose" class="my-dialog">
             <div>
@@ -29,36 +29,50 @@
 <script setup>
 import { ElButton, ElDialog } from "element-plus";
 import EditResumeStudent from "../EditAccount/student/EditResumeStudent.vue";
+import EditVacancyCompany from "../EditAccount/company/EditVacancyCompany.vue";
 import axios from "axios";
 import { IP } from "../UI/auth/Authentication";
-import EditVacancyCompany from "../EditAccount/company/EditVacancyCompany.vue";
+import { ref, onMounted } from "vue";
 
 const rezumeTitle = ["Резюме", "Вакансия"];
 const createRezume = ["Создать резюме", "Добавить информацию"];
 const dialogResume = ref(false);
-const whichDialog = ref();
+const whichDialog = ref(false);
 const showResume = ref({});
 const showEvent = ref(true);
 const updateDialogg = (value) => { dialogResume.value = value };
-let updateResume = async () => {
+
+const updateResume = async () => {
     try {
-        let checkUUid = localStorage.getItem("access_token");
-        whichDialog.value = !JSON.parse(localStorage.getItem("user")).isCompany
-        console.log('logiiii');
-        console.log(whichDialog.value);
-        
-        const getResume = await axios.post(`${IP}/getStudentByToken`, {checkUUid});
-        showResume.value = getResume.data;
-        console.log(getResume);
-        localStorage.setItem("AccountID", getResume.data.AccountID)
-        if ( getResume.data.FirstName && getResume.data.MiddleName && getResume.data.LastName ) {
-            showEvent.value = false;
+        const checkUUid = localStorage.getItem("access_token");
+        whichDialog.value = !JSON.parse(localStorage.getItem("user")).isCompany;
+
+        let response;
+        if (JSON.parse(localStorage.getItem("user")).isCompany) {
+            response = await axios.post(`${IP}/getCompanyByAccessToken`, { checkUUid });
+            showResume.value = {
+                FirstName: response.data.CompanyName || "Не заполнено",
+                MiddleName: "",   
+                LastName: response.data.CompanyType || "Не заполнено"
+            };
+        } else {
+            response = await axios.post(`${IP}/getStudentByToken`, { checkUUid });
+            showResume.value = {
+                FirstName: response.data.FirstName || "Не заполнено",
+                MiddleName: response.data.MiddleName || "",
+                LastName: response.data.LastName || "Не заполнено"
+            };
         }
+        localStorage.setItem("AccountID", response.data.AccountID);
+        showEvent.value = !(showResume.value.FirstName && showResume.value.LastName);
     } catch (error) {
         console.error("Ошибка при выполнении GET запроса:", error.response ? error.response.data : error.message);
     }
 };
-updateResume();
+
+onMounted(() => {
+    updateResume();
+});
 </script>
 
 <style>

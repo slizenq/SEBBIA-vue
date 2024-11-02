@@ -1,8 +1,7 @@
 <template>
     <div class="rezume__state">
         <p class="rezume__state-title">{{ rezumeState.title }}</p>
-        <div
-            v-if="!storage.rezumes.length"
+        <div v-if="!storage.rezumes.length"
             class="rezume__state-void contain__margin"
         >
             <div class="current__state">
