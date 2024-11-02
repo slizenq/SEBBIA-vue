@@ -63,7 +63,7 @@ import { ElUpload, ElIcon, ElInput, ElSelectV2, ElDatePicker, ElButton, ElPopove
 import { ref, defineEmits } from "vue";
 import { createCompany } from "../EditCompany";
 const photo = ref(null);
-const company_name = ref(null)
+const company_name = ref('')
 const city_company = ref(null)
 const type_company = ref(null)
 const company_date = ref(null)
@@ -96,14 +96,6 @@ const educationOptions = educationInstit.map((institution, idx) => ({
 }));
 
 const handleFormSubmit = async () => {
-    if (!company_name.value || company_name.value.length > 100) {
-        console.error("Название компании должно быть заполнено и содержать менее 100 символов.");
-        return;
-    }
-    if (textarea2.value && textarea2.value.length > 100) {
-        console.error("Описание должно содержать менее 100 символов.");
-        return;
-    }
     const parseDate = (dateStr) => {
         if (typeof dateStr !== 'string') {
             console.error("Invalid date format:", dateStr);
@@ -113,18 +105,18 @@ const handleFormSubmit = async () => {
         return `${year}-${month}-${day}`;
     };
     const companyData = {
-        company_name: company_name.value,
-        city_company: city_company.value,
-        type_company: type_company.value,
+        title: company_name.value,   
+        location: city_company.value ? cityOptions.find(city => city.value === city_company.value)?.label : "",
+        typeCompany: type_company.value ? educationOptions.find(type => type.value === type_company.value)?.label : "",
         foundationDate: company_date.value ? parseDate(company_date.value) : null,  
-        about_company: textarea2.value,
+        aboutCompany: textarea2.value,
         photo: photo.value,
         contracts: skills.value,
     };
     console.log("Company Data:", companyData);
+    console.log("Company Data:", companyData.title);
+    console.log("Company Data:", companyData.title.length);
     const success = await createCompany(companyData);
-    console.log(success);
-    
     if (success) {
         emit('profileUpdated');
     } else {

@@ -369,19 +369,16 @@ async function createCompany(token, companyData) {
     metadata.add('Authorization', `Bearer ${token}`);
     
     const foundationDate = companyData.foundationDate ? toTimestamp(new Date(companyData.foundationDate)) : null;  
-    const photo = companyData.photo
-        ? 
-        {
-            photo: companyData.photo.data,  
-            fileName: companyData.photo.fileName || "default.png"  
-        }
+    const photo = companyData.photo && companyData.photo.data
+        ? { data: companyData.photo.data, fileName: companyData.photo.fileName || "default.png" }
         : null;
+        
     const request = {
-        title: companyData.company_name || "Sebbia",
-        location: companyData.city_company || "Ростов-на-Дону",
-        typeCompany: companyData.type_company || "ООО",
+        title: companyData.title,
+        location: companyData.location,
+        typeCompany: companyData.typeCompany,
         foundationDate: foundationDate, 
-        aboutCompany: companyData.about_company || "ПУК ПУК В БОЛЬШОМ РЕГИСТРЕ",
+        aboutCompany: companyData.aboutCompany,
         photo: photo,
         contracts: companyData.contracts || []
     };
@@ -392,7 +389,7 @@ async function createCompany(token, companyData) {
                 console.error("gRPC error:", err.details || err.message); 
                 reject(err);
             } else {
-                console.log("Response from gRPC:", response);
+                console.log("Response from gRPC:", JSON.stringify(response, null, 2));
                 resolve(response);
             }
         });
@@ -443,13 +440,6 @@ app.post("/getCompanyByAccessToken", async (req, res) => {
         console.log(companyTokenLog);
     } catch (err) { res.status(500).json({ error: err.message }) }
 });
-
-
-
-
-
-
-
 // Создание вакансии
 async function createVacancy(token, vacancyData) {
     const client = createVacancyClient();

@@ -97,13 +97,13 @@ const skills_ofStudent = ref(["PostgreSQL", "Vuejs", "React", "Lavarel"]);
 const tasks = ref(["Это команда профессионалов, стремящаяся к решению сложных задач", "Это команда профессионалов"]);
 
 const addItem = (item, list) => {
-    if (item.value && !list.value.includes(item.value)) {
-        list.value.push(item.value);
-        item.value = "";
+    if (item && item.trim() && !list.includes(item)) {
+        list.push(item);
+        item = ""; 
     }
 };
 const removeItem = (index, list) => {
-    list.value.splice(index, 1);
+    list.splice(index, 1);
 };
 const addTask = () => {
     const newTask = prompt('Введите новый пункт');
