@@ -443,6 +443,66 @@ app.post("/getCompanyByAccessToken", async (req, res) => {
         console.log(companyTokenLog);
     } catch (err) { res.status(500).json({ error: err.message }) }
 });
+
+
+
+
+
+
+
+// Создание вакансии
+async function createVacancy(token, vacancyData) {
+    const client = createVacancyClient();
+    const metadata = new grpc.Metadata();
+    metadata.add('Authorization', `Bearer ${token}`);
+    const expectedSkills = Array.isArray(vacancyData.expected_skills) 
+        ? vacancyData.expected_skills.map(skill => ({ skill })) 
+        : [];
+
+    const directions = Array.isArray(vacancyData.directions) 
+        ? vacancyData.directions.map(direction => ({ direction })) 
+        : [];
+
+    const request = {
+        vacancy: {
+            expected_skills: expectedSkills,
+            about_practice: vacancyData.about_practice || '', 
+            directions: directions,
+            about_projects: vacancyData.about_projects || '',  
+            company_id: vacancyData.company_id || '' 
+        }
+    };
+
+    return new Promise((resolve, reject) => {
+        client.CreateVacancy(request, metadata, (err, response) => {
+            if (err) {
+                console.error("gRPC error:", err.details || err.message);
+                reject(err);
+            } else {
+                console.log("Response from gRPC:", response);
+                resolve(response);
+            }
+        });
+    });
+}
+
+app.post("/createVacancy", async (req, res) => {
+    const token = req.headers.authorization?.split(" ")[1];
+    const vacancyData = req.body;
+
+    if (!token) {
+        return res.status(401).json({ error: "Unauthorized: No token provided" });
+    }
+
+    try {
+        const vacancy = await createVacancy(token, vacancyData);
+        res.json(vacancy);
+    } catch (err) {
+        console.error("Error in /createVacancy:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server listening on http://localhost:${port}`);
 });
