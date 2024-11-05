@@ -4,39 +4,33 @@
         <div class="company__vacancy" @search="sea(message)">
             <div class="company__vacancy__left-part">
                 <div class="left__element">
-                    <h1 class="direction">{{ vacancyData.title }}</h1>
-                    <p class="description">{{ vacancyData.positions }}</p>
+                    <h1 class="direction">{{ vacancyData[0]?.directions[0]?.direction }}</h1>
+                    <p class="description">{{  }}</p>
                 </div>
                 <div class="left__element">
                     <p class="element__title">Чем предстоит заниматься</p>
                     <ul>
-                        <li>Это команда профессионалов, стремящаяся к решениюсложных задач</li>
-                        <li>Это команда профессионалов</li>
-                        <li>Это команда профессионалов, стремящаяся к</li>
-                        <li>Это команда профессионалов, стремящаяся к решению</li>
+                        <li>{{ vacancyData[0]?.about_practice }}</li>
                     </ul>
                 </div>
                 <div class="left__element">
                     <p class="element__title">Желательные навыки</p>
                     <el-tag
-                        v-if="vacancyData.requirements"
-                        v-for="item in vacancyData.requirements.split(',')"
-                        :key="item"
+                        v-if="vacancyData[0]?.expected_skills"
+                        v-for="(item, index) in vacancyData[0].expected_skills"
+                        :key="index"
                         type="primary"
                         effect="plain"
                         round
                         class="skills"
                     >
-                        <div class="skill_tags">{{ item }}</div>
+                        <div class="skill_tags">{{ item.skill }}</div>
                     </el-tag>
                 </div>
                 <div class="left__element">
                     <p class="element__title">О проектах</p>
                     <p class="description">
-                        Это команда профессионалов, стремящаяся к решению
-                        сложных задач Это команда профессионалов, стремящаяся к
-                        решению сложных задач Это команда профессионалов,
-                        стремящаяся к решению сложных задач Это...
+                        {{ vacancyData[0]?.about_projects }} 
                     </p>
                 </div>
             </div>
@@ -45,14 +39,14 @@
                     <div>
                         <div>
                             <p class="right__title text__align">
-                                {{ vacancyData.title }}
+                                {{ companyProfile?.title }}
                                 <img src="./../assets/images/vacancy/confirm.svg"/>
                             </p>
-                            <p class="right__description">ООО</p>
+                            <p class="right__description">{{ companyProfile?.typeCompany }}</p>
                         </div>
                         <div class="wrap__margin">
                             <p class="right__description text__align">
-                                <img src="./../assets/images/vacancy/location.svg"/>{{ vacancyData.location }}
+                                <img src="./../assets/images/vacancy/location.svg"/>{{ companyProfile?.location }}
                             </p>
                             <p class="right__description text__align">
                                 <img src="./../assets/images/vacancy/date.svg"/>22.02.2011
@@ -61,10 +55,7 @@
                     </div>
                     <img src="./../assets/images/company-logo.svg" alt="logo" />
                 </div>
-                <p class="company__description">
-                    Это команда профессионалов, стремящаяся к решению сложных
-                    задач. Мы облао команда профессионалов, стремящаяся к
-                    решению сложных задач. Мы обла...
+                <p class="company__description">{{ vacancyData[0]?.about_projects }} 
                 </p>
                 <ElButton
                     @click="openDialog"
@@ -116,15 +107,24 @@
                         </div>
                         <div class="wrap__footer">
                             <el-button @click="closeDialog">Позже</el-button>
-                            <el-button @click="link" type="primary"
-                                >Перейти к резюме</el-button
-                            >
+                            <el-button @click="link" type="primary">Перейти к резюме</el-button>
                         </div>
                     </div>
                 </el-dialog>
                 <div class="partner">
-                    <p class="contract">Партнеры</p>
-                </div>
+                <p class="contract">Партнеры</p>
+                <el-tag
+                    v-for="(item, index) in companyProfile?.contracts"  
+                    :key="index"
+                    type="primary"
+                    effect="plain"
+                    round
+                    class="skills"
+                >
+                    <div class="skill_tags">{{ item }}</div> 
+                </el-tag>
+                {{ companyProfile?.contract }}  
+            </div>
             </div>
         </div>
     </div>
@@ -158,7 +158,7 @@ const openDialog = async () => {
     let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
     const getResume = await axios.get(`${IP}/resume/users/${checkUUid}/resumes`);
     console.log(getResume.data[0]);
-    console.log(response.data);
+    // console.log(response.data);
     if (getResume.data[0].directions && getResume.data[0].education && getResume.data[0].phone_number && getResume.data[0].portfolio) {
         if (getResume.data[0].directions[0] == getResume.title) {
             dialogContent.value.title = "Направление не совпадает";
@@ -191,6 +191,7 @@ const link = () => {
 
 const checkCompany = ref(true);
 const vacancyData = ref({});
+let companyProfile = ref()
 const fetchVacancyData = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
     checkCompany.value = user?.isCompany === true || !user ? false : true;
@@ -202,13 +203,18 @@ const fetchVacancyData = async () => {
         company_id: vacancy_id                         
     };
     const response = await axios.post(`${IP}/getVacanciesByParams`, vacancyFilterParams);
-    console.log(response.data);
+    vacancyData.value = response.data;
+    console.log(vacancyData.value[0]);
+    console.log(vacancyData.value[0].expected_skills);
+    console.log(vacancyData.value[0].directions);
+    let ax = response.data[0].company_id
+    
+    const companyAccount = await axios.post(`${IP}/getCompanyById`, { id: ax });
+    companyProfile.value = {...companyAccount.data} 
+    console.log(companyProfile.value.contracts);
     
     let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
     const getResume = await axios.get(`${IP}/resume/users/${checkUUid}/resumes`);
-    console.log(getResume.data[0]);
-    console.log(response.data);
-    vacancyData.value = response.data;
 };
 fetchVacancyData();
 </script>

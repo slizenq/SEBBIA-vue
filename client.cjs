@@ -440,6 +440,43 @@ app.post("/getCompanyByAccessToken", async (req, res) => {
         console.log(companyTokenLog);
     } catch (err) { res.status(500).json({ error: err.message }) }
 });
+// Получение компании по token
+async function getCompanyById(companyToken) {
+    const client = createCompanyClient();
+    const request = companyToken; 
+    return new Promise((resolve, reject) => {
+        client.GetCompanyById(request, (err, response) => {
+            if (err) {
+                console.error("gRPC error:", err);
+                reject(err);
+            } else {
+                if (response) {
+                    console.log("Response from gRPC:", response);
+                    resolve(response);
+                } else {
+                    console.error("gRPC returned no response");
+                    reject(new Error("gRPC returned no response"));
+                }
+            }
+        });
+    });
+}
+
+app.post("/getCompanyById", async (req, res) => {
+    const companyToken = req.body;  
+    console.log(companyToken);
+    
+    console.log("Received companyToken:", companyToken);
+    try {
+        const companyTokenLog = await getCompanyById(companyToken);
+        res.json(companyTokenLog);
+        console.log("Company data:", companyTokenLog);
+    } catch (err) {
+        console.error("Error fetching company:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // Создание вакансии
 async function createVacancy(token, vacancyData) {
     const client = createVacancyClient();
