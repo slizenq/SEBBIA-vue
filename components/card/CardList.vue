@@ -52,29 +52,37 @@ import { IP } from "../UI/auth/Authentication";
 import { ref, computed, defineProps, onMounted } from "vue";
 import axios from "axios";
 import Card from "./Card.vue";
+import emitter from "../../useCityStore";
 
 const cards = ref([]);
-const searchResumes = async () => {
-    try {
+const fetchAllCompanies = async () => {
         const response = await axios.post(`${IP}/getCompaniesByFilters`);
-        const companies = response.data || []; 
-        // console.log(companies);
-        // console.log(response.data);
-        for (let element of companies) {
-            console.log(element);
-            // console.log(cards.value)
-        }
-        console.log(cards.value);
-        
-        cards.value = companies.map((item: { id: any; title: any; aboutCompany: any; location: any; contracts: any; }) => ({
+        const companies = response.data || [];
+        cards.value = companies.map((item) => ({
             vacancy_id: item.id || "",
             title: item.title || "Unknown",
             description: item.aboutCompany || "Unknown",
             location: item.location || "Unknown",
-            requirements: item.contracts || [], 
+            requirements: item.contracts || [],
         }));
-    } catch (error) {
-        console.error("Error fetching companies:", error.message);
+};
+const searchResumes = async (location) => {
+    if (location === "По всем городам") {
+        fetchAllCompanies();  
+    } else {
+        try {
+            const response = await axios.post(`${IP}/getCompaniesByFilters`, { location });
+            const companies = response.data || [];
+            cards.value = companies.map((item) => ({
+                vacancy_id: item.id || "",
+                title: item.title || "Unknown",
+                description: item.aboutCompany || "Unknown",
+                location: item.location || "Unknown",
+                requirements: item.contracts || [],
+            }));
+        } catch (error) {
+            console.error("Error fetching companies:", error.message);
+        }
     }
 };
 const props = defineProps({
@@ -106,7 +114,10 @@ onMounted(() => {
     if (isSpecialPage()) {
         window.addEventListener("scroll", handleScroll);
     }
-    searchResumes();
+    emitter.on('city-selected', (newCity: any) => {
+        searchResumes(newCity);  
+    });
+    fetchAllCompanies();
 });
 const filteredCards = computed(() => {
     if (!props.searchInput) {

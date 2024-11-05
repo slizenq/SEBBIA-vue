@@ -626,8 +626,6 @@ app.post("/getCompaniesByFilters", async (req, res) => {
 //         res.status(500).json({ error: err.message });
 //     }
 // });
-
-
 async function getVacanciesByParams(filterParams) {
     const client = createVacancyClient();
     const request = {

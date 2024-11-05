@@ -24,7 +24,7 @@
                 </p>
             </div>
             <div class="card-info__skils">
-                <span class="skils-title">Навыки:</span>
+                <span class="skils-title">Партнеры:</span>
                 <div class="skils__item">
                     <el-tag
                         v-for="item in items"
