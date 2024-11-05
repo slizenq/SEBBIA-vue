@@ -475,7 +475,6 @@ async function createVacancy(token, vacancyData) {
         });
     });
 }
-
 app.post("/createVacancy", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const vacancyData = req.body;
@@ -492,6 +491,87 @@ app.post("/createVacancy", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+
+
+
+
+
+
+// Получение всех вакансий 
+async function searchCompany(getVacancy) {
+    const client = createCompanyClient();
+    const request = {
+        // title: getVacancy.title,
+        aboutMe: getVacancy.about_me || "",
+        skills: getVacancy.skills || "",
+        direction: getVacancy.direction || "",
+        aboutProjects: getVacancy.about_projects || "",
+        portfolio: getVacancy.portfolio || "",
+        page_size: getVacancy.page_size || 10,
+        page_token: getVacancy.page_token || "", 
+    };
+    return new Promise((resolve, reject) => {
+        client.SearchCompany(request, (err, response) => {
+            if (err) {
+                console.error("gRPC error:", err.details || err.message); 
+                reject(err);
+            } else {
+                console.log("Response from gRPC:", response);
+                resolve(response.company);  
+            }
+        });
+    });
+}
+
+app.post("/searchCompany", async (req, res) => {
+    const getVacancy = req.body;
+    try {
+        const resume = await searchCompany(getVacancy);
+        res.json(resume);
+    } catch (err) {
+        console.error("Error in /searchCompany:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+// Получение вакансий по фильтру
+async function getCompaniesByFilters(filterParams) {
+    const client = createCompanyClient();
+    const request = {
+        typeCompany: filterParams.typeCompany,
+        location: filterParams.location,
+        contracts: filterParams.contracts || [],
+        page_size: filterParams.page_size || 10, 
+        page_token: filterParams.page_token || "", 
+    };
+    
+    return new Promise((resolve, reject) => {
+        client.GetCompaniesByFilters(request, (err, response) => {
+            if (err) {
+                console.error("gRPC error:", err.details || err.message); 
+                reject(err);
+            } else {
+                console.log("Response from gRPC:", response);
+                resolve(response.company);  
+            }
+        });
+    });
+}
+app.post("/getCompaniesByFilters", async (req, res) => {
+    const filterParams = req.body;
+    try {
+        const companies = await getCompaniesByFilters(filterParams);
+        res.json(companies);
+    } catch (err) {
+        console.error("Error in /getCompaniesByFilters:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
+
+
+
 
 app.listen(port, () => {
     console.log(`Server listening on http://localhost:${port}`);
