@@ -445,21 +445,22 @@ async function createVacancy(token, vacancyData) {
     const client = createVacancyClient();
     const metadata = new grpc.Metadata();
     metadata.add('Authorization', `Bearer ${token}`);
-    const expectedSkills = Array.isArray(vacancyData.expected_skills) 
-        ? vacancyData.expected_skills.map(skill => ({ skill })) 
-        : [];
+    const expectedSkills = Array.isArray(vacancyData.skills_required)
+    ? vacancyData.skills_required.map(skill => ({ skill }))
+    : [];
 
-    const directions = Array.isArray(vacancyData.directions) 
-        ? vacancyData.directions.map(direction => ({ direction })) 
-        : [];
+
+    const directions = Array.isArray(vacancyData.directions)
+    ? vacancyData.directions.map(direction => ({ direction }))
+    : [];
 
     const request = {
         vacancy: {
             expected_skills: expectedSkills,
-            about_practice: vacancyData.about_practice || '', 
+            about_practice: vacancyData.about_me || '',
+            about_projects: vacancyData.about_projects || 's',
             directions: directions,
-            about_projects: vacancyData.about_projects || '',  
-            company_id: vacancyData.company_id || '' 
+            company_id: vacancyData.company_id || ''
         }
     };
 
@@ -478,11 +479,6 @@ async function createVacancy(token, vacancyData) {
 app.post("/createVacancy", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const vacancyData = req.body;
-
-    if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
-    }
-
     try {
         const vacancy = await createVacancy(token, vacancyData);
         res.json(vacancy);
@@ -523,7 +519,6 @@ async function searchCompany(getVacancy) {
         });
     });
 }
-
 app.post("/searchCompany", async (req, res) => {
     const getVacancy = req.body;
     try {
@@ -567,7 +562,62 @@ app.post("/getCompaniesByFilters", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+// Получение профиля вакансии по id
+// async function getVacancyById(filterParams) {
+//     const client = createVacancyClient();
+//     const request = { id: filterParams.id }; 
+//     return new Promise((resolve, reject) => {
+//         client.GetVacancyById(request, (err, response) => {
+//             if (err) {
+//                 console.error("gRPC error:", err.details || err.message); 
+//                 reject(err);
+//             } else {
+//                 console.log("Response from gRPC:", response);
+//                 resolve(response.vacancy);  
+//             }
+//         });
+//     });
+// }
+// console.log("я квадробер")
+// app.post("/getVacancyById", async (req, res) => {
+//     const filterParams = req.body;
+//     try {
+//         const vacancy = await getVacancyById(filterParams);
+//         res.json(vacancy);
+//     } catch (err) {
+//         console.error("Error in /getVacancyById:", err.message);
+//         res.status(500).json({ error: err.message });
+//     }
+// });
 
+
+async function getVacanciesByParams(filterParams) {
+    const client = createVacancyClient();
+    const request = {
+        company_id: filterParams.company_id
+    };
+    return new Promise((resolve, reject) => {
+        client.GetVacanciesByParams(request, (err, response) => {
+            if (err) {
+                console.error("gRPC error:", err.details || err.message);
+                reject(err);
+            } else {
+                console.log("Response from gRPC:", response);
+                resolve(response.vacancies);  
+            }
+        });
+    });
+}
+app.post("/getVacanciesByParams", async (req, res) => {
+    const filterParams = req.body;  
+    try {
+        const vacancies = await getVacanciesByParams(filterParams);
+        res.json(vacancies);
+    } catch (err) {
+        console.error("Error in /getVacanciesByParams:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
 
 
 

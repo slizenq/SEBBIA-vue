@@ -4,8 +4,8 @@
         <div class="company__vacancy" @search="sea(message)">
             <div class="company__vacancy__left-part">
                 <div class="left__element">
-                    <h1 class="direction">{{ vacancyData.description }}</h1>
-                    <p class="description">Мобильный разработчик, Фулл-стек разработчик, Бекенд разработчик</p>
+                    <h1 class="direction">{{ vacancyData.title }}</h1>
+                    <p class="description">{{ vacancyData.positions }}</p>
                 </div>
                 <div class="left__element">
                     <p class="element__title">Чем предстоит заниматься</p>
@@ -151,21 +151,18 @@ const editVacancy = function () {
 };
 const dialogContent = ref({});
 const openDialog = async () => {
-    const response = await axios.get(`${IP}/vacancy/vacancies/${localStorage.getItem("vacancy")}`);
+    // const vacancyId = localStorage.getItem("vacancy");
+    const vacancy_id = localStorage.getItem('vacancy')
+    
+    const response = await axios.post(`${IP}/getVacancyById`, { id: vacancy_id });
     let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
     const getResume = await axios.get(`${IP}/resume/users/${checkUUid}/resumes`);
     console.log(getResume.data[0]);
     console.log(response.data);
-    if (
-        getResume.data[0].directions &&
-        getResume.data[0].education &&
-        getResume.data[0].phone_number &&
-        getResume.data[0].portfolio
-    ) {
+    if (getResume.data[0].directions && getResume.data[0].education && getResume.data[0].phone_number && getResume.data[0].portfolio) {
         if (getResume.data[0].directions[0] == getResume.title) {
             dialogContent.value.title = "Направление не совпадает";
-            dialogContent.value.description =
-                "Для отклика требуется указать в вашем резюме, направление, которое присутствует в компании, на которую вы хотите откликнуться";
+            dialogContent.value.description = "Для отклика требуется указать в вашем резюме, направление, которое присутствует в компании, на которую вы хотите откликнуться";
             isDialogVisible.value = true;
         } else {
             isDialogVisible.value = false;
@@ -179,8 +176,7 @@ const openDialog = async () => {
         }
     } else {
         dialogContent.value.title = "Заполните резюме";
-        dialogContent.value.description =
-            "Для отклика требуется создать резюме в личном кабинете, где есть подсказки, чтобы научиться профессионально о себе рассказать будущему работодателю";
+        dialogContent.value.description = "Для отклика требуется создать резюме в личном кабинете, где есть подсказки, чтобы научиться профессионально о себе рассказать будущему работодателю";
         isDialogVisible.value = true;
     }
 };
@@ -199,18 +195,19 @@ const fetchVacancyData = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
     checkCompany.value = user?.isCompany === true || !user ? false : true;
 
-    console.log(checkCompany.value);
+    let vacancy_id = localStorage.getItem('vacancy')
+    console.log(vacancy_id);
 
-    const response = await axios.get(
-        `${IP}/vacancy/vacancies/${localStorage.getItem("vacancy")}`
-    );
+    const vacancyFilterParams = {
+        company_id: vacancy_id                         
+    };
+    const response = await axios.post(`${IP}/getVacanciesByParams`, vacancyFilterParams);
+    console.log(response.data);
+    
     let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
-    const getResume = await axios.get(
-        `${IP}/resume/users/${checkUUid}/resumes`
-    );
+    const getResume = await axios.get(`${IP}/resume/users/${checkUUid}/resumes`);
     console.log(getResume.data[0]);
     console.log(response.data);
-
     vacancyData.value = response.data;
 };
 fetchVacancyData();
