@@ -56,15 +56,18 @@ export const createPractice = async function (practiceData) {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`
         };
         const practiceEntity = {
-            directions: Array.isArray(practiceData.direction) ? practiceData.direction : [],
-            skills_required: Array.isArray(practiceData.skills_required) ? practiceData.skills_required : [],
-            about_me: practiceData.about_me || '',
-            tasks: practiceData.tasks || [],
-            company_id: localStorage.getItem('company_id')
+            directions: practiceData.direction,
+            skills_required: practiceData.skills_required,
+            about_me: practiceData.about_me,
+            tasks: practiceData.tasks,
+            company_id: localStorage.getItem('company_id'),
         };
         if (accountID) {
             practiceEntity.practice_id = accountID;
             try {
+                console.log('hi');
+                console.log(practiceEntity);
+                
                 const postResponse = await axios.post(`${IP}/createVacancy`, practiceEntity, { headers });
                 console.log('Обновление практики успешно:', postResponse.data);
                 return true;
