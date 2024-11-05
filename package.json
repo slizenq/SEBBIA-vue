@@ -30,6 +30,7 @@
         "js-base64": "^3.7.7",
         "lru-cache": "^11.0.1",
         "maska": "^3.0.3",
+        "mitt": "^3.0.1",
         "node-localstorage": "^3.0.5",
         "nuxt": "^3.13.2",
         "os-browserify": "^0.3.0",
