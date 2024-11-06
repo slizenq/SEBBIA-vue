@@ -9,29 +9,17 @@
                 </div>
                 <div class="left__element">
                     <p class="element__title">Чем предстоит заниматься</p>
-                    <ul>
-                        <li>{{ vacancyData[0]?.about_practice }}</li>
-                    </ul>
+                    <ul><li>{{ vacancyData[0]?.about_practice }}</li></ul>
                 </div>
                 <div class="left__element">
                     <p class="element__title">Желательные навыки</p>
-                    <el-tag
-                        v-if="vacancyData[0]?.expected_skills"
-                        v-for="(item, index) in vacancyData[0].expected_skills"
-                        :key="index"
-                        type="primary"
-                        effect="plain"
-                        round
-                        class="skills"
-                    >
+                    <el-tag v-if="vacancyData[0]?.expected_skills" v-for="(item, index) in vacancyData[0].expected_skills" :key="index" type="primary" effect="plain" round class="skills">
                         <div class="skill_tags">{{ item.skill }}</div>
                     </el-tag>
                 </div>
                 <div class="left__element">
                     <p class="element__title">О проектах</p>
-                    <p class="description">
-                        {{ vacancyData[0]?.about_projects }} 
-                    </p>
+                    <p class="description">{{ vacancyData[0]?.about_projects }}</p>
                 </div>
             </div>
             <div class="company__vacancy__right-part">
@@ -45,59 +33,27 @@
                             <p class="right__description">{{ companyProfile?.typeCompany }}</p>
                         </div>
                         <div class="wrap__margin">
-                            <p class="right__description text__align">
-                                <img src="./../assets/images/vacancy/location.svg"/>{{ companyProfile?.location }}
-                            </p>
-                            <p class="right__description text__align">
-                                <img src="./../assets/images/vacancy/date.svg"/>22.02.2011
-                            </p>
+                            <p class="right__description text__align"><img src="./../assets/images/vacancy/location.svg"/>{{ companyProfile?.location }}</p>
+                            <p class="right__description text__align"><img src="./../assets/images/vacancy/date.svg"/>22.02.2011</p>
                         </div>
                     </div>
                     <img src="./../assets/images/company-logo.svg" alt="logo" />
                 </div>
                 <p class="company__description">{{ vacancyData[0]?.about_projects }} 
                 </p>
-                <ElButton
-                    @click="openDialog"
-                    class="respond"
-                    type="primary"
-                    v-if="checkCompany"
-                    >Откликнуться
+                <ElButton @click="openDialog" class="respond" type="primary" v-if="checkCompany">Откликнуться
                     <img src="./../assets/images/vacancy/micro-link.svg" />
                 </ElButton>
-                <ElButton
-                    @click="editVacancy"
-                    class="respond"
-                    type="primary"
-                    v-else
-                    >Редактировать
+                <ElButton @click="editVacancy" class="respond" type="primary" v-else>Редактировать
                     <img src="./../assets/images/vacancy/micro-link.svg" />
                 </ElButton>
-                <el-dialog
-                    v-model="isDialogVisibleVacancy"
-                    width="700px"
-                    :close-on-click-modal="true"
-                    :close-on-press-escape="true"
-                    @close="resetDialog"
-                    class="login-dialog"
-                    top="2%"
-                >
+                <el-dialog v-model="isDialogVisibleVacancy" width="700px" :close-on-click-modal="true" :close-on-press-escape="true" @close="resetDialog" class="login-dialog" top="2%">
                     <EditVacancyCompany />
                 </el-dialog>
-                <el-dialog
-                    v-model="isDialogVisible"
-                    :title="titleModal"
-                    width="480px"
-                    :close-on-click-modal="true"
-                    :close-on-press-escape="true"
-                    @close="resetDialog"
-                    class="login-dialog"
-                >
+                <el-dialog v-model="isDialogVisible" :title="titleModal" width="480px" :close-on-click-modal="true" :close-on-press-escape="true" @close="resetDialog" class="login-dialog">
                     <div class="wrap">
                         <div class="wrap__title">
-                            <el-icon
-                                ><InfoFilled color="#409EFF" height="22px"
-                            /></el-icon>
+                            <el-icon><InfoFilled color="#409EFF" height="22px"/></el-icon>
                             <h2>{{ dialogContent.title }}</h2>
                         </div>
                         <div class="wrap__content">
@@ -113,14 +69,7 @@
                 </el-dialog>
                 <div class="partner">
                 <p class="contract">Партнеры</p>
-                <el-tag
-                    v-for="(item, index) in companyProfile?.contracts"  
-                    :key="index"
-                    type="primary"
-                    effect="plain"
-                    round
-                    class="skills"
-                >
+                <el-tag v-for="(item, index) in companyProfile?.contracts" :key="index" type="primary" effect="plain" round class="skills">
                     <div class="skill_tags">{{ item }}</div> 
                 </el-tag>
                 {{ companyProfile?.contract }}  
@@ -151,14 +100,20 @@ const editVacancy = function () {
 };
 const dialogContent = ref({});
 const openDialog = async () => {
-    // const vacancyId = localStorage.getItem("vacancy");
     const vacancy_id = localStorage.getItem('vacancy')
-    
-    const response = await axios.post(`${IP}/getVacancyById`, { id: vacancy_id });
+    const headers = {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    };
+    let studentId = localStorage.getItem("AccountID");
+    let getResumeId = await axios.post(`${IP}/getResumeByStudentId`, { studentId: studentId }, { headers }); 
+    const resumeData = {
+        resumeId: getResumeId.data.resumeId,
+        vacancyId: localStorage.getItem('vacancy'),
+        studentId: studentId,
+    };
+    const response = await axios.post(`${IP}/createApplicationVacancy`, resumeData, { headers }); 
     let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
     const getResume = await axios.get(`${IP}/resume/users/${checkUUid}/resumes`);
-    console.log(getResume.data[0]);
-    // console.log(response.data);
     if (getResume.data[0].directions && getResume.data[0].education && getResume.data[0].phone_number && getResume.data[0].portfolio) {
         if (getResume.data[0].directions[0] == getResume.title) {
             dialogContent.value.title = "Направление не совпадает";
@@ -166,13 +121,7 @@ const openDialog = async () => {
             isDialogVisible.value = true;
         } else {
             isDialogVisible.value = false;
-            ElNotification({
-                title: "Резюме отправлено",
-                message: "Вы можете посмотреть его статус в личном кабинете ",
-                duration: 2000,
-                type: "success",
-                showClose: false,
-            });
+            ElNotification({title: "Резюме отправлено", message: "Вы можете посмотреть его статус в личном кабинете ", duration: 2000, type: "success", showClose: false,});
         }
     } else {
         dialogContent.value.title = "Заполните резюме";
@@ -197,25 +146,14 @@ const fetchVacancyData = async () => {
     checkCompany.value = user?.isCompany === true || !user ? false : true;
 
     let vacancy_id = localStorage.getItem('vacancy')
-    console.log(vacancy_id);
-
     const vacancyFilterParams = {
         company_id: vacancy_id                         
     };
     const response = await axios.post(`${IP}/getVacanciesByParams`, vacancyFilterParams);
     vacancyData.value = response.data;
-    console.log(vacancyData.value[0]);
-    console.log(vacancyData.value[0]?.expected_skills);
-    console.log(vacancyData.value[0]?.directions);
-    // let ax = response.data[0].company_id
     let ax = localStorage.getItem('vacancy')
-    console.log(response.data[0]);
-    
-    
     const companyAccount = await axios.post(`${IP}/getCompanyById`, { id: ax });
     companyProfile.value = {...companyAccount.data} 
-    console.log(companyProfile.value.contracts);
-    
     let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
     const getResume = await axios.get(`${IP}/resume/users/${checkUUid}/resumes`);
 };
