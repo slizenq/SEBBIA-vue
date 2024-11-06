@@ -79,12 +79,14 @@
 </template>
 
 <script setup>
-import { defineProps, ref } from "vue";
+import { defineProps, onMounted, ref } from "vue";
 import { ElCard, ElButton, ElTag, ElNotification } from "element-plus";
 import Tag from "~/components/companyCreateResume/Tag.vue";
 import { TopRight } from "@element-plus/icons-vue";
 
 const token = localStorage.getItem("access_token");
+const resumeId = localStorage.getItem("resumeId");
+const vacancyId = localStorage.getItem("vacancyId");
 
 const props = defineProps({
     title: {

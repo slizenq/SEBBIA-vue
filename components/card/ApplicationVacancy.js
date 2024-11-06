@@ -6,8 +6,8 @@ export const applicationVacancy = async function () {
         const headers = {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         };
-        const resumeId = localStorage.getItem("resumeId");
-        
+
+        console.log(resumeId, vacancyId);
 
         const postResponse = await axios.post(
             `${IP}/createApplicationVacancy`,
@@ -25,3 +25,5 @@ export const applicationVacancy = async function () {
         return false;
     }
 };
+
+applicationVacancy();
