@@ -11,15 +11,13 @@ message ApplicationVacancy {
     string resumeId = 2;
     string vacancyId = 3;
     ApplicationVacancyStatus status = 4;
+    string studentId = 5;
 }
 
 message CreateApplicationVacancyReq{
     string resumeId = 1;
     string vacancyId = 2;
-}
-
-message CreateApplicationVacancyRes {
-    string applicationVacancyId = 1;
+    string studentId = 3;
 }
 
 enum ApplicationVacancyStatus {
@@ -29,47 +27,54 @@ enum ApplicationVacancyStatus {
     REJECTED = 3;
 }
 
-// message UpdateApplicationVacancyStatusReq {
+// message ReviewApplicationVacancyReq {
 //     string applicationVacancyId = 1;
-//     ApplicationVacancyStatus status = 2;
 // }
 
-message ReviewApplicationVacancyReq {
-    string applicationVacancyId = 1;
-}
+// message AcceptApplicationVacancyReq {
+//     string applicationVacancyId = 1;
+// }
 
-message AcceptApplicationVacancyReq {
-    string applicationVacancyId = 1;
-}
+// message RejectApplicationVacancyReq {
+//     string applicationVacancyId = 1;
+// }
 
-message RejectApplicationVacancyReq {
+message ChangeStatusReq {
     string applicationVacancyId = 1;
-}
-
-message GetApplicationsVacanciesReq {
+    string studentId = 2;
 }
 
 message GetApplicationVacancyByIdReq {
     string applicationVacancyId = 1;
 }
 
-message GetApplicationVacancyByIdRes {
+message GetApplicationsVacancyByVacancyIdReq {
+    string vacancyId = 1;
+    int32 page_size = 2;
+    string page_token = 3;
+}
+
+message GetApplicationsVacancyByResumeIdReq {
+    string resumeId = 1;
+    int32 page_size = 2;
+    string page_token = 3;
+}
+
+message ListApplicationVacancyRes {
+    repeated ApplicationVacancy applicationsVacancy = 1;
+    string next_page_token = 2;
+}
+
+message ApplicationVacancyRes {
     ApplicationVacancy applicationVacancy = 1;
 }
 
-message GetApplicationsVacancyByVacancyIdReq {
-    string vacancyId = 1;
-}
-
-message GetApplicationsVacancyByVacancyIdRes {
-    repeated ApplicationVacancy applicationsVacancy = 1;
-}
-
 service ApplicationVacancyService {
-    rpc CreateApplicationVacancy(CreateApplicationVacancyReq) returns (CreateApplicationVacancyRes){};
-    rpc ReviewApplicationVacancy(ReviewApplicationVacancyReq) returns (google.protobuf.Empty){};
-    rpc AcceptApplicationVacancy(AcceptApplicationVacancyReq) returns (google.protobuf.Empty){};
-    rpc RejectApplicationVacancy(RejectApplicationVacancyReq) returns (google.protobuf.Empty){};
-    rpc GetApplicationVacancyById(GetApplicationVacancyByIdReq) returns (GetApplicationVacancyByIdRes){};
-    rpc GetApplicationsVacancyByVacancyId(GetApplicationsVacancyByVacancyIdReq) returns (GetApplicationsVacancyByVacancyIdRes){};
+    rpc CreateApplicationVacancy(CreateApplicationVacancyReq) returns (ApplicationVacancyRes){};
+    rpc ReviewApplicationVacancy(ChangeStatusReq) returns (google.protobuf.Empty){};
+    rpc AcceptApplicationVacancy(ChangeStatusReq) returns (google.protobuf.Empty){};
+    rpc RejectApplicationVacancy(ChangeStatusReq) returns (google.protobuf.Empty){};
+    rpc GetApplicationVacancyById(GetApplicationVacancyByIdReq) returns (ApplicationVacancyRes){};
+    rpc GetApplicationsVacancyByVacancyId(GetApplicationsVacancyByVacancyIdReq) returns (ListApplicationVacancyRes){};
+    rpc GetApplicationsVacancyByResumeId(GetApplicationsVacancyByResumeIdReq) returns (ListApplicationVacancyRes){};
 }

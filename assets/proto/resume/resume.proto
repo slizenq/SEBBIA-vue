@@ -27,10 +27,6 @@ message CreateResumeReq {
     string portfolio = 5;
 }
 
-message CreateResumeRes {
-    Resume resume = 1;
-}
-
 message ResumeResponse {
     Resume resume = 1;
 }
@@ -51,6 +47,6 @@ message GetResumeByIdReq {
 service ResumeService {
     rpc CreateResume(CreateResumeReq) returns (ResumeResponse){};
     rpc ChangeResume(ChangeResumeReq) returns (ResumeResponse){};
-    rpc GetResumeByAccountId(google.protobuf.Empty) returns (ResumeResponse){};
+    rpc GetResumeByAccountId(google.protobuf.Empty) returns (ResumeResponse){}; 
     rpc GetResumeById(GetResumeByIdReq) returns (ResumeResponse){};
 }

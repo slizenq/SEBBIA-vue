@@ -312,43 +312,46 @@ app.post("/updateStudent", async (req, res) => {
     }
 });
 // Создание резюме студента
-async function createResumeStudent(token, studentData) {
+async function createResume(token, resumeData) {
     const client = createResumeClient();
     const metadata = new grpc.Metadata();
     metadata.add('Authorization', `Bearer ${token}`);
+
     const request = {
-        aboutMe: studentData.about_me,
-        skills: studentData.skills.map(skill => ({ skill })),   
-        direction: studentData.direction,
-        aboutProjects: studentData.about_projects,
-        portfolio: studentData.portfolio,
+        resumeId: resumeData.resumeId,
+        aboutMe: resumeData.about_me,
+        skills: resumeData.skills.map(skill => ({ skill })),
+        direction: resumeData.direction,
+        aboutProjects: resumeData.about_projects,
+        portfolio: resumeData.portfolio,
     };
+    console.log(request);
+    
     return new Promise((resolve, reject) => {
         client.CreateResume(request, metadata, (err, response) => {
-            if (err) {
-                console.error("gRPC error:", err.details || err.message); 
-                reject(err);
-            } else {
-                console.log("Response from gRPC:", response);
-                resolve(response.resume);
-            }
-        })
+            if (err) reject(err);
+            else resolve(response.resume);
+        });
     });
 }
-app.post("/createResumeStudent", async (req, res) => {
-    const token = req.headers.authorization?.split(" ")[1];
-    const studentData = req.body;
+app.post("/createResume", async (req, res) => {
+    const token = req.headers.authorization?.split(" ")[1];   
+    const resumeData = req.body;  
+    console.log(resumeData);
+    
     if (!token) {
         return res.status(401).json({ error: "Unauthorized: No token provided" });
     }
+    
     try {
-        const resume = await createResumeStudent(token, studentData);
-        res.json(resume);
+        const resume = await createResume(token, resumeData);
+        res.json(resume);   
     } catch (err) {
-        console.error("Error in /createResumeStudent:", err.message);
+        console.error("Error in /createResume:", err.message);
         res.status(500).json({ error: err.message });
     }
 });
+
 
 
 
@@ -658,6 +661,44 @@ app.post("/getVacanciesByParams", async (req, res) => {
 
 
 
+
+
+// Отклик со стороны студента
+async function createApplicationVacancy(filterParams) {
+    const client = createVacancyClient();
+    const request = {
+        company_id: filterParams.company_id
+    };
+    return new Promise((resolve, reject) => {
+        client.CreateApplicationVacancy(request, (err, response) => {
+            if (err) {
+                console.error("gRPC error:", err.details || err.message);
+                reject(err);
+            } else {
+                console.log("Response from gRPC:", response);
+                resolve(response.vacancies);  
+            }
+        });
+    });
+}
+app.post("/createApplicationVacancy", async (req, res) => {
+    const filterParams = req.body;  
+    try {
+        const vacancies = await createApplicationVacancy(filterParams);
+        res.json(vacancies);
+    } catch (err) {
+        console.error("Error in /createApplicationVacancy:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
+
+
+
+
+
+
 app.listen(port, () => {
-    console.log(`Server listening on http://localhost:${port}`);
+    console.log(`Сервер запущен на http://localhost:${port}`);
 });
