@@ -318,7 +318,7 @@ async function createResume(token, resumeData) {
     metadata.add('Authorization', `Bearer ${token}`);
 
     const request = {
-        resumeId: resumeData.resumeId,
+        studentId: resumeData.resumeId,
         aboutMe: resumeData.about_me,
         skills: resumeData.skills.map(skill => ({ skill })),
         direction: resumeData.direction,
