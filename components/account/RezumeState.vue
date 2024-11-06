@@ -16,16 +16,10 @@
                 class="rezume__state-void contain__margin"
             >
                 <div class="current__state">
-                    <p
-                        class="current__state-title"
-                        :style="{ color: getStatusColor(rezume.name) }"
-                    >
+                    <p class="current__state-title" :style="{ color: getStatusColor(rezume.name) }">
                         {{ rezume.firstName }} {{ rezume.lastName }}
                     </p>
-                    <p
-                        class="current__state-desc"
-                        :style="{ color: getStatusColor(rezume.status) }"
-                    >
+                    <p class="current__state-desc" :style="{ color: getStatusColor(rezume.status) }">
                         <el-icon v-if="getStatusLabelIcon(rezume.status)">
                             <component
                                 :is="getStatusLabelIcon(rezume.status)"
@@ -82,14 +76,15 @@
 <script setup>
 import { ElButton, ElNotification } from "element-plus";
 import { useStore } from "~/storage/storage";
-import {
-    Hide,
+import { Hide,
     CircleCheckFilled,
     CircleCloseFilled,
     View,
 } from "@element-plus/icons-vue";
 
 const storage = useStore();
+console.log();
+
 const rezumeState = {
     title: "Статус отправки резюме",
     empty: "Вы еще не отправляли свое резюме",
@@ -98,6 +93,8 @@ const rezumeState = {
 
 function removeRezume(id) {
     storage.rezumes = storage.rezumes.filter((rezume) => rezume.id !== id);
+    console.log(storage.rezumes);
+    
 }
 
 function cancelRezume(id) {

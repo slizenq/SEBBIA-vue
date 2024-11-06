@@ -72,7 +72,10 @@ export const sendFormResume = async function (about_me, location, skills, portfo
         Authorization: `Bearer ${localStorage.getItem("access_token")}`
     };
 
+    let studentId = localStorage.getItem("AccountID");
+
     const resumeData = {
+        resumeId: studentId,  
         about_me: about_me.value || '',
         skills: Array.isArray(skills.value) ? skills.value : skills.value ? skills.value.split(",") : [],
         direction: selectedDirection.value || '',
@@ -81,7 +84,7 @@ export const sendFormResume = async function (about_me, location, skills, portfo
     };
 
     try {
-        const postResponse = await axios.post(`${IP}/createResumeStudent`, resumeData, { headers });
+        const postResponse = await axios.post(`${IP}/createResume`, resumeData, { headers });
         console.log("Создание резюме успешно:", postResponse.data);
         dialogRedactor.value = false;
         return true;

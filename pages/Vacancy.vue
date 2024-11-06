@@ -205,9 +205,12 @@ const fetchVacancyData = async () => {
     const response = await axios.post(`${IP}/getVacanciesByParams`, vacancyFilterParams);
     vacancyData.value = response.data;
     console.log(vacancyData.value[0]);
-    console.log(vacancyData.value[0].expected_skills);
-    console.log(vacancyData.value[0].directions);
-    let ax = response.data[0].company_id
+    console.log(vacancyData.value[0]?.expected_skills);
+    console.log(vacancyData.value[0]?.directions);
+    // let ax = response.data[0].company_id
+    let ax = localStorage.getItem('vacancy')
+    console.log(response.data[0]);
+    
     
     const companyAccount = await axios.post(`${IP}/getCompanyById`, { id: ax });
     companyProfile.value = {...companyAccount.data} 
