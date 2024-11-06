@@ -351,6 +351,46 @@ app.post("/createResume", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+// получение резюме студента по его id
+async function getResumeByStudentId(token, resumeData) {
+    const client = createResumeClient();
+    const metadata = new grpc.Metadata();
+    metadata.add('Authorization', `Bearer ${token}`);
+
+    const request = {
+        studentId: resumeData.studentId,
+    };
+    console.log('dasdadsadasddada');
+    console.log(request );
+    
+    
+    return new Promise((resolve, reject) => {
+        client.GetResumeByStudentId(request, metadata, (err, response) => {
+            if (err) {
+                console.error("gRPC error:", err.details || err.message);
+                reject(err);
+            } else {
+                resolve(response.resume);  
+            }
+        });
+    });
+}
+
+app.post("/getResumeByStudentId", async (req, res) => {
+    const token = req.headers.authorization?.split(" ")[1];  
+    const resumeData = req.body;
+    if (!token) {
+        return res.status(401).json({ error: "Unauthorized: No token provided" });
+    }
+    try {
+        const resume = await getResumeByStudentId(token, resumeData);
+        res.json(resume);
+    } catch (err) {
+        console.error("Error in /getResumeByStudentId:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 
 
 
@@ -603,32 +643,38 @@ app.post("/getCompaniesByFilters", async (req, res) => {
     }
 });
 // Получение профиля вакансии по id
-// async function getVacancyById(filterParams) {
-//     const client = createVacancyClient();
-//     const request = { id: filterParams.id }; 
-//     return new Promise((resolve, reject) => {
-//         client.GetVacancyById(request, (err, response) => {
-//             if (err) {
-//                 console.error("gRPC error:", err.details || err.message); 
-//                 reject(err);
-//             } else {
-//                 console.log("Response from gRPC:", response);
-//                 resolve(response.vacancy);  
-//             }
-//         });
-//     });
-// }
-// console.log("я квадробер")
-// app.post("/getVacancyById", async (req, res) => {
-//     const filterParams = req.body;
-//     try {
-//         const vacancy = await getVacancyById(filterParams);
-//         res.json(vacancy);
-//     } catch (err) {
-//         console.error("Error in /getVacancyById:", err.message);
-//         res.status(500).json({ error: err.message });
-//     }
-// });
+async function getVacancyById(filterParams) {
+    const client = createVacancyClient();
+    
+    const request = { id: filterParams.vacancyId };  
+
+    console.log("Sending request:", request);
+    
+    return new Promise((resolve, reject) => {
+        client.GetVacancyById(request, (err, response) => {
+            if (err) {
+                console.error("gRPC error:", err.details || err.message); 
+                reject(err);
+            } else {
+                console.log("Response from gRPC:", response);
+                resolve(response.vacancy);  
+            }
+        });
+    });
+}
+app.post("/getVacancyById", async (req, res) => {
+    const filterParams = req.body;
+    
+    console.log("Received filterParams:", filterParams);
+    
+    try {
+        const vacancy = await getVacancyById(filterParams);
+        res.json(vacancy);
+    } catch (err) {
+        console.error("Error in /getVacancyById:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
 async function getVacanciesByParams(filterParams) {
     const client = createVacancyClient();
     const request = {
@@ -661,33 +707,83 @@ app.post("/getVacanciesByParams", async (req, res) => {
 
 
 
-
+// GetResumeByStudentId
 
 // Отклик со стороны студента
-async function createApplicationVacancy(filterParams) {
-    const client = createVacancyClient();
+async function createApplicationVacancy(token, applicationData) {
+    const client = createApplicationVacancyClient();
+    const metadata = new grpc.Metadata();
+    metadata.add('Authorization', `Bearer ${token}`);
+
     const request = {
-        company_id: filterParams.company_id
+        resumeId: applicationData.resumeId,
+        vacancyId: applicationData.vacancyId,
+        studentId: applicationData.studentId
     };
+
     return new Promise((resolve, reject) => {
-        client.CreateApplicationVacancy(request, (err, response) => {
+        client.CreateApplicationVacancy(request, metadata, (err, response) => {
             if (err) {
                 console.error("gRPC error:", err.details || err.message);
                 reject(err);
             } else {
                 console.log("Response from gRPC:", response);
-                resolve(response.vacancies);  
+                resolve(response.applicationVacancy);   
             }
         });
     });
 }
 app.post("/createApplicationVacancy", async (req, res) => {
-    const filterParams = req.body;  
+    const token = req.headers.authorization?.split(" ")[1];   
+    const applicationData = req.body;
+
+    if (!token) {
+        return res.status(401).json({ error: "Unauthorized: No token provided" });
+    }
+
     try {
-        const vacancies = await createApplicationVacancy(filterParams);
-        res.json(vacancies);
+        const applicationVacancy = await createApplicationVacancy(token, applicationData);
+        res.json(applicationVacancy);
     } catch (err) {
         console.error("Error in /createApplicationVacancy:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+// Получение всех его откликов со стороны студента
+async function getApplicationsVacancyByResumeId(token, applicationData) {
+    const client = createApplicationVacancyClient();
+    const metadata = new grpc.Metadata();
+    metadata.add('Authorization', `Bearer ${token}`);
+    
+    const request = {
+        resumeId: applicationData.resumeId,
+        page_size: applicationData.page_size || 10,
+        page_token: applicationData.page_token || ""
+    };
+
+    return new Promise((resolve, reject) => {
+        client.GetApplicationsVacancyByResumeId(request, metadata, (err, response) => {
+            if (err) {
+                console.error("gRPC error:", err.details || err.message);
+                reject(err);
+            } else {
+                console.log("Response from gRPC:", response);
+                resolve(response.applicationsVacancy);  
+            }
+        });
+    });
+}
+app.post("/getApplicationsVacancyByResumeId", async (req, res) => { 
+    const token = req.headers.authorization?.split(" ")[1];
+    const applicationData = req.body;
+    if (!token) {
+        return res.status(401).json({ error: "Unauthorized: No token provided" });
+    }
+    try {
+        const applicationsVacancy = await getApplicationsVacancyByResumeId(token, applicationData);
+        res.json(applicationsVacancy);
+    } catch (err) {
+        console.error("Error in /getApplicationsVacancyByResumeId:", err.message);
         res.status(500).json({ error: err.message });
     }
 });

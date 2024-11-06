@@ -72,16 +72,4 @@ export const useStore = defineStore({
     actions: {
         increment() {},
     },
-});
-
-// Инструкция по использованию Pinia State Storage
-
-// import { useStore } from "~/storage/storage";
-// export default {
-//     setup() {
-//         const store = useStore();
-//         return {
-//             count: store.count,
-//         };
-//     },
-// };
+}); 
