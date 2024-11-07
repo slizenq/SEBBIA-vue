@@ -69,24 +69,25 @@ const applicationVacancyPakage = grpc.loadPackageDefinition(applicationVacancy).
 const companyPackage = grpc.loadPackageDefinition(company).company;
 const resumePackage = grpc.loadPackageDefinition(resume).resume;
 const vacancyPackage = grpc.loadPackageDefinition(vacancy).vacancy;
+const API_URL = "3627673-qf57717.twc1.net:81"
 
 function createAuthClient() {
-    return new authPackage.SSOServerService("92.53.105.243:81", grpc.credentials.createInsecure(), options);
+    return new authPackage.SSOServerService(API_URL, grpc.credentials.createInsecure(), options);
 }
 function createStudentClient() {
-    return new studentPackage.StudentService("92.53.105.243:81", grpc.credentials.createInsecure(), options);
+    return new studentPackage.StudentService(API_URL, grpc.credentials.createInsecure(), options);
 }
 function createApplicationVacancyClient() {
-    return new applicationVacancyPakage.ApplicationVacancyService("92.53.105.243:81", grpc.credentials.createInsecure(), options);
+    return new applicationVacancyPakage.ApplicationVacancyService(API_URL, grpc.credentials.createInsecure(), options);
 }
 function createCompanyClient() {
-    return new companyPackage.CompanyService("92.53.105.243:81", grpc.credentials.createInsecure(), options);
+    return new companyPackage.CompanyService(API_URL, grpc.credentials.createInsecure(), options);
 }
 function createResumeClient() {
-    return new resumePackage.ResumeService("92.53.105.243:81", grpc.credentials.createInsecure(), options);
+    return new resumePackage.ResumeService(API_URL, grpc.credentials.createInsecure(), options);
 }
 function createVacancyClient() {
-    return new vacancyPackage.VacancyService("92.53.105.243:81", grpc.credentials.createInsecure(), options);
+    return new vacancyPackage.VacancyService(API_URL, grpc.credentials.createInsecure(), options);
 }
 
 
@@ -248,7 +249,7 @@ app.post("/createStudent", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const studentData = req.body;
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Токен не предоставлен" });
     }
     try {
         const student = await createStudent(token, studentData);
@@ -295,7 +296,7 @@ app.post("/updateStudent", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const studentData = req.body;
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Токен не предоставлен" });
     }
     if (!studentData.student_id) {
         return res.status(400).json({ error: "student_id is required for update" });
@@ -340,7 +341,7 @@ app.post("/createResume", async (req, res) => {
     console.log(resumeData);
     
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Токен не предоставлен" });
     }
     
     try {
@@ -380,7 +381,7 @@ app.post("/getResumeByStudentId", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];  
     const resumeData = req.body;
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Токен не предоставлен" });
     }
     try {
         const resume = await getResumeByStudentId(token, resumeData);
@@ -442,7 +443,7 @@ app.post("/createCompany", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const companyData = req.body;
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Токен не предоставлен" });
     }
     try {
         const company = await createCompany(token, companyData);
@@ -646,7 +647,7 @@ app.post("/getCompaniesByFilters", async (req, res) => {
 async function getVacancyById(filterParams) {
     const client = createVacancyClient();
     
-    const request = { id: filterParams.vacancyId };   
+    const request = filterParams;   
 
     console.log("Sending request:", request);
     
@@ -738,7 +739,7 @@ app.post("/createApplicationVacancy", async (req, res) => {
     const applicationData = req.body;
 
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Токен не предоставлен" });
     }
 
     try {
@@ -777,7 +778,7 @@ app.post("/getApplicationsVacancyByResumeId", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const applicationData = req.body;
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Токен не предоставлен" });
     }
     try {
         const applicationsVacancy = await getApplicationsVacancyByResumeId(token, applicationData);
@@ -815,7 +816,7 @@ app.post("/getApplicationsVacancyByVacancyId", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const applicationData = req.body;
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Токен не предоставлен" });
     }
     try {
         const applicationsVacancy = await getApplicationsVacancyByVacancyId(token, applicationData);

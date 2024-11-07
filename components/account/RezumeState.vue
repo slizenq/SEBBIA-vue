@@ -13,21 +13,20 @@
         <div v-for="rezume in rezumes" :key="rezume.Id" class="rezume__state-void contain__margin">
           <div class="current__state">
             <p class="current__state-title" :style="{ color: getStatusColor(rezume.status) }">
-              {{ rezume.firstName }} {{ rezume.lastName }} в
+              {{ rezume.vacancyDetails?.title }}
             </p>
             <p class="current__state-desc" :style="{ color: getStatusColor(rezume.status) }">
               <el-icon v-if="getStatusLabelIcon(rezume.status)">
                 <component :is="getStatusLabelIcon(rezume.status)" height="16"/>
               </el-icon>
-              {{ rezume.status }} - Направление
+              {{ rezume.vacancyDetails?.location }} 
             </p>
           </div>
   
-          <!-- Добавляем информацию о вакансии -->
-          <div v-if="rezume.vacancyDetails" class="vacancy-details">
+          <!-- <div v-if="rezume.vacancyDetails" class="vacancy-details">
             <p><strong>Вакансия:</strong> {{ rezume.vacancyDetails.title }}</p>
             <p><strong>Описание вакансии:</strong> {{ rezume.vacancyDetails.description }}</p>
-          </div>
+          </div> -->
   
           <el-button v-if="rezume.status === 'Отказано'" type="default" plain @click="removeRezume(rezume.Id)" class="btn__delete">Удалить</el-button>
           <el-button v-else-if="rezume.status !== 'Отменено'" type="danger" plain class="btn__cancel" @click="cancelRezume(rezume.Id)">Отменить отправку</el-button>
@@ -63,7 +62,10 @@ console.log(rezumes.value);
 
 const fetchVacancyDetails = async (vacancyId) => {
     try {
-        const response = await axios.post(`${IP}/getVacancyById`, { vacancyId });
+        const response = await axios.post(`${IP}/getCompanyById`, { id: vacancyId });
+        console.log('otobr vacancy');
+        console.log(response.data);
+        
         return response.data;  
     } catch (error) {
         console.error("Ошибка получения вакансии:", error);
@@ -85,23 +87,41 @@ const getStudentApplication = async () => {
                 page_token: "",
             };
             const responseAppl = await axios.post(`${IP}/getApplicationsVacancyByResumeId`, applicationData, { headers });
+            console.log(responseAppl.data[0])
+            
             const rezumeData = await Promise.all(
-            responseAppl.data.map(async (rezume) => {
+                responseAppl.data.map(async (rezume) => {
+                    console.log(rezume.Id);
+                    
                     const vacancyDetails = await fetchVacancyDetails(rezume.vacancyId);
+                    console.log();
+                    
                     return { ...rezume, vacancyDetails };   
                 })
             );
         rezumes.value = rezumeData; 
         } else {
-            const getResumeId = await axios.post(`${IP}/getResumeByStudentId`, { studentId }, { headers });
+            let vacancy_id = localStorage.getItem('company_id')
+            const vacancyFilterParams = {
+                company_id: vacancy_id                         
+            };
+            const getResumeId = await axios.post(`${IP}/getVacanciesByParams`, vacancyFilterParams);
+            console.log('ds');
+            
+            console.log(getResumeId.data[0]);
+            
             const applicationData = {
-                resumeId: getResumeId.data.vacancyId,  
+                vacancyId: getResumeId?.data[0]?.company_id,  
                 page_size: 10,
                 page_token: "",
             };
             const responseAppl = await axios.post(`${IP}/getApplicationsVacancyByVacancyId`, applicationData, { headers });
+            console.log(responseAppl.data);
+            
             const rezumeData = await Promise.all(
             responseAppl.data.map(async (rezume) => {
+                console.log(rezume);
+                
                     const vacancyDetails = await fetchVacancyDetails(rezume.vacancyId);
                     return { ...rezume, vacancyDetails };   
                 })
