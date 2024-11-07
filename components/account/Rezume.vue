@@ -51,6 +51,7 @@ const updateResume = async () => {
         if (JSON.parse(localStorage.getItem("user")).isCompany) {
             response = await axios.post(`${IP}/getCompanyByAccessToken`, { checkUUid });
             localStorage.setItem('company_id', response.data.accountId)
+            localStorage.setItem('id', response.data.id)
             showResume.value = {
                 FirstName: response.data.CompanyName || "Не заполнено",
                 MiddleName: "",   
