@@ -65,7 +65,17 @@ const fetchVacancyDetails = async (vacancyId) => {
         const response = await axios.post(`${IP}/getCompanyById`, { id: vacancyId });
         console.log('otobr vacancy');
         console.log(response.data);
-        
+        return response.data;  
+    } catch (error) {
+        console.error("Ошибка получения вакансии:", error);
+        return null;  
+    }
+};
+const fetchStudentDetails = async (studentId) => {
+    try {
+        const response = await axios.post(`${IP}/getStudentById`, { id: studentId });
+        console.log('otobr vacancy');
+        console.log(response.data);
         return response.data;  
     } catch (error) {
         console.error("Ошибка получения вакансии:", error);
@@ -101,37 +111,22 @@ const getStudentApplication = async () => {
             );
         rezumes.value = rezumeData; 
         } else {
-            let vacancy_id = localStorage.getItem('company_id')
-            const vacancyFilterParams = {
-                company_id: vacancy_id                         
-            };
-            const getResumeId = await axios.post(`${IP}/getVacanciesByParams`, vacancyFilterParams);
-            console.log('ds');
-            
-            console.log(getResumeId.data[0]);
-            
             const applicationData = {
-                vacancyId: getResumeId?.data[0]?.company_id,  
+                vacancyId: localStorage.getItem('id'),  
                 page_size: 10,
                 page_token: "",
             };
             const responseAppl = await axios.post(`${IP}/getApplicationsVacancyByVacancyId`, applicationData, { headers });
             console.log(responseAppl.data);
-            
             const rezumeData = await Promise.all(
             responseAppl.data.map(async (rezume) => {
                 console.log(rezume);
-                
-                    const vacancyDetails = await fetchVacancyDetails(rezume.vacancyId);
+                    const vacancyDetails = await fetchStudentDetails(rezume.studentId);
                     return { ...rezume, vacancyDetails };   
                 })
             );
         rezumes.value = rezumeData; 
         }
-
-
-
-
         rezumes.value = rezumeData;  
         console.log(rezumes.value);
     } catch (error) {
