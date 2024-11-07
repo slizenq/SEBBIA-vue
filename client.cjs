@@ -646,7 +646,7 @@ app.post("/getCompaniesByFilters", async (req, res) => {
 async function getVacancyById(filterParams) {
     const client = createVacancyClient();
     
-    const request = { id: filterParams.vacancyId };  
+    const request = { id: filterParams.vacancyId };   
 
     console.log("Sending request:", request);
     
@@ -787,6 +787,45 @@ app.post("/getApplicationsVacancyByResumeId", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+// Получение всех его откликов со стороны студента
+async function getApplicationsVacancyByVacancyId(token, applicationData) {
+    const client = createApplicationVacancyClient();
+    const metadata = new grpc.Metadata();
+    metadata.add('Authorization', `Bearer ${token}`);
+    
+    const request = {
+        vacancyId: applicationData.vacancyId,
+        page_size: applicationData.page_size || 10,
+        page_token: applicationData.page_token || ""
+    };
+
+    return new Promise((resolve, reject) => {
+        client.GetApplicationsVacancyByVacancyId(request, metadata, (err, response) => {
+            if (err) {
+                console.error("gRPC error:", err.details || err.message);
+                reject(err);
+            } else {
+                console.log("Response from gRPC:", response);
+                resolve(response.applicationsVacancy);  
+            }
+        });
+    });
+}
+app.post("/getApplicationsVacancyByVacancyId", async (req, res) => { 
+    const token = req.headers.authorization?.split(" ")[1];
+    const applicationData = req.body;
+    if (!token) {
+        return res.status(401).json({ error: "Unauthorized: No token provided" });
+    }
+    try {
+        const applicationsVacancy = await getApplicationsVacancyByVacancyId(token, applicationData);
+        res.json(applicationsVacancy);
+    } catch (err) {
+        console.error("Error in /getApplicationsVacancyByVacancyId:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 
 
 

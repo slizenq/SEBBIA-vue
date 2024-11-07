@@ -70,31 +70,53 @@ const fetchVacancyDetails = async (vacancyId) => {
         return null;  
     }
 };
-const getStudentApplication = async () => {
-  const headers = {
-    Authorization: `Bearer ${localStorage.getItem("access_token")}`,  
-  };
-  const studentId = localStorage.getItem("AccountID"); 
-  try {
-    const getResumeId = await axios.post(`${IP}/getResumeByStudentId`, { studentId }, { headers });
-    const applicationData = {
-      resumeId: getResumeId.data.resumeId,  
-      page_size: 10,
-      page_token: "",
-    };
-    const responseAppl = await axios.post(`${IP}/getApplicationsVacancyByResumeId`, applicationData, { headers });
-    const rezumeData = await Promise.all(
-      responseAppl.data.map(async (rezume) => {
-        const vacancyDetails = await fetchVacancyDetails(rezume.vacancyId);
-        return { ...rezume, vacancyDetails };   
-      })
-    );
 
-    rezumes.value = rezumeData;  
-    console.log(rezumes.value);
-  } catch (error) {
-    console.error("Ошибка получения заявок:", error);
-  }
+const getStudentApplication = async () => {
+    const headers = {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,  
+    };
+    const studentId = localStorage.getItem("AccountID"); 
+    try {
+        if (!JSON.parse(localStorage.getItem("user")).isCompany) {
+            const getResumeId = await axios.post(`${IP}/getResumeByStudentId`, { studentId }, { headers });
+            const applicationData = {
+                resumeId: getResumeId.data.resumeId,  
+                page_size: 10,
+                page_token: "",
+            };
+            const responseAppl = await axios.post(`${IP}/getApplicationsVacancyByResumeId`, applicationData, { headers });
+            const rezumeData = await Promise.all(
+            responseAppl.data.map(async (rezume) => {
+                    const vacancyDetails = await fetchVacancyDetails(rezume.vacancyId);
+                    return { ...rezume, vacancyDetails };   
+                })
+            );
+        rezumes.value = rezumeData; 
+        } else {
+            const getResumeId = await axios.post(`${IP}/getResumeByStudentId`, { studentId }, { headers });
+            const applicationData = {
+                resumeId: getResumeId.data.vacancyId,  
+                page_size: 10,
+                page_token: "",
+            };
+            const responseAppl = await axios.post(`${IP}/getApplicationsVacancyByVacancyId`, applicationData, { headers });
+            const rezumeData = await Promise.all(
+            responseAppl.data.map(async (rezume) => {
+                    const vacancyDetails = await fetchVacancyDetails(rezume.vacancyId);
+                    return { ...rezume, vacancyDetails };   
+                })
+            );
+        rezumes.value = rezumeData; 
+        }
+
+
+
+
+        rezumes.value = rezumeData;  
+        console.log(rezumes.value);
+    } catch (error) {
+        console.error("Ошибка получения заявок:", error);
+    }
 };
 onMounted(() => {
     getStudentApplication();
