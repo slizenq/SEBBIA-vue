@@ -13,13 +13,13 @@
         <div v-for="rezume in rezumes" :key="rezume.Id" class="rezume__state-void contain__margin">
           <div class="current__state">
             <p class="current__state-title" :style="{ color: getStatusColor(rezume.status) }">
-              {{ rezume.vacancyDetails?.title }}
+              {{ rezume.vacancyDetails?.title || rezume.vacancyDetails?.aboutMe }}
             </p>
             <p class="current__state-desc" :style="{ color: getStatusColor(rezume.status) }">
               <el-icon v-if="getStatusLabelIcon(rezume.status)">
                 <component :is="getStatusLabelIcon(rezume.status)" height="16"/>
               </el-icon>
-              {{ rezume.vacancyDetails?.location }} 
+              {{ rezume.vacancyDetails?.location || rezume.vacancyDetails?.direction }} 
             </p>
           </div>
   
@@ -71,10 +71,9 @@ const fetchVacancyDetails = async (vacancyId) => {
         return null;  
     }
 };
-const fetchStudentDetails = async (studentId) => {
+const fetchStudentDetails = async (resumeId) => {
     try {
-        const response = await axios.post(`${IP}/getStudentById`, { id: studentId });
-        console.log('otobr vacancy');
+        const response = await axios.post(`${IP}/getResumeById`, { resumeId });
         console.log(response.data);
         return response.data;  
     } catch (error) {
@@ -121,7 +120,7 @@ const getStudentApplication = async () => {
             const rezumeData = await Promise.all(
             responseAppl.data.map(async (rezume) => {
                 console.log(rezume);
-                    const vacancyDetails = await fetchStudentDetails(rezume.studentId);
+                    const vacancyDetails = await fetchStudentDetails(rezume.resumeId);
                     return { ...rezume, vacancyDetails };   
                 })
             );

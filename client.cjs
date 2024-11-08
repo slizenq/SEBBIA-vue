@@ -246,7 +246,7 @@ app.post("/createStudent", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const studentData = req.body;
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Ошибка поулчения токена" });
     }
     try {
         const student = await createStudent(token, studentData);
@@ -293,7 +293,7 @@ app.post("/updateStudent", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const studentData = req.body;
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Ошибка поулчения токена" });
     }
     if (!studentData.student_id) {
         return res.status(400).json({ error: "student_id is required for update" });
@@ -338,7 +338,7 @@ app.post("/createResume", async (req, res) => {
     console.log(resumeData);
     
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Ошибка поулчения токена" });
     }
     
     try {
@@ -354,14 +354,11 @@ async function getResumeByStudentId(token, resumeData) {
     const client = createResumeClient();
     const metadata = new grpc.Metadata();
     metadata.add('Authorization', `Bearer ${token}`);
-
     const request = {
         studentId: resumeData.studentId,
     };
     console.log('dasdadsadasddada');
     console.log(request );
-    
-    
     return new Promise((resolve, reject) => {
         client.GetResumeByStudentId(request, metadata, (err, response) => {
             if (err) {
@@ -373,12 +370,11 @@ async function getResumeByStudentId(token, resumeData) {
         });
     });
 }
-
 app.post("/getResumeByStudentId", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];  
     const resumeData = req.body;
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Ошибка поулчения токена" });
     }
     try {
         const resume = await getResumeByStudentId(token, resumeData);
@@ -388,7 +384,34 @@ app.post("/getResumeByStudentId", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
-
+// получение резюме студента по его id x2
+async function getResumeById(resumeData) {
+    const client = createResumeClient();
+    const request = {
+        resumeId: resumeData.resumeId,
+    };
+    console.log(request );
+    return new Promise((resolve, reject) => {
+        client.GetResumeById(request, (err, response) => {
+            if (err) {
+                console.error("gRPC error:", err.details || err.message);
+                reject(err);
+            } else {
+                resolve(response.resume);  
+            }
+        });
+    });
+}
+app.post("/getResumeById", async (req, res) => {
+    const resumeData = req.body; 
+    try {
+        const resume = await getResumeById(resumeData);
+        res.json(resume);
+    } catch (err) {
+        console.error("Error in /getResumeById:", err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
 
 
 
@@ -440,7 +463,7 @@ app.post("/createCompany", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const companyData = req.body;
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Ошибка поулчения токена" });
     }
     try {
         const company = await createCompany(token, companyData);
@@ -736,7 +759,7 @@ app.post("/createApplicationVacancy", async (req, res) => {
     const applicationData = req.body;
 
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Ошибка поулчения токена" });
     }
 
     try {
@@ -775,7 +798,7 @@ app.post("/getApplicationsVacancyByResumeId", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const applicationData = req.body;
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Ошибка поулчения токена" });
     }
     try {
         const applicationsVacancy = await getApplicationsVacancyByResumeId(token, applicationData);
@@ -814,7 +837,7 @@ app.post("/getApplicationsVacancyByVacancyId", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const applicationData = req.body;
     if (!token) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+        return res.status(401).json({ error: "Ошибка поулчения токена" });
     }
     try {
         const applicationsVacancy = await getApplicationsVacancyByVacancyId(token, applicationData);
