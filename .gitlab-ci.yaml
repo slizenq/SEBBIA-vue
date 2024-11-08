@@ -41,7 +41,7 @@ build:
 deploy:
  stage: deploy
  only:
-   - master
+   - main
  before_script:
    - apk add --no-cache openssh sshpass
  script:
