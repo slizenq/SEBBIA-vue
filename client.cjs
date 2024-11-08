@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const app = express();
 const port = 3001;
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: ['http://localhost:3000', 'http://92.53.105.243:3000'] }));
 app.use(express.json());
 
 const options = {
@@ -69,7 +69,7 @@ const applicationVacancyPakage = grpc.loadPackageDefinition(applicationVacancy).
 const companyPackage = grpc.loadPackageDefinition(company).company;
 const resumePackage = grpc.loadPackageDefinition(resume).resume;
 const vacancyPackage = grpc.loadPackageDefinition(vacancy).vacancy;
-const API_URL = "3627673-qf57717.twc1.net:81"
+const API_URL = "openresty:81"
 
 function createAuthClient() {
     return new authPackage.SSOServerService(API_URL, grpc.credentials.createInsecure(), options);
@@ -849,13 +849,6 @@ app.post("/getApplicationsVacancyByVacancyId", async (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
     console.log(`Сервер запущен на http://localhost:${port}`);
 });
