@@ -3,6 +3,7 @@ package company;
 option go_package = "./company";
 import "company.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 
 message ChangeCompanyRequest{
@@ -13,6 +14,7 @@ message ChangeCompanyRequest{
   optional string typeCompany = 5;
   optional string location = 7;
   repeated string contracts = 8;
+  string id = 9;
 }
 
 message GetCompanyRequest{
@@ -24,19 +26,35 @@ message GetCompanyRequest{
 
 }
 
+message FilterResponse{
+  repeated GetCompanyResponse company = 1;
+  string next_page_token = 2;
+}
+
+message CompanyId{
+  string id = 1;
+}
+
 message Filters{
   optional string typeCompany = 4;
   optional string location = 6;
   repeated string contracts = 7;
+  int32 page_size = 2;
+  string page_token = 3;
 }
 
-message FilterResponse{
-  repeated GetCompanyResponse company = 1;
+message SearchRequest{
+  string title = 1;
+  int64 page_size = 2;
+  string page_token = 3;
 }
 
 service CompanyService{
   rpc CreateCompany(Company) returns (GetCompanyResponse) {};
   rpc ChangeCompany(ChangeCompanyRequest) returns (GetCompanyResponse){};
   rpc GetCompany(GetCompanyRequest) returns (GetCompanyResponse){};
+  rpc GetCompanyById(CompanyId) returns (GetCompanyResponse) {};
+  rpc GetCompanyByAccessToken(google.protobuf.Empty) returns (GetCompanyResponse) {};
+  rpc SearchCompany(SearchRequest) returns (FilterResponse) {};
   rpc GetCompaniesByFilters(Filters) returns (FilterResponse){};
 }

@@ -37,123 +37,39 @@ export const useStore = defineStore({
             },
             {
                 id: 3,
-                companyName: "Microsoft",
-                firstName: "John",
-                lastName: "Doe",
-                direction: "Backend",
-                status: "Просмотрено",
+                companyName: "Apple",
+                firstName: "Max",
+                lastName: "Smith",
+                direction: "Frontend",
+                status: "Одобрено",
             },
             {
                 id: 4,
-                companyName: "Facebook",
-                firstName: "Bill",
-                lastName: "Gates",
+                companyName: "Apple",
+                firstName: "Max",
+                lastName: "Smith",
                 direction: "Frontend",
-                status: "Отказано",
+                status: "Одобрено",
             },
             {
                 id: 5,
-                companyName: "Amazon",
-                firstName: "Jeff",
-                lastName: "Bezos",
-                direction: "Backend",
-                status: "Одобрено",
-            },
-            {
-                id: 6,
-                companyName: "Accenture",
-                firstName: "John",
-                lastName: "Doe",
-                direction: "Backend",
-                status: "Просмотрено",
-            },
-            {
-                id: 7,
-                companyName: "Baidu",
-                firstName: "Robin",
-                lastName: "Li",
-                direction: "Frontend",
-                status: "Отказано",
-            },
-            {
-                id: 8,
-                companyName: "IBM",
-                firstName: "Virginia",
-                lastName: "Rometty",
-                direction: "Backend",
-                status: "Одобрено",
-            },
-            {
-                id: 9,
-                companyName: "Intel",
-                firstName: "Bob",
-                lastName: "Swan",
-                direction: "Backend",
-                status: "Просмотрено",
-            },
-            {
-                id: 10,
-                companyName: "Oracle",
-                firstName: "Safra",
-                lastName: "Catz",
-                direction: "Frontend",
-                status: "Отказано",
-            },
-            {
-                id: 11,
-                companyName: "Samsung",
-                firstName: "Lee",
-                lastName: "Jae-yong",
-                direction: "Backend",
-                status: "Одобрено",
-            },
-            {
-                id: 12,
-                companyName: "Sony",
-                firstName: "Kenichiro",
-                lastName: "Yoshida",
-                direction: "Frontend",
-                status: "Просмотрено",
-            },
-            {
-                id: 13,
-                companyName: "Toshiba",
-                firstName: "Nobuaki",
-                lastName: "Kurumatani",
-                direction: "Backend",
-                status: "Отказано",
-            },
-            {
-                id: 14,
-                companyName: "Uber",
-                firstName: "Dara",
-                lastName: "Khosrowshahi",
+                companyName: "Apple",
+                firstName: "Max",
+                lastName: "Smith",
                 direction: "Frontend",
                 status: "Одобрено",
             },
             {
-                id: 15,
-                companyName: "Xiaomi",
-                firstName: "Lei",
-                lastName: "Jun",
-                direction: "Backend",
-                status: "Просмотрено",
-            },
+                id: 5,
+                companyName: "Apple",
+                firstName: "Max",
+                lastName: "Smith",
+                direction: "Frontend",
+                status: "Одобрено",
+            }
         ],
     }),
     actions: {
         increment() {},
     },
-});
-
-// Инструкция по использованию Pinia State Storage
-
-// import { useStore } from "~/storage/storage";
-// export default {
-//     setup() {
-//         const store = useStore();
-//         return {
-//             count: store.count,
-//         };
-//     },
-// };
+}); 

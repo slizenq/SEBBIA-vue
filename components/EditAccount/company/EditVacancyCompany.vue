@@ -3,108 +3,131 @@
         <div class="header__company">
             <div>
                 <p class="title">О практике</p>
-                <p class="header__desc">Редактировать информацию о компании<br> можно только в личном кабинете</p>
+                <p class="header__desc">Редактировать информацию о компании можно только в личном кабинете</p>
             </div>
-            <ElButton>Редактировать профиль</ElButton>
         </div>
         <div>
             <p class="description">Партнеры</p>
             <div class="skills-input dropdown">
-                <el-button @click="addDirection" type="primary" plain>+ Добавить</el-button>
+                <el-button @click="addItem(direction, skills)" type="primary" plain>+ Добавить</el-button>
                 <el-input
                     v-model="direction"
                     placeholder="Фронтенд"
                     class="partner"
                     style="width: 100%; margin-left: 10px"
-                    @keyup.enter="addDirection"
+                    @keyup.enter="addItem(direction, skills)"
                 />
             </div>
             <div class="skills-tags">
                 <el-tag
                     v-for="(tag, index) in skills"
-                        :key="index"
-                        closable
-                        @close="removeTag(index)"
-                        effect="plain"
-                        round
-                        class="skills"
-                    >
+                    :key="index"
+                    closable
+                    @close="removeItem(index, skills)"
+                    effect="plain"
+                    round
+                    class="skills"
+                >
                     {{ tag }}
                 </el-tag>
             </div>
         </div>
-        
         <div class="left__element description">
             <p class="element__title">Чем предстоит заниматься</p>
             <ul>
-                <li>Это команда профессионалов, стремящаяся к решению сложных задач</li>
-                <li>Это команда профессионалов</li>
+                <li v-for="(task, index) in tasks" :key="index">
+                    {{ task }}
+                </li>
             </ul>
-            <ElButton type="primary" class="send_form" @class="addli">Добавить пункт</ElButton>
-
+            <el-button type="primary" class="send_form" @click="addTask">Добавить пункт</el-button>
         </div>
-
         <div>
             <p class="description">Желаемые навыки</p>
             <div class="skills-input dropdown">
-                <el-button @click="addSkills" type="primary" plain>+ Добавить</el-button>
+                <el-button @click="addItem(skills_requirements, skills_ofStudent)" type="primary" plain>+ Добавить</el-button>
                 <el-input
                     v-model="skills_requirements"
                     placeholder="PostgreSQL"
                     class="partner"
                     style="width: 100%; margin-left: 10px"
-                    @keyup.enter="addSkills"
+                    @keyup.enter="addItem(skills_requirements, skills_ofStudent)"
                 />
             </div>
             <div class="skills-tags">
                 <el-tag
                     v-for="(tag, index) in skills_ofStudent"
-                        :key="index"
-                        closable
-                        @close="removeTag(index)"
-                        effect="plain"
-                        round
-                        class="skills"
-                    >
+                    :key="index"
+                    closable
+                    @close="removeItem(index, skills_ofStudent)"
+                    effect="plain"
+                    round
+                    class="skills"
+                >
                     {{ tag }}
                 </el-tag>
             </div>
         </div>
         <div>
             <p class="description">Расскажи о себе</p>
-                <el-input
-                    v-model="textarea1"
-                    autosize
-                    type="textarea"
-                    placeholder="Расскажи о себе"
-                    show-word-limit
-                    class="dropdown"
-                    maxlength="100"
-                />
+            <el-input
+                v-model="textarea1"
+                autosize
+                type="textarea"
+                placeholder="Расскажи о себе"
+                show-word-limit
+                class="dropdown"
+                maxlength="100"
+            />
         </div>
-        <ElButton type="primary" @click="handleFormSubmit" class="send_form" plain>Сохранить</ElButton>
+
+        <el-button type="primary" @click="handleFormSubmit" class="send_form" plain>Сохранить</el-button>
     </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { ElButton, ElInput, ElTag } from 'element-plus';
-const direction = ref(null)
-const textarea1 = ref(null)
-const skills = ref(["Фронтенд", "Бекенд", "Мобильный разработчик", "Тестировщик"]); 
-const addDirection = () => {
-    if (skills.value) {
-        skills.value.push(direction.value);
-        direction.value = ""; 
+import { createPractice } from '../EditCompany';
+
+const direction = ref('');
+const textarea1 = ref('');
+const skills = ref(["Фронтенд", "Бекенд", "Мобильный разработчик", "Тестировщик"]);
+const skills_requirements = ref('');
+const skills_ofStudent = ref(["PostgreSQL", "Vuejs", "React", "Lavarel"]);
+const tasks = ref(["Это команда профессионалов, стремящаяся к решению сложных задач", "Это команда профессионалов"]);
+
+const addItem = (item, list) => {
+    if (item && item.trim() && !list.includes(item)) {
+        list.push(item);
+        item = ""; 
     }
 };
-const skills_requirements = ref(null)
-const skills_ofStudent = ref(["PostgreSQL", "Vuejs", "React", "Lavarel"]); 
-const addSkills = () => {
-    if (skills_ofStudent.value) {
-        skills_ofStudent.value.push(skills_requirements.value);
-        skills_requirements.value = ""; 
+const removeItem = (index, list) => {
+    list.splice(index, 1);
+};
+const addTask = () => {
+    const newTask = prompt('Введите новый пункт');
+    if (newTask) {
+        tasks.value.push(newTask);
     }
 };
+
+const handleFormSubmit = async () => {
+    const practiceData = {
+        direction: skills.value, 
+        skills_required: skills_ofStudent.value, 
+        about_me: textarea1.value,  
+        tasks: tasks.value  
+    };
+    console.log(practiceData);
+    const success = await createPractice(practiceData);
+    if (success) {
+        console.log('Данные о практике успешно сохранены.');
+    } else {
+        console.log('Ошибка при сохранении данных о практике.');
+    }
+};
+
 </script>
 
 <style scoped>

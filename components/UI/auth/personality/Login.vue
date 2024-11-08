@@ -9,32 +9,15 @@
             @input="$emit('update:email', $event)"
         />
     </div>
-    <InputError :email="email" :status="status"/>
 </template>
 
 <script setup lang="ts">
 import { ElInput } from "element-plus";
 import { toRefs } from "vue";
-import InputError from "./../../InputError.vue"
-import { checkEmailFormat } from "~/src/domain/auth";
-
 const props = defineProps({
-    email: String,
-});
+    email: String
+})
 const { email } = toRefs(props);
-const status = ref<'loading' | 'valid' | 'invalid' | null>(null);
-  
-  watch(email, async (newEmail) => {
-    if (!newEmail) {
-      status.value = null;
-      return;
-    }
-  
-    status.value = 'loading'; 
-  
-    const isValid = await checkEmailFormat(newEmail);
-    status.value = isValid ? 'valid' : 'invalid'; 
-  });
 </script>
 
 <style scoped>

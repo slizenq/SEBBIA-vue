@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package student;
+
+option go_package = "./pb";
+
+// Skill message definition
+message Skill {
+  string name = 1;
+  string level = 2;
+}
+
+// Student message definition
+message Student {
+  string FirstName  = 2;
+  string MiddleName =3;
+  string LastName  = 4;
+  string BornDate  = 5;
+  string Education  = 6;
+  string Location  = 7;
+  string PhotoURL = 8;
+  string Photo = 9;
+  string AccountID = 10;
+}
+
+message StudentCreateRequest {
+  Student student = 1;
+}
+
+message StudentCreateUpdateResponse {
+  string id = 1;
+  string message = 2;
+  Student student =3;
+}
+message StudentUpdateRequest {
+  string studentId = 1;
+  Student student = 2;
+}
+
+
+
+message GetStudentByIDRequest {
+  string studentId = 1;
+}
+
+message GetStudentByIDResponse {
+  Student student = 1;
+}
+
+message ListStudentsRequest {}
+
+message ListStudentsResponse {
+  repeated Student students = 1;
+}
+// Запрос для проверки существования токена
+message TokenExistsRequest {
+  string subjectId = 1; // SubjectId из токена
+}
+
+// Ответ на запрос проверки существования токена
+message TokenExistsResponse {
+  bool exists = 1; // Существует ли токен
+}
+message GetStudentByTokenRequest {}
+
+
+service StudentService {
+  rpc CreateStudent(StudentCreateRequest) returns (StudentCreateUpdateResponse);
+  rpc UpdateStudent(StudentUpdateRequest) returns (StudentCreateUpdateResponse);
+  rpc GetStudentByID(GetStudentByIDRequest) returns (GetStudentByIDResponse);
+  rpc GetStudentByToken(GetStudentByTokenRequest) returns (StudentCreateUpdateResponse);
+  rpc ListStudents(ListStudentsRequest) returns (ListStudentsResponse);
+  rpc TokenExists (TokenExistsRequest) returns (TokenExistsResponse);
+}

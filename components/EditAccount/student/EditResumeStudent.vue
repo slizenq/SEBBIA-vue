@@ -2,83 +2,36 @@
     <div class="edit-resume" v-if="showPreview">
         <div class="edit-resume__header">
             <p class="edit-resume__title">Резюме</p>
-            <el-button
-                class="edit-resume__btn"
-                @click="showPreview = !showPreview"
-            >
+            <el-button class="edit-resume__btn" @click="showPreview = !showPreview">
                 Предпросмотр <el-icon><TopRight /></el-icon>
             </el-button>
         </div>
         <div class="edit-resume__content">
             <el-form :model="form" label-width="auto" style="max-width: 600px">
                 <el-form-item class="content__form-direction">
-                    <p>
-                        Направление
-                        <el-icon
-                            ><InfoFilled color="rgba(64, 158, 255, 1)"
-                        /></el-icon>
+                    <p>Направление
+                        <el-icon><InfoFilled color="rgba(64, 158, 255, 1)"/></el-icon>
                     </p>
-                    <el-select
-                        v-model="selectedDirection"
-                        placeholder="Select"
-                        size="large"
-                        style="width: 240px"
-                        @change="handleDirectionChange"
-                    >
-                        <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                        />
+                    <el-select v-model="selectedDirection" placeholder="ААА АШМТЛ" size="large" style="width: 240px"@change="handleDirectionChange">
+                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"/>
                     </el-select>
                 </el-form-item>
                 <el-form-item class="content__form-about">
                     <p>Расскажи о себе</p>
-                    <el-input
-                        v-model="about_me"
-                        style=""
-                        autosize
-                        type="textarea"
-                        placeholder="Please input"
-                        show-word-limit
-                        maxlength="100"
-                    />
+                    <el-input v-model="about_me" style="" autosize type="textarea" placeholder="Проект тайлера блендера" show-word-limit maxlength="100"/>
                 </el-form-item>
                 <el-form-item class="content__form-about">
                     <p>О проектах</p>
-                    <el-input
-                        v-model="about_projects"
-                        style=""
-                        autosize
-                        type="textarea"
-                        placeholder="Please input"
-                        show-word-limit
-                        maxlength="100"
-                    />
+                    <el-input v-model="about_projects" style="" autosize type="textarea" placeholder="Тайно пернул" show-word-limit maxlength="100"/>
                 </el-form-item>
                 <el-form-item class="content__form-skills">
                     <p>Навыки</p>
                     <div class="skills-input">
-                        <el-button @click="addSkill($event)"
-                            >+ Добавить</el-button
-                        >
-                        <el-input
-                            v-model="newSkill"
-                            placeholder="Please input"
-                            style="width: 300px; margin-left: 10px"
-                            @keyup.enter="addSkill"
-                            clearable
-                        />
+                        <el-button @click="addSkill($event)">+ Добавить</el-button>
+                        <el-input v-model="newSkill" placeholder="Арбуз привет" style="width: 300px; margin-left: 10px" @keyup.enter="addSkill" clearable/>
                     </div>
                     <div class="skills-tags">
-                        <el-tag
-                            v-for="(tag, index) in skills"
-                            :key="index"
-                            closable
-                            @close="removeTag(index)"
-                            style="margin: 5px"
-                        >
+                        <el-tag v-for="(tag, index) in skills" :key="index" closable @close="removeTag(index)" style="margin: 5px">
                             {{ tag }}
                         </el-tag>
                     </div>
@@ -88,26 +41,17 @@
                     <div class="portfolio-phone_number">
                         <div class="portfolio contact">
                             <p>Ссылка на портфолио</p>
-                            <el-input
-                                v-model="portfolio"
-                                placeholder="Please input"
-                            />
+                            <el-input v-model="portfolio" placeholder="https://github/pespatron"/>
                         </div>
                         <div class="phone_number contact">
                             <p>Контакты</p>
-                            <el-input
-                                v-maska="'+7 (###) ### ## ##'"
-                                v-model="phone_number"
-                                placeholder="+7 (000)"
-                            />
+                            <el-input v-maska="'+7 (###) ### ## ##'" v-model="phone_number" placeholder="+7 (938)"/>
                         </div>
                     </div>
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" class="save-btn" @click="saveForm"
-                        >Сохранить</el-button
-                    >
+                    <el-button type="primary" class="save-btn" @click="saveForm">Сохранить</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -116,14 +60,8 @@
         <div class="preview__header">
             <p class="preview__title">Предпросмотр</p>
             <div class="preview__btn">
-                <el-button @click="showPreview = !showPreview"
-                    >Вернуться <el-icon><TopRight /></el-icon
-                ></el-button>
-                <el-button
-                    type="primary"
-                    class="edit-resume__btn"
-                    @click="showPreview = !showPreview"
-                >
+                <el-button @click="showPreview = !showPreview">Вернуться <el-icon><TopRight /></el-icon></el-button>
+                <el-button type="primary" class="edit-resume__btn" @click="showPreview = !showPreview">
                     Сохранить сейчас
                 </el-button>
             </div>
@@ -133,25 +71,16 @@
             <div class="content__form">
                 <div class="content__form-img-block">
                     <div class="content__form-img-block">
-                        <el-image
-                            src="https://avatars.mds.yandex.net/i?id=8080454993d343ee2244082899de25363e197ae0-3577053-images-thumbs&n=13"
-                            fit="cover"
-                            style="width: 148px; height: 148px"
-                        />
+                        <el-image src="https://avatars.mds.yandex.net/i?id=8080454993d343ee2244082899de25363e197ae0-3577053-images-thumbs&n=13" fit="cover" style="width: 148px; height: 148px"/>
                     </div>
                     <div class="content__form-info">
                         <h2 class="content__form-info-title">{{ name }}</h2>
                         <div class="content__form-direction">
-                            <h3 class="content__form-info-direction">
-                                Направление:
-                            </h3>
+                            <h3 class="content__form-info-direction">Направление:</h3>
                             <p>{{ value }}</p>
                         </div>
                         <div class="">
-                            <p class="content__form-info-date">
-                                Дата рождения:
-                                <span>{{ date }} ({{ age }} лет)</span>
-                            </p>
+                            <p class="content__form-info-date">Дата рождения:<span>{{ date }} ({{ age }} лет)</span></p>
                         </div>
                     </div>
                 </div>
@@ -179,27 +108,16 @@
                     <p class="section-project__text">{{ about_projects }}</p>
                 </section>
 
-                <section
-                    class="section-skills section"
-                    v-if="skills.length > 0"
-                >
+                <section class="section-skills section" v-if="skills.length > 0">
                     <p class="section-skills__title">Навыки</p>
                     <div class="skills-tags">
-                        <el-tag
-                            v-for="(tag, index) in skills"
-                            :key="index"
-                            style="margin: 5px"
-                        >
-                            {{ tag }}
-                        </el-tag>
+                        <el-tag v-for="(tag, index) in skills" :key="index" style="margin: 5px">{{ tag }}</el-tag>
                     </div>
                 </section>
 
                 <section class="section-links section" v-if="portfolio">
                     <p class="section-links__title">Ссылки</p>
-                    <a href="{{ portfolio }}" target="_blank" class="links">{{
-                        portfolio
-                    }}</a>
+                    <a href="{{ portfolio }}" target="_blank" class="links">{{ portfolio }}</a>
                 </section>
             </div>
         </div>
@@ -207,33 +125,26 @@
 </template>
 
 <script setup>
-import { vMaska } from "maska/vue";
-// import { Direction } from "~/src/domain/boundedContexts/Resume/ValueObjects/Direction";
-// import { PhoneNumber } from "~/src/domain/boundedContexts/Resume/ValueObjects/phoneNumber";
-// import { AboutMe } from "~/src/domain/boundedContexts/Resume/ValueObjects/AboutMe";
-// import { AboutProject } from "~/src/domain/boundedContexts/Resume/ValueObjects/AboutProject";
-// import { Skills } from "~/src/domain/boundedContexts/Resume/ValueObjects/Skills";
-// import { Portfolio } from "~/src/domain/boundedContexts/Resume/ValueObjects/Portfolio";
+import { vMaska } from "maska/vue"; 
 import { TopRight, InfoFilled } from "@element-plus/icons-vue";
 import { ElButton, ElIcon, ElForm, ElInput, ElSelect, ElOption, ElTag, ElImage } from "element-plus";
 import { ref } from "vue";
 import { sendFormResume } from "../EditStudent";
-import { defineEmits } from "vue";
-
-// const dialogImageUrl = ref("");
-// const dialogVisible = ref(false);
-// const disabled = ref(false);
-// const uploadRef = ref(null);
+import { defineEmits } from "vue"; 
 
 const direction = ref("");
 const selectedDirection = ref([]);
 const options = [
     { value: "Backend Developer", label: "Backend Developer" },
-    { value: "Донецкое", label: "Донецкое" },
-    { value: "Луганское", label: "Луганское" },
+    { value: "Software Development", label: "Software Development" },
+    { value: "Web Development", label: "Web Development" },
+    { value: "Mobile Development ", label: "Mobile Development " },
+    { value: "Data Science", label: "Data Science" },
+    { value: "Machine Learning", label: "Machine Learning" },
+    { value: "Cybersecurity ", label: "Cybersecurity " },
 ];
 const handleDirectionChange = (value) => {
-    selectedDirection.value = [value];
+    selectedDirection.value = value;
 };
 
 const name = ref("Техник Павел Николаевич");
@@ -246,25 +157,6 @@ const education = ref("РКСИ");
  * @param {object} uploadFile
  * @param {array} uploadFiles
  */
-
-// const handleRemove = (uploadFile, uploadFiles) => {
-//     uploadRef.value.handleRemove(uploadFile);
-// };
-// const handlePictureCardPreview = (file) => {
-//     dialogImageUrl.value = file.url;
-//     dialogVisible.value = true;
-// };
-// const handleDownload = (file) => {
-//     const url = URL.createObjectURL(file.raw);
-//     const link = document.createElement("a");
-//     link.href = url;
-//     link.setAttribute("download", file.name);
-//     document.body.appendChild(link);
-//     link.click();
-//     document.body.removeChild(link);
-//     URL.revokeObjectURL(url);
-//     console.log(file);
-// };
 
 const about_me = ref(null);
 const about_projects = ref(null);
@@ -289,13 +181,6 @@ const dialogRedactor = ref(false);
 
 const saveForm = async () => {
     try {
-
-        // const aboutMe = AboutMe.create(about_me);
-        // const aboutProjects = AboutProject.create(about_projects);
-        // const skills = Skills.create(skills);
-        // const portfolio = Portfolio.create(portfolio);
-        // const direction = Direction.create(selectedDirection[0]);
-
         console.log("Форма сохранена", {
             about_me: about_me,
             about_projects: about_projects,

@@ -3,17 +3,12 @@
         <p class="right__part-title">{{ isCompany ? titlePage.company.companyTitle : titlePage.student.studentTitle }}</p>
         <div class="right__part-user contain__margin">
             <p class="right__part-elem"><span>{{ isCompany ? companyData.form.Form : studentData.age.Age }}:</span>
-                {{ isCompany ? companyData.form.FormContent : studentData.age.StudentAge}}</p>
+                {{ isCompany ? companyData.form.FormContent : studentData.age.StudentAge }}</p>
             <p class="right__part-elem"><span>{{ isCompany ? companyData.city.City : studentData.city.City }}:</span>
-                {{ isCompany ? companyData.city.StudentCity : studentData.city.StudentCity }}</p>
+                {{ isCompany ? companyData.city.CompanyCity : studentData.city.StudentCity }}</p>
         </div>
         <div class="contain__margin">
-            <ElButton
-                type="primary"
-                class="btn-edit right__part-btn"
-                @click="dialogRedactor = true"
-                >Редактировать профиль</ElButton
-            >
+            <ElButton type="primary" class="btn-edit right__part-btn" @click="dialogRedactor = true">Редактировать профиль</ElButton>
         </div>
         <ElButton plain class="btn-out right__part-btn" @click="openDialog">Выйти</ElButton>
         <el-dialog
@@ -45,15 +40,8 @@
             </div>
         </el-dialog>
 
-        <el-dialog
-            v-model="dialogRedactor"
-            title="Личные данные"
-            width="620"
-            top="2%"
-            class="dialog_margin"
-            :before-close="handleClose"
-        >
-            <EditProfileCompany v-if="is_user" @profileUpdated="updateProfileData"/>
+        <el-dialog v-model="dialogRedactor" title="Личные данные" width="620" top="2%" class="dialog_margin" :before-close="handleClose">
+            <EditProfileCompany v-if="isCompany" @profileUpdated="updateProfileData"/>
             <EditProfileStudent v-else @profileUpdated="updateProfileData" @updateDialogRedactor="updateDialogRedactor"/>
         </el-dialog>
     </div>
@@ -63,46 +51,17 @@
 import { ref, onMounted } from "vue";
 import { ElButton, ElDialog, ElIcon } from "element-plus";
 import { Guide } from "@element-plus/icons-vue";
-import { defineProps } from "vue";
 import axios from "axios";
 import { IP } from "../UI/auth/Authentication";
 import EditProfileStudent from "../EditAccount/student/EditProfileStudent.vue";
 import EditProfileCompany from "../EditAccount/company/EditProfileCompany.vue";
+
 const dialogRedactor = ref(false);
-
-const is_user = ref(false)
-const props = defineProps({
-    updateAuthStatus: {
-        type: Function,
-        required: true,
-    },
-});
-const updateDialogRedactor = (value) => {
-  dialogRedactor.value = value;
-};
+const isCompany = ref(null);
 const isDialogVisible = ref(false);
-const openDialog = () => {
-    isDialogVisible.value = true;
-};
-const userVerified = () => {
-	let is_user_id = JSON.parse(localStorage.getItem('user')).is_company
-	is_user.value = is_user_id
-}
-userVerified()
-const closeDialog = () => {
-    isDialogVisible.value = false;
-};
+const openDialog = () => { isDialogVisible.value = true; };
+const closeDialog = () => { isDialogVisible.value = false; };
 
-const nextStap = function () {
-    // navigateTo('/account/resume/ResumeStudent')
-};
-const logout = function () {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("user");
-    localStorage.removeItem("resume_id");
-    navigateTo("/");
-};
 const titlePage = ref({
     student: { studentTitle: "Фамилия имя" },
     company: { companyTitle: "Наименование" },
@@ -111,64 +70,52 @@ const studentData = ref({
     age: { Age: "Возраст", StudentAge: "Не заполнено" },
     city: { City: "Город", StudentCity: "Не заполнено" },
 });
-
 const companyData = ref({
     form: { Form: "Форма организации", FormContent: "Не заполнено" },
-    city: { City: "Город", StudentCity: "Не заполнено" },
+    city: { City: "Город", CompanyCity: "Не заполнено" },
 });
-const isCompany = ref(null);
-isCompany.value = true;
-const emit = defineEmits(['resumeUpdated']);
-const searchResumes = async () => {
-    const user_id = JSON.parse(localStorage.getItem("user"))?.uuid;
-    const response = await axios.get(
-        `${IP}/resume/users/${user_id || 0}/resumes`,
-        {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }
-    );
-    console.log(response.data[0]);
-    emit('resumeUpdate', {
-        first_name: response.data[0].first_name,
-        middle_name: response.data[0].middle_name,
-        last_name: response.data[0].last_name
-    })
-    const user = JSON.parse(localStorage.getItem("user")).is_company;
-    isCompany.value = user;
-    if (isCompany.value) {
-        companyData.value.form.FormContent =
-            response.data[0]?.test || "Не заполнено";
-        companyData.value.city.StudentCity =
-            response.data[0]?.test || "Не заполнено";
-        titlePage.value.company.companyTitle =
-            response.data[0]?.test || "Наименование";
-    } else {
-        studentData.value.age.StudentAge =
-            response.data[0]?.born_date || "Не заполнено";
-        studentData.value.city.StudentCity =
-            response.data[0]?.city || "Не заполнено";
-        titlePage.value.student.studentTitle =
-            response.data[0]?.last_name + " " + response.data[0]?.first_name ||
-            "Фамилия Имя";
-    }
-    return response.data;
+
+const logout = () => {
+    localStorage.clear();
+    navigateTo("/");
 };
+
+const searchResumes = async () => {
+    const checkUUid = localStorage.getItem("access_token");
+    const isCompanyUser = JSON.parse(localStorage.getItem("user")).isCompany;
+    isCompany.value = isCompanyUser;
+
+    let response;
+    if (isCompanyUser) {
+        response = await axios.post(`${IP}/getCompanyByAccessToken`, { checkUUid });
+        const data = response.data;
+        companyData.value.form.FormContent = data?.typeCompany || "Не заполнено";
+        companyData.value.city.CompanyCity = data?.location || "Не заполнено";
+        titlePage.value.company.companyTitle = data?.title || "Наименование";
+    } else {
+        response = await axios.post(`${IP}/getStudentByToken`, { checkUUid });
+        const data = response.data;
+        studentData.value.age.StudentAge = data?.BornDate || "Не заполнено";
+        studentData.value.city.StudentCity = data?.Location || "Не заполнено";
+        titlePage.value.student.studentTitle = `${data?.LastName || ""} ${data?.FirstName || ""}` || "Фамилия Имя";
+    }
+};
+
 const updateProfileData = (data) => {
     if (isCompany.value) {
-        companyData.value.form.FormContent = data[0];
-        titlePage.value.company.companyTitle = `${data.last_name} ${data.first_name}`;
+        companyData.value.form.FormContent = data.typeCompany || "Не заполнено";
+        companyData.value.city.CompanyCity = data.location || "Не заполнено";
+        titlePage.value.company.companyTitle = `${data.title || ""}`;
     } else {
-        studentData.value.age.StudentAge = data.born_date || "Не заполнено";
-        studentData.value.city.StudentCity = data.city || "Не заполнено";
-        titlePage.value.student.studentTitle = `${data.last_name} ${data.first_name}`;
+        studentData.value.age.StudentAge = data.BornDate || "Не заполнено";
+        studentData.value.city.StudentCity = data.Location || "Не заполнено";
+        titlePage.value.student.studentTitle = `${data.LastName || ""} ${data.FirstName || ""}`;
     }
 };
+
 onMounted(() => {
     searchResumes();
 });
-
 </script>
 
 <style scoped>
