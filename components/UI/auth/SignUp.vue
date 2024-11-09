@@ -33,6 +33,7 @@ import Login from "./personality/Login.vue";
 import Password from "./personality/Password.vue";
 import ReturnPass from "./personality/ReturnPass.vue";
 import { register } from "./Authentication";
+import { ElNotification } from "element-plus";
 
 const props = defineProps({
   whoUser: {
@@ -51,9 +52,24 @@ const loginForm = ref({
 const registration = async () => {
   const isRegisterSuccessful = await register(loginForm.value.email, loginForm.value.password, loginForm.value.isCompany);
   if (isRegisterSuccessful) {
-        alert("Регистрация успешна")
+    ElNotification(
+        {
+            title: "Регистрация успешна", 
+            duration: 2000, 
+            type: "success", 
+            showClose: false
+        }
+    );
     } else {
-        alert("Ошибка при регистрации");
+        ElNotification(
+        {
+            title: "Произошла ошибка при отправке", 
+            message: "Проверьте правильно ли вы заполнили данные", 
+            duration: 2000, 
+            type: "error", 
+            showClose: false
+        }
+    );
     }
 };
 </script>
