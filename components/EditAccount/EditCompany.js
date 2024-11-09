@@ -2,7 +2,7 @@ import axios from "axios";
 import { IP } from "../UI/auth/Authentication";
 
 export const createCompany = async function (companyData, dialogRedactor) {
-    try {
+
         const headers = { Authorization: `Bearer ${localStorage.getItem("access_token")}` }; 
         const companyEntity = {
             title: companyData.title,
@@ -43,10 +43,6 @@ export const createCompany = async function (companyData, dialogRedactor) {
             dialogRedactor.value = false;
             return true;
         }
-    } catch (error) {
-        console.error("Ошибка при отправке формы компании:", error);
-        return false;
-    }
 };
 
 export const createPractice = async function (practiceData) {
