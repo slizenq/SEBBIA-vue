@@ -113,7 +113,10 @@ const handleFormSubmit = async () => {
         photo: photo.value,
         contracts: skills.value,
     };
-    const success = await createCompany(companyData);
+    const success = await createCompany(companyData)
+    
+    console.log(success);
+    
     if (success) {
         emit('profileUpdated');
     } else {

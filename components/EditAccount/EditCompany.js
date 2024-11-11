@@ -2,47 +2,46 @@ import axios from "axios";
 import { IP } from "../UI/auth/Authentication";
 
 export const createCompany = async function (companyData, dialogRedactor) {
-
-        const headers = { Authorization: `Bearer ${localStorage.getItem("access_token")}` }; 
-        const companyEntity = {
-            title: companyData.title,
-            location: companyData.location,
-            typeCompany: companyData.typeCompany,
-            foundationDate: companyData.foundationDate,
-            aboutCompany: companyData.aboutCompany,
-            photo: companyData.photo,
-            contracts: companyData.contracts || []
-        };
-        const accountID = localStorage.getItem("AccountID");
-        if (accountID) {
-            companyEntity.company_id = accountID;
-            try {
-                const postResponse = await axios.post(`${IP}/updateCompany`, companyEntity, { headers });
-                console.log('Обновление компании успешно:', postResponse.data);
-                dialogRedactor.value = false;
-                return true;
-            } catch (error) {
-                console.error('Ошибка при обновлении компании:', error.response ? error.response.data : error.message);
-                return false;
-            }
-        } else {
-            const response = await axios.post(`${IP}/createCompany`, companyEntity, { headers });
-            console.log(response.data);
-            
-            const data = {
-                company_id: response.data?.company_id,
-                progress: 25
-            };
-            localStorage.setItem("company_id", JSON.stringify(data));
-
-            let newProgress = JSON.parse(localStorage.getItem("company_id"));
-            if (newProgress) {
-                newProgress.progress = 25;
-                localStorage.setItem("company_id", JSON.stringify(newProgress));
-            }
+    const headers = { Authorization: `Bearer ${localStorage.getItem("access_token")}` }; 
+    const companyEntity = {
+        title: companyData.title,
+        location: companyData.location,
+        typeCompany: companyData.typeCompany,
+        foundationDate: companyData.foundationDate,
+        aboutCompany: companyData.aboutCompany,
+        photo: companyData.photo,
+        contracts: companyData.contracts || []
+    };
+    const accountID = localStorage.getItem("AccountID");
+    if (accountID) {
+        companyEntity.company_id = accountID;
+        try {
+            const postResponse = await axios.post(`${IP}/updateCompany`, companyEntity, { headers });
+            console.log('Обновление компании успешно:', postResponse.data);
             dialogRedactor.value = false;
             return true;
+        } catch (error) {
+            console.error('Ошибка при обновлении компании:', error.response ? error.response.data : error.message);
+            return false;
         }
+    } else {
+        const response = await axios.post(`${IP}/createCompany`, companyEntity, { headers });
+        console.log(response.data);
+            
+        const data = {
+            company_id: response.data?.company_id,
+            progress: 25
+        };
+        localStorage.setItem("company_id", JSON.stringify(data));
+
+        let newProgress = JSON.parse(localStorage.getItem("company_id"));
+        if (newProgress) {
+            newProgress.progress = 25;
+            localStorage.setItem("company_id", JSON.stringify(newProgress));
+        }
+        dialogRedactor.value = false;
+        return true;
+    }
 };
 
 export const createPractice = async function (practiceData) {
