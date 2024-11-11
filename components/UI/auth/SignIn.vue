@@ -1,15 +1,23 @@
 <template>
     <div>
-        <div class="login-dialog__form">
+        <el-form
+            ref="ruleFormRef"
+            :model="loginForm"
+            :rules="rules"
+            size="default"
+        >
             <Login v-model:email="loginForm.email" />
             <Password v-model:password="loginForm.password" />
+
             <div class="login-dialog__form-item login-dialog__checkbox">
                 <el-checkbox v-model="loginForm.rememberMe">
                     Запомнить пароль?
                 </el-checkbox>
             </div>
             <div class="login-dialog__form-item login-dialog__submit">
-                <el-button type="primary" @click="login">Войти</el-button>
+                <el-button type="primary" @click="handleSubmit"
+                    >Войти</el-button
+                >
             </div>
             <div class="login-dialog__register">
                 <span>Нет аккаунта?</span>
@@ -26,29 +34,72 @@
                     >политикой конфиденциальности</a
                 >
             </div>
-        </div>
+        </el-form>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
-import { ElButton, ElCheckbox } from "element-plus";
+import { ElButton, ElCheckbox, ElForm } from "element-plus";
 import Login from "./personality/Login.vue";
-import { requestAccessToken } from "./Authentication";
-import Password  from "./personality/Password.vue";
+import Password from "./personality/Password.vue";
+import { requestAccessToken } from "./Authentication"; // Импорт функции для запроса токена
+
 const emit = defineEmits(["login-success"]);
+
+const ruleFormRef = ref<InstanceType<typeof ElForm> | null>(null);
 
 const loginForm = ref({
     email: "",
     password: "",
     rememberMe: false,
 });
-const login = async () => {
-    const isLoginSuccessful = await requestAccessToken(loginForm.value.email, loginForm.value.password);
-    if (isLoginSuccessful) {
-        emit("login-success", false);
-    } else {
-        alert("Ошибка при входе, модальное окно не закрывается.");
+
+const rules = ref({
+    email: [
+        {
+            required: true,
+            message: "Введите адрес электронной почты",
+            trigger: "blur",
+        },
+        {
+            type: "email",
+            message: "Введите корректный адрес электронной почты",
+            trigger: ["blur", "change"],
+        },
+    ],
+    password: [
+        { required: true, message: "Введите пароль", trigger: "blur" },
+        {
+            min: 6,
+            message: "Пароль должен содержать минимум 6 символов",
+            trigger: ["blur", "change"],
+        },
+    ],
+});
+
+const handleSubmit = async () => {
+    if (!ruleFormRef.value) return;
+
+    try {
+        // Валидация формы
+        await ruleFormRef.value.validate();
+
+        // Запрос токена при успешной валидации
+        const isLoginSuccessful = await requestAccessToken(
+            loginForm.value.email,
+            loginForm.value.password
+        );
+
+        if (isLoginSuccessful) {
+            // Эмитируем событие успешного входа
+            emit("login-success", false);
+        } else {
+            // Сообщение об ошибке при неудачном входе
+            alert("Ошибка при входе, модальное окно не закрывается.");
+        }
+    } catch (error) {
+        console.error("Ошибка валидации", error);
     }
 };
 </script>

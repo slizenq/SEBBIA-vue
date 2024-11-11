@@ -1,26 +1,34 @@
 <!-- Пароль -->
 <template>
-    <div class="login-dialog__form-item">
+    <el-form-item prop="password" class="login-dialog__form-item">
         <label class="login-dialog__label">Пароль</label>
         <el-input
-            v-model="password"
+            :model-value="password"
             placeholder="Пароль"
             type="password"
             class="login-dialog__input"
             show-password
-            @input="$emit('update:password', $event)"
+            @input="updatePassword"
+            clearable
         />
-    </div>
+    </el-form-item>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { ElInput, ElFormItem } from "element-plus";
 import { toRefs } from "vue";
-import { ElInput } from "element-plus";
 
 const props = defineProps({
-    password: String
-})
+    password: String,
+});
+
+const emit = defineEmits(["update:password"]);
+
 const { password } = toRefs(props);
+
+const updatePassword = (value: string) => {
+    emit("update:password", value);
+};
 </script>
 
 <style scoped>

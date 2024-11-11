@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" class="app">
         <Header class="header"></Header>
         <NuxtPage></NuxtPage>
         <div id="app">
@@ -36,6 +36,7 @@ onMounted(() => {
 }
 
 body {
+    height: 100vh;
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
@@ -49,6 +50,13 @@ a {
 .container {
     width: 90vw;
     margin: 0 auto;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
 }
 
 /* span {
