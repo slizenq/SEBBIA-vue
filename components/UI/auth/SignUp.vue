@@ -1,26 +1,35 @@
 <template>
     <div>
         <div class="login-dialog__form">
-            <Login  v-model:email="loginForm.email"/>
-            <Password v-model:password="loginForm.password"/>
-            <ReturnPass v-model:passwordConfirm="loginForm.passwordConfirm"/>
+            <Login v-model:email="loginForm.email" />
+            <Password v-model:password="loginForm.password" />
+            <ReturnPass v-model:passwordConfirm="loginForm.passwordConfirm" />
             <div class="login-dialog__form-item login-dialog__checkbox">
                 <el-checkbox v-model="loginForm.rememberMe">
                     Запомнить пароль?
                 </el-checkbox>
             </div>
             <div class="login-dialog__form-item login-dialog__submit">
-                <el-button type="primary" @click="registration">Зарегистрироваться</el-button>
+                <el-button type="primary" @click="registration"
+                    >Зарегистрироваться</el-button
+                >
             </div>
             <div class="login-dialog__register">
                 <span>Есть аккаунт?</span>
-                <el-button @click="$emit('someEventReg')" class="login-dialog__register-link" type="primary" plain>
+                <el-button
+                    @click="$emit('someEventReg')"
+                    class="login-dialog__register-link"
+                    type="primary"
+                    plain
+                >
                     Войти
                 </el-button>
             </div>
             <div class="login-dialog__privacy-policy">
                 При регистрации и входе <br />вы соглашаетесь с
-                <a class="login-dialog__link" href="">политикой конфиденциальности</a>
+                <a class="login-dialog__link" href=""
+                    >политикой конфиденциальности</a
+                >
             </div>
         </div>
     </div>
@@ -33,27 +42,43 @@ import Login from "./personality/Login.vue";
 import Password from "./personality/Password.vue";
 import ReturnPass from "./personality/ReturnPass.vue";
 import { register } from "./Authentication";
+import { ElNotification } from "element-plus";
 
 const props = defineProps({
-  whoUser: {
-    type: Boolean,
-    default: null, 
-  },
+    whoUser: {
+        type: Boolean,
+        default: null,
+    },
 });
 
 const loginForm = ref({
-  email: "",
-  password: "",
-  isCompany: props.whoUser ? true : false,
-  rememberMe: false,
+    email: "",
+    password: "",
+    isCompany: props.whoUser ? true : false,
+    rememberMe: false,
 });
 
 const registration = async () => {
-  const isRegisterSuccessful = await register(loginForm.value.email, loginForm.value.password, loginForm.value.isCompany);
-  if (isRegisterSuccessful) {
-        alert("Регистрация успешна")
+    const isRegisterSuccessful = await register(
+        loginForm.value.email,
+        loginForm.value.password,
+        loginForm.value.isCompany
+    );
+    if (isRegisterSuccessful) {
+        ElNotification({
+            title: "Регистрация успешна",
+            duration: 2000,
+            type: "success",
+            showClose: false,
+        });
     } else {
-        alert("Ошибка при регистрации");
+        ElNotification({
+            title: "Произошла ошибка при отправке",
+            message: "Проверьте правильно ли вы заполнили данные",
+            duration: 2000,
+            type: "error",
+            showClose: false,
+        });
     }
 };
 </script>

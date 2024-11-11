@@ -4,31 +4,38 @@ npm install ts-proto
 
 protoc --plugin=protoc-gen-ts_proto=.\node_modules\.bin\protoc-gen-ts_proto.cmd --ts_proto_out=importSuffix=.js:. assets\proto\test\example.proto
 
-CreateApplicationVacancy: создает новую заявку на вакансию.
+<script>
+    import { ElNotification } from "element-plus";
+    ElNotification(
+        {
+            title: "Произошла ошибка при отправке", 
+            message: "Проверьте соединение к интернету", 
+            duration: 2000, 
+            type: "error", 
+            showClose: false
+        }
+    );
+<script/>
 
-Запрос: CreateApplicationVacancyReq
-Ответ: ApplicationVacancyRes
-ReviewApplicationVacancy: меняет статус заявки на "просмотрено".
+<style>
+.img_margin {
+    margin-top: 20px
+}
+.el-notification {
+    width: 484px;
+    height: auto;
+    background-color: rgba(236, 245, 255, 1);
+    color: #409eff;
+}
 
-Запрос: ChangeStatusReq
-Ответ: google.protobuf.Empty (не возвращает данных)
-AcceptApplicationVacancy: принимает заявку, изменяя её статус на "принято".
+.el-notification__title {
+    color: #409eff;
+}
 
-Запрос: ChangeStatusReq
-Ответ: google.protobuf.Empty
-RejectApplicationVacancy: отклоняет заявку, изменяя её статус на "отклонено".
-
-Запрос: ChangeStatusReq
-Ответ: google.protobuf.Empty
-GetApplicationVacancyById: получает информацию о заявке по её идентификатору.
-
-Запрос: GetApplicationVacancyByIdReq
-Ответ: ApplicationVacancyRes
-GetApplicationsVacancyByVacancyId: получает список заявок для определенной вакансии, поддерживая пагинацию.
-
-Запрос: GetApplicationsVacancyByVacancyIdReq
-Ответ: ListApplicationVacancyRes
-GetApplicationsVacancyByResumeId: получает список заявок для определенного резюме, поддерживая пагинацию.
-
-Запрос: GetApplicationsVacancyByResumeIdReq
-Ответ: ListApplicationVacancyRes
+.el-notification__content p {
+    color: #409eff;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+}
+</style>

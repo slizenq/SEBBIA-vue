@@ -558,13 +558,12 @@ async function createVacancy(token, vacancyData) {
     const request = {
         vacancy: {
             expected_skills: expectedSkills,
-            about_practice: vacancyData.about_me || '',
+            about_practice: vacancyData.about_me,
             about_projects: vacancyData.about_projects || 's',
             directions: directions,
-            company_id: vacancyData.company_id || ''
+            company_id: vacancyData.company_id
         }
     };
-
     return new Promise((resolve, reject) => {
         client.CreateVacancy(request, metadata, (err, response) => {
             if (err) {
@@ -637,7 +636,7 @@ async function getCompaniesByFilters(filterParams) {
         typeCompany: filterParams.typeCompany,
         location: filterParams.location,
         contracts: filterParams.contracts || [],
-        page_size: filterParams.page_size || 10, 
+        page_size: filterParams.page_size || 100, 
         page_token: filterParams.page_token || "", 
     };
     

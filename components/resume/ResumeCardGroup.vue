@@ -1,10 +1,6 @@
 <template>
     <div class="card-group">
-        <ResumeCard
-            v-for="rezume in filteredRezumes"
-            :key="rezume.id"
-            :rezume="rezume"
-        />
+        <ResumeCard v-for="rezume in filteredRezumes" :key="rezume.id" :rezume="rezume"/>
         <section v-if="!filteredRezumes.length" class="no-resume">
             <p class="no-resume__title">Вы еще не получили резюме</p>
             <p class="no-resume__subtitle">
@@ -17,34 +13,22 @@
 
 <script setup>
 import ResumeCard from "./ResumeCard.vue";
-import { useStore } from "~/storage/storage";
-import { computed } from "vue";
-
-const store = useStore();
-
-const props = defineProps({
-    value: {
-        type: String,
-        required: true,
-    },
-});
-
-const filteredRezumes = computed(() => {
-    if (props.value === "Просмотренные") {
-        return store.rezumes.filter(
-            (rezume) =>
-                rezume.status === "Отказано" || rezume.status === "Одобрено"
-        );
-    } else if (props.value === "Входящие") {
-        return store.rezumes.filter(
-            (rezume) =>
-                rezume.status === "Не просмотрено" ||
-                rezume.status === "Просмотрено"
-        );
-    } else {
-        return store.rezumes;
-    }
-});
+// const filteredRezumes = computed(() => {
+//     if (props.value === "Просмотренные") {
+//         return store.rezumes.filter(
+//             (rezume) =>
+//                 rezume.status === "Отказано" || rezume.status === "Одобрено"
+//         );
+//     } else if (props.value === "Входящие") {
+//         return store.rezumes.filter(
+//             (rezume) =>
+//                 rezume.status === "Не просмотрено" ||
+//                 rezume.status === "Просмотрено"
+//         );
+//     } else {
+//         return store.rezumes;
+//     }
+// });
 </script>
 
 <style scoped>

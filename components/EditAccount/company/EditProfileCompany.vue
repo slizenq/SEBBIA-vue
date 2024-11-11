@@ -59,7 +59,7 @@
 
 <script setup>
 import { Picture as IconPicture, InfoFilled } from "@element-plus/icons-vue";
-import { ElUpload, ElIcon, ElInput, ElSelectV2, ElDatePicker, ElButton, ElPopover, ElTag } from "element-plus";
+import { ElUpload, ElIcon, ElInput, ElSelectV2, ElDatePicker, ElButton, ElPopover, ElTag, ElNotification } from "element-plus";
 import { ref, defineEmits } from "vue";
 import { createCompany } from "../EditCompany";
 const photo = ref(null);
@@ -113,14 +113,30 @@ const handleFormSubmit = async () => {
         photo: photo.value,
         contracts: skills.value,
     };
-    console.log("Company Data:", companyData);
-    console.log("Company Data:", companyData.title);
-    console.log("Company Data:", companyData.title.length);
-    const success = await createCompany(companyData);
+    const success = await createCompany(companyData)
+    
+    console.log(success);
+    
     if (success) {
         emit('profileUpdated');
     } else {
         console.error("Ошибка при создании компании");
+    }
+    if (success) {
+        ElNotification({
+            title: "Успешно отправлено", 
+            duration: 1500, 
+            type: "success", 
+            showClose: true
+        });
+    } else {
+        ElNotification({
+            title: "Произошла ошибка при отправке", 
+            message: "Проверьте правильно ли вы заполнили все данные",
+            duration: 1500, 
+            type: "error", 
+            showClose: true
+        });
     }
 };
 
