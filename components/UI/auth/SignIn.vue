@@ -42,8 +42,9 @@
 import { ref } from "vue";
 import { ElButton, ElCheckbox, ElForm } from "element-plus";
 import Login from "./personality/Login.vue";
-import Password from "./personality/Password.vue";
-import { requestAccessToken } from "./Authentication"; // Импорт функции для запроса токена
+import { requestAccessToken } from "./Authentication";
+import Password  from "./personality/Password.vue";
+import { ElNotification } from "element-plus";
 
 const emit = defineEmits(["login-success"]);
 
@@ -92,18 +93,52 @@ const handleSubmit = async () => {
         );
 
         if (isLoginSuccessful) {
-            // Эмитируем событие успешного входа
-            emit("login-success", false);
-        } else {
-            // Сообщение об ошибке при неудачном входе
-            alert("Ошибка при входе, модальное окно не закрывается.");
+        emit("login-success", false);
+        ElNotification(
+            {
+                title: "Вы вошли в аккаунт", 
+                duration: 1000, 
+                type: "success", 
+                showClose: false
+            }
+        )
+    } else {
+        ElNotification(
+        {
+            title: "Произошла ошибка при авторизации", 
+            message: "Проверьте правильно ли вы заполнили данные", 
+            duration: 1000, 
+            type: "error", 
+            showClose: false
         }
+       );
+    }
     } catch (error) {
         console.error("Ошибка валидации", error);
-    }
-};
-</script>
 
+</script>
+<style>
+.img_margin {
+    margin-top: 20px
+}
+.el-notification {
+    width: 484px;
+    height: auto;
+    background-color: rgba(236, 245, 255, 1);
+    color: #409eff;
+}
+
+.el-notification__title {
+    color: #409eff;
+}
+
+.el-notification__content p {
+    color: #729078;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+}
+</style>
 <style scoped>
 /* Общие стили для формы */
 .login-dialog__form {

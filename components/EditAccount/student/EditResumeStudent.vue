@@ -131,6 +131,7 @@ import { ElButton, ElIcon, ElForm, ElInput, ElSelect, ElOption, ElTag, ElImage }
 import { ref } from "vue";
 import { sendFormResume } from "../EditStudent";
 import { defineEmits } from "vue"; 
+import { ElNotification } from "element-plus";
 
 const direction = ref("");
 const selectedDirection = ref([]);
@@ -181,19 +182,32 @@ const dialogRedactor = ref(false);
 
 const saveForm = async () => {
     try {
-        console.log("Форма сохранена", {
-            about_me: about_me,
-            about_projects: about_projects,
-            skills: skills,
-            portfolio: portfolio,
-            phone_number: phone_number,
-            direction: direction,
-        });
-
-        // Отправить данные формы на сервер
-        (await sendFormResume( about_me, about_projects, skills, portfolio, phone_number, selectedDirection, dialogRedactor))
-            ? emit("updateDialogg", false)
-            : emit("updateDialogg", false);
+        const isSuccessful = await sendFormResume(
+            about_me, 
+            about_projects, 
+            skills, 
+            portfolio, 
+            phone_number, 
+            selectedDirection, 
+            dialogRedactor
+        );
+        emit("updateDialogg", false);
+        if (isSuccessful) {
+            ElNotification({
+                title: "Резюме успешно обновлено", 
+                duration: 1500, 
+                type: "success", 
+                showClose: true
+            });
+        } else {
+            ElNotification({
+                title: "Произошла ошибка при отправке", 
+                message: "Проверьте правильно ли вы заполнили все данные",
+                duration: 1500,         
+                type: "error", 
+                showClose: true
+            });
+        }
     } catch (error) {
         console.error("Ошибка валидации", error);
     }
