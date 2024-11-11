@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const app = express();
 const port = 3001;
-app.use(cors({ origin: ['http://localhost:3000', 'http://92.53.105.243:3000'] }));
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 const options = {
