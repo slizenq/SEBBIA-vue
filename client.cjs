@@ -69,7 +69,7 @@ const applicationVacancyPakage = grpc.loadPackageDefinition(applicationVacancy).
 const companyPackage = grpc.loadPackageDefinition(company).company;
 const resumePackage = grpc.loadPackageDefinition(resume).resume;
 const vacancyPackage = grpc.loadPackageDefinition(vacancy).vacancy;
-const API_URL = "openresty:81"
+const API_URL = "localhost:81"
 
 function createAuthClient() {
     return new authPackage.SSOServerService(API_URL, grpc.credentials.createInsecure(), options);
