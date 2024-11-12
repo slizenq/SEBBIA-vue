@@ -7,8 +7,6 @@ export const sendForm = async function (first_name, last_name, middle_name, sele
         const headers = {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`
         };
-        
-        // Заполняем студента данными (по params из функции)
         const studentEntity = {
             first_name: first_name?.value || "",
             last_name: last_name?.value || "",
@@ -24,7 +22,6 @@ export const sendForm = async function (first_name, last_name, middle_name, sele
             portfolio: "http://example.com",
             city: selectedCity?.value?.label || ""
         };
-        // Проверяем наличие аккаунта у пользователя
         const accountID = localStorage.getItem("AccountID");
         if (accountID) {
             console.log('if');
@@ -40,7 +37,6 @@ export const sendForm = async function (first_name, last_name, middle_name, sele
             }
         } else {
             console.log('else');
-            // Если у нас нет индификатора пользователя создаем ему резюме и сохраняем его id
             const response = await axios.post(`${IP}/createStudent`, studentEntity, { headers });
             const data = {
                 resume_id: response.data?.resume_id,

@@ -36,6 +36,8 @@ import { ElButton, ElCheckbox } from "element-plus";
 import Login from "./personality/Login.vue";
 import { requestAccessToken } from "./Authentication";
 import Password  from "./personality/Password.vue";
+import { ElNotification } from "element-plus";
+
 const emit = defineEmits(["login-success"]);
 
 const loginForm = ref({
@@ -47,12 +49,49 @@ const login = async () => {
     const isLoginSuccessful = await requestAccessToken(loginForm.value.email, loginForm.value.password);
     if (isLoginSuccessful) {
         emit("login-success", false);
+        ElNotification(
+            {
+                title: "Вы вошли в аккаунт", 
+                duration: 1000, 
+                type: "success", 
+                showClose: false
+            }
+        )
     } else {
-        alert("Ошибка при входе, модальное окно не закрывается.");
+        ElNotification(
+        {
+            title: "Произошла ошибка при авторизации", 
+            message: "Проверьте правильно ли вы заполнили данные", 
+            duration: 1000, 
+            type: "error", 
+            showClose: false
+        }
+    );
     }
 };
 </script>
+<style>
+.img_margin {
+    margin-top: 20px
+}
+.el-notification {
+    width: 484px;
+    height: auto;
+    background-color: rgba(236, 245, 255, 1);
+    color: #409eff;
+}
 
+.el-notification__title {
+    color: #409eff;
+}
+
+.el-notification__content p {
+    color: #729078;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+}
+</style>
 <style scoped>
 /* Общие стили для формы */
 .login-dialog__form {

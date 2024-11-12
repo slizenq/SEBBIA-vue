@@ -54,7 +54,7 @@ const education = ref(null);
 const born_date = ref(null);
 const showUpProgress = ref(false);
 const emit = defineEmits(['profileUpdated', 'updateDialogRedactor']);
-const cities = ["Москва", "Санкт-Петербург", "РКСИ"];
+const cities = ["Москва", "Санкт-Петербург", "Ростов-на-Дону", "Челябинск", "Новосибирск", "Нальчик", "Орёл", "Якутск", "Красонодар", "Зерноград"];
 
 
 const dialogRedactor = ref(false);
@@ -73,10 +73,41 @@ const selectedCity = computed(() => cityOptions.find(option => option.value === 
 const selectedEducation = computed(() => educationOptions.find(option => option.value === education.value) || null);
 
 const handleFormSubmit = async () => {
-    await sendFormHandler(first_name, last_name, middle_name, selectedEducation, selectedCity, photo, showUpProgress, dialogRedactor ) ?
-    emit('updateDialogRedactor', false) : emit('updateDialogRedactor', false)
-    ElNotification({title: "Произошла ошибка при отправке", message: "Проверьте соединение к интернету", duration: 2000, type: "error", showClose: false});
-    emit('profileUpdated', { first_name: first_name.value, last_name: last_name.value, middle_name: middle_name.value, city: selectedCity.value?.label, education: selectedEducation.value?.label, photo: photo.value });
+    const isSuccessful = await sendFormHandler(
+        first_name, 
+        last_name, 
+        middle_name, 
+        selectedEducation, 
+        selectedCity, 
+        photo, 
+        showUpProgress, 
+        dialogRedactor 
+    );
+    emit('updateDialogRedactor', false);
+    if (isSuccessful) {
+        ElNotification({
+            title: "Успешно отправлено", 
+            duration: 1500, 
+            type: "success", 
+            showClose: true
+        });
+    } else {
+        ElNotification({
+            title: "Произошла ошибка при отправке", 
+            message: "Проверьте правильно ли вы заполнили все данные",
+            duration: 1500, 
+            type: "error", 
+            showClose: true
+        });
+    }
+    emit('profileUpdated', { 
+        first_name: first_name.value, 
+        last_name: last_name.value, 
+        middle_name: middle_name.value, 
+        city: selectedCity.value?.label, 
+        education: selectedEducation.value?.label, 
+        photo: photo.value 
+    });
 };
 </script>
 

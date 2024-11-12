@@ -120,7 +120,7 @@ const handleFormSubmit = async () => {
         tasks: tasks.value  
     };
     console.log(practiceData);
-    const success = await createPractice(practiceData);
+    const success = await createPractice(practiceData)
     if (success) {
         console.log('Данные о практике успешно сохранены.');
     } else {

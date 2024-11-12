@@ -59,7 +59,7 @@
 
 <script setup>
 import { Picture as IconPicture, InfoFilled } from "@element-plus/icons-vue";
-import { ElUpload, ElIcon, ElInput, ElSelectV2, ElDatePicker, ElButton, ElPopover, ElTag } from "element-plus";
+import { ElUpload, ElIcon, ElInput, ElSelectV2, ElDatePicker, ElButton, ElPopover, ElTag, ElNotification } from "element-plus";
 import { ref, defineEmits } from "vue";
 import { createCompany } from "../EditCompany";
 const photo = ref(null);
@@ -82,13 +82,13 @@ const removeTag = (index) => {
 };
 const emit = defineEmits(['profileUpdated']);
 
-const cities = ["Москва", "Санкт-Петербург", "РКСИ"];
+const cities = ["Москва", "Санкт-Петербург", "Ростов-на-Дону"];
 const cityOptions = cities.map((city, idx) => ({
     value: idx + 1,
     label: city,
     class: "custom-option",
 }));
-const educationInstit = ["МГУ", "СПбГУ", "РКСИ"];
+const educationInstit = ["ООО", "ИП", "ОООЙ"];
 const educationOptions = educationInstit.map((institution, idx) => ({
     value: idx + 1,
     label: institution,
@@ -113,10 +113,10 @@ const handleFormSubmit = async () => {
         photo: photo.value,
         contracts: skills.value,
     };
-    console.log("Company Data:", companyData);
-    console.log("Company Data:", companyData.title);
-    console.log("Company Data:", companyData.title.length);
-    const success = await createCompany(companyData);
+    const success = await createCompany(companyData)
+    
+    console.log(success);
+    
     if (success) {
         emit('profileUpdated');
     } else {
