@@ -54,7 +54,7 @@ const education = ref(null);
 const born_date = ref(null);
 const showUpProgress = ref(false);
 const emit = defineEmits(['profileUpdated', 'updateDialogRedactor']);
-const cities = ["Москва", "Санкт-Петербург", "РКСИ"];
+const cities = ["Москва", "Санкт-Петербург", "Ростов-на-Дону", "Челябинск", "Новосибирск", "Нальчик", "Орёл", "Якутск", "Красонодар", "Зерноград"];
 
 
 const dialogRedactor = ref(false);
