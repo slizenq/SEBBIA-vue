@@ -1,29 +1,37 @@
 <template>
-    <div class="login-dialog__form-item">
+    <el-form-item prop="email" class="login-dialog__form-item">
         <label class="login-dialog__label">Логин</label>
-        
         <el-input
             :model-value="email"
             placeholder="Электронная почта"
             class="login-dialog__input"
-            @input="$emit('update:email', $event)"
+            @input="updateEmail"
+            clearable
         />
-    </div>
+    </el-form-item>
 </template>
 
 <script setup lang="ts">
-import { ElInput } from "element-plus";
+import { ElInput, ElFormItem } from "element-plus";
 import { toRefs } from "vue";
+
 const props = defineProps({
-    email: String
-})
+    email: String,
+});
+
+const emit = defineEmits(["update:email"]);
+
 const { email } = toRefs(props);
+
+const updateEmail = (value: string) => {
+    emit("update:email", value);
+};
 </script>
 
 <style scoped>
 .validation-status {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 .login-dialog__form-item {
     display: flex;
