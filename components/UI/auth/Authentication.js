@@ -17,7 +17,6 @@ export const register = async function (email, password, isCompany) {
             console.log(response.data)
             return true;
         }
-
     } catch (error) {
         console.error(error);
         return false;

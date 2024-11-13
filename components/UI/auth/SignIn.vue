@@ -83,17 +83,13 @@ const handleSubmit = async () => {
     if (!ruleFormRef.value) return;
 
     try {
-        // Валидация формы
         await ruleFormRef.value.validate();
-
-        // Запрос токена при успешной валидации
         const isLoginSuccessful = await requestAccessToken(
             loginForm.value.email,
             loginForm.value.password
         );
 
         if (isLoginSuccessful) {
-            // Эмитируем событие успешного входа
             emit("login-success", false);
             ElNotification({
                 title: "Вы вошли в аккаунт",
@@ -102,7 +98,6 @@ const handleSubmit = async () => {
                 showClose: false,
             });
         } else {
-            // Сообщение об ошибке при неудачном входе
             ElNotification({
                 title: "Произошла ошибка при авторизации",
                 message: "Проверьте правильно ли вы заполнили данные",
@@ -114,8 +109,6 @@ const handleSubmit = async () => {
     } catch (error) {
         console.error("Ошибка валидации", error);
     }
-
-    // женя педик
 };
 </script>
 <style>

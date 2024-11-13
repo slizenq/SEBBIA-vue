@@ -33,16 +33,14 @@
             </div>
             <div class="login-dialog__privacy-policy">
                 При регистрации и входе <br />вы соглашаетесь с
-                <a class="login-dialog__link" href=""
-                    >политикой конфиденциальности</a
-                >
+                <a class="login-dialog__link" href="">политикой конфиденциальности</a>
             </div>
         </el-form>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, defineProps } from "vue";
 import { ElButton, ElCheckbox, ElForm, ElNotification } from "element-plus";
 import Login from "./personality/Login.vue";
 import Password from "./personality/Password.vue";
@@ -50,11 +48,17 @@ import ReturnPass from "./personality/ReturnPass.vue";
 import { register } from "./Authentication";
 
 const ruleFormRef = ref<InstanceType<typeof ElForm> | null>(null);
-
+    const props = defineProps({
+  whoUser: {
+    type: Boolean,
+    default: null, 
+  },
+});
 const loginForm = ref({
     email: "",
     password: "",
     passwordConfirm: "",
+    isCompany: props.whoUser ? true : false,
     rememberMe: false,
 });
 
@@ -98,16 +102,12 @@ const handleRegistration = async () => {
     if (!ruleFormRef.value) return;
 
     try {
-        // Валидация формы
         await ruleFormRef.value.validate();
-
-        // Запрос регистрации при успешной валидации
         const isRegisterSuccessful = await register(
             loginForm.value.email,
             loginForm.value.password,
             loginForm.value.isCompany
         );
-
         if (isRegisterSuccessful) {
             ElNotification({
                 title: "Регистрация успешна",
