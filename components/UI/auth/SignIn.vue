@@ -43,7 +43,7 @@ import { ref } from "vue";
 import { ElButton, ElCheckbox, ElForm } from "element-plus";
 import Login from "./personality/Login.vue";
 import { requestAccessToken } from "./Authentication";
-import Password  from "./personality/Password.vue";
+import Password from "./personality/Password.vue";
 import { ElNotification } from "element-plus";
 
 const emit = defineEmits(["login-success"]);
