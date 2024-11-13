@@ -82,13 +82,13 @@ const removeTag = (index) => {
 };
 const emit = defineEmits(['profileUpdated']);
 
-const cities = ["Москва", "Санкт-Петербург", "РКСИ"];
+const cities = ["Москва", "Санкт-Петербург", "Ростов-на-Дону"];
 const cityOptions = cities.map((city, idx) => ({
     value: idx + 1,
     label: city,
     class: "custom-option",
 }));
-const educationInstit = ["МГУ", "СПбГУ", "РКСИ"];
+const educationInstit = ["ООО", "ИП", "ОООЙ"];
 const educationOptions = educationInstit.map((institution, idx) => ({
     value: idx + 1,
     label: institution,
@@ -121,22 +121,6 @@ const handleFormSubmit = async () => {
         emit('profileUpdated');
     } else {
         console.error("Ошибка при создании компании");
-    }
-    if (success) {
-        ElNotification({
-            title: "Успешно отправлено", 
-            duration: 1500, 
-            type: "success", 
-            showClose: true
-        });
-    } else {
-        ElNotification({
-            title: "Произошла ошибка при отправке", 
-            message: "Проверьте правильно ли вы заполнили все данные",
-            duration: 1500, 
-            type: "error", 
-            showClose: true
-        });
     }
 };
 

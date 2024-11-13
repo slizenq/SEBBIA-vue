@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const app = express();
 const port = 3001;
+// app.use(cors({ origin: ['http://localhost:3000', 'http://92.53.105.243:3000'] }));
 app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(express.json());
 
@@ -848,13 +849,6 @@ app.post("/getApplicationsVacancyByVacancyId", async (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
     console.log(`Сервер запущен на http://localhost:${port}`);
 });
