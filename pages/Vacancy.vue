@@ -37,7 +37,7 @@
                             <p class="right__description text__align"><img src="./../assets/images/vacancy/date.svg"/>22.02.2011</p>
                         </div>
                     </div>
-                    <img src="./../assets/images/company-logo.svg" alt="logo" />
+                    <img :src="photoUrl" width="126px" height="126px" alt="logo" />
                 </div>
                 <p class="company__description">{{ vacancyData[0]?.about_projects }} 
                 </p>
@@ -93,6 +93,7 @@ const breadcrumbItems = ref([
     { path: "/about", label: "Поиск компании" },
     { path: "/", label: "Компания" },
 ]);
+const photoUrl = ref()
 const isDialogVisibleVacancy = ref(false);
 const isDialogVisible = ref(false);
 const editVacancy = function () {
@@ -112,6 +113,7 @@ const openDialog = async () => {
         studentId: studentId,
     };
     const response = await axios.post(`${IP}/createApplicationVacancy`, resumeData, { headers }); 
+
     let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
     const getResume = await axios.get(`${IP}/resume/users/${checkUUid}/resumes`);
     if (getResume.data[0].directions && getResume.data[0].education && getResume.data[0].phone_number && getResume.data[0].portfolio) {
@@ -151,8 +153,13 @@ const fetchVacancyData = async () => {
     };
     const response = await axios.post(`${IP}/getVacanciesByParams`, vacancyFilterParams);
     vacancyData.value = response.data;
+    photoUrl.value = response.photo
+    
     let ax = localStorage.getItem('vacancy')
     const companyAccount = await axios.post(`${IP}/getCompanyById`, { id: ax });
+    console.log(companyAccount.data.photo);
+    photoUrl.value = companyAccount.data.photo
+    
     companyProfile.value = {...companyAccount.data} 
     let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
     const getResume = await axios.get(`${IP}/resume/users/${checkUUid}/resumes`);

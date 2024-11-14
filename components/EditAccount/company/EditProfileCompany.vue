@@ -10,9 +10,6 @@
                         </template>
                     </el-popover>
                 </p>
-                <ElUpload>
-                    <img src="./../../../assets/images/addPhoto.svg" class="img_margin">
-                </ElUpload>
             </div>
             <div class="fio">
                 <p class="description">Наименование компании</p>
