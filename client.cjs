@@ -445,10 +445,12 @@ const toTimestamp = (date) => {
 async function createCompany(token, companyData) {
     const client = createCompanyClient();
     const metadata = new grpc.Metadata();
-    metadata.add("Authorization", `Bearer ${token}`);
+    metadata.add('Authorization', `Bearer ${token}`);
+    
+    const foundationDate = toTimestamp(new Date(companyData.foundationDate));  
+    const photo = companyData.photo && companyData.photo.data
+        ? { data: companyData.photo.data, fileName: companyData.photo.fileName || "default.png" }
 
-    const foundationDate = companyData.foundationDate
-        ? toTimestamp(new Date(companyData.foundationDate))
         : null;
     const photo =
         companyData.photo && companyData.photo.data
