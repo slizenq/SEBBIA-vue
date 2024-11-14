@@ -16,7 +16,7 @@
                         ></template>
                     </el-popover>
                 </p>
-                <ElUpload
+                <ElUpload :on-change="handlePhotoChange"
                     ><img
                         src="./../../../assets/images/addPhoto.svg"
                         class="img_margin"
@@ -132,6 +132,16 @@ const cities = [
     "Красонодар",
     "Зерноград",
 ];
+
+const handlePhotoChange = async (file) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+        const arrayBuffer = reader.result;
+        const byteArray = new Uint8Array(arrayBuffer);
+        photo.value = Array.from(byteArray);
+    };
+    reader.readAsArrayBuffer(file.raw);
+};
 
 const dialogRedactor = ref(false);
 const cityOptions = cities.map((city, idx) => ({
