@@ -31,7 +31,15 @@
             </div>
             <div>
                 <p class="description">Дата основания</p>
-                <el-date-picker class="dropdown" v-model="company_date" type="date" placeholder="ээ пупупууу" :size="size" style="width: 100%; margin-top: 8px"/>
+                <el-date-picker 
+                    class="dropdown" 
+                    v-model="company_date" 
+                    type="date" 
+                    placeholder="ээ пупупууу" 
+                    :size="size" 
+                    style="width: 100%; 
+                    margin-top: 8px"
+                />
             </div>
             <div>
                 <p class="description">Описание</p>
@@ -68,6 +76,8 @@ const textarea2 = ref(null)
 const partner = ref(""); 
 const skills = ref(["ЮФУ", "ДГТУ", "РКСИ", "МГУ", "СПбГУ"]); 
 
+console.log(company_date.value);
+const size = ref('default');
 const addSkill = () => {
     if (partner.value) {
         skills.value.push(partner.value);
@@ -93,19 +103,12 @@ const educationOptions = educationInstit.map((institution, idx) => ({
 }));
 
 const handleFormSubmit = async () => {
-    const parseDate = (dateStr) => {
-        if (typeof dateStr !== 'string') {
-            console.error("Invalid date format:", dateStr);
-            return null; 
-        }
-        const [day, month, year] = dateStr.split('.');
-        return `${year}-${month}-${day}`;
-    };
+    const formattedDate = company_date.value ? company_date.value.toISOString().slice(0, 10) : null;
     const companyData = {
-        title: company_name.value,   
+        title: company_name.value,  
         location: city_company.value ? cityOptions.find(city => city.value === city_company.value)?.label : "",
         typeCompany: type_company.value ? educationOptions.find(type => type.value === type_company.value)?.label : "",
-        foundationDate: company_date.value ? parseDate(company_date.value) : null,  
+        foundationDate: formattedDate,  
         aboutCompany: textarea2.value,
         photo: photo.value,
         contracts: skills.value,

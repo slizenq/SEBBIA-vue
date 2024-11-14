@@ -433,7 +433,7 @@ async function createCompany(token, companyData) {
     const metadata = new grpc.Metadata();
     metadata.add('Authorization', `Bearer ${token}`);
     
-    const foundationDate = companyData.foundationDate ? toTimestamp(new Date(companyData.foundationDate)) : null;  
+    const foundationDate = toTimestamp(new Date(companyData.foundationDate));  
     const photo = companyData.photo && companyData.photo.data
         ? { data: companyData.photo.data, fileName: companyData.photo.fileName || "default.png" }
         : null;
