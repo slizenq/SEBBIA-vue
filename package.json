@@ -20,7 +20,7 @@
         "consola": "^3.2.3",
         "cors": "^2.8.5",
         "defu": "^6.1.4",
-        "element-plus": "^2.8.6",
+        "element-plus": "^2.8.7",
         "express": "^4.21.1",
         "http2": "^3.3.6",
         "js-base64": "^3.7.7",
