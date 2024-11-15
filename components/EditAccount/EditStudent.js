@@ -9,6 +9,7 @@ export const sendForm = async function (
     selectedEducation,
     selectedCity,
     photo,
+    photoName,
     born_date,
     showUpProgress,
     dialogRedactor
@@ -26,12 +27,17 @@ export const sendForm = async function (
             about_me: "",
             born_date: born_date,
             skills: [],
-            photo: photo?.value || "",
+            photo: photo?.value,
+            photo_name: photoName || "",
             directions: ["string"],
             location: selectedCity?.value?.label || "",
             portfolio: "http://example.com",
             city: selectedCity?.value?.label || "",
         };
+
+        console.log("Photo data:", photo?.value);
+        console.log("Photo Name:", photoName?.value);
+
         const accountID = localStorage.getItem("AccountID");
         if (accountID) {
             console.log("if");

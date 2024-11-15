@@ -16,11 +16,52 @@
                         ></template>
                     </el-popover>
                 </p>
-                <ElUpload :on-change="handlePhotoChange"
+                <!-- <ElUpload :on-change="handlePhotoChange"
                     ><img
                         src="./../../../assets/images/addPhoto.svg"
                         class="img_margin"
-                /></ElUpload>
+                /></ElUpload> -->
+
+                <el-upload
+                    action="#"
+                    list-type="picture-card"
+                    :auto-upload="false"
+                    :on-change="handlePhotoChange"
+                >
+                    <el-icon><Plus /></el-icon>
+
+                    <template #file="{ file }">
+                        <div>
+                            <img
+                                class="el-upload-list__item-thumbnail"
+                                :src="file.url"
+                                alt=""
+                            />
+                            <span class="el-upload-list__item-actions">
+                                <span
+                                    class="el-upload-list__item-preview"
+                                    @click="handlePictureCardPreview(file)"
+                                >
+                                    <el-icon><zoom-in /></el-icon>
+                                </span>
+                                <span
+                                    v-if="!disabled"
+                                    class="el-upload-list__item-delete"
+                                    @click="handleDownload(file)"
+                                >
+                                    <el-icon><Download /></el-icon>
+                                </span>
+                                <span
+                                    v-if="!disabled"
+                                    class="el-upload-list__item-delete"
+                                    @click="handleRemove(file)"
+                                >
+                                    <el-icon><Delete /></el-icon>
+                                </span>
+                            </span>
+                        </div>
+                    </template>
+                </el-upload>
             </div>
             <div class="fio">
                 <p class="description">Имя</p>
@@ -96,7 +137,11 @@
 </template>
 
 <script setup>
-import { Picture as IconPicture, InfoFilled } from "@element-plus/icons-vue";
+import {
+    Picture as IconPicture,
+    InfoFilled,
+    Plus,
+} from "@element-plus/icons-vue";
 import {
     ElUpload,
     ElIcon,
@@ -111,7 +156,8 @@ import { sendForm as sendFormHandler } from "../EditStudent";
 
 import { ElNotification } from "element-plus";
 
-const photo = ref("test");
+const photo = ref([]);
+const photoName = ref("");
 const first_name = ref(null);
 const middle_name = ref(null);
 const last_name = ref(null);
@@ -133,13 +179,30 @@ const cities = [
     "Зерноград",
 ];
 
+const dialogImageUrl = ref("");
+const dialogVisible = ref(false);
+const disabled = ref(false);
+
+// Обработчик изменения фото
 const handlePhotoChange = async (file) => {
     const reader = new FileReader();
+
     reader.onload = () => {
         const arrayBuffer = reader.result;
         const byteArray = new Uint8Array(arrayBuffer);
-        photo.value = Array.from(byteArray);
+
+        // Конкатенируем массив байтов
+        photo.value = photo.value.concat(Array.from(byteArray));
+        photoName.value = file.name;
+
+        console.log("Название файла:", photoName.value); // Вывод имени файла
+        console.log("Массив байтов:", photo.value); // Вывод массива байтов
     };
+
+    reader.onerror = () => {
+        console.error("Ошибка чтения файла");
+    };
+
     reader.readAsArrayBuffer(file.raw);
 };
 
@@ -187,6 +250,7 @@ const handleFormSubmit = async () => {
         selectedEducation,
         selectedCity,
         photo,
+        photoName,
         formattedBornDate,
         showUpProgress,
         dialogRedactor
@@ -216,6 +280,7 @@ const handleFormSubmit = async () => {
         education: selectedEducation.value?.label,
         born_date: formattedBornDate,
         photo: photo.value,
+        photoName: photoName.value, 
     });
 };
 </script>

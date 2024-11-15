@@ -8,8 +8,8 @@ const port = 3001;
 // app.use(cors({ origin: ['http://localhost:3000', 'http://92.53.105.243:3000'] }));
 app.use(cors({ origin: "http://localhost:3000" }));
 
-app.use(express.json({ limit: "1000mb" }));
-app.use(express.urlencoded({ limit: "1000mb", extended: true }));
+app.use(express.json({ limit: "4000mb" }));
+app.use(express.urlencoded({ limit: "4000mb", extended: true }));
 
 const options = {
     "grpc.max_receive_message_length": 4294967296,
