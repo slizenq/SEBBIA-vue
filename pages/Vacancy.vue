@@ -34,7 +34,7 @@
                         </div>
                         <div class="wrap__margin">
                             <p class="right__description text__align"><img src="./../assets/images/vacancy/location.svg"/>{{ companyProfile?.location }}</p>
-                            <p class="right__description text__align"><img src="./../assets/images/vacancy/date.svg"/>22.02.2011</p>
+                            <p class="right__description text__align"><img src="./../assets/images/vacancy/date.svg"/>{{ formattedDate }}</p>
                         </div>
                     </div>
                     <img :src="photoUrl" width="126px" height="126px" alt="logo" />
@@ -88,6 +88,7 @@ import { ref } from "vue";
 import axios from "axios";
 import BreadCrumb from "~/components/UI/interface/bigEl/BreadCrumb.vue";
 
+let formattedDate = ref();
 const breadcrumbItems = ref([
     { path: "/", label: "Главная" },
     { path: "/about", label: "Поиск компании" },
@@ -153,12 +154,18 @@ const fetchVacancyData = async () => {
     };
     const response = await axios.post(`${IP}/getVacanciesByParams`, vacancyFilterParams);
     vacancyData.value = response.data;
-    photoUrl.value = response.photo
+    photoUrl.value = response?.data?.photo
     
     let ax = localStorage.getItem('vacancy')
     const companyAccount = await axios.post(`${IP}/getCompanyById`, { id: ax });
     console.log(companyAccount.data.photo);
-    photoUrl.value = companyAccount.data.photo
+    photoUrl.value = companyAccount?.data?.photo
+
+    let date = new Date(companyAccount?.data?.foundationDate.seconds * 1000); 
+    let day = date.getDate().toString().padStart(2, '0');
+    let month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+    let year = date.getFullYear();
+    formattedDate.value = `${year}.${month}.${day}`;
     
     companyProfile.value = {...companyAccount.data} 
     let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;

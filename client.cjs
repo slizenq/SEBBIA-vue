@@ -2,6 +2,7 @@ const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 const express = require("express");
 const cors = require("cors");
+const multer = require('multer');
 
 const app = express();
 const port = 3001;
@@ -450,13 +451,11 @@ async function createCompany(token, companyData) {
     const foundationDate = companyData.foundationDate
         ? toTimestamp(new Date(companyData.foundationDate))
         : null;
-    const photo =
-        companyData.photo && companyData.photo.data
-            ? {
-                  data: companyData.photo.data,
-                  fileName: companyData.photo.fileName || "default.png",
-              }
-            : null;
+
+        const photo = {
+            photo: companyData.photo.photo, 
+            fileName: companyData.photo.fileName,
+        };
 
     const request = {
         title: companyData.title,
@@ -474,20 +473,19 @@ async function createCompany(token, companyData) {
                 console.error("gRPC error:", err.details || err.message);
                 reject(err);
             } else {
-                console.log(
-                    "Response from gRPC:",
-                    JSON.stringify(response, null, 2)
-                );
+                console.log("Response from gRPC:", JSON.stringify(response, null, 2));
                 resolve(response);
             }
         });
     });
 }
-app.post("/createCompany", async (req, res) => {
+const upload = multer();
+app.post("/createCompany", upload.single("photo"), async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const companyData = req.body;
+
     if (!token) {
-        return res.status(401).json({ error: "Ошибка поулчения токена" });
+        return res.status(401).json({ error: "Ошибка получения токена" });
     }
     try {
         const company = await createCompany(token, companyData);
@@ -572,6 +570,7 @@ async function createVacancy(token, vacancyData) {
     const client = createVacancyClient();
     const metadata = new grpc.Metadata();
     metadata.add("Authorization", `Bearer ${token}`);
+
     const expectedSkills = Array.isArray(vacancyData.skills_required)
         ? vacancyData.skills_required.map((skill) => ({ skill }))
         : [];
@@ -589,26 +588,34 @@ async function createVacancy(token, vacancyData) {
             company_id: vacancyData.company_id,
         },
     };
-    return new Promise((resolve, reject) => {
-        client.CreateVacancy(request, metadata, (err, response) => {
-            if (err) {
-                console.error("gRPC error:", err.details || err.message);
-                reject(err);
-            } else {
-                console.log("Response from gRPC:", response);
-                resolve(response);
-            }
+
+    try {
+        const response = await new Promise((resolve, reject) => {
+            client.CreateVacancy(request, metadata, (err, response) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(response);
+                }
+            });
         });
-    });
+        console.log("Response from gRPC:", response);
+        return response;
+    } catch (err) {
+        console.error("gRPC error:", err.message);
+        throw err;
+    }
 }
 app.post("/createVacancy", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const vacancyData = req.body;
+    console.log("Полученные данные:", vacancyData);
+
     try {
         const vacancy = await createVacancy(token, vacancyData);
-        res.json(vacancy);
+        res.json(vacancy);  
     } catch (err) {
-        console.error("Error in /createVacancy:", err.message);
+        console.error("Ошибка в /createVacancy:", err.message);
         res.status(500).json({ error: err.message });
     }
 });

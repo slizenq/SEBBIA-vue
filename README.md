@@ -39,3 +39,6 @@ protoc --plugin=protoc-gen-ts_proto=.\node_modules\.bin\protoc-gen-ts_proto.cmd 
     line-height: 22px;
 }
 </style>
+
+protobuf-ts 2.9.4
+ts-proto
