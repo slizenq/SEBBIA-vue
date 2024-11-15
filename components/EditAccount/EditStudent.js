@@ -28,7 +28,7 @@ export const sendForm = async function (
             born_date: born_date,
             skills: [],
             photo: photo?.value,
-            photo_name: photoName || "",
+            photo_name: photoName?.value || "",
             directions: ["string"],
             location: selectedCity?.value?.label || "",
             portfolio: "http://example.com",
