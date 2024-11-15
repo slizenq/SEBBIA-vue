@@ -1,17 +1,22 @@
 <template>
     <div>
-        <div class="login-dialog__form">
-            <Login  v-model:email="loginForm.email"/>
-            <Password v-model:password="loginForm.password"/>
-            <ReturnPass v-model:passwordConfirm="loginForm.passwordConfirm"/>
+        <el-form
+            ref="ruleFormRef"
+            :model="loginForm"
+            :rules="rules"
+            size="default"
+        >
+            <Login v-model:email="loginForm.email" />
+            <Password v-model:password="loginForm.password" />
+            <ReturnPass v-model:passwordConfirm="loginForm.passwordConfirm" />
+
             <div class="login-dialog__form-item login-dialog__checkbox">
                 <el-checkbox v-model="loginForm.rememberMe">
                     Запомнить пароль?
                 </el-checkbox>
             </div>
             <div class="login-dialog__form-item login-dialog__submit">
-                <el-button type="primary" 
-                    @click="registration"
+                <el-button type="primary" @click="handleRegistration"
                     >Зарегистрироваться</el-button
                 >
             </div>
@@ -28,47 +33,105 @@
             </div>
             <div class="login-dialog__privacy-policy">
                 При регистрации и входе <br />вы соглашаетесь с
-                <a class="login-dialog__link" href=""
-                    >политикой конфиденциальности</a
-                >
+                <a class="login-dialog__link" href="">политикой конфиденциальности</a>
             </div>
-        </div>
+        </el-form>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, defineProps } from "vue";
-import { ElButton, ElCheckbox } from "element-plus";
+import { ElButton, ElCheckbox, ElForm, ElNotification } from "element-plus";
 import Login from "./personality/Login.vue";
 import Password from "./personality/Password.vue";
 import ReturnPass from "./personality/ReturnPass.vue";
 import { register } from "./Authentication";
 
-const props = defineProps({
+const ruleFormRef = ref<InstanceType<typeof ElForm> | null>(null);
+    const props = defineProps({
   whoUser: {
     type: Boolean,
     default: null, 
   },
 });
-
 const loginForm = ref({
-  email: "",
-  password: "",
-  is_company: props.whoUser ? true : false,
-  rememberMe: false,
+    email: "",
+    password: "",
+    passwordConfirm: "",
+    isCompany: props.whoUser ? true : false,
+    rememberMe: false,
 });
 
-const registration = async () => {
-  const isRegisterSuccessful = await register(loginForm.value.email, loginForm.value.password, loginForm.value.is_company);
-  if (isRegisterSuccessful) {
-        alert("Регистрация успешна")
-    } else {
-        alert("Ошибка при регистрации");
+const rules = ref({
+    email: [
+        {
+            required: true,
+            message: "Введите адрес электронной почты",
+            trigger: "blur",
+        },
+        {
+            type: "email",
+            message: "Введите корректный адрес электронной почты",
+            trigger: ["blur", "change"],
+        },
+    ],
+    password: [
+        { required: true, message: "Введите пароль", trigger: "blur" },
+        {
+            min: 6,
+            message: "Пароль должен содержать минимум 6 символов",
+            trigger: ["blur", "change"],
+        },
+    ],
+    passwordConfirm: [
+        { required: true, message: "Подтвердите пароль", trigger: "blur" },
+        {
+            validator: (rule, value, callback) => {
+                if (value !== loginForm.value.password) {
+                    callback(new Error("Пароли не совпадают"));
+                } else {
+                    callback();
+                }
+            },
+            trigger: ["blur", "change"],
+        },
+    ],
+});
+
+const handleRegistration = async () => {
+    if (!ruleFormRef.value) return;
+
+    try {
+        await ruleFormRef.value.validate();
+        const isRegisterSuccessful = await register(
+            loginForm.value.email,
+            loginForm.value.password,
+            loginForm.value.isCompany
+        );
+        if (isRegisterSuccessful) {
+            ElNotification({
+                title: "Регистрация успешна",
+                duration: 2000,
+                type: "success",
+                showClose: false,
+            });
+        } else {
+            ElNotification({
+                title: "Произошла ошибка при отправке",
+                message: "Проверьте правильно ли вы заполнили данные",
+                duration: 2000,
+                type: "error",
+                showClose: false,
+            });
+        }
+    } catch (error) {
+        console.error("Ошибка валидации", error);
     }
 };
 </script>
 
 <style scoped>
+/* Стили формы */
 .login-dialog__form {
     padding: 20px;
     display: flex;
@@ -97,7 +160,6 @@ const registration = async () => {
     gap: 12px;
 }
 .login-dialog__register-link {
-    /* color: #409eff; */
     margin-top: 30px;
     max-width: 82px;
     font-size: 14px;

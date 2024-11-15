@@ -1,5 +1,4 @@
 <template>
-    <Pashalka />
     <div class="main">
         <div class="container">
             <div class="hero">
@@ -28,7 +27,6 @@ import Slider from "~/components/Slider.vue";
 import Search from "~/components/UI/interface/bigEl/Search.vue";
 import DropdownList from "~/components/UI/interface/minEl/DropdownList.vue";
 import CardList from "~/components/card/CardList.vue";
-import Pashalka from "~/components/Pashalka.vue";
 
 const searchText = ref("");
 const handleSearchInput = (input) => {

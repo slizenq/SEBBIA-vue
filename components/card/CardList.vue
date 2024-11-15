@@ -49,23 +49,41 @@
 
 <script setup lang="ts">
 import { IP } from "../UI/auth/Authentication";
-import { ref, computed, defineProps } from "vue";
+import { ref, computed, defineProps, onMounted } from "vue";
 import axios from "axios";
 import Card from "./Card.vue";
+import emitter from "../../useCityStore";
 
 const cards = ref([]);
-const searchResumes = async () => {
-    const response = await axios.get(`${IP}/vacancy/vacancies/search`);
-    response.data.forEach((item) => {
-        const newCard = {
-            vacancy_id: item.vacancy_id,
-            title: item.title,
-            description: item.description,
-            location: item.location,
-            requirements: item.requirements,
-        };
-        cards.value.push(newCard);
-    });
+const fetchAllCompanies = async () => {
+        const response = await axios.post(`${IP}/getCompaniesByFilters`);
+        const companies = response.data || [];
+        cards.value = companies.map((item) => ({
+            vacancy_id: item.id || "",
+            title: item.title || "Unknown",
+            description: item.aboutCompany || "Unknown",
+            location: item.location || "Unknown",
+            requirements: item.contracts || [],
+        }));
+};
+const searchResumes = async (location) => {
+    if (location === "По всем городам") {
+        fetchAllCompanies();  
+    } else {
+        try {
+            const response = await axios.post(`${IP}/getCompaniesByFilters`, { location });
+            const companies = response.data || [];
+            cards.value = companies.map((item) => ({
+                vacancy_id: item.id || "",
+                title: item.title || "Unknown",
+                description: item.aboutCompany || "Unknown",
+                location: item.location || "Unknown",
+                requirements: item.contracts || [],
+            }));
+        } catch (error) {
+            console.error("Error fetching companies:", error.message);
+        }
+    }
 };
 const props = defineProps({
     searchInput: {
@@ -96,7 +114,10 @@ onMounted(() => {
     if (isSpecialPage()) {
         window.addEventListener("scroll", handleScroll);
     }
-    searchResumes();
+    emitter.on('city-selected', (newCity: any) => {
+        searchResumes(newCity);  
+    });
+    fetchAllCompanies();
 });
 const filteredCards = computed(() => {
     if (!props.searchInput) {

@@ -22,9 +22,7 @@
                             :title="item.title"
                             :name="item.name"
                             :style="{
-                                border: item.isActive
-                                    ? '1px solid #409EFF'
-                                    : '1px solid #dcdfe6',
+                                border: item.isActive ? '1px solid #409EFF' : '1px solid #dcdfe6',
                                 borderRadius: '5px',
                             }"
                         >

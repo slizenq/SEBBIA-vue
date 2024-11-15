@@ -1,46 +1,37 @@
 <template>
-    <div class="login-dialog__form-item">
+    <el-form-item prop="email" class="login-dialog__form-item">
         <label class="login-dialog__label">Логин</label>
-        
         <el-input
             :model-value="email"
             placeholder="Электронная почта"
             class="login-dialog__input"
-            @input="$emit('update:email', $event)"
+            @input="updateEmail"
+            clearable
         />
-    </div>
-    <InputError :email="email" :status="status"/>
+    </el-form-item>
 </template>
 
 <script setup lang="ts">
-import { ElInput } from "element-plus";
+import { ElInput, ElFormItem } from "element-plus";
 import { toRefs } from "vue";
-import InputError from "./../../InputError.vue"
-import { checkEmailFormat } from "~/src/domain/auth";
 
 const props = defineProps({
     email: String,
 });
+
+const emit = defineEmits(["update:email"]);
+
 const { email } = toRefs(props);
-const status = ref<'loading' | 'valid' | 'invalid' | null>(null);
-  
-  watch(email, async (newEmail) => {
-    if (!newEmail) {
-      status.value = null;
-      return;
-    }
-  
-    status.value = 'loading'; 
-  
-    const isValid = await checkEmailFormat(newEmail);
-    status.value = isValid ? 'valid' : 'invalid'; 
-  });
+
+const updateEmail = (value: string) => {
+    emit("update:email", value);
+};
 </script>
 
 <style scoped>
 .validation-status {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 .login-dialog__form-item {
     display: flex;

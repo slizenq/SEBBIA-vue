@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package pb;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "./pb";
+
+message ApplicationVacancy {
+    string Id = 1;
+    string resumeId = 2;
+    string vacancyId = 3;
+    ApplicationVacancyStatus status = 4;
+    string studentId = 5;
+}
+
+message CreateApplicationVacancyReq{
+    string resumeId = 1;
+    string vacancyId = 2;
+    string studentId = 3;
+}
+
+enum ApplicationVacancyStatus {
+    UNREVIEWED = 0;
+    REVIEWED = 1;
+    ACCEPTED = 2;
+    REJECTED = 3;
+}
+
+// message ReviewApplicationVacancyReq {
+//     string applicationVacancyId = 1;
+// }
+
+// message AcceptApplicationVacancyReq {
+//     string applicationVacancyId = 1;
+// }
+
+// message RejectApplicationVacancyReq {
+//     string applicationVacancyId = 1;
+// }
+
+message ChangeStatusReq {
+    string applicationVacancyId = 1;
+    string studentId = 2;
+}
+
+message GetApplicationVacancyByIdReq {
+    string applicationVacancyId = 1;
+}
+
+message GetApplicationsVacancyByVacancyIdReq {
+    string vacancyId = 1;
+    int32 page_size = 2;
+    string page_token = 3;
+}
+
+message GetApplicationsVacancyByResumeIdReq {
+    string resumeId = 1;
+    int32 page_size = 2;
+    string page_token = 3;
+}
+
+message ListApplicationVacancyRes {
+    repeated ApplicationVacancy applicationsVacancy = 1;
+    string next_page_token = 2;
+}
+
+message ApplicationVacancyRes {
+    ApplicationVacancy applicationVacancy = 1;
+}
+
+service ApplicationVacancyService {
+    rpc CreateApplicationVacancy(CreateApplicationVacancyReq) returns (ApplicationVacancyRes){};
+    rpc ReviewApplicationVacancy(ChangeStatusReq) returns (google.protobuf.Empty){};
+    rpc AcceptApplicationVacancy(ChangeStatusReq) returns (google.protobuf.Empty){};
+    rpc RejectApplicationVacancy(ChangeStatusReq) returns (google.protobuf.Empty){};
+    rpc GetApplicationVacancyById(GetApplicationVacancyByIdReq) returns (ApplicationVacancyRes){};
+    rpc GetApplicationsVacancyByVacancyId(GetApplicationsVacancyByVacancyIdReq) returns (ListApplicationVacancyRes){};
+    rpc GetApplicationsVacancyByResumeId(GetApplicationsVacancyByResumeIdReq) returns (ListApplicationVacancyRes){};
+}

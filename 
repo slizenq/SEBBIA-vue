@@ -1,0 +1,59 @@
+[33m245715d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mtestOtkat[m[33m)[m HEAD@{0}: pull origin main: Fast-forward
+[33m8604771[m[33m ([m[1;31morigin/testOtkat[m[33m)[m HEAD@{1}: commit (merge): merge branch
+[33mcc4ee77[m[33m ([m[1;31mgitlab/main[m[33m)[m HEAD@{2}: pull gitlab main: Fast-forward
+[33m7ee0e96[m[33m ([m[1;31mgitlab/testOtkat[m[33m)[m HEAD@{3}: commit: git lub
+[33m1a56cb4[m HEAD@{4}: commit: refactor
+[33m0172209[m HEAD@{5}: commit: notification and point for otkat
+[33mf3e0375[m HEAD@{6}: commit: update v
+[33m8fde0a7[m HEAD@{7}: commit: update
+[33mfaf451b[m HEAD@{8}: commit: update cjs
+[33mbd22add[m HEAD@{9}: commit: fix redirect otlick GRPC
+[33m637edbc[m HEAD@{10}: commit: otklik grpc
+[33mddfdad8[m HEAD@{11}: commit: fix bug
+[33m1036c82[m HEAD@{12}: commit: bug go fix))))) smiiile SMIILE
+[33m180bdeb[m HEAD@{13}: commit: Добавил фильтрацию вакансий по городам
+[33m7e071cb[m HEAD@{14}: commit: added search for student GRPC and fix more more more more) bugs
+[33m375817c[m HEAD@{15}: commit: get vacancy
+[33m7348209[m HEAD@{16}: commit: vacancy GRPC
+[33mfa0acde[m HEAD@{17}: commit: fix ui components
+[33m5b770e1[m HEAD@{18}: commit: company resume GRPC
+[33m26744fb[m HEAD@{19}: commit: fixed loading for different roles and fixed the import module
+[33m5221893[m HEAD@{20}: commit: added portfolio company GRPC
+[33m857f287[m HEAD@{21}: commit: fix redirect and added resume GRPC
+[33mb503efc[m HEAD@{22}: pull origin main: Fast-forward
+[33m4a4955e[m HEAD@{23}: reset: moving to HEAD~1
+[33mb503efc[m HEAD@{24}: reset: moving to HEAD
+[33mb503efc[m HEAD@{25}: reset: moving to HEAD
+[33mb503efc[m HEAD@{26}: pull origin main: Fast-forward
+[33m6f37614[m HEAD@{27}: checkout: moving from popka to testOtkat
+[33mbcdc8c2[m[33m ([m[1;31morigin/popka[m[33m, [m[1;32mpopka[m[33m)[m HEAD@{28}: checkout: moving from testOtkat to popka
+[33m6f37614[m HEAD@{29}: reset: moving to 6f376140b2cf4bdfae98459e7af4175575dce0be
+[33mbcdc8c2[m[33m ([m[1;31morigin/popka[m[33m, [m[1;32mpopka[m[33m)[m HEAD@{30}: pull origin popka: Fast-forward
+[33m6f37614[m HEAD@{31}: checkout: moving from testOtkat to testOtkat
+[33m6f37614[m HEAD@{32}: checkout: moving from popka to testOtkat
+[33mbcdc8c2[m[33m ([m[1;31morigin/popka[m[33m, [m[1;32mpopka[m[33m)[m HEAD@{33}: checkout: moving from testOtkat to popka
+[33m6f37614[m HEAD@{34}: reset: moving to 6f376140b2cf4bdfae98459e7af4175575dce0be
+[33mbcdc8c2[m[33m ([m[1;31morigin/popka[m[33m, [m[1;32mpopka[m[33m)[m HEAD@{35}: checkout: moving from popka to testOtkat
+[33mbcdc8c2[m[33m ([m[1;31morigin/popka[m[33m, [m[1;32mpopka[m[33m)[m HEAD@{36}: commit: Added loading profile studentGRPC
+[33m6f37614[m HEAD@{37}: commit: add create portfolio student GRPC
+[33m1c16f2e[m HEAD@{38}: commit: update transport
+[33m608d0ff[m HEAD@{39}: commit: fix bugs
+[33meb789d4[m HEAD@{40}: commit: refactor
+[33m34e1251[m HEAD@{41}: commit: generate files
+[33m754fcb4[m HEAD@{42}: pull origin main: Fast-forward
+[33m8344356[m HEAD@{43}: commit (merge): delete kakashka
+[33m62f3274[m HEAD@{44}: commit: delete kakashka
+[33m56335e1[m HEAD@{45}: commit: auth grpc
+[33m8038e03[m HEAD@{46}: commit: auth grpc
+[33m5fed999[m HEAD@{47}: commit: GRPC-WEB
+[33m1d9915c[m HEAD@{48}: commit: GRPC
+[33m51d4763[m HEAD@{49}: commit: GPRCC IAJifIefjI
+[33m4977c94[m HEAD@{50}: commit: daadada
+[33m6e65d60[m[33m ([m[1;31msebbia/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{51}: checkout: moving from main to popka
+[33m6e65d60[m[33m ([m[1;31msebbia/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{52}: commit: dasdadsd
+[33mb9a27ab[m HEAD@{53}: Branch: renamed refs/heads/main to refs/heads/main
+[33mb9a27ab[m HEAD@{55}: commit: dadad
+[33me3fdb06[m HEAD@{56}: commit: check github actions
+[33m7127172[m HEAD@{57}: commit: uu
+[33m8d150d9[m HEAD@{58}: commit: мы спасены
+[33me4c2039[m HEAD@{59}: clone: from https://github.com/slizenq/SEBBIA-vue.git

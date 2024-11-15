@@ -5,7 +5,7 @@
                 <div class="header__left-part">
                     <p class="card__title">{{ title }}</p>
                     <img
-                        src="./../../assets/images/createResume/check.svg " 
+                        src="./../../assets/images/createResume/check.svg"
                         alt="status"
                     />
                 </div>
@@ -48,7 +48,7 @@
                 </p>
             </div>
             <div class="card-info__skils">
-                <span class="skils-title">Навыки:</span>
+                <span class="skils-title">Партнеры:</span>
                 <div class="skils__item">
                     <el-tag
                         v-for="item in items"
@@ -60,7 +60,6 @@
                     >
                         <div class="skill-tag">{{ item.label }}</div>
                     </el-tag>
-                    
                 </div>
             </div>
         </div>
@@ -80,16 +79,14 @@
 </template>
 
 <script setup>
-import { defineProps, ref } from "vue";
+import { defineProps, onMounted, ref } from "vue";
 import { ElCard, ElButton, ElTag, ElNotification } from "element-plus";
 import Tag from "~/components/companyCreateResume/Tag.vue";
 import { TopRight } from "@element-plus/icons-vue";
 
-const items = ref([]);
-const openVacancy = async function () {
-    localStorage.setItem("vacancy", props.vacancy_id);
-    navigateTo("/vacancy");
-};
+const token = localStorage.getItem("access_token");
+const resumeId = localStorage.getItem("resumeId");
+const vacancyId = localStorage.getItem("vacancyId");
 
 const props = defineProps({
     title: {
@@ -105,7 +102,7 @@ const props = defineProps({
         required: true,
     },
     requirements: {
-        type: String,
+        type: Array,
         required: true,
     },
     vacancy_id: {
@@ -113,15 +110,22 @@ const props = defineProps({
         required: true,
     },
 });
-const splitRequirements = props.requirements.split(",");
-splitRequirements.forEach((item) => {
+
+const items = ref([]);
+
+props.requirements.forEach((item) => {
     items.value.push({ type: "primary", label: item });
 });
+
+const openVacancy = async function () {
+    localStorage.setItem("vacancy", props.vacancy_id);
+    navigateTo("/vacancy");
+};
 
 const sendResume = async function () {
     const notification = ElNotification({
         title: "Вы не можете откликнуться на данную вакансию!",
-        message: "Ваше направления не совпадает с навыками вакансии",
+        message: "Ваше направление не совпадает с навыками вакансии",
         type: "warning",
     });
     setTimeout(() => {

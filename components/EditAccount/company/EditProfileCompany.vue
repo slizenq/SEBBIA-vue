@@ -4,110 +4,65 @@
             <div>
                 <p class="description popUp">
                     Добавить фото
-                    <el-popover
-                        placement="top-start"
-                        title="Добавляй свое фото"
-                        :width="350"
-                        trigger="hover"
-                        content="Это гарантирует лучшее запоминание твоего резюме среди других претендентов"
-                    >
+                    <el-popover placement="top-start" title="Добавляй свое фото" :width="350" trigger="hover" content="Это гарантирует лучшее запоминание твоего резюме среди других претендентов">
                         <template #reference>
                             <el-icon><InfoFilled /></el-icon>
                         </template>
                     </el-popover>
                 </p>
-                <ElUpload>
-                    <img src="./../../../assets/images/addPhoto.svg" class="img_margin">
-                </ElUpload>
+                <el-upload
+                    class="upload-demo"
+                    drag
+                    action=""
+                    :auto-upload="false"
+                    :on-change="handleFileChange"
+                >
+                    <img src="./../../../assets/images/addPhoto.svg" class="img_margin" />
+                    <div slot="tip" class="el-upload__tip">Перетащите файл или нажмите для загрузки</div>
+                </el-upload>
             </div>
             <div class="fio">
                 <p class="description">Наименование компании</p>
-                <el-input
-                    v-model="company_name"
-                    style="width: 100%"
-                    class="company_name"
-                    placeholder="Компания"
-                />
+                <el-input v-model="company_name" style="width: 100%" class="company_name" placeholder="Компания"/>
             </div>
             <div class="dropdown-list">
                 <div>
                     <p class="description">Город</p>
-                    <el-select-v2 
-                        class="dropdown"
-                        v-model="city_company"
-                        :options="cityOptions"
-                        placeholder="Выберите город"
-                        style="
-                            width: 240px;
-                            margin-right: 16px;
-                            vertical-align: middle;
-                        "
-                        clearable
+                    <el-select-v2  class="dropdown" v-model="city_company" :options="cityOptions" placeholder="Выберите город"
+                        style="width: 240px; margin-right: 16px; vertical-align: middle;" clearable
                     />
                 </div>
                 <div>
                     <p class="description">Тип компании</p>
-                    <el-select-v2
-                        class="dropdown"
-                        v-model="type_company"
-                        :options="educationOptions"
-                        placeholder="ООО"
-                        style="
-                            width: 240px;
-                            margin-right: 16px;
-                            vertical-align: middle;
-                        "
-                        clearable
+                    <el-select-v2 class="dropdown" v-model="type_company" :options="educationOptions" placeholder="ООО"
+                        style=" width: 240px; margin-right: 16px; vertical-align: middle;"clearable
                     />
                 </div>
             </div>
             <div>
                 <p class="description">Дата основания</p>
-                <el-date-picker
-                    class="dropdown"
-                    v-model="company_date"
-                    type="date"
-                    placeholder="ээ пупупууу"
-                    :size="size"
-                    style="width: 100%; margin-top: 8px"
+                <el-date-picker 
+                    class="dropdown" 
+                    v-model="company_date" 
+                    type="date" 
+                    placeholder="ээ пупупууу" 
+                    :size="size" 
+                    style="width: 100%; 
+                    margin-top: 8px"
                 />
             </div>
             <div>
                 <p class="description">Описание</p>
-                <el-input
-                    class="dropdown textarea_desc"
-                    v-model="textarea2"
-                    autosize
-                    type="textarea"
-                    placeholder="Описание"
-                    show-word-limit
-                    maxlength="300"
-                    style="max-height: 300px;"
-                />
+                <el-input class="dropdown textarea_desc" v-model="textarea2" autosize type="textarea" placeholder="Описание" show-word-limit maxlength="100" style="max-height: 300px;"/>
             </div>
             <div>
                 <p class="description">Партнеры</p>
                 <div class="skills-input dropdown">
                     <el-button @click="addSkill" type="primary" plain>+ Добавить</el-button>
-                    <el-input
-                        v-model="partner"
-                        placeholder="РКСИ"
-                        class="partner"
-                        style="width: 100%; margin-left: 10px"
-                        @keyup.enter="addSkill"
-                    />
+                    <el-input v-model="partner" placeholder="РКСИ" class="partner" style="width: 100%; margin-left: 10px" @keyup.enter="addSkill"/>
                 </div>
                 <div class="skills-tags">
-                    <el-tag
-                        v-for="(tag, index) in skills"
-                        :key="index"
-                        closable
-                        @close="removeTag(index)"
-                        style="margin: 5px"
-                        effect="plain"
-                        round
-                        class="skills"
-                    >
+                    <el-tag v-for="(tag, index) in skills" :key="index" closable @close="removeTag(index)" style="margin: 5px" effect="plain" round class="skills">
                         {{ tag }}
                     </el-tag>
                 </div>
@@ -119,17 +74,20 @@
 
 <script setup>
 import { Picture as IconPicture, InfoFilled } from "@element-plus/icons-vue";
-import { ElUpload, ElIcon, ElInput, ElSelectV2, ElDatePicker, ElButton, ElPopover, ElTag } from "element-plus";
+import { ElUpload, ElIcon, ElInput, ElSelectV2, ElDatePicker, ElButton, ElPopover, ElTag, ElNotification } from "element-plus";
 import { ref, defineEmits } from "vue";
+import { createCompany } from "../EditCompany";
 const photo = ref(null);
-const company_name = ref(null)
+const company_name = ref('')
 const city_company = ref(null)
 const type_company = ref(null)
 const company_date = ref(null)
 const textarea2 = ref(null)
 const partner = ref(""); 
-const skills = ref(["ЮФУ", "ДГТУ", "РКСИ", "МГУ", "СПбГУ    "]); 
+const skills = ref(["ЮФУ", "ДГТУ", "РКСИ", "МГУ", "СПбГУ"]); 
 
+console.log(company_date.value);
+const size = ref('default');
 const addSkill = () => {
     if (partner.value) {
         skills.value.push(partner.value);
@@ -141,18 +99,52 @@ const removeTag = (index) => {
 };
 const emit = defineEmits(['profileUpdated']);
 
-const cities = ["Москва", "Санкт-Петербург", "РКСИ"];
+const cities = ["Москва", "Санкт-Петербург", "Ростов-на-Дону"];
 const cityOptions = cities.map((city, idx) => ({
     value: idx + 1,
     label: city,
     class: "custom-option",
 }));
-const educationInstit = ["МГУ", "СПбГУ", "РКСИ"];
+const educationInstit = ["ООО", "ИП", "ОООЙ"];
 const educationOptions = educationInstit.map((institution, idx) => ({
     value: idx + 1,
     label: institution,
     class: "custom-option",
 }));
+const handleFileChange = (file) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+        photo.value = {
+            photo: new Uint8Array(reader.result),  
+            fileName: file.name,  
+        };
+    };
+    reader.readAsArrayBuffer(file.raw);  
+};
+const handleFormSubmit = async () => {
+    const formattedDate = company_date.value
+        ? company_date.value.toISOString().slice(0, 10)
+        : null;
+
+        const companyData = {
+            title: company_name.value,
+            location: city_company.value ? cityOptions.find((city) => city.value === city_company.value)?.label : "",
+            typeCompany: type_company.value ? educationOptions.find((type) => type.value === type_company.value)?.label : "",
+            foundationDate: formattedDate,
+            aboutCompany: textarea2.value,
+            photo: photo.value, 
+            contracts: skills.value,
+        };
+
+    try {
+        const response = await createCompany(companyData);
+        console.log("Company created:", response);
+        emit("profileUpdated");
+    } catch (err) {
+        console.error("Ошибка при создании компании:", err.message);
+    }
+};
+
 </script>
 
 <style>

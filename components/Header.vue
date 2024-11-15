@@ -3,37 +3,15 @@
         <div class="header" style="z-index: 1000">
             <div class="header__wrap">
                 <div class="left__part">
-                    <img
-                        src="./../assets/images/logo.svg"
-                        alt="logo"
-                        class="left__part-logo"
-                    />
-                    <p class="left__part-name">
-                        Звали <span class="logo__text-color">эй</span>чара?
-                    </p>
+                    <img src="./../assets/images/logo.svg" alt="logo" class="left__part-logo"/>
+                    <p class="left__part-name">Звали <span class="logo__text-color">эй</span>чара?</p>
                 </div>
                 <div class="middle__part">
-                    <div
-                        :class="{ 'home-bottom': $route.path === '/' }"
-                        class="even"
-                    >
-                        <NuxtLink
-                            to="/"
-                            :class="{ 'home-color': $route.path === '/' }"
-                            class="element"
-                            >Главная</NuxtLink
-                        >
+                    <div :class="{ 'home-bottom': $route.path === '/' }" class="even">
+                        <NuxtLink to="/" :class="{ 'home-color': $route.path === '/' }" class="element">Главная</NuxtLink>
                     </div>
-                    <div
-                        :class="{ 'about-bottom': $route.path === '/about' }"
-                        class="even"
-                    >
-                        <NuxtLink
-                            to="/about"
-                            :class="{ 'home-color': $route.path === '/about' }"
-                            class="element"
-                            >Компании</NuxtLink
-                        >
+                    <div :class="{ 'about-bottom': $route.path === '/about' }" class="even">
+                        <NuxtLink to="/about" :class="{ 'home-color': $route.path === '/about' }" class="element">Компании</NuxtLink>
                     </div>
                 </div>
                 <div
@@ -47,68 +25,25 @@
                     :isAuthenticated="isAuthenticated"
                     @click="AccountClick"
                 >
-                    <img
-                        v-if="logo_Account"
-                        src="./../assets/images/companyAccount.svg"
-                        alt="Company"
-                    />
-                    <img
-                        v-else
-                        src="./../assets/images/studentAccount.svg"
-                        alt="Student"
-                    />Аккаунт
+                    <img v-if="logo_Account" src="./../assets/images/companyAccount.svg" alt="Company"/>
+                    <img v-else src="./../assets/images/studentAccount.svg" alt="Student"/>Аккаунт
                 </div>
-                <Auth
-                    class="right__part"
-                    @open-dialog="openDialog"
-                    v-if="isAuthenticated"
-                    :isAuthenticated="isAuthenticated"
-                    :updateAuthStatus="updateAuthStatus"
-                />
+                <Auth class="right__part" @open-dialog="openDialog" v-if="isAuthenticated" :isAuthenticated="isAuthenticated" :updateAuthStatus="updateAuthStatus"/>
                 <div class="burger" @click="toggleBurger" v-if="isMobile">
                     <span></span>
                     <span></span>
                     <span></span>
                 </div>
             </div>
-            <el-drawer
-                v-model="isBurgerActive"
-                direction="rtl"
-                :with-header="false"
-                class="drawer"
-                show-close="true"
-                size="100%"
-            >
+            <el-drawer v-model="isBurgerActive" direction="rtl" :with-header="false" class="drawer" show-close="true" size="100%">
                 <div class="mobile-menu">
-                    <div
-                        :class="{ 'home-bottom': $route.path === '/' }"
-                        class="even"
-                    >
-                        <NuxtLink
-                            to="/"
-                            :class="{ 'home-color': $route.path === '/' }"
-                            class="element"
-                            >Главная</NuxtLink
-                        >
+                    <div :class="{ 'home-bottom': $route.path === '/' }" class="even">
+                        <NuxtLink to="/" :class="{ 'home-color': $route.path === '/' }" class="element">Главная</NuxtLink>
                     </div>
-                    <div
-                        :class="{ 'about-bottom': $route.path === '/about' }"
-                        class="even"
-                    >
-                        <NuxtLink
-                            to="/about"
-                            :class="{ 'home-color': $route.path === '/about' }"
-                            class="element"
-                            >Компании</NuxtLink
-                        >
+                    <div :class="{ 'about-bottom': $route.path === '/about' }" class="even">
+                        <NuxtLink to="/about" :class="{ 'home-color': $route.path === '/about' }" class="element">Компании</NuxtLink>
                     </div>
-                    <Auth
-                        class="right__part"
-                        @open-dialog="openDialog"
-                        v-if="isAuthenticated"
-                        :isAuthenticated="isAuthenticated"
-                        :updateAuthStatus="updateAuthStatus"
-                    />
+                    <Auth class="right__part" @open-dialog="openDialog" v-if="isAuthenticated" :isAuthenticated="isAuthenticated" :updateAuthStatus="updateAuthStatus"/>
                     <div
                         :class="{
                             'home-color':
@@ -120,16 +55,8 @@
                         :isAuthenticated="isAuthenticated"
                         @click="AccountClick"
                     >
-                        <img
-                            v-if="logo_Account"
-                            src="./../assets/images/companyAccount.svg"
-                            alt="Company"
-                        />
-                        <img
-                            v-else
-                            src="./../assets/images/studentAccount.svg"
-                            alt="Student"
-                        />Аккаунт
+                        <img v-if="logo_Account" src="./../assets/images/companyAccount.svg" alt="Company"/>
+                        <img v-else src="./../assets/images/studentAccount.svg" alt="Student"/>Аккаунт
                     </div>
                     <div
                         :class="{
@@ -140,16 +67,8 @@
                         class="account-element"
                         v-if="isAuthenticated"
                     >
-                        <img
-                            v-if="logo_Account"
-                            src="./../assets/images/companyAccount.svg"
-                            alt="Company"
-                        />
-                        <img
-                            v-else
-                            src="./../assets/images/studentAccount.svg"
-                            alt="Student"
-                        />Аккаунт
+                        <img v-if="logo_Account" src="./../assets/images/companyAccount.svg" alt="Company"/>
+                        <img v-else src="./../assets/images/studentAccount.svg" alt="Student"/>Аккаунт
                     </div>
                     <div class="close-button" @click="isBurgerActive = false">
                         <el-icon><Close /></el-icon>
@@ -176,7 +95,8 @@ const checkToken = () => {
     const token = localStorage.getItem("access_token");
     const logo = JSON.parse(localStorage.getItem("user"));
     if (logo) {
-        logo_Account.value = logo.is_company;
+        /////
+        logo_Account.value = logo.isCompany;
     }
 
     if (token != null) {
@@ -221,7 +141,7 @@ const updateAuthStatus = (status) => {
 
 const AccountClick = () => {
     const user = JSON.parse(localStorage.getItem("user"));
-    if (user && user.is_company) {
+    if (user && user.isCompany) {
         navigateTo("/account/company");
     } else {
         navigateTo("/account/student");

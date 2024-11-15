@@ -1,6 +1,6 @@
 <template>
     <div class="rezume">
-        <p class="rezume__title">{{ rezumeTitle[0] }}</p>
+        <p class="rezume__title">{{ rezumeTitle[whichDialog ? 0 : 1] }}</p>
         <div @click="dialogResume = true">
             <div v-if="showEvent" class="rezume__void contain__margin">
                 <p class="not_filled">Не заполнено</p>
@@ -9,28 +9,18 @@
 
             <div v-else class="rezume__void resume__void-update contain__margin">
                 <p class="not_filled not_filled__update">
-                    {{ showResume.first_name + " " + showResume.middle_name + " " + showResume.last_name || "Не заполнено" }}
+                    {{ showResume.FirstName + " " + showResume.MiddleName + " " + showResume.LastName || "Не заполнено" }}
                 </p>
                 <p class="more_details resume__update-more">Подробнее</p>
             </div>
         </div>
-        <ElButton
-            type="primary"
-            class="rezume-btn contain__margin"
-            @click="dialogResume = true"
-        >
-            {{ createRezume[0] }}
+        <ElButton type="primary" class="rezume-btn contain__margin" @click="dialogResume = true">
+            {{ createRezume[whichDialog ? 0 : 1] }}
         </ElButton>
-        <el-dialog
-            v-model="dialogResume"
-            width="620"
-            top="2%"
-            :before-close="handleClose"
-            class="my-dialog"
-        >
+        <el-dialog v-model="dialogResume" width="620" top="2%" :before-close="handleClose" class="my-dialog">
             <div>
                 <div v-if="whichDialog"><EditResumeStudent @updateDialogg="updateDialogg"/></div>
-                <div v-else>2</div>
+                <div v-else><EditVacancyCompany @updateDialogg="updateDialogg"/></div>
             </div>
         </el-dialog>
     </div>
@@ -39,39 +29,52 @@
 <script setup>
 import { ElButton, ElDialog } from "element-plus";
 import EditResumeStudent from "../EditAccount/student/EditResumeStudent.vue";
-
+import EditVacancyCompany from "../EditAccount/company/EditVacancyCompany.vue";
 import axios from "axios";
 import { IP } from "../UI/auth/Authentication";
+import { ref, onMounted } from "vue";
+
 const rezumeTitle = ["Резюме", "Вакансия"];
 const createRezume = ["Создать резюме", "Добавить информацию"];
 const dialogResume = ref(false);
-const whichDialog = ref(true);
+const whichDialog = ref(false);
 const showResume = ref({});
 const showEvent = ref(true);
-const updateDialogg = (value) => {
-    dialogResume.value = value;
-};
-let updateResume = async () => {
+const updateDialogg = (value) => { dialogResume.value = value };
+
+const updateResume = async () => {
     try {
-        let checkUUid = JSON.parse(localStorage.getItem("user")).uuid;
-        const getResume = await axios.get(`${IP}/resume/users/${checkUUid}/resumes`
-        );
-        showResume.value = getResume.data[0];
-        if (
-            getResume.data[0].first_name &&
-            getResume.data[0].middle_name &&
-            getResume.data[0].last_name
-        ) {
-            showEvent.value = false;
+        const checkUUid = localStorage.getItem("access_token");
+        whichDialog.value = !JSON.parse(localStorage.getItem("user")).isCompany;
+
+        let response;
+        if (JSON.parse(localStorage.getItem("user")).isCompany) {
+            response = await axios.post(`${IP}/getCompanyByAccessToken`, { checkUUid });
+            localStorage.setItem('company_id', response.data.accountId)
+            localStorage.setItem('id', response.data.id)
+            showResume.value = {
+                FirstName: response.data.CompanyName || "Не заполнено",
+                MiddleName: "",   
+                LastName: response.data.CompanyType || "Не заполнено"
+            };
+        } else {
+            response = await axios.post(`${IP}/getStudentByToken`, { checkUUid });
+            showResume.value = {
+                FirstName: response.data.FirstName || "Не заполнено",
+                MiddleName: response.data.MiddleName || "",
+                LastName: response.data.LastName || "Не заполнено"
+            };
         }
+        localStorage.setItem("AccountID", response.data.AccountID);
+        showEvent.value = !(showResume.value.FirstName && showResume.value.LastName);
     } catch (error) {
-        console.error(
-            "Ошибка при выполнении GET запроса:",
-            error.response ? error.response.data : error.message
-        );
+        console.error("Ошибка при выполнении GET запроса:", error.response ? error.response.data : error.message);
     }
 };
-updateResume();
+
+onMounted(() => {
+    updateResume();
+});
 </script>
 
 <style>

@@ -11,14 +11,16 @@
                         trigger="hover"
                         content="Это гарантирует лучшее запоминание твоего резюме среди других претендентов"
                     >
-                        <template #reference>
-                            <el-icon><InfoFilled /></el-icon>
-                        </template>
+                        <template #reference
+                            ><el-icon><InfoFilled /></el-icon
+                        ></template>
                     </el-popover>
                 </p>
-                <ElUpload>
-                    <img src="./../../../assets/images/addPhoto.svg" class="img_margin">
-                </ElUpload>
+                <ElUpload :on-change="handlePhotoChange"
+                    ><img
+                        src="./../../../assets/images/addPhoto.svg"
+                        class="img_margin"
+                /></ElUpload>
             </div>
             <div class="fio">
                 <p class="description">Имя</p>
@@ -46,7 +48,7 @@
             <div class="dropdown-list">
                 <div>
                     <p class="description">Город</p>
-                    <el-select-v2 
+                    <el-select-v2
                         class="dropdown"
                         v-model="city"
                         :options="cityOptions"
@@ -86,20 +88,30 @@
                     style="width: 100%; margin-top: 8px"
                 />
             </div>
-            <ElButton type="primary" @click="handleFormSubmit" class="send_form">Сохранить</ElButton>
-        </div>   
+            <ElButton type="primary" @click="handleFormSubmit" class="send_form"
+                >Сохранить</ElButton
+            >
+        </div>
     </div>
 </template>
 
 <script setup>
 import { Picture as IconPicture, InfoFilled } from "@element-plus/icons-vue";
-import { ElUpload, ElIcon, ElInput, ElSelectV2, ElDatePicker, ElButton, ElPopover } from "element-plus";
+import {
+    ElUpload,
+    ElIcon,
+    ElInput,
+    ElSelectV2,
+    ElDatePicker,
+    ElButton,
+    ElPopover,
+} from "element-plus";
 import { ref, computed, defineEmits } from "vue";
 import { sendForm as sendFormHandler } from "../EditStudent";
 
 import { ElNotification } from "element-plus";
 
-const photo = ref('test');
+const photo = ref("test");
 const first_name = ref(null);
 const middle_name = ref(null);
 const last_name = ref(null);
@@ -107,22 +119,31 @@ const city = ref(null);
 const education = ref(null);
 const born_date = ref(null);
 const showUpProgress = ref(false);
-const emit = defineEmits(['profileUpdated', 'updateDialogRedactor']);
-const cities = ["Москва", "Санкт-Петербург", "РКСИ"];
+const emit = defineEmits(["profileUpdated", "updateDialogRedactor"]);
+const cities = [
+    "Москва",
+    "Санкт-Петербург",
+    "Ростов-на-Дону",
+    "Челябинск",
+    "Новосибирск",
+    "Нальчик",
+    "Орёл",
+    "Якутск",
+    "Красонодар",
+    "Зерноград",
+];
 
+const handlePhotoChange = async (file) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+        const arrayBuffer = reader.result;
+        const byteArray = new Uint8Array(arrayBuffer);
+        photo.value = Array.from(byteArray);
+    };
+    reader.readAsArrayBuffer(file.raw);
+};
 
 const dialogRedactor = ref(false);
-// const age = computed(() => {
-//     if (!born_date.value) return '';
-//     const today = new Date();
-//     const birthDate = new Date(born_date.value);
-//     let age = today.getFullYear() - birthDate.getFullYear();
-//     const monthDiff = today.getMonth() - birthDate.getMonth();
-//     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-//         age--;
-//     }
-//     return age;
-// });
 const cityOptions = cities.map((city, idx) => ({
     value: idx + 1,
     label: city,
@@ -134,38 +155,74 @@ const educationOptions = educationInstit.map((institution, idx) => ({
     label: institution,
     class: "custom-option",
 }));
-const selectedCity = computed(() => cityOptions.find(option => option.value === city.value) || null);
-const selectedEducation = computed(() => educationOptions.find(option => option.value === education.value) || null);
+const selectedCity = computed(
+    () => cityOptions.find((option) => option.value === city.value) || null
+);
+const selectedEducation = computed(
+    () =>
+        educationOptions.find((option) => option.value === education.value) ||
+        null
+);
 
-const handleFormSubmit = async () => {                  
-    await sendFormHandler(first_name, last_name, middle_name, selectedEducation, selectedCity, photo, showUpProgress, dialogRedactor ) ?
-    emit('updateDialogRedactor', false) : emit('updateDialogRedactor', false)
-    
-    
-    
-    
+function formatBornDate(date) {
+    if (date instanceof Date) {
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}.${month}.${year}`;
+    } else if (typeof date === "string") {
+        const [year, month, day] = date.split("-");
+        return `${day}.${month}.${year}`;
+    } else {
+        throw new TypeError("Invalid date format");
+    }
+}
 
-    ElNotification({
-        title: "Произошла ошибка при отправке",
-        message: "Проверьте соединение к интернету",
-        duration: 2000,
-        type: "error",
-        showClose: false,
-    });
-    emit('profileUpdated', {
+const handleFormSubmit = async () => {
+    const formattedBornDate = formatBornDate(born_date.value);
+    const isSuccessful = await sendFormHandler(
+        first_name,
+        last_name,
+        middle_name,
+        selectedEducation,
+        selectedCity,
+        photo,
+        formattedBornDate,
+        showUpProgress,
+        dialogRedactor
+    );
+    emit("updateDialogRedactor", false);
+    if (isSuccessful) {
+        ElNotification({
+            title: "Успешно отправлено",
+            duration: 1500,
+            type: "success",
+            showClose: true,
+        });
+    } else {
+        ElNotification({
+            title: "Произошла ошибка при отправке",
+            message: "Проверьте правильно ли вы заполнили все данные",
+            duration: 1500,
+            type: "error",
+            showClose: true,
+        });
+    }
+    emit("profileUpdated", {
         first_name: first_name.value,
         last_name: last_name.value,
         middle_name: middle_name.value,
         city: selectedCity.value?.label,
         education: selectedEducation.value?.label,
-        photo: photo.value
+        born_date: formattedBornDate,
+        photo: photo.value,
     });
 };
 </script>
 
 <style>
 .img_margin {
-    margin-top: 20px
+    margin-top: 20px;
 }
 .el-notification {
     width: 484px;
@@ -220,7 +277,7 @@ const handleFormSubmit = async () => {
 }
 .form {
     width: 550px;
-    margin-bottom: 10px
+    margin-bottom: 10px;
 }
 .demo-image__error .block[data-v-13a429be][data-v-13a429be] {
     padding: 30px 0;

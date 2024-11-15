@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+// import "google/protobuf/empty.proto";
+
+package resume;
+
+option go_package = "./pb";
+
+message Skill {
+    string skill = 1;
+}
+
+message Resume {
+    string resumeId = 1;
+    string aboutMe = 2;
+    repeated Skill skills = 3;
+    string direction = 4;
+    string aboutProjects = 5;
+    string portfolio = 6;
+    string studentId = 7;
+}
+
+message CreateResumeReq {
+    string aboutMe = 1;
+    repeated Skill skills = 2;
+    string direction = 3;
+    string aboutProjects = 4;
+    string portfolio = 5;
+    string studentId = 6;
+}
+
+message ResumeResponse {
+    Resume resume = 1;
+}
+
+message ChangeResumeReq {
+    string resumeId = 1;
+    optional string aboutMe = 2;
+    repeated Skill skills = 3;
+    optional string direction = 4;
+    optional string aboutProjects = 5;
+    optional string portfolio = 6;
+    string studentId = 7;
+}
+
+message GetResumeByIdReq {
+    string resumeId = 1;
+}
+
+message GetResumeByStudentIdReq {
+    string studentId = 1;
+}
+
+service ResumeService {
+    rpc CreateResume(CreateResumeReq) returns (ResumeResponse){};
+    rpc ChangeResume(ChangeResumeReq) returns (ResumeResponse){};
+    rpc GetResumeByStudentId(GetResumeByStudentIdReq) returns (ResumeResponse){}; 
+    rpc GetResumeById(GetResumeByIdReq) returns (ResumeResponse){};
+}
