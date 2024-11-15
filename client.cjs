@@ -2,15 +2,15 @@ const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 const express = require("express");
 const cors = require("cors");
-const multer = require('multer');
+const multer = require("multer");
 
 const app = express();
 const port = 3001;
 // app.use(cors({ origin: ['http://localhost:3000', 'http://92.53.105.243:3000'] }));
 app.use(cors({ origin: "http://localhost:3000" }));
 
-app.use(express.json({ limit: "1000mb" }));
-app.use(express.urlencoded({ limit: "1000mb", extended: true }));
+app.use(express.json({ limit: "4000mb" }));
+app.use(express.urlencoded({ limit: "4000mb", extended: true }));
 
 const options = {
     "grpc.max_receive_message_length": 4294967296,
@@ -231,6 +231,7 @@ app.post("/getStudentByToken", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
 // Создание профиля студента
 async function createStudent(token, studentData) {
     const client = createStudentClient();
@@ -246,9 +247,13 @@ async function createStudent(token, studentData) {
             Location: studentData.location,
             PhotoURL: studentData.photo_url,
             Photo: studentData.photo,
-            AccountID: studentData.account_id,
         },
     };
+
+    // Вывод данных о фотографии
+    console.log("Photo URL:", studentData.photo_url);
+    console.log("Photo:", studentData.photo);
+
     return new Promise((resolve, reject) => {
         client.CreateStudent(request, metadata, (err, response) => {
             if (err) {
@@ -261,11 +266,12 @@ async function createStudent(token, studentData) {
         });
     });
 }
+
 app.post("/createStudent", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const studentData = req.body;
     if (!token) {
-        return res.status(401).json({ error: "Ошибка поулчения токена" });
+        return res.status(401).json({ error: "Ошибка получения токена" });
     }
     try {
         const student = await createStudent(token, studentData);
@@ -275,6 +281,7 @@ app.post("/createStudent", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
 // Редактирование профиля студента
 async function updateStudent(token, studentData) {
     const client = createStudentClient();
@@ -292,10 +299,15 @@ async function updateStudent(token, studentData) {
             BornDate: studentData.born_date,
             Education: studentData.education,
             Location: studentData.location,
-            PhotoURL: studentData.photo_url,
+            PhotoURL: studentData.photo_name,
+            Photo: studentData.photo,
             AccountID: studentData.account_id,
         },
     };
+
+    // Вывод данных о фотографии
+    console.log("Photo URL:", studentData.photo_name);
+    console.log("Photo:", studentData.photo);
     return new Promise((resolve, reject) => {
         client.UpdateStudent(request, metadata, (err, response) => {
             if (err) {
@@ -452,10 +464,10 @@ async function createCompany(token, companyData) {
         ? toTimestamp(new Date(companyData.foundationDate))
         : null;
 
-        const photo = {
-            photo: companyData.photo.photo, 
-            fileName: companyData.photo.fileName,
-        };
+    const photo = {
+        photo: companyData.photo.photo,
+        fileName: companyData.photo.fileName,
+    };
 
     const request = {
         title: companyData.title,
@@ -473,7 +485,10 @@ async function createCompany(token, companyData) {
                 console.error("gRPC error:", err.details || err.message);
                 reject(err);
             } else {
-                console.log("Response from gRPC:", JSON.stringify(response, null, 2));
+                console.log(
+                    "Response from gRPC:",
+                    JSON.stringify(response, null, 2)
+                );
                 resolve(response);
             }
         });
@@ -613,7 +628,7 @@ app.post("/createVacancy", async (req, res) => {
 
     try {
         const vacancy = await createVacancy(token, vacancyData);
-        res.json(vacancy);  
+        res.json(vacancy);
     } catch (err) {
         console.error("Ошибка в /createVacancy:", err.message);
         res.status(500).json({ error: err.message });
