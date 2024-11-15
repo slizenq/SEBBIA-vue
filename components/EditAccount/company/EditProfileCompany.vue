@@ -10,6 +10,16 @@
                         </template>
                     </el-popover>
                 </p>
+                <el-upload
+                    class="upload-demo"
+                    drag
+                    action=""
+                    :auto-upload="false"
+                    :on-change="handleFileChange"
+                >
+                    <img src="./../../../assets/images/addPhoto.svg" class="img_margin" />
+                    <div slot="tip" class="el-upload__tip">Перетащите файл или нажмите для загрузки</div>
+                </el-upload>
             </div>
             <div class="fio">
                 <p class="description">Наименование компании</p>
@@ -101,26 +111,37 @@ const educationOptions = educationInstit.map((institution, idx) => ({
     label: institution,
     class: "custom-option",
 }));
-
-const handleFormSubmit = async () => {
-    const formattedDate = company_date.value ? company_date.value.toISOString().slice(0, 10) : null;
-    const companyData = {
-        title: company_name.value,  
-        location: city_company.value ? cityOptions.find(city => city.value === city_company.value)?.label : "",
-        typeCompany: type_company.value ? educationOptions.find(type => type.value === type_company.value)?.label : "",
-        foundationDate: formattedDate,  
-        aboutCompany: textarea2.value,
-        photo: photo.value,
-        contracts: skills.value,
+const handleFileChange = (file) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+        photo.value = {
+            photo: new Uint8Array(reader.result),  
+            fileName: file.name,  
+        };
     };
-    const success = await createCompany(companyData)
-    
-    console.log(success);
-    
-    if (success) {
-        emit('profileUpdated');
-    } else {
-        console.error("Ошибка при создании компании");
+    reader.readAsArrayBuffer(file.raw);  
+};
+const handleFormSubmit = async () => {
+    const formattedDate = company_date.value
+        ? company_date.value.toISOString().slice(0, 10)
+        : null;
+
+        const companyData = {
+            title: company_name.value,
+            location: city_company.value ? cityOptions.find((city) => city.value === city_company.value)?.label : "",
+            typeCompany: type_company.value ? educationOptions.find((type) => type.value === type_company.value)?.label : "",
+            foundationDate: formattedDate,
+            aboutCompany: textarea2.value,
+            photo: photo.value, 
+            contracts: skills.value,
+        };
+
+    try {
+        const response = await createCompany(companyData);
+        console.log("Company created:", response);
+        emit("profileUpdated");
+    } catch (err) {
+        console.error("Ошибка при создании компании:", err.message);
     }
 };
 

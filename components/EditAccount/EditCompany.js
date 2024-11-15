@@ -54,8 +54,8 @@ export const createPractice = async function (practiceData) {
         skills_required: practiceData.skills_required,
         about_me: practiceData.about_me,
         tasks: practiceData.tasks,
-        company_id: localStorage.getItem('company_id'),
-        practice_id: accountID
+        company_id: localStorage.getItem('id'),
+        practice_id: localStorage.getItem('id')
     };
     const response = await axios.post(`${IP}/createVacancy`, practiceEntity, { headers });
     const data = {
